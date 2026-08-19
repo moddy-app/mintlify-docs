@@ -9,7 +9,7 @@
   },
   "favicon": {
     "light": "/images/LogoVerif(3).svg",
-    "dark": "/favicon.svg"
+    "dark": "/images/LogoVerif(4).svg"
   },
   "logo": {
     "light": "/images/LogoDocs(1).svg",
@@ -21,6 +21,10 @@
       {
         "label": "Support",
         "href": "https://moddy.app/support"
+      },
+      {
+        "href": "https://status.moddy.app",
+        "label": "Status"
       }
     ],
     "primary": {
@@ -112,15 +116,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "versions": [
-        {
-          "version": "Test",
-          "href": "https://moddy.app"
-        }
-      ]
-    }
+    ]
   },
   "fonts": {
     "family": "Google Sans"
