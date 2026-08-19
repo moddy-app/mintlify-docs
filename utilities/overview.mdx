@@ -10,14 +10,17 @@ Moddy includes a set of utility commands you can use anywhere — in your server
   <Card title="Translation" icon="language" href="/utilities/translation">
     Translate text into any language with `/translate`. Moddy auto-detects the source language so you can skip the guesswork.
   </Card>
+
   <Card title="Reminders" icon="bell" href="/utilities/reminders">
-    Set personal reminders with `/reminder` and Moddy will DM you when the time comes — no third-party app required.
+    Set personal reminders with `/reminder-add` and Moddy will DM you (or ping you in-channel) when the time comes — no third-party app required.
   </Card>
+
   <Card title="Text Tools" icon="wand-magic-sparkles" href="/utilities/text-tools">
-    Extract text from images with OCR, look up word definitions, generate Discord timestamps, and more.
+    Fix, rephrase, and summarize text with AI, transcribe voice messages, save messages, and extract emojis from any message.
   </Card>
+
   <Card title="Dice Roller" icon="dice" href="/utilities/text-tools#dice-roller">
-    Roll dice using standard notation with `/roll`. Supports any combination — `2d6`, `1d20+5`, and beyond.
+    Roll a random number with `/roll` — defaults to a 6-sided die, or set any max value up to 1,000,000.
   </Card>
 </CardGroup>
 
@@ -25,17 +28,20 @@ Moddy includes a set of utility commands you can use anywhere — in your server
 
 Most utility commands work **globally** — meaning you can run them in DMs with Moddy or in any server, even ones where Moddy isn't installed. You don't need to be a server admin or have any special permissions. Just open Discord, type the command, and go.
 
-A small number of commands — like `/config`, `/cases`, and `/setup-welcome` — require Moddy to be present in the server and are intended for server administrators and moderators. The commands listed on this page are all available globally.
+A small number of commands — like `/config` and `/cases` — require Moddy to be present in the server and are intended for server administrators and moderators. The commands listed on this page are all available globally.
 
 ## Quick Reference
 
 | Command | What it does |
-|---|---|
+| --- | --- |
 | `/ping` | Check bot response time |
 | `/translate` | Translate text to another language |
-| `/reminder` | Set a personal reminder |
-| `/roll` | Roll dice |
-| `/timestamp` | Generate a Discord timestamp |
+| `/fix` | Fix spelling and grammar with AI |
+| `/rephrase` | Rewrite text in a chosen style with AI |
+| `/summarize` | Condense text to its key points with AI |
+| `/reminder-add` | Set a personal reminder |
+| `/reminders` | View and manage your pending reminders |
+| `/roll` | Roll a random number (default: 1–6) |
 | `/avatar` | View a user's avatar |
 | `/banner` | View a user's profile banner |
 | `/user` | Look up a Discord user |

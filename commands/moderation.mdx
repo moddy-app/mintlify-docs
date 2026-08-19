@@ -4,141 +4,43 @@ sidebarTitle: "Moderation"
 description: "Create and manage moderation cases, apply and revoke sanctions, add notes, and review a user's full history — all from Discord slash commands."
 ---
 
-Moddy's moderation commands give your team a structured, auditable workflow for handling rule-breaking. Every action — a warning, a mute, a ban — is recorded as a **case** with a unique 6-character reference code (e.g. `AB3XR7`). Each case builds a full timeline of sanctions, notes, and evidence so your team always has context. Most commands require **Manage Server** or the appropriate Discord moderation permissions.
-
----
-
-## `/mod case create`
-
-Create a new moderation case and immediately apply the first sanction to the user. Moddy sends the sanctioned user a DM with the case reference and reason.
-
-<ParamField path="user" type="user" required>
-  The Discord user to open a case against.
-</ParamField>
-
-<ParamField path="reason" type="string" required>
-  The reason for this case. Shown to the user in their DM notification and recorded in the case timeline.
-</ParamField>
-
-<ParamField path="action" type="string" required>
-  The sanction to apply. One of: `warn`, `mute`, `ban`.
-</ParamField>
-
-<ParamField path="duration" type="string">
-  How long the sanction lasts (e.g. `30m`, `12h`, `7d`). Only applies when `action` is `mute`. Omit for a permanent mute.
-</ParamField>
-
----
-
-## `/mod case view`
-
-View the full details and event timeline for a single case using its reference code. Displays all sanctions, notes, moderator comments, and the current status.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code (e.g. `AB3XR7`).
-</ParamField>
-
----
-
-## `/mod case list`
-
-List every moderation case opened against a specific user in this server, with their status and most recent sanction.
-
-<ParamField path="user" type="user" required>
-  The Discord user whose case history you want to review.
-</ParamField>
-
----
-
-## `/mod case sanction`
-
-Add a new sanction to an **existing, open** case. Use this when a situation escalates and you need to upgrade or stack a sanction without opening a separate case.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code of the open case.
-</ParamField>
-
-<ParamField path="action" type="string" required>
-  The sanction to apply. One of: `warn`, `mute`, `ban`.
-</ParamField>
-
-<ParamField path="reason" type="string">
-  An optional reason for this specific sanction, added to the case timeline.
-</ParamField>
-
-<ParamField path="duration" type="string">
-  Duration for mutes (e.g. `1h`, `3d`). Only applies when `action` is `mute`.
-</ParamField>
-
----
-
-## `/mod case revoke`
-
-Revoke the currently active sanction on a case. If no other active sanctions remain after the revocation, the case closes automatically.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code.
-</ParamField>
-
-<ParamField path="reason" type="string">
-  An optional reason for revoking the sanction. Visible in the case timeline.
-</ParamField>
-
----
-
-## `/mod case edit`
-
-Update the reason text on a case — useful for correcting typos or adding context after the fact.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code.
-</ParamField>
-
-<ParamField path="reason" type="string" required>
-  The updated reason text to replace the existing one.
-</ParamField>
-
----
-
-## `/mod case note`
-
-Append a comment or note to a case's timeline. Notes are useful for recording follow-up observations, moderator discussions, or supporting evidence.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code.
-</ParamField>
-
-<ParamField path="content" type="string" required>
-  The text of the note or comment.
-</ParamField>
-
-<ParamField path="internal" type="boolean">
-  When set to `true`, the note is marked as internal and is **not visible to the sanctioned user** if they review their case with `/mycases`. Defaults to `false`.
-</ParamField>
-
----
-
-## `/mod case close`
-
-Manually close or reopen a case. Closing a case locks its status so that future sanction changes (such as a mute expiring) don't automatically reopen or close it.
-
-<ParamField path="reference" type="string" required>
-  The 6-character case reference code.
-</ParamField>
+Moddy's moderation commands give your team a structured, auditable workflow for handling rule-breaking. Every action — a warning, a mute, a ban — is recorded as a **case** with a unique 6-character reference code (e.g. `AB3XR7`). Each case builds a full timeline of sanctions, notes, and evidence so your team always has context.
 
 <Note>
-  If a case is already closed, running `/mod case close` on it will reopen it. Use this to resume work on a case that was closed prematurely.
+  Server-side case management in Moddy is a single command, `/cases` — an interactive panel, not a set of separate slash subcommands. Everything below (creating, viewing, sanctioning, revoking, commenting, closing) happens inside that one panel.
 </Note>
 
 ---
 
 ## `/cases`
 
-Browse all moderation cases in the current server in an interactive panel. Supports filtering, sorting, and inline management actions — no need to know a specific reference code upfront.
+Browse every moderation case in the current server in an interactive panel. Requires the **Manage Messages** permission (or Administrator) by default — adjustable per role from **Server Settings → Integrations**.
 
-<ParamField path="user" type="user">
-  Filter the list to show only cases for a specific user. Omit to see all cases in the server.
+<ParamField path="case" type="string">
+  Optional. A 6-character case reference (e.g. `AB3XR7`) to jump straight to that case's detail screen.
 </ParamField>
+
+```text
+/cases
+/cases case:AB3XR7
+```
+
+From the list screen, a **Filters** button lets you narrow by status (open/closed), sanction type, period, and — in `/cases` — a specific member. Selecting any case opens its detail screen.
+
+### Managing a case from the detail screen
+
+Once a case is open, its action buttons let you:
+
+| Action | What it does | Permission needed |
+| --- | --- | --- |
+| Add sanction | Start a warn, mute, or ban — opens (or appends to) a case for that member | **Timeout Members** for warn/mute, **Ban Members** for ban |
+| Revoke sanction | Lift an active sanction before it expires | Same as the sanction being revoked |
+| Comment | Add a public note visible to other moderators in `/cases` | Manage Messages |
+| Edit reason | Update the reason recorded on the case | Manage Messages |
+| Close / Reopen | Manually lock the case's status | Manage Messages |
+| Add evidence | Attach a link or a snapshotted Discord message to the timeline | Manage Messages |
+
+A brand-new case is opened the same way — add a sanction against a member with no open case, and Moddy creates the folder and the sanction together in one step.
 
 ---
 
@@ -146,8 +48,23 @@ Browse all moderation cases in the current server in an interactive panel. Suppo
 
 View your own moderation cases across every server that uses Moddy. This command is read-only — it shows you the cases that exist against your account so you can understand sanctions and reference codes if you need to appeal.
 
-This command has no parameters and is available to all users (no moderator permissions required).
+<ParamField path="case" type="string">
+  Optional. A 6-character case reference to jump straight to that case's detail screen (only resolves cases that are actually yours).
+</ParamField>
+
+```text
+/mycases
+/mycases case:AB3XR7
+```
+
+Available to all users, no moderator permissions required, and works in any server or in DMs with Moddy.
 
 <Info>
   If you received an AutoMod sanction and want to appeal it, use the appeal buttons in Moddy's DM to you — you don't need to contact a moderator directly.
 </Info>
+
+---
+
+## Auto-Recorded Sanctions
+
+Bans and timeouts applied directly through Discord — without touching `/cases` at all — are picked up automatically and recorded as cases, using the audit log to capture the real moderator and reason. This requires Moddy to have the **View Audit Log** permission in your server. Kicks are never recorded as cases.

@@ -30,9 +30,17 @@ When a channel is part of a bridge network, any message sent in that channel is 
   </Step>
 </Steps>
 
+<Warning>
+  Moddy needs the **Manage Webhooks** permission in the bridged channel — relayed messages are posted through a webhook so they can show the original author's name and avatar. Without it, saving the bridge for that channel will fail.
+</Warning>
+
 ## Moderation in Bridged Channels
 
-Bridged channels follow the same moderation rules as any other channel in your server. Moddy's AutoMod will scan relayed messages and apply your server's configured actions if they violate your rules. Server moderators can delete relayed messages from their own channel at any time — this removes the message locally without affecting other servers in the network. Each community remains responsible for enforcing its own standards within its own channel.
+Relayed messages are posted through a **webhook** so they can carry the original author's name and avatar — which means they arrive from a different Discord account than the original sender. Server moderators can still delete a relayed message from their own channel at any time (this removes it locally, without affecting the other servers in the network), and the original message's own server moderates it normally at the source.
+
+<Warning>
+  Moddy's AutoMod AI does **not** scan relayed (webhook-posted) messages — it only evaluates messages sent directly by members, by design. If harmful content slips through a bridge, delete it locally and use `/interserver report` (below) so the Moddy team can look into it, or contact the source server's moderators directly.
+</Warning>
 
 <Warning>
   Bridging a channel exposes it to all members of every other server in the network. Only create or join bridges with communities you fully trust. Review the other server's rules and moderation practices before connecting.
@@ -41,3 +49,13 @@ Bridged channels follow the same moderation rules as any other channel in your s
 <Note>
   Inter-Server is a built-in Moddy feature — it does not require any external bots, webhooks you manage yourself, or third-party services. Everything is handled automatically once you configure the bridge in `/config`.
 </Note>
+
+## Reporting an Abusive Message
+
+If a relayed message violates Discord's Terms of Service or Moddy's own rules and needs the Moddy team's attention (rather than just your own server's moderation), any member can report it directly:
+
+```discord
+/interserver report <message_id>
+```
+
+`<message_id>` accepts either the relayed message's Discord snowflake ID or its Moddy ID — a short, unique 8-character code Moddy attaches to every relayed message so it can be tracked across every server in the network. The report is sent straight to the Moddy team for review, independently of whatever action your own moderators take locally.

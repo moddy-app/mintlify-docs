@@ -4,7 +4,7 @@ sidebarTitle: "Utilities"
 description: "Available anywhere including DMs — translate text, set timed reminders, roll dice with custom notation, and generate Discord timestamps."
 ---
 
-Moddy's utility commands are globally available — you can use them in your DMs with Moddy, in any server you share with Moddy, or even in servers that haven't added Moddy. They're standalone tools designed to save you time without needing any server setup.
+Moddy's utility commands are globally available — you can use them in your DMs with Moddy, in any server you share with Moddy, or even in servers that haven't added Moddy. They're standalone tools designed to save you time without needing any server setup. Most take an optional `incognito` boolean to make the response visible only to you.
 
 ---
 
@@ -22,66 +22,78 @@ This command has no parameters.
 
 ## `/translate`
 
-Translate any text into another language. Moddy auto-detects the source language if you don't specify one.
+Translate text into another language. Moddy always auto-detects the source language — there's no option to override it.
 
 <ParamField path="text" type="string" required>
   The text you want to translate.
 </ParamField>
 
-<ParamField path="to_language" type="string" required>
-  The target language to translate into (e.g. `English`, `French`, `Spanish`, `Japanese`).
-</ParamField>
-
-<ParamField path="from_language" type="string">
-  The source language. If you leave this blank, Moddy automatically detects the language of your input.
+<ParamField path="to" type="string">
+  The target language, picked from a fixed dropdown (English US/UK, French, German, Spanish, Italian, Portuguese, Portuguese BR, Dutch, Polish, Russian, Japanese, Chinese, Korean, Turkish, Swedish, Danish, Norwegian, Finnish, Greek, Czech, Romanian, Hungarian, Ukrainian, Bulgarian). If omitted, Moddy translates into your Discord client's own language.
 </ParamField>
 
 **Example usage:**
 
 ```text
-/translate text:Bonjour tout le monde to_language:English
+/translate text:Bonjour tout le monde to:🇺🇸 English (US)
 ```
 
 ```text
-/translate text:Hello, how are you? to_language:Spanish from_language:English
-```
-
----
-
-## `/reminder`
-
-Set a personal reminder. Moddy will DM you when the time is up with your reminder message.
-
-<ParamField path="time" type="string" required>
-  When to send the reminder. Use duration shorthand like `30m` (30 minutes), `2h` (2 hours), or `1d` (1 day).
-</ParamField>
-
-<ParamField path="message" type="string" required>
-  The reminder text Moddy will send back to you.
-</ParamField>
-
-**Example usage:**
-
-```text
-/reminder time:2h message:Check the server for new applications
-```
-
-```text
-/reminder time:1d message:Announce the event winners
+/translate text:Hello, how are you?
 ```
 
 <Tip>
-  Reminders are delivered via DM. Make sure your Discord privacy settings allow DMs from Moddy, or the reminder won't reach you.
+  Right-click any message and use the **Translate** context menu entry to translate it without retyping the text.
 </Tip>
+
+---
+
+## `/reminder-add`
+
+Set a personal reminder. Moddy notifies you when the time is up.
+
+<ParamField path="message" type="string" required>
+  The reminder text. Up to 1,000 characters.
+</ParamField>
+
+<ParamField path="time" type="string" required>
+  When to send the reminder — relative durations like `30m`, `2h`, `1d`, or natural phrasing like `tomorrow 3pm`.
+</ParamField>
+
+<ParamField path="send_here" type="boolean">
+  Post the reminder in the current channel instead of DMing you. Defaults to `false`.
+</ParamField>
+
+**Example usage:**
+
+```text
+/reminder-add message:Check the server for new applications time:2h
+```
+
+```text
+/reminder-add message:Announce the event winners time:1d send_here:true
+```
+
+<Tip>
+  Reminders are delivered via DM by default. Make sure your Discord privacy settings allow DMs from Moddy, or use `send_here:true` instead.
+</Tip>
+
+## `/reminders`
+
+View your pending reminders and cancel any you no longer need. You can have up to 50 active at once.
+
+```text
+/reminders
+```
 
 ---
 
 ## `/roll`
 
-Roll one or more dice using standard dice notation. Moddy shows each individual die result alongside the total.
+Roll a random number, like a die.
 
-<ParamField path="dice" type="string">
-  Dice notation in the format `NdX+M`, where `N` is the number of dice, `X` is the number of sides, and `+M` is an optional modifier (e.g. `2d6`, `1d20+5`, `4d4-1`). Defaults to `1d6` if omitted.
+<ParamField path="max" type="integer">
+  The highest possible value. Defaults to `6` (a standard six-sided die); accepts up to `1000000`.
 </ParamField>
 
 **Example usage:**
@@ -91,29 +103,17 @@ Roll one or more dice using standard dice notation. Moddy shows each individual 
 ```
 
 ```text
-/roll dice:2d6
-```
-
-```text
-/roll dice:1d20+5
+/roll max:20
 ```
 
 ---
 
-## `/timestamp`
+## `/fix`, `/rephrase`, `/summarize`
 
-Generate a Discord-formatted timestamp from a date and time. Moddy returns a timestamp string you can paste into any Discord message — it automatically displays in each reader's local time zone.
-
-<ParamField path="date_time" type="string" required>
-  The date and/or time to convert (e.g. `2026-06-01 20:00`, `2026-12-25`, `tomorrow 9am`).
-</ParamField>
-
-**Example usage:**
+AI-powered text tools — fix spelling and grammar, rewrite in a different style, or condense to key points. See the [Text Tools guide](/utilities/text-tools#ai-text-tools) for the full option list (styles, lengths) and the shared context-menu entry point.
 
 ```text
-/timestamp date_time:2026-06-01 20:00
+/fix text:teh quikc brown fox
+/rephrase text:Hey can u send that file style:professional
+/summarize text:<a long paragraph> length:bullets
 ```
-
-<Info>
-  Discord timestamp tags render differently depending on the format flag (e.g. relative time, full date, short time). Moddy gives you multiple format options to choose from in the response.
-</Info>

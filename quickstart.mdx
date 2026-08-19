@@ -14,21 +14,34 @@ Moddy is ready to use the moment you add it to your server. This page walks you 
       Moddy works best with the **Administrator** permission. If you prefer a more restricted setup, grant at minimum: **Manage Messages**, **Manage Roles**, **Ban Members**, **Kick Members**, and **Moderate Members**. Missing permissions may prevent certain features from working correctly.
     </Note>
   </Step>
-
   <Step title="Open the Dashboard">
     Head to [dashboard.moddy.app](https://dashboard.moddy.app) and click **Log in with Discord**. After authenticating, select the server you just added Moddy to. You'll land on your server's overview page where all configuration options are available.
   </Step>
-
   <Step title="Configure Your First Module">
     From the dashboard, navigate to the **Modules** section and enable **Welcome Messages** to greet new members or turn on **AutoMod** to start filtering harmful content with AI-powered moderation.
 
     Prefer staying in Discord? Type `/config` in any server channel to open a native configuration panel and enable or adjust modules without leaving the app.
   </Step>
-
   <Step title="Invite Your Team">
-    Share Moddy with your moderators so they can manage cases and run moderation commands. Team members need the **Manage Server** permission in Discord to access `/config` and server-level settings. Moderators with appropriate role permissions can also browse and manage cases using `/cases` and `/mod case`.
+    Share Moddy with your moderators so they can manage cases and run moderation commands. Team members need the **Manage Server** permission in Discord to access `/config` and server-level settings. Any member can browse their own moderation history across servers with `/mycases`; moderators with the **Manage Messages** permission (by default — adjustable per role in **Server Settings → Integrations**) can review and act on your server's cases with `/cases`.
   </Step>
 </Steps>
+
+## Common First-Setup Issues
+
+<AccordionGroup>
+  <Accordion title="Moddy doesn't respond to slash commands">
+    Discord can take a few minutes to register a bot's slash commands after it's added to a server. If commands still don't appear after 10 minutes, try kicking and re-inviting Moddy, or check the [status page](https://status.moddy.app) for an ongoing incident.
+  </Accordion>
+
+  <Accordion title="A module won't turn on from /config">
+    `/config` only shows options for permissions you and the bot actually have. If a module needs a permission Moddy is missing (for example Manage Roles for AltGuard, or Manage Webhooks for Social Notifications), grant it to the Moddy role in **Server Settings → Roles** and try again.
+  </Accordion>
+
+  <Accordion title="I can't see my server on the dashboard">
+    The dashboard only lists servers where you have the **Manage Server** permission _and_ where Moddy is already installed. Double-check both conditions — see the [Dashboard guide](/getting-started/dashboard) for details.
+  </Accordion>
+</AccordionGroup>
 
 <Note>
   Moddy is under active development. New features, modules, and improvements ship regularly. Check the [support server](https://moddy.app/support) for the latest announcements and to share feedback with the team.
@@ -38,12 +51,15 @@ Moddy is ready to use the moment you add it to your server. This page walks you 
   <Card title="Dashboard Guide" icon="browser" href="/getting-started/dashboard">
     Learn how to navigate and use the Moddy web dashboard to configure your server.
   </Card>
+
   <Card title="Moderation Overview" icon="shield-halved" href="/moderation/cases">
     Understand how moderation cases, sanctions, and appeals work in Moddy.
   </Card>
+
   <Card title="Modules Overview" icon="puzzle-piece" href="/modules">
     Explore Welcome Messages, AutoMod, Social Notifications, AltGuard, and more.
   </Card>
+
   <Card title="Commands Reference" icon="terminal" href="/commands">
     Browse every command Moddy supports, with usage examples and permission notes.
   </Card>

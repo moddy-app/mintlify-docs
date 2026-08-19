@@ -7,7 +7,7 @@ description: "Learn what data Moddy collects and doesn't collect, how it is used
 Moddy is designed to collect the minimal amount of data necessary to provide its services. This page explains what information is stored, how it is used, and the rights you have over your data. Your privacy matters to us, and we do not monetize your data in any way.
 
 <Note>
-  This page is a plain-language summary of our Privacy Policy. For the full details or to make a formal data request, contact us at hello@moddy.app.
+  This page is a plain-language summary of our Privacy Policy. For the full details or to make a formal data request, reach out through the [Moddy support server](https://moddy.app/support).
 </Note>
 
 ## Data We Collect
@@ -30,17 +30,22 @@ Moddy stores only the information required to operate its features reliably.
   Aggregate, anonymized data about command usage is collected for performance monitoring and feature improvement. This data cannot be traced back to individual users.
 </Accordion>
 
-## What We Do NOT Collect
+<Accordion title="Message Content — Only When You Choose To, or as Sanction Evidence">
+  Ordinary messages are **not** logged. Two specific features store message content by design:
 
-<Warning>
-  Moddy does **not** store message content. During AutoMod analysis, message text is processed in memory and immediately discarded — it is never written to a database.
-</Warning>
+  - **Saved Messages** (`/library`) — when you bookmark a message with the **Save Message** action, its content is stored so you can find it again. This is private to you.
+  - **Moderation evidence** — when a message triggers an AutoMod sanction, or a moderator manually attaches a message as evidence in `/cases`, a snapshot of that message (its text, author, and attachments) is stored on the case's timeline. This exists so the record stays readable even if the original message is later deleted, and is visible only to your server's moderators.
+
+  Outside of these two cases, message text passed through AutoMod's AI analysis is processed and discarded — it is not written to a database unless the message actually triggers a sanction.
+</Accordion>
+
+## What We Do NOT Collect
 
 The following data is never collected or stored by Moddy:
 
-- **Message content** — beyond the transient AutoMod analysis window, no message text is retained
-- **Private messages or DMs** — Moddy may send you DMs (e.g. sanction notifications), but it does not read or store your DMs
-- **Voice data** — Moddy has no voice features and collects no audio
+- **Ordinary message content** — messages that don't trigger a sanction or that you don't explicitly save are never written to a database
+- **Private messages or DMs** — Moddy may send you DMs (e.g. sanction notifications, reminders), but it does not read or store the DMs you exchange with anyone else
+- **Voice recordings** — the [voice transcription](/utilities/text-tools#voice-transcription) feature sends the audio of a voice message you or a moderator chose to transcribe to a third-party speech-to-text provider for that one request; Moddy does not otherwise capture, join, or record voice channels
 
 ## How Data Is Used
 
@@ -57,7 +62,7 @@ Moddy does not use your data for advertising, profiling, or any purpose unrelate
 
 Server configuration and moderation case data is retained for as long as Moddy remains in your server. If you remove Moddy from your server, your data enters a grace period before deletion.
 
-To request immediate deletion of your server's data, remove Moddy and then contact us at hello@moddy.app. For individual user data (such as moderation case records), any user may submit a deletion request directly by email.
+To request immediate deletion of your server's data, remove Moddy and then reach out through the [Moddy support server](https://moddy.app/support). For individual user data (such as moderation case records), any user may submit a deletion request the same way.
 
 ## Your Rights
 
@@ -67,7 +72,7 @@ You have the right to:
 - **Delete** your data — request that your data be removed from our systems
 - **Correct** your data — if any stored information is inaccurate, request a correction
 
-To exercise any of these rights, contact hello@moddy.app with your Discord user ID or server ID.
+To exercise any of these rights, reach out through the [Moddy support server](https://moddy.app/support) with your Discord user ID or server ID.
 
 ## Third Parties
 
@@ -75,22 +80,22 @@ Moddy does not sell, rent, or trade your data to third parties. Certain features
 
 <CardGroup cols={2}>
   <Card title="AI Moderation" icon="robot">
-    Message text is sent to an AI inference API for analysis during AutoMod processing. Only the message content is transmitted — no user IDs or metadata are included. The text is not retained by the provider after the request completes.
+    Message text is sent to an AI inference API for analysis during AutoMod processing, tagged with opaque internal ids rather than resolved usernames, roles, or mentions. The text is not retained by the provider after the request completes.
   </Card>
+
   <Card title="Social Notifications" icon="bell">
     To poll for new content, Moddy queries the public APIs of platforms such as YouTube, Twitch, Bluesky, and RSS feeds. No personal data from your server is sent to these platforms.
+  </Card>
+
+  <Card title="Voice Transcription" icon="microphone">
+    When you or a moderator ask Moddy to transcribe a voice message, its audio is sent to a third-party speech-to-text API for that single request and is not retained by the provider afterward. The resulting text is posted publicly in the channel — see [Voice Transcription](/utilities/text-tools#voice-transcription).
+  </Card>
+
+  <Card title="AltGuard" icon="shield-halved">
+    AltGuard verification is handled entirely by a dedicated external service — Moddy never receives or stores the personal data involved (browser characteristics, email, IP address, server list). See [What AltGuard Checks, and What Happens to That Data](/modules/altguard-data) for the full breakdown.
   </Card>
 </CardGroup>
 
 ## Contact
 
-If you have questions about this policy or want to submit a data request, get in touch:
-
-<CardGroup cols={2}>
-  <Card title="Email" icon="envelope" href="mailto:hello@moddy.app">
-    hello@moddy.app
-  </Card>
-  <Card title="Support Server" icon="discord" href="https://moddy.app/support">
-    Join the Moddy support server for live help.
-  </Card>
-</CardGroup>
+If you have questions about this policy or want to submit a data request, join the [Moddy support server](https://moddy.app/support) — the team can help you directly.

@@ -19,7 +19,7 @@ Inside a case you'll find:
 Cases are scoped to your server, so each community keeps its own independent records.
 
 <Tip>
-  Save the 6-character reference code as soon as a case is created. You can paste it directly into `/mod case view <reference>` to jump straight to the full record without searching.
+  Save the 6-character reference code as soon as a case is created. Pass it as the `case` option on `/cases` (moderators) or `/mycases` (your own history) to jump straight to the full record without searching.
 </Tip>
 
 ## Viewing Your Own Cases
@@ -34,29 +34,33 @@ This view is **read-only** — you can see your cases and their current status, 
 
 ## Browsing Server Cases (Moderators)
 
-Moderators can view every case in the current server using `/cases`. Optionally pass a user to filter the results down to that member's history.
+Moderators can view every case in the current server using `/cases`. Optionally pass a case reference to jump straight to it.
 
 ```discord
 /cases
-/cases [user]
+/cases [case]
 ```
 
-From the `/cases` panel you can browse the full server case list, open individual cases, and access all case management actions described below.
+`/cases` requires the **Manage Messages** permission (or Administrator) by default — adjustable per role from **Server Settings → Integrations**. From the panel you can browse the full server case list, filter it, open individual cases, and — permissions allowing — manage sanctions directly from the detail screen.
+
+<Note>
+  `/mod case` (with subcommands like `create`, `view`, or `sanction`) is a **Moddy staff-only** command, available exclusively on Moddy's own official servers. It is not part of the moderation toolkit for servers running Moddy — day-to-day case management for your community happens entirely through the `/cases` panel described below.
+</Note>
 
 ## Managing Cases
 
-Use the `/mod case` command with one of the following subcommands to manage cases in your server:
+Everything a moderator needs is built into the `/cases` detail screen — open a case (from the list, or directly with `/cases [case]`) and use its action buttons:
 
-| Subcommand | Usage | Description |
-|---|---|---|
-| `create` | `/mod case create` | Open a new case and record the first sanction. |
-| `view` | `/mod case view <reference>` | View the full details and timeline for a case. |
-| `list` | `/mod case list <user>` | List all cases linked to a specific member. |
-| `sanction` | `/mod case sanction <reference>` | Add a new sanction to an existing open case. |
-| `revoke` | `/mod case revoke <reference>` | Revoke an active sanction on a case. |
-| `edit` | `/mod case edit <reference>` | Edit the reason or details recorded on a case. |
-| `note` | `/mod case note <reference>` | Add an internal comment or note to the timeline. |
-| `close` | `/mod case close <reference>` | Manually close or reopen a case. |
+| Action | What it does | Permission needed |
+| --- | --- | --- |
+| Add sanction | Record a new warn, mute, or ban on the case | **Timeout Members** for warn/mute, **Ban Members** for ban |
+| Revoke sanction | Lift an active sanction before it expires | Same as the sanction being revoked |
+| Comment | Add a public note visible to other moderators in `/cases` | Manage Messages |
+| Edit reason | Update the reason recorded on the case | Manage Messages |
+| Close / Reopen | Manually lock the case's status | Manage Messages |
+| Add evidence | Attach a link or a snapshotted Discord message to the timeline | Manage Messages |
+
+A new case is opened the same way — from `/cases`, start a sanction against a member who doesn't have an open case yet, and Moddy creates the folder and its first sanction together.
 
 ## Case Status
 

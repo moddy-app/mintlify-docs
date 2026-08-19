@@ -67,7 +67,8 @@
               "modules/welcome",
               "modules/social-notifications",
               "modules/interserver",
-              "modules/altguard"
+              "modules/altguard",
+              "modules/altguard-data"
             ]
           },
           {

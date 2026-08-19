@@ -4,54 +4,72 @@ sidebarTitle: "AltGuard"
 description: "Automatically detect and act on suspected alternate accounts when they join your server, helping you enforce bans and keep bad actors out for good."
 ---
 
-AltGuard helps you detect when a banned or suspicious user tries to rejoin your server using an alternate account. When a new member joins, AltGuard analyzes signals like account age and profile characteristics to determine whether they may be an existing banned member in disguise. You choose what action to take — from a quiet flag for manual review all the way to an automatic ban.
+AltGuard holds every new human member behind a verification gate until `verify.moddy.app` — a dedicated external service, not the bot itself — decides whether their account looks like a second account of someone already on your server. The bot never sees or stores any personal data from that process: no fingerprint, no email, no IP address. Everything crossing back to the bot is Discord ids, a pass/fail-style verdict, and category labels. See [What AltGuard Checks, and What Happens to That Data](/modules/altguard-data) for exactly what's collected, why, and for how long.
 
-## What AltGuard Detects
+<Warning>
+  AltGuard is not a heuristic the bot runs on its own — it relies on an explicit, consent-based check performed by Moddy's verification service in the member's browser. A member must actively go through the verification screen; there is no passive "AI guesses your account age" detection running in the background.
+</Warning>
 
-AltGuard looks at a combination of signals when a new account joins your server to assess whether it may be an alternate account of a previously banned user. These signals include:
+## How It Works
 
-- **Account age** — very new accounts are more likely to be created specifically to evade a ban
-- **Profile similarity** — patterns in usernames, avatars, or other profile details that match known banned users
-- **Join behavior** — accounts that join shortly after a ban is applied
+<Steps>
+  <Step title="A member joins">
+    They immediately receive the **unverified role** and can only see your configured verification channel. Bots skip this entirely — they can't click a button, so they're never gated.
+  </Step>
+  <Step title="They open the verification panel">
+    A single permanent message with one button sits in the verification channel. Clicking it opens a consent screen explaining exactly what will be checked (browser characteristics, a technical cookie, Discord email, server list, IP address — all encrypted), with links to the data notice, terms, and privacy policy. Two checkboxes must be ticked to continue; closing the screen sends nothing anywhere.
+  </Step>
+  <Step title="They authorize on Discord's own screen">
+    After consenting, the member gets a personal, single-use link (valid 20 minutes) where the verification service runs its checks. Moddy has no part in this step.
+  </Step>
+  <Step title="The verdict comes back">
+    The service returns one of three outcomes: **passed** (the member gets the verified role and moves on to Auto Role, if configured), **flagged** (kept behind the gate, pending a moderator's manual review), or **blocked** (kept behind the gate). The member is DMed the outcome in plain language — never the underlying score or signals.
+  </Step>
+</Steps>
 
-When enough signals are present, AltGuard flags the account according to the action you've configured.
+<Note>
+  AltGuard may occasionally flag a legitimate new member who happens to share signals with a previously banned account. Review flags in your log channel before assuming the worst — that's exactly what the manual `/altguard verify` override below is for.
+</Note>
 
 ## Enabling AltGuard
 
 <Steps>
   <Step title="Open the configuration panel">
-    Type `/config` in your server to open Moddy's configuration panel.
+    Type `/config` in your server and select **AltGuard**.
   </Step>
-  <Step title="Select AltGuard">
-    Choose **AltGuard** from the module list to open its settings.
+  <Step title="Choose a verification channel">
+    This becomes the _only_ channel the unverified role can see. Moddy automatically locks every other channel from that role when you save — you don't need to configure channel permissions by hand.
   </Step>
-  <Step title="Choose an action">
-    Select what Moddy should do when it detects a suspected alt account: **Flag**, **Kick**, or **Ban**. See the [Actions section below](#actions) for details on each option.
+  <Step title="Choose the unverified and verified roles">
+    Both are required for the module to activate. The unverified role holds new members back; the verified role is granted once they pass.
   </Step>
-  <Step title="Choose a log channel">
-    Select the channel where AltGuard should send alerts and flag notifications. This should be a private moderator-only channel.
+  <Step title="Choose a log channel (recommended)">
+    Verdicts and manual staff decisions are posted here. Keep it private to your moderation team.
   </Step>
-  <Step title="Save your settings">
-    Click **Save**. AltGuard will activate immediately and begin evaluating new members as they join.
+  <Step title="Pick the panel language">
+    The verification panel's wording is fixed (every server explains the same data processing to members) — you only choose which of the supported languages it's shown in.
   </Step>
 </Steps>
 
-## Actions
+<Warning>
+  Moddy needs the **Manage Roles** and **Manage Channels** permissions, with its own role positioned above both the verified and unverified roles, to lock down channels and hand out roles correctly.
+</Warning>
 
-| Action | What happens |
-|---|---|
-| **Flag** | Moddy sends an alert to your log channel with details about the suspected alt. No automatic action is taken — your moderators review and decide. |
-| **Kick** | Moddy automatically kicks the suspected alt from the server and logs the action in your log channel. |
-| **Ban** | Moddy automatically bans the suspected alt from the server and logs the action in your log channel. |
+## Reviewing and Overriding Verdicts
 
-## Reviewing Flags
+Flagged and blocked members stay behind the gate until a moderator steps in. From your log channel, moderators with the **Manage Roles** permission can override any verdict directly in Discord:
 
-When AltGuard flags a member, it posts a notification in your configured log channel. The notification includes details about the account — such as its creation date, username, and any matching signals that triggered the flag. From there, your moderation team can take manual action (kick, ban, or restrict the account) or dismiss the flag if it turns out to be a legitimate new member.
+```discord
+/altguard verify <member>
+/altguard unverify <member>
+```
 
-<Note>
-  AltGuard may occasionally flag legitimate new accounts that happen to share signals with a banned user — for example, a new member who genuinely created their account recently. Always review flags carefully before taking irreversible actions like bans.
-</Note>
+`/altguard verify` lets a member through manually — granting the verified role and handing them off to Auto Role, if enabled — while `/altguard unverify` sends a previously verified member back behind the gate.
 
 <Tip>
-  When first enabling AltGuard, set the action to **Flag** and monitor the alerts for a few days before switching to automatic kicks or bans. This lets you calibrate the sensitivity to your server's membership patterns and avoid accidental removals.
+  If you have questions about a specific decision — why a member was flagged, what score or signals were involved — that detail isn't exposed in `/altguard`. Reach out through the [support server](https://moddy.app/support) with the case's details and the Moddy team can look it up on request.
 </Tip>
+
+## Auto Role Integration
+
+If your server also uses the **Auto Role** feature, AltGuard holds it back automatically: a member who hasn't passed the gate gets no auto role, no matter what. The moment they pass — automatically or via a manual `/altguard verify` — Auto Role runs as normal.

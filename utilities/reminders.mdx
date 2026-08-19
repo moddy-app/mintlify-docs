@@ -4,50 +4,65 @@ sidebarTitle: "Reminders"
 description: "Set personal Discord reminders with /reminder — Moddy sends you a private DM when the time arrives, no third-party apps or extra setup required."
 ---
 
-Never lose track of an important task again. Moddy's `/reminder` command lets you set a personal reminder right inside Discord, and Moddy will send you a DM when the time arrives. Reminders are completely private — no one else in your server can see them — and the command works globally, so you can set one from anywhere.
+Never lose track of an important task again. Moddy's `/reminder-add` command lets you set a personal reminder right inside Discord, and Moddy will notify you when the time arrives. Reminders are private to you, and the command works globally, so you can set one from anywhere — including DMs with Moddy.
 
 ## Setting a Reminder
 
+```text
+/reminder-add message: <text> time: <text> [send_here] [incognito]
 ```
-/reminder <time> <message>
-```
-
-<ParamField path="time" type="string" required>
-  When you want to be reminded. Moddy accepts relative durations and absolute dates:
-  - Relative: `30m` (30 minutes), `2h` (2 hours), `1d` (1 day)
-  - Natural language: `tomorrow`
-  - Absolute dates: `2026-01-15`
-</ParamField>
 
 <ParamField path="message" type="string" required>
-  A short note describing what you want to be reminded about.
+  What you want to be reminded about. Up to 1,000 characters.
+</ParamField>
+
+<ParamField path="time" type="string" required>
+  When you want to be reminded — relative durations like `1h30m`, `2d`, or natural phrasing like `tomorrow 3pm`.
+</ParamField>
+
+<ParamField path="send_here" type="boolean">
+  If `true`, Moddy posts the reminder in the channel where you ran the command instead of sending a DM. Defaults to `false`.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Whether the confirmation message you get right after creating the reminder is visible only to you. If left unset, Moddy uses your saved preference (see `/preferences`), defaulting to private.
 </ParamField>
 
 ## Examples
 
-```
-/reminder time: 30m message: Check the oven
-```
-
-```
-/reminder time: 2h message: Team meeting
+```text
+/reminder-add message: Check the oven time: 30m
 ```
 
+```text
+/reminder-add message: Team meeting time: 2h
 ```
-/reminder time: 1d message: Review the moderation logs
+
+```text
+/reminder-add message: Review the moderation logs time: 1d
 ```
+
+```text
+/reminder-add message: Stream starts! time: 1h send_here: true
+```
+
+The last example posts the reminder directly in the current channel instead of DMing you — handy for shared or public reminders.
+
+<Note>
+  You can have up to **50 pending reminders** at a time. Once you hit the limit, cancel a few with `/reminders` before adding new ones.
+</Note>
 
 ## How You're Notified
 
-When your reminder is due, Moddy sends you a **direct message** containing the reminder text you provided. Make sure your DM settings allow messages from Moddy — otherwise the notification won't get through.
+By default, when your reminder is due, Moddy sends you a **direct message** containing the text you provided. If you used `send_here: true` when creating it, Moddy posts it in the original channel instead.
 
 <Tip>
-  If you're not receiving reminder notifications, open your Discord **Privacy & Safety** settings and enable **"Allow direct messages from server members"** for a server that Moddy is in. Alternatively, you can open a DM with Moddy directly to ensure messages can come through.
+  If you're not receiving DM notifications, open your Discord **Privacy & Safety** settings and enable **"Allow direct messages from server members"** for a server that Moddy is in — or use `send_here: true` so the reminder posts in-channel instead.
 </Tip>
 
 ## Managing Reminders
 
-You can view and cancel your pending reminders at any time through Moddy's command interface. Run `/reminder` and follow the interactive prompts to see a list of your upcoming reminders and remove any you no longer need.
+Run `/reminders` to see a list of your upcoming reminders and cancel any you no longer need.
 
 <Note>
   Reminders are personal and private. Other server members — including administrators and moderators — cannot see, browse, or manage your reminders.
