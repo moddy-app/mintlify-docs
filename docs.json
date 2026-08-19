@@ -112,7 +112,15 @@
           }
         ]
       }
-    ]
+    ],
+    "global": {
+      "versions": [
+        {
+          "version": "Test",
+          "href": "https://moddy.app"
+        }
+      ]
+    }
   },
   "fonts": {
     "family": "Google Sans"
