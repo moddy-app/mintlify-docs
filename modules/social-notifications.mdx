@@ -1,0 +1,65 @@
+---
+title: "Social Notifications: Follow Creators in Discord"
+sidebarTitle: "Social Notifications"
+description: "Automatically post updates to your server when a YouTube channel uploads, a Twitch streamer goes live, a Bluesky account posts, or an RSS feed publishes."
+---
+
+The Social Notifications module keeps your community informed without anyone having to check external platforms manually. Connect YouTube channels, Twitch streamers, Bluesky accounts, or any RSS feed, and Moddy will post an update in a channel of your choice the moment new content appears. It's the easiest way to keep your server up to date with the creators and topics you care about.
+
+## Supported Platforms
+
+<CardGroup cols={2}>
+  <Card title="YouTube" icon="youtube">
+    Get notified when a followed channel publishes a new video or goes live.
+  </Card>
+  <Card title="Twitch" icon="twitch">
+    Receive an alert the moment a followed streamer goes live on Twitch.
+  </Card>
+  <Card title="Bluesky" icon="cloud">
+    Follow a Bluesky account and post new entries directly in your server.
+  </Card>
+  <Card title="RSS" icon="rss">
+    Follow any RSS feed — news sites, blogs, podcasts — and surface new articles automatically.
+  </Card>
+</CardGroup>
+
+## Setting Up Notifications
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server to open Moddy's configuration panel.
+  </Step>
+  <Step title="Select Social Notifications">
+    Choose **Social Notifications** from the module list.
+  </Step>
+  <Step title="Choose a platform">
+    Select the platform you want to follow: YouTube, Twitch, Bluesky, or RSS.
+  </Step>
+  <Step title="Enter the account or feed">
+    Provide the channel name, username, or feed URL for the account you want to follow. For RSS, paste the full feed URL.
+  </Step>
+  <Step title="Choose a Discord channel">
+    Select the channel in your server where Moddy should post notifications when new content is detected.
+  </Step>
+  <Step title="Save your changes">
+    Click **Save**. Moddy will begin polling that account and notify your chosen channel when new content appears.
+  </Step>
+</Steps>
+
+## Custom Notification Messages
+
+For each followed account, you can write a custom message that Moddy posts alongside the notification. Use this to add context, ping a role, or add a personal touch — for example, `@everyone A new video just dropped! 🎬`. The custom message appears in the chosen channel each time new content is detected for that account.
+
+## Free vs Moddy Max
+
+The speed at which Moddy checks for new content depends on your plan. If real-time notifications matter to your community, [Moddy Max](https://moddy.app) gives you a significantly faster experience.
+
+| Feature | Free | Moddy Max |
+|---|---|---|
+| Polling speed | Standard (slower checks) | Fast (near real-time) |
+| Accounts per platform | Limited | More accounts per platform |
+| Supported platforms | YouTube, Twitch, Bluesky, RSS | YouTube, Twitch, Bluesky, RSS |
+
+<Tip>
+  Keep your notification posts organized by using a dedicated channel like `#announcements` or `#content-feed`. This prevents social updates from getting lost in general chat and makes it easy for members to find the content they're interested in.
+</Tip>

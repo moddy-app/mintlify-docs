@@ -1,0 +1,49 @@
+---
+title: "Moddy Modules: Extend Your Server"
+sidebarTitle: "Overview"
+description: "Modules are per-server features you enable and configure to add moderation, social feeds, cross-server bridging, and more to your Discord server."
+---
+
+Modules are optional features you can activate on a per-server basis to extend what Moddy does for your community. Each module is independent — you choose which ones to enable, configure them to fit your server's needs, and turn them off at any time. All module settings are managed through the `/config` command directly in Discord, or from the web dashboard at [dashboard.moddy.app](https://dashboard.moddy.app).
+
+<CardGroup cols={2}>
+  <Card title="Welcome" icon="hand-wave" href="/modules/welcome">
+    Greet new members with custom messages, variables, and styled cards in up to 5 channels.
+  </Card>
+  <Card title="Social Notifications" icon="bell" href="/modules/social-notifications">
+    Follow YouTube, Twitch, Bluesky, and RSS feeds and post updates directly in your server.
+  </Card>
+  <Card title="Inter-Server" icon="arrows-left-right" href="/modules/interserver">
+    Bridge a channel to channels in other Discord servers for real-time cross-community chat.
+  </Card>
+  <Card title="AltGuard" icon="shield-halved" href="/modules/altguard">
+    Detect and act on suspected alternate accounts rejoining your server after a ban.
+  </Card>
+</CardGroup>
+
+## Enabling a Module
+
+You can enable and configure any module in seconds without leaving Discord.
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in any channel in your server. This opens Moddy's interactive server configuration panel.
+  </Step>
+  <Step title="Select the module">
+    Choose the module you want to enable from the menu. Each module has its own settings section.
+  </Step>
+  <Step title="Configure its settings">
+    Fill in the required details — such as a target channel, message text, or action to take. Each module's page covers its specific options in detail.
+  </Step>
+  <Step title="Save your changes">
+    Click **Save** to apply your configuration. The module will activate immediately.
+  </Step>
+</Steps>
+
+## Managing Modules from the Dashboard
+
+Every module available via `/config` is also accessible from the web dashboard at [dashboard.moddy.app](https://dashboard.moddy.app). The dashboard provides the same configuration options with a full-page interface, making it easier to manage complex settings like multiple welcome messages or several social notification feeds at once. Log in with your Discord account and select your server to get started.
+
+<Tip>
+  Enabling or editing module settings requires the **Manage Server** permission in the Discord server you're configuring. If you don't see `/config` working, check that your role has this permission.
+</Tip>

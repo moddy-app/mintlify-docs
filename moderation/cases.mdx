@@ -1,0 +1,82 @@
+---
+title: "Moderation Cases: Track Every Sanction"
+sidebarTitle: "Cases"
+description: "Every moderation action in Moddy creates a structured case with a unique reference code, a full timeline, and built-in appeal support."
+---
+
+A moderation case is the central record-keeping unit in Moddy. Whether a moderator manually issues a warning or AutoMod automatically mutes a member, the action is captured in a case — complete with a unique reference code, a timeline of every event, and a clear audit trail you can return to at any time.
+
+## What Is a Case?
+
+Think of a case as a **moderation folder** for a specific incident or member. Each case is identified by a **unique 6-character reference code** (for example, `AB3XR7`) that you can use to retrieve it instantly from any command.
+
+Inside a case you'll find:
+
+- **One or more sanctions** — warns, mutes, or bans tied to that case
+- **A chronological timeline** — every action, note, evidence item, and appeal outcome, in order
+- **A status** — open (at least one active sanction) or closed (all sanctions resolved)
+
+Cases are scoped to your server, so each community keeps its own independent records.
+
+<Tip>
+  Save the 6-character reference code as soon as a case is created. You can paste it directly into `/mod case view <reference>` to jump straight to the full record without searching.
+</Tip>
+
+## Viewing Your Own Cases
+
+If you want to check whether you have any moderation history in a server, use the `/mycases` command. It works in any server where Moddy is present and shows all cases that are linked to your account.
+
+```
+/mycases
+```
+
+This view is **read-only** — you can see your cases and their current status, but you cannot edit them or manage sanctions from this command.
+
+## Browsing Server Cases (Moderators)
+
+Moderators can view every case in the current server using `/cases`. Optionally pass a user to filter the results down to that member's history.
+
+```
+/cases
+/cases [user]
+```
+
+From the `/cases` panel you can browse the full server case list, open individual cases, and access all case management actions described below.
+
+## Managing Cases
+
+Use the `/mod case` command with one of the following subcommands to manage cases in your server:
+
+| Subcommand | Usage | Description |
+|---|---|---|
+| `create` | `/mod case create` | Open a new case and record the first sanction. |
+| `view` | `/mod case view <reference>` | View the full details and timeline for a case. |
+| `list` | `/mod case list <user>` | List all cases linked to a specific member. |
+| `sanction` | `/mod case sanction <reference>` | Add a new sanction to an existing open case. |
+| `revoke` | `/mod case revoke <reference>` | Revoke an active sanction on a case. |
+| `edit` | `/mod case edit <reference>` | Edit the reason or details recorded on a case. |
+| `note` | `/mod case note <reference>` | Add an internal comment or note to the timeline. |
+| `close` | `/mod case close <reference>` | Manually close or reopen a case. |
+
+## Case Status
+
+Every case has one of two statuses:
+
+- **Open** — the case has at least one active sanction (e.g. a mute that hasn't expired, or a ban still in effect). Moddy keeps the case open automatically while sanctions are active.
+- **Closed** — all sanctions associated with the case have expired or been revoked. Moddy closes the case automatically, or a moderator can close it manually using `/mod case close`.
+
+<Info>
+  Manually closing a case "locks" its status — Moddy won't automatically reopen it if a sanction is later modified. Use `/mod case close` again to reopen a locked case.
+</Info>
+
+## Appeals
+
+When AutoMod sanctions a member, Moddy sends them a **direct message** with an appeal button. The member can tap the button to submit an appeal without leaving Discord.
+
+Appeals are reviewed by your server's moderators, who can:
+
+- **Accept** the appeal — the sanction is revoked and the timeline is updated.
+- **Refuse** the appeal — the sanction stands and the member is notified.
+- **Transform** the appeal — the sanction is replaced with a different one (for example, swapping a ban for a temporary mute).
+
+Every appeal outcome is logged in the case timeline, giving you a full, transparent record of the decision.

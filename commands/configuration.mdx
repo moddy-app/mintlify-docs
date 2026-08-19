@@ -1,0 +1,73 @@
+---
+title: "Configuration Commands Reference"
+sidebarTitle: "Configuration"
+description: "Open Moddy's server configuration panel and manage saved messages. Configuration commands require Manage Server permission."
+---
+
+Configuration commands let you control how Moddy behaves in your server. The primary command, `/config`, opens a full interactive setup panel covering every module Moddy offers. These commands only work inside servers where Moddy is installed, and most require the **Manage Server** permission to use.
+
+---
+
+## `/config`
+
+Open Moddy's server configuration panel. The panel appears as an ephemeral message — only you can see it, so you can configure your server without cluttering the channel for everyone else.
+
+This command has no parameters.
+
+```
+/config
+```
+
+From the configuration panel, you can enable, disable, and fully customize each of Moddy's modules:
+
+<CardGroup cols={2}>
+  <Card title="Welcome" icon="hand-wave">
+    Set up to 5 custom welcome messages with variables like `{user}`, `{server}`, and `{member_count}`.
+  </Card>
+  <Card title="AutoMod AI" icon="robot">
+    Configure Moddy's AI-powered moderation pipeline — set action thresholds, manage allowlists and blocklists, and review flagged messages.
+  </Card>
+  <Card title="Social Notifications" icon="bell">
+    Follow YouTube channels, Twitch streamers, Bluesky accounts, and RSS feeds — Moddy posts to a Discord channel whenever new content appears.
+  </Card>
+  <Card title="Inter-Server" icon="link">
+    Bridge a channel to channels in other servers for real-time cross-community communication.
+  </Card>
+  <Card title="AltGuard" icon="shield">
+    Detect and automatically act on suspected alternate accounts when they join your server.
+  </Card>
+</CardGroup>
+
+<Note>
+  You need the **Manage Server** permission to use `/config`. If you don't see the command or receive a permissions error, ask your server owner to grant you the appropriate role.
+</Note>
+
+---
+
+## `/saved-messages`
+
+Open your personal saved messages panel. Saved messages are private notes you've stored for yourself using Moddy — they're not visible to anyone else in your server.
+
+This command has no parameters and is available **globally** (in DMs and in any server with Moddy).
+
+```
+/saved-messages
+```
+
+<Info>
+  Saved messages are tied to your Discord account, not to any specific server. You can access them from any server that has Moddy, or from your DMs with Moddy.
+</Info>
+
+---
+
+## Using the Dashboard
+
+While `/config` covers everything inline, the [Moddy dashboard](https://dashboard.moddy.app) provides a richer interface for complex setups — especially useful when configuring multiple modules, managing social notification feeds, or fine-tuning AutoMod AI rules.
+
+<Card title="Open the Dashboard" icon="arrow-up-right-from-square" href="https://dashboard.moddy.app">
+  Log in with your Discord account at dashboard.moddy.app to manage all your servers' settings from a single place.
+</Card>
+
+<Tip>
+  For straightforward changes — toggling a module on or off, for example — `/config` is the quickest option. For detailed configuration like setting up multiple social feeds or customizing welcome message templates, the dashboard's UI is easier to navigate.
+</Tip>

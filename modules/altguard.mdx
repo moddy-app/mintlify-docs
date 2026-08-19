@@ -1,0 +1,57 @@
+---
+title: "AltGuard: Protect Against Alternate Accounts"
+sidebarTitle: "AltGuard"
+description: "Automatically detect and act on suspected alternate accounts when they join your server, helping you enforce bans and keep bad actors out for good."
+---
+
+AltGuard helps you detect when a banned or suspicious user tries to rejoin your server using an alternate account. When a new member joins, AltGuard analyzes signals like account age and profile characteristics to determine whether they may be an existing banned member in disguise. You choose what action to take — from a quiet flag for manual review all the way to an automatic ban.
+
+## What AltGuard Detects
+
+AltGuard looks at a combination of signals when a new account joins your server to assess whether it may be an alternate account of a previously banned user. These signals include:
+
+- **Account age** — very new accounts are more likely to be created specifically to evade a ban
+- **Profile similarity** — patterns in usernames, avatars, or other profile details that match known banned users
+- **Join behavior** — accounts that join shortly after a ban is applied
+
+When enough signals are present, AltGuard flags the account according to the action you've configured.
+
+## Enabling AltGuard
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server to open Moddy's configuration panel.
+  </Step>
+  <Step title="Select AltGuard">
+    Choose **AltGuard** from the module list to open its settings.
+  </Step>
+  <Step title="Choose an action">
+    Select what Moddy should do when it detects a suspected alt account: **Flag**, **Kick**, or **Ban**. See the [Actions section below](#actions) for details on each option.
+  </Step>
+  <Step title="Choose a log channel">
+    Select the channel where AltGuard should send alerts and flag notifications. This should be a private moderator-only channel.
+  </Step>
+  <Step title="Save your settings">
+    Click **Save**. AltGuard will activate immediately and begin evaluating new members as they join.
+  </Step>
+</Steps>
+
+## Actions
+
+| Action | What happens |
+|---|---|
+| **Flag** | Moddy sends an alert to your log channel with details about the suspected alt. No automatic action is taken — your moderators review and decide. |
+| **Kick** | Moddy automatically kicks the suspected alt from the server and logs the action in your log channel. |
+| **Ban** | Moddy automatically bans the suspected alt from the server and logs the action in your log channel. |
+
+## Reviewing Flags
+
+When AltGuard flags a member, it posts a notification in your configured log channel. The notification includes details about the account — such as its creation date, username, and any matching signals that triggered the flag. From there, your moderation team can take manual action (kick, ban, or restrict the account) or dismiss the flag if it turns out to be a legitimate new member.
+
+<Note>
+  AltGuard may occasionally flag legitimate new accounts that happen to share signals with a banned user — for example, a new member who genuinely created their account recently. Always review flags carefully before taking irreversible actions like bans.
+</Note>
+
+<Tip>
+  When first enabling AltGuard, set the action to **Flag** and monitor the alerts for a few days before switching to automatic kicks or bans. This lets you calibrate the sensitivity to your server's membership patterns and avoid accidental removals.
+</Tip>

@@ -1,0 +1,58 @@
+---
+title: "Welcome Messages: Greet New Members"
+sidebarTitle: "Welcome"
+description: "Automatically send a personalized, styled welcome message to new members when they join, with custom variables and support for up to 5 channels."
+---
+
+The Welcome module lets you greet every new member automatically when they join your server. You can craft a personalized message using dynamic variables, choose which channel it appears in, and style it with a custom accent color — all without writing a single line of code. Moddy sends the welcome message as a polished card the moment a member joins.
+
+## Setting Up Welcome Messages
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server to open Moddy's configuration panel.
+  </Step>
+  <Step title="Select Welcome">
+    Choose **Welcome** from the module list to open the welcome message settings.
+  </Step>
+  <Step title="Choose a channel">
+    Select the Discord channel where Moddy should post welcome messages for new members.
+  </Step>
+  <Step title="Write your message">
+    Enter the text for your welcome message. Use any of the [variables below](#message-variables) to personalize it for each new member.
+  </Step>
+  <Step title="Save your changes">
+    Click **Save**. Moddy will immediately start sending welcome messages to that channel when new members join.
+  </Step>
+</Steps>
+
+## Message Variables
+
+Use these variables anywhere in your welcome message text. Moddy replaces them automatically with the correct values when each member joins.
+
+| Variable | Replaced with |
+|---|---|
+| `{server}` | Your server's name |
+| `{user}` | A mention of the new member (e.g. @Username) |
+| `{display_name}` | The member's display name on your server |
+| `{username}` | The member's Discord username |
+| `{member_count}` | The current total member count of your server |
+| `{timestamp}` | The exact date and time the member joined |
+
+**Example message:**
+
+```
+Welcome to {server}, {user}! 🎉 You're member #{member_count}. We're glad to have you here.
+```
+
+## Multiple Welcome Channels
+
+You can configure up to **5 welcome messages** per server, each posting to a different channel. This is useful when your onboarding flow spans multiple channels — for example, posting a general greeting in `#welcome` and a separate rules reminder in `#get-started`. Each welcome message is configured and saved independently, so you can customize the text, channel, and appearance for every one.
+
+## Customizing Appearance
+
+Set a custom accent color for the welcome message card to match your server's branding or theme. Pick any hex color from the configuration panel, and Moddy will use it as the card's accent. This feature is available on all plans — no premium subscription required.
+
+<Note>
+  Welcome messages are sent using Discord's **Components V2** format — a styled interactive card, not a plain text message or a basic embed. This gives your welcome messages a clean, modern look that stands out in any channel.
+</Note>

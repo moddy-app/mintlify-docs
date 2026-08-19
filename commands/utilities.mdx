@@ -1,0 +1,119 @@
+---
+title: "Utility Commands Reference"
+sidebarTitle: "Utilities"
+description: "Translate text, set reminders, roll dice, and generate Discord timestamps — Moddy's utility commands work anywhere, including DMs."
+---
+
+Moddy's utility commands are globally available — you can use them in your DMs with Moddy, in any server you share with Moddy, or even in servers that haven't added Moddy. They're standalone tools designed to save you time without needing any server setup.
+
+---
+
+## `/ping`
+
+Check Moddy's current response latency. Moddy replies with its round-trip latency in milliseconds, which is useful for diagnosing whether the bot is experiencing slowness.
+
+This command has no parameters.
+
+```
+/ping
+```
+
+---
+
+## `/translate`
+
+Translate any text into another language. Moddy auto-detects the source language if you don't specify one.
+
+<ParamField path="text" type="string" required>
+  The text you want to translate.
+</ParamField>
+
+<ParamField path="to_language" type="string" required>
+  The target language to translate into (e.g. `English`, `French`, `Spanish`, `Japanese`).
+</ParamField>
+
+<ParamField path="from_language" type="string">
+  The source language. If you leave this blank, Moddy automatically detects the language of your input.
+</ParamField>
+
+**Example usage:**
+
+```
+/translate text:Bonjour tout le monde to_language:English
+```
+
+```
+/translate text:Hello, how are you? to_language:Spanish from_language:English
+```
+
+---
+
+## `/reminder`
+
+Set a personal reminder. Moddy will DM you when the time is up with your reminder message.
+
+<ParamField path="time" type="string" required>
+  When to send the reminder. Use duration shorthand like `30m` (30 minutes), `2h` (2 hours), or `1d` (1 day).
+</ParamField>
+
+<ParamField path="message" type="string" required>
+  The reminder text Moddy will send back to you.
+</ParamField>
+
+**Example usage:**
+
+```
+/reminder time:2h message:Check the server for new applications
+```
+
+```
+/reminder time:1d message:Announce the event winners
+```
+
+<Tip>
+  Reminders are delivered via DM. Make sure your Discord privacy settings allow DMs from Moddy, or the reminder won't reach you.
+</Tip>
+
+---
+
+## `/roll`
+
+Roll one or more dice using standard dice notation. Moddy shows each individual die result alongside the total.
+
+<ParamField path="dice" type="string">
+  Dice notation in the format `NdX+M`, where `N` is the number of dice, `X` is the number of sides, and `+M` is an optional modifier (e.g. `2d6`, `1d20+5`, `4d4-1`). Defaults to `1d6` if omitted.
+</ParamField>
+
+**Example usage:**
+
+```
+/roll
+```
+
+```
+/roll dice:2d6
+```
+
+```
+/roll dice:1d20+5
+```
+
+---
+
+## `/timestamp`
+
+Generate a Discord-formatted timestamp from a date and time. Moddy returns a timestamp string you can paste into any Discord message — it automatically displays in each reader's local time zone.
+
+<ParamField path="date_time" type="string" required>
+  The date and/or time to convert (e.g. `2026-06-01 20:00`, `2026-12-25`, `tomorrow 9am`).
+</ParamField>
+
+**Example usage:**
+
+```
+/timestamp date_time:2026-06-01 20:00
+```
+
+<Info>
+  Discord timestamp tags render differently depending on the format flag (e.g. relative time, full date, short time). Moddy gives you multiple format options to choose from in the response.
+</Info>

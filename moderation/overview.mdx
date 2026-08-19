@@ -1,0 +1,50 @@
+---
+title: "Server Moderation with Moddy"
+sidebarTitle: "Overview"
+description: "Moddy turns every moderation action into a structured, auditable case — with sanctions, timelines, and built-in appeals for your server."
+---
+
+Moddy's moderation system is built around **cases** — every warn, mute, or ban your moderators issue (or that AutoMod triggers) is automatically tracked in a structured record with a unique reference code, a full chronological timeline, and a built-in appeals flow. Nothing falls through the cracks.
+
+<CardGroup cols={2}>
+  <Card title="Cases" icon="folder-open" href="/moderation/cases">
+    Browse, create, and manage moderation cases with full timelines and reference codes.
+  </Card>
+  <Card title="Sanctions" icon="gavel" href="/moderation/sanctions">
+    Understand warns, mutes, bans, and restrictions — and how to apply or revoke them.
+  </Card>
+  <Card title="AutoMod AI" icon="robot" href="/moderation/automod">
+    Let Moddy's AI detect and act on harmful messages automatically, in real time.
+  </Card>
+  <Card title="Commands Reference" icon="terminal" href="/commands">
+    Full list of moderation commands available to moderators and members.
+  </Card>
+</CardGroup>
+
+## How Moderation Works
+
+Every time a moderator issues a sanction — or AutoMod acts on a message — Moddy creates or updates a **case**. Each case is assigned a unique **6-character reference code** (for example, `AB3XR7`) that lets anyone with the right permissions pull up the full record instantly.
+
+Inside a case you'll find a **chronological timeline** of every event related to that member: sanctions applied, sanctions revoked, notes left by moderators, and evidence attachments. This makes it easy to see the full history of an interaction at a glance, whether you're reviewing a single incident or auditing a pattern of behaviour.
+
+Cases stay open as long as at least one sanction is active, and close automatically when all sanctions expire or are revoked. Moderators can also manually close or reopen a case at any time.
+
+## Who Can Moderate
+
+Any Discord member who holds the **Manage Server** permission (or the relevant Discord moderator permissions) can create and manage cases using Moddy's commands. Regular members can view their own cases at any time with `/mycases`, but cannot see or modify other members' records.
+
+<Note>
+  Moddy automatically records bans and timeouts that are applied directly through Discord — even when Moddy commands aren't used. This means your case history stays complete even if a moderator uses the native Discord moderation tools instead.
+</Note>
+
+## Appeals
+
+When AutoMod sanctions a member, Moddy sends that member a **direct message** containing an appeal button. The member can submit an appeal without leaving Discord, and it is routed to your server's moderators for review.
+
+Moderators can resolve an appeal in one of three ways:
+
+- **Accept** — the sanction is revoked and the case is updated accordingly.
+- **Refuse** — the sanction stands and the member is notified.
+- **Transform** — the original sanction is replaced with a different one (for example, downgrading a ban to a mute).
+
+All appeal outcomes are recorded in the case timeline so there is always a clear audit trail.

@@ -1,35 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Moddy",
+  "projectType": "saas",
+  "projectName": "Moddy",
+  "projectDescription": "Moddy is an all-in-one Discord bot for server management, AI-powered moderation, utilities, and community engagement.",
   "theme": "almond",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "https://moddy.app/support"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Add to Discord",
-      "href": "https://discord.com/application-directory/1375596170713239622"
-    }
-  },
-  "footer": {
-    "socials": {
-      "discord": "https://moddy.app/support"
-    }
-  },
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -109,5 +85,32 @@
         ]
       }
     ]
-  }
+  },
+  "keyFeatures": [
+    "AI-powered AutoMod with multi-stage detection pipeline (regex, embeddings, nano LLM)",
+    "Unified moderation case system with sanctions, timelines, and appeal workflows",
+    "Social Notifications for YouTube, Twitch, Bluesky, and RSS feeds",
+    "Inter-Server channel bridging across multiple Discord servers",
+    "Configurable modules via /config with Discord Components V2 UI",
+    "Welcome messages with custom variables and accent colors",
+    "Utilities: translation, OCR, dictionary, timestamp generator, dice roller",
+    "Personal reminders and saved messages",
+    "AltGuard protection against alternate accounts",
+    "Moddy Max premium plan with 5 server slots, unlimited AI, VIP support"
+  ],
+  "publicApiSurface": [
+    "/ping — check bot latency",
+    "/user — look up a Discord user",
+    "/avatar — display a user's avatar",
+    "/banner — display a user's banner",
+    "/translate — translate text to another language",
+    "/reminder — set a personal reminder",
+    "/roll — roll dice",
+    "/timestamp — generate a Discord timestamp",
+    "/config — configure server modules (guild only)",
+    "/cases — browse server moderation cases (moderators)",
+    "/mycases — view your own moderation cases",
+    "/mod case create|view|list|sanction|revoke|edit|note|close",
+    "/setup-welcome — configure welcome messages"
+  ]
 }

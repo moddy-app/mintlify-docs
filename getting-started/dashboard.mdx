@@ -1,0 +1,50 @@
+---
+title: "Managing Moddy from the Web Dashboard"
+sidebarTitle: "Dashboard"
+description: "The Moddy web dashboard lets you configure modules, review moderation cases, and manage your server settings from any browser."
+---
+
+The Moddy dashboard at [dashboard.moddy.app](https://dashboard.moddy.app) is your central hub for configuring every aspect of the bot. From enabling modules and reviewing moderation cases to customizing the bot's appearance with Moddy Max, everything is accessible through a clean web interface — no Discord commands required.
+
+## Accessing the Dashboard
+
+Navigate to [dashboard.moddy.app](https://dashboard.moddy.app) and click **Log in with Discord**. Moddy uses Discord's OAuth flow, so you'll be redirected to Discord to authorize the connection and then returned to the dashboard automatically. Your Discord account credentials are never stored by Moddy.
+
+## Selecting a Server
+
+After logging in, the dashboard displays a list of servers you can manage. Only servers where you have the **Manage Server** permission and Moddy is already installed will appear. Click on a server to open its configuration panel.
+
+<Note>
+  If a server you own isn't showing up, make sure you've [added Moddy](https://discord.com/application-directory/1375596170713239622) to it first and that your Discord account has the Manage Server permission there.
+</Note>
+
+## What You Can Configure
+
+The dashboard gives you full control over Moddy's features for each server. Here's what you'll find:
+
+<CardGroup cols={2}>
+  <Card title="Modules" icon="puzzle-piece">
+    Enable and configure Welcome Messages, AutoMod AI, Social Notifications, Inter-Server channel bridging, and AltGuard — all from a single modules panel.
+  </Card>
+  <Card title="Moderation Cases" icon="shield-halved">
+    Browse every moderation case in your server, review case timelines, manage sanctions, add notes, and handle member appeals.
+  </Card>
+  <Card title="Bot Customization" icon="paintbrush" href="/premium">
+    With **Moddy Max**, personalize the bot's nickname, avatar, banner, and bio to match your server's brand.
+  </Card>
+  <Card title="Premium Servers" icon="crown" href="/premium">
+    Manage which of your servers have **Moddy Max** active. One subscription covers up to 5 servers with all premium features unlocked.
+  </Card>
+</CardGroup>
+
+## Using /config in Discord
+
+If you'd rather stay in Discord, the `/config` command opens a native Discord UI that lets you enable, disable, and configure Moddy's modules without opening a browser. Type `/config` in any channel where Moddy is present to get started.
+
+<Warning>
+  The `/config` command requires the **Manage Server** permission. Members without this permission will not see the command or be able to run it.
+</Warning>
+
+<Tip>
+  Use the **dashboard** for detailed configuration — like setting up AutoMod rules, customizing welcome message templates, or managing multiple social notification feeds. Use **`/config`** for quick, on-the-fly changes when you're already in Discord and need to toggle a module fast.
+</Tip>

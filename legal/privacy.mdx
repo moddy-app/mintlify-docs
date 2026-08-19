@@ -1,0 +1,96 @@
+---
+title: "Moddy Privacy Policy"
+sidebarTitle: "Privacy Policy"
+description: "Privacy policy describing what data Moddy collects, how it's used, and how to request deletion of your data."
+---
+
+Moddy is designed to collect the minimal amount of data necessary to provide its services. This page explains what information is stored, how it is used, and the rights you have over your data. Your privacy matters to us, and we do not monetize your data in any way.
+
+<Note>
+  This page is a plain-language summary of our Privacy Policy. For the full details or to make a formal data request, contact us at hello@moddy.app.
+</Note>
+
+## Data We Collect
+
+Moddy stores only the information required to operate its features reliably.
+
+<Accordion title="Server Configuration Settings">
+  When you configure Moddy via `/config` or the dashboard, your module preferences, channel IDs, and role IDs are stored. This allows Moddy to apply the correct settings when acting in your server.
+</Accordion>
+
+<Accordion title="Moderation Cases">
+  Every sanction created through Moddy — warns, mutes, bans, and restrictions — generates a moderation case. Cases store the Discord user IDs of the moderator and the subject, the sanction type, the reason provided, and any subsequent timeline events such as appeals or notes.
+</Accordion>
+
+<Accordion title="Subscription Information">
+  If you purchase Moddy Max, your subscription status and plan details are linked to your Discord account. Payment processing is handled by a third-party provider; Moddy does not store full payment card details.
+</Accordion>
+
+<Accordion title="Anonymized Command Usage">
+  Aggregate, anonymized data about command usage is collected for performance monitoring and feature improvement. This data cannot be traced back to individual users.
+</Accordion>
+
+## What We Do NOT Collect
+
+<Warning>
+  Moddy does **not** store message content. During AutoMod analysis, message text is processed in memory and immediately discarded — it is never written to a database.
+</Warning>
+
+The following data is never collected or stored by Moddy:
+
+- **Message content** — beyond the transient AutoMod analysis window, no message text is retained
+- **Private messages or DMs** — Moddy may send you DMs (e.g. sanction notifications), but it does not read or store your DMs
+- **Voice data** — Moddy has no voice features and collects no audio
+
+## How Data Is Used
+
+The data Moddy collects is used exclusively to:
+
+- Operate the features you have configured (AutoMod, moderation cases, welcome messages, social notifications, etc.)
+- Enforce and track moderation cases across your server's history
+- Deliver social notifications, bridged messages, and other active features
+- Monitor service performance and diagnose issues using anonymized metrics
+
+Moddy does not use your data for advertising, profiling, or any purpose unrelated to operating the service.
+
+## Data Retention
+
+Server configuration and moderation case data is retained for as long as Moddy remains in your server. If you remove Moddy from your server, your data enters a grace period before deletion.
+
+To request immediate deletion of your server's data, remove Moddy and then contact us at hello@moddy.app. For individual user data (such as moderation case records), any user may submit a deletion request directly by email.
+
+## Your Rights
+
+You have the right to:
+
+- **Access** your data — request a copy of the data Moddy holds about you or your server
+- **Delete** your data — request that your data be removed from our systems
+- **Correct** your data — if any stored information is inaccurate, request a correction
+
+To exercise any of these rights, contact hello@moddy.app with your Discord user ID or server ID.
+
+## Third Parties
+
+Moddy does not sell, rent, or trade your data to third parties. Certain features rely on external APIs to function:
+
+<CardGroup cols={2}>
+  <Card title="AI Moderation" icon="robot">
+    Message text is sent to an AI inference API for analysis during AutoMod processing. Only the message content is transmitted — no user IDs or metadata are included. The text is not retained by the provider after the request completes.
+  </Card>
+  <Card title="Social Notifications" icon="bell">
+    To poll for new content, Moddy queries the public APIs of platforms such as YouTube, Twitch, Bluesky, and RSS feeds. No personal data from your server is sent to these platforms.
+  </Card>
+</CardGroup>
+
+## Contact
+
+If you have questions about this policy or want to submit a data request, get in touch:
+
+<CardGroup cols={2}>
+  <Card title="Email" icon="envelope" href="mailto:hello@moddy.app">
+    hello@moddy.app
+  </Card>
+  <Card title="Support Server" icon="discord" href="https://moddy.app/support">
+    Join the Moddy support server for live help.
+  </Card>
+</CardGroup>

@@ -1,47 +1,50 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get Started with Moddy in Minutes"
+sidebarTitle: "Quickstart"
+description: "Add Moddy to your Discord server, open the dashboard, and configure your first module — all in just a few minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+Moddy is ready to use the moment you add it to your server. This page walks you through adding the bot, logging into the dashboard, enabling your first module, and bringing your moderation team on board.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Add Moddy to Your Server">
+    Open the [Moddy page on the Discord App Directory](https://discord.com/application-directory/1375596170713239622) and click **Add to Server**. Select the server you want to add Moddy to, then confirm the requested permissions.
 
-    ```bash
-    npm install your-package
-    ```
+    <Note>
+      Moddy works best with the **Administrator** permission. If you prefer a more restricted setup, grant at minimum: **Manage Messages**, **Manage Roles**, **Ban Members**, **Kick Members**, and **Moderate Members**. Missing permissions may prevent certain features from working correctly.
+    </Note>
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
 
-    ```bash
-    your-cli init
-    ```
+  <Step title="Open the Dashboard">
+    Head to [dashboard.moddy.app](https://dashboard.moddy.app) and click **Log in with Discord**. After authenticating, select the server you just added Moddy to. You'll land on your server's overview page where all configuration options are available.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
 
-    ```bash
-    your-cli start
-    ```
+  <Step title="Configure Your First Module">
+    From the dashboard, navigate to the **Modules** section and enable **Welcome Messages** to greet new members or turn on **AutoMod** to start filtering harmful content with AI-powered moderation.
+
+    Prefer staying in Discord? Type `/config` in any server channel to open a native configuration panel and enable or adjust modules without leaving the app.
+  </Step>
+
+  <Step title="Invite Your Team">
+    Share Moddy with your moderators so they can manage cases and run moderation commands. Team members need the **Manage Server** permission in Discord to access `/config` and server-level settings. Moderators with appropriate role permissions can also browse and manage cases using `/cases` and `/mod case`.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+<Note>
+  Moddy is under active development. New features, modules, and improvements ship regularly. Check the [support server](https://moddy.app/support) for the latest announcements and to share feedback with the team.
+</Note>
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+<CardGroup cols={2}>
+  <Card title="Dashboard Guide" icon="browser" href="/getting-started/dashboard">
+    Learn how to navigate and use the Moddy web dashboard to configure your server.
+  </Card>
+  <Card title="Moderation Overview" icon="shield-halved" href="/moderation/cases">
+    Understand how moderation cases, sanctions, and appeals work in Moddy.
+  </Card>
+  <Card title="Modules Overview" icon="puzzle-piece" href="/modules">
+    Explore Welcome Messages, AutoMod, Social Notifications, AltGuard, and more.
+  </Card>
+  <Card title="Commands Reference" icon="terminal" href="/commands">
+    Browse every command Moddy supports, with usage examples and permission notes.
+  </Card>
+</CardGroup>

@@ -1,0 +1,56 @@
+---
+title: "Translate Text with /translate"
+sidebarTitle: "Translation"
+description: "Use Moddy's /translate command to instantly translate any text into dozens of languages — with automatic source language detection built in."
+---
+
+The `/translate` command lets you translate any text into your target language without leaving Discord. Moddy automatically detects the source language, so you only need to specify what language you want the result in. It's available globally, meaning you can use it in DMs or any server — no setup required.
+
+## Usage
+
+```
+/translate <text> <to_language> [from_language]
+```
+
+<ParamField path="text" type="string" required>
+  The text you want to translate.
+</ParamField>
+
+<ParamField path="to_language" type="string" required>
+  The language to translate into (e.g. `English`, `French`, `Spanish`, `Japanese`). Use the full language name.
+</ParamField>
+
+<ParamField path="from_language" type="string">
+  The source language. If you leave this out, Moddy automatically detects the language of your input.
+</ParamField>
+
+## Examples
+
+Below are a few example usages to get you started:
+
+```
+/translate text: Hello world to_language: French
+```
+Translates "Hello world" into French → *Bonjour le monde*
+
+```
+/translate text: Bonjour tout le monde to_language: English
+```
+Translates the French phrase into English → *Hello everyone*
+
+```
+/translate text: こんにちは to_language: English from_language: Japanese
+```
+Explicitly specifies Japanese as the source language and translates into English → *Hello*
+
+## Where It Works
+
+`/translate` is a **global command** — you can run it in any of the following places:
+
+- **DMs with Moddy** — open a direct message with Moddy and type the command
+- **Any server** — even servers where Moddy isn't installed as a bot
+- **Your own server** — works the same way with no extra configuration needed
+
+<Tip>
+  Use `/translate` to understand messages from community members who speak other languages. It's especially handy in large, international servers where conversations naturally happen in multiple languages.
+</Tip>

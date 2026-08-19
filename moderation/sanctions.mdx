@@ -1,0 +1,74 @@
+---
+title: "Sanctions: Warns, Mutes, Bans, and Restrictions"
+sidebarTitle: "Sanctions"
+description: "Learn about every sanction type Moddy can apply, how to issue and revoke them, and how Discord-native actions are recorded automatically."
+---
+
+A sanction is a disciplinary action applied to a member as part of a moderation case. Moddy supports several sanction types — from a formal warning all the way to a ban — and records every one of them in the case timeline so your moderation history is always complete and auditable.
+
+## Sanction Types
+
+<CardGroup cols={2}>
+  <Card title="Warn" icon="triangle-exclamation">
+    A formal warning issued to a member. Warns are recorded in the case timeline but carry no automatic Discord-level consequence. They serve as an official, auditable notice to the member.
+  </Card>
+  <Card title="Mute" icon="microphone-slash">
+    A temporary timeout that prevents the member from sending messages or joining voice channels. You can configure an expiry date — when it lapses, the mute is lifted automatically and the case is updated.
+  </Card>
+  <Card title="Ban" icon="ban">
+    Removes the member from the server and prevents them from rejoining. Bans are recorded in the case timeline and can be revoked through Moddy to lift the Discord ban simultaneously.
+  </Card>
+  <Card title="Restrict" icon="lock">
+    A platform-level sanction applied by Moddy staff, not server moderators. Restrictions are reserved for serious violations of Moddy's terms of service and affect the member across all servers.
+  </Card>
+</CardGroup>
+
+<Warning>
+  **Restrict** is a platform-level action and is only available to Moddy staff. Server moderators cannot apply or revoke restrictions.
+</Warning>
+
+<Note>
+  **Kicks are not recorded as cases.** Because a kick doesn't leave a lasting Discord-level consequence, Moddy does not create or update a case when a member is kicked — whether through Moddy commands or directly via Discord.
+</Note>
+
+## Applying Sanctions
+
+You can apply a sanction in two ways:
+
+**When opening a new case:**
+
+```
+/mod case create
+```
+
+This opens an interactive panel where you select the member, choose a sanction type, set an optional duration (for mutes), and add a reason. The case and its first sanction are created together.
+
+**Adding a sanction to an existing case:**
+
+```
+/mod case sanction <reference>
+```
+
+Use the case's 6-character reference code to add a further sanction to an already-open case. This is useful when an escalation is needed — for example, upgrading a warning to a mute after repeated behaviour.
+
+Sanctions are also applied **automatically by AutoMod** when harmful messages are detected. AutoMod-created sanctions appear in the case timeline just like manually-applied ones.
+
+## Revoking Sanctions
+
+To end an active sanction before it expires, use:
+
+```
+/mod case revoke <reference>
+```
+
+Revoking a sanction removes the Discord-level consequence immediately — a mute is lifted, a ban is removed — and updates the case timeline with a revocation entry. If revoking that sanction means there are no remaining active sanctions on the case, Moddy closes the case automatically.
+
+<Tip>
+  If you accept a member's appeal, Moddy handles the revocation automatically — you don't need to run `/mod case revoke` separately.
+</Tip>
+
+## Auto-Recorded Sanctions
+
+Moddy watches for bans and timeouts applied directly through Discord — without using any Moddy commands — and records them as cases automatically. This means your moderation history stays complete even when moderators use Discord's built-in tools instead of Moddy's commands.
+
+Auto-recorded sanctions appear in the case timeline with a note indicating they were recorded from a native Discord action, so there's no confusion about their origin.

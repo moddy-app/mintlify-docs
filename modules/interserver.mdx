@@ -1,0 +1,43 @@
+---
+title: "Inter-Server: Bridge Channels Across Servers"
+sidebarTitle: "Inter-Server"
+description: "Connect a channel in your server to channels in other Discord servers so members can chat cross-community in real time, all without leaving Discord."
+---
+
+Inter-Server lets you connect a channel in your server to channels in other Discord servers, so members from different communities can communicate with each other in real time. Whether you want to partner with another server, coordinate between branches of your community, or create a shared space with trusted allies, Inter-Server makes it possible without any external tools or integrations.
+
+## How It Works
+
+When a channel is part of a bridge network, any message sent in that channel is automatically relayed to all other channels connected to the same network. Members in each server see the messages as if they were posted locally. Each server's moderators retain full control over their own bridged channel — you can configure AutoMod, manage permissions, and remove relayed messages independently, without needing coordination from the other server's admins.
+
+## Setting Up a Bridge
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server to open Moddy's configuration panel.
+  </Step>
+  <Step title="Select Inter-Server">
+    Choose **Inter-Server** from the module list to open the bridging settings.
+  </Step>
+  <Step title="Choose a channel">
+    Select the channel in your server that you want to connect to the bridge. Only messages sent in this channel will be relayed.
+  </Step>
+  <Step title="Create or join a network">
+    To start a new bridge, create a new network — Moddy will generate a unique **network ID** for it. To join an existing bridge, enter the network ID shared with you by the other server's admin. Share your network ID with any other server admin who should be part of the same bridge.
+  </Step>
+  <Step title="Save your settings">
+    Click **Save**. Your channel is now part of the bridge network and will relay messages to and from all other connected channels.
+  </Step>
+</Steps>
+
+## Moderation in Bridged Channels
+
+Bridged channels follow the same moderation rules as any other channel in your server. Moddy's AutoMod will scan relayed messages and apply your server's configured actions if they violate your rules. Server moderators can delete relayed messages from their own channel at any time — this removes the message locally without affecting other servers in the network. Each community remains responsible for enforcing its own standards within its own channel.
+
+<Warning>
+  Bridging a channel exposes it to all members of every other server in the network. Only create or join bridges with communities you fully trust. Review the other server's rules and moderation practices before connecting.
+</Warning>
+
+<Note>
+  Inter-Server is a built-in Moddy feature — it does not require any external bots, webhooks you manage yourself, or third-party services. Everything is handled automatically once you configure the bridge in `/config`.
+</Note>

@@ -1,0 +1,139 @@
+---
+title: "Information Commands Reference"
+sidebarTitle: "Information"
+description: "Look up Discord users, avatars, banners, server invites, custom emojis, and webhook details instantly with Moddy's information commands."
+---
+
+Moddy's information commands let you pull up details about Discord users, servers, invites, custom emojis, and webhooks without leaving Discord. All of these commands are globally available — you can use them in your DMs with Moddy, in any server that has Moddy, or even in servers where Moddy isn't installed.
+
+---
+
+## `/user`
+
+Look up profile information for any Discord user. Running the command without specifying a user returns your own profile.
+
+<ParamField path="user" type="user">
+  The Discord user to look up. Defaults to yourself if omitted.
+</ParamField>
+
+**Returns:** username, display name, account creation date, avatar, Discord badges, and a list of mutual servers you share with Moddy.
+
+**Example usage:**
+
+```
+/user
+```
+
+```
+/user user:@username
+```
+
+---
+
+## `/avatar`
+
+Display a user's full-size avatar with a direct download link. Supports both static and animated avatars.
+
+<ParamField path="user" type="user">
+  The user whose avatar you want to view. Defaults to yourself if omitted.
+</ParamField>
+
+**Returns:** Full-resolution avatar image and a link to download it directly.
+
+**Example usage:**
+
+```
+/avatar
+```
+
+```
+/avatar user:@username
+```
+
+---
+
+## `/banner`
+
+Display a user's full-size profile banner. If the user hasn't set a banner, Moddy will let you know.
+
+<ParamField path="user" type="user">
+  The user whose banner you want to view. Defaults to yourself if omitted.
+</ParamField>
+
+**Returns:** Full-resolution profile banner image.
+
+**Example usage:**
+
+```
+/banner
+```
+
+```
+/banner user:@username
+```
+
+---
+
+## `/invite`
+
+Look up information about a Discord server invite without joining it. Useful for vetting invites before sharing them with your community.
+
+<ParamField path="invite" type="string" required>
+  A Discord invite link (e.g. `https://discord.gg/abc123`) or just the invite code (e.g. `abc123`).
+</ParamField>
+
+**Returns:** server name, total member count, the user who created the invite, and the invite's expiry date (if set).
+
+**Example usage:**
+
+```
+/invite invite:https://discord.gg/abc123
+```
+
+```
+/invite invite:abc123
+```
+
+---
+
+## `/emoji`
+
+Inspect a custom Discord emoji to see where it's from and get a direct link to its image.
+
+<ParamField path="emoji" type="string" required>
+  A custom Discord emoji (e.g. `:custom_emoji:`). Note: this command only works with **custom** emojis, not built-in Unicode emoji.
+</ParamField>
+
+**Returns:** emoji name, emoji ID, the server it belongs to, creation date, and a direct image URL.
+
+**Example usage:**
+
+```
+/emoji emoji::custom_emoji:
+```
+
+<Note>
+  Standard Unicode emoji (like 😄) are not supported by `/emoji`. It only works with custom server emoji.
+</Note>
+
+---
+
+## `/webhook`
+
+Inspect a Discord webhook URL to verify its details before using it in an integration or third-party service.
+
+<ParamField path="url" type="string" required>
+  The full Discord webhook URL (starts with `https://discord.com/api/webhooks/...`).
+</ParamField>
+
+**Returns:** webhook name, the channel it posts to, and the server it belongs to.
+
+**Example usage:**
+
+```
+/webhook url:https://discord.com/api/webhooks/000000000000/xxxxxxxxxxxx
+```
+
+<Warning>
+  Treat webhook URLs as sensitive credentials — anyone with a webhook URL can post messages to that channel. Avoid sharing them in public channels.
+</Warning>
