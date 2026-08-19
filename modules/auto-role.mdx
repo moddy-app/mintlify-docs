@@ -1,0 +1,63 @@
+---
+title: "Auto Role: Give Roles Automatically on Join"
+sidebarTitle: "Auto Role"
+description: "Automatically assign roles to members and bots the moment they join your server, with a separate list for each."
+---
+
+Auto Role hands out roles automatically to anyone who joins. It keeps **two separate lists** — one for human members, one for bots — so an invited bot can land straight in a "Bots" role without picking up your member roles.
+
+Typical uses: a baseline "Member" role that unlocks the server, a default colour role, or a role that pings a category of content.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Auto Role**.
+  </Step>
+  <Step title="Pick the member roles">
+    Choose the roles every new human member should receive.
+  </Step>
+  <Step title="Pick the bot roles (optional)">
+    Choose the roles bots should receive when they're added to the server.
+  </Step>
+  <Step title="Save">
+    Auto Role activates as soon as at least one role is set in either list.
+  </Step>
+</Steps>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Member roles** | Roles given to human members on join | None | Up to 25 roles |
+| **Bot roles** | Roles given to bots on join | None | Up to 25 roles |
+
+The module is active as soon as **either** list has at least one role. Saving with both lists empty is refused.
+
+## Permissions and Role Hierarchy
+
+<Warning>
+  Moddy needs the **Manage Roles** permission, and **Moddy's own role must sit above every role you select** in your server's role list. Saving is refused otherwise, and if a role is later moved above Moddy, it's silently skipped on join.
+</Warning>
+
+Three kinds of role can never be selected:
+
+- `@everyone`
+- **Managed roles** — those created and owned by an integration, such as a bot's own role or the Server Booster role. Discord doesn't allow anyone to assign these.
+- Roles that no longer exist
+
+## Working With AltGuard
+
+<Note>
+  If [AltGuard](/modules/altguard) is enabled on your server, Auto Role **waits**. A human member who hasn't passed the verification gate receives no auto roles — otherwise the gate would be pointless. The roles are granted the moment they pass, automatically or via a manual `/altguard verify`.
+
+  Bots are never gated, so bot roles apply immediately. And if AltGuard can't be reached at all, Auto Role fails safe: it grants nothing rather than risk letting an unverified member through.
+</Note>
+
+## Restoring Roles Instead
+
+Auto Role gives the _same_ roles to _everyone_. If you want returning members to get back the specific roles they had before they left, that's a different module — see [Auto-Restore Roles](/modules/auto-restore-roles). The two work together: a returning member can receive their restored roles _and_ your auto roles.
+
+## Free on Every Plan
+
+Auto Role is available on all servers with no limits tied to [Moddy Max](/premium/overview).

@@ -4,65 +4,376 @@ sidebarTitle: "Terms of Service"
 description: "Plain-language terms governing your use of Moddy, covering accepted use, server admin responsibilities, premium subscriptions, and contact info."
 ---
 
-These terms govern your use of Moddy and its associated services. By adding Moddy to your Discord server or using any of its commands and features, you agree to be bound by the terms described on this page. Please read them carefully before using the service.
+These Terms of Service (the "ToS") govern the use of Moddy services, including the Discord bot, website, and all associated services.
 
-<Note>
-  This page is a plain-language summary of our Terms of Service. If you need the full legal document or have specific legal questions, please reach out through the [Moddy support server](https://moddy.app/support).
-</Note>
+<Info>
+  **Last updated: December 31, 2025.** In case of translation, only the English version is authoritative.
+</Info>
+
+## Service Presentation
+
+**Moddy** is a Discord bot offering moderation, server management, and automation features.
+
+**Service publisher:** Moddy **Contact:** [hello@moddy.app](mailto:hello@moddy.app) **Support:** [moddy.app/support](https://moddy.app/support)
+
+**Open source project:** Moddy is an open source project distributed under the [Moddy Community License (MCL)](/legal/license). The source code is publicly accessible and can be viewed, modified, and redistributed in accordance with the terms of that license and these ToS.
 
 ## Acceptance of Terms
 
-By using Moddy in any capacity — adding it to a server, running commands, or accessing the web dashboard at [dashboard.moddy.app](https://dashboard.moddy.app) — you confirm that you have read, understood, and agree to these Terms of Service. If you do not agree, you must discontinue use of Moddy immediately.
+### Scope of acceptance
 
-## Use of the Service
+By using Moddy services (Discord bot, website, API, or any other associated service), you unconditionally accept these ToS as well as our [Privacy Policy](/legal/privacy).
 
-You agree to use Moddy only for lawful purposes and in a manner consistent with [Discord's Terms of Service](https://discord.com/terms). When using Moddy, you must not:
+The use of Moddy's source code, whether for consultation, modification, or redistribution, also implies acceptance of these ToS in addition to the [Moddy Community License](/legal/license).
 
-- Attempt to abuse, exploit, reverse-engineer, or disrupt Moddy or its underlying infrastructure
-- Use Moddy to harass, harm, or target individuals or communities
-- Circumvent any rate limits, access controls, or safety systems
-- Use Moddy to facilitate any activity that violates applicable law or Discord's own guidelines
+### Legal capacity
 
-## Server Administrators
+Use of our services is reserved for:
 
-By adding Moddy to a Discord server, you take on responsibility for ensuring that your server's use of Moddy complies with these terms and with Discord's Community Guidelines. This includes how you configure features such as AutoMod, moderation cases, and social notifications. The Moddy team is not liable for moderation decisions made by server staff using Moddy's tools.
+- Persons aged at least 13 years (in accordance with Discord's terms)
+- Persons with legal capacity to contract
+- Minors with parental or legal guardian authorization
 
-## Premium Subscriptions
+By using Moddy, you declare and guarantee that you meet these conditions.
 
-Moddy Max subscriptions are purchased and managed through the [Moddy website](https://moddy.app). The following conditions apply:
+### Implied acceptance
 
-<CardGroup cols={2}>
-  <Card title="Auto-Renewal" icon="arrows-rotate">
-    Subscriptions renew automatically at the end of each billing period. You can cancel at any time from your account settings.
-  </Card>
+Continued use of our services after any modification of the ToS constitutes acceptance of the new terms.
 
-  <Card title="Refund Policy" icon="receipt">
-    Partial billing periods are non-refundable. If you cancel, you retain access until the end of the current period.
-  </Card>
+## Service Description
 
-  <Card title="Plan Limits" icon="server">
-    Moddy Max unlocks premium features across up to 5 servers. Adding a sixth server requires an additional subscription.
-  </Card>
+### Services offered
 
-  <Card title="Feature Changes" icon="wrench">
-    The Moddy team may modify, add, or remove premium features. We will give reasonable notice of significant changes.
-  </Card>
-</CardGroup>
+Moddy offers the following features:
+
+<AccordionGroup>
+  <Accordion title="Moderation">
+    - **AI automatic moderation** — analyses messages through an AI pipeline and applies deletions, warnings, mutes, or bans according to a deterministic sanction scale, with recorded evidence and a binding appeal process
+    - **Manual moderation commands** — apply warnings, mutes, kicks, and bans to one or more members
+    - **Moderation history** — every sanction is recorded as a structured case with a reference code and full timeline, browsable via `/cases` (server scope) and `/mycases` (your own cases across all servers)
+    - **AltGuard** — an anti multi-account verification gate that holds joining members behind an external verification check before they can access the server
+  </Accordion>
+
+  <Accordion title="Server management and automation">
+    - **Welcome messages** — up to 5 configurable welcome cards in channels, plus welcome DMs to new members
+    - **Role management** — automatic role assignment on join, and role restoration when a member rejoins
+    - **Starboard** — reaction-based highlighting of popular messages in a dedicated channel
+    - **Adaptive slowmode** — automatic channel slowmode adjusted to live activity
+    - **Social notifications** — posts a server notification when followed YouTube, Twitch, Bluesky, or RSS accounts publish
+    - **Cross-server messages** — message relay between linked channels of different Discord servers
+    - **Bot customization** — a per-server nickname, avatar, banner, and bio (Moddy Max), and display-name style (free)
+  </Accordion>
+
+  <Accordion title="Utilities and artificial intelligence">
+    - **Reminder system** — scheduled personalized notifications
+    - **AI text tools** — `/fix`, `/rephrase`, and `/summarize`, powered by OpenAI
+    - **Translation** — `/translate`, powered by DeepL
+    - **Voice message transcription** — converts voice messages to text on demand or automatically
+    - **Message bookmarking** — save messages privately for later retrieval
+    - **Utility and informational commands** — various tools for server management and lookups
+  </Accordion>
+
+  <Accordion title="Security">
+    - **Discord token leak detection** — detects Discord tokens posted in messages, validates them, and alerts the owner so they can be invalidated. Detected tokens are encrypted at rest and purged after 24 hours.
+  </Accordion>
+</AccordionGroup>
+
+### Service availability
+
+We strive to keep our services accessible 24/7, but cannot guarantee uninterrupted availability.
+
+Services may be temporarily suspended for scheduled or emergency maintenance, updates and improvements, technical issues beyond our control, or force majeure.
+
+We reserve the right to modify, suspend, or discontinue all or part of the services at any time, with or without notice.
+
+### Service evolution
+
+Moddy reserves the right to add new features, modify or remove existing features, and evolve the interface and user experience. Users will be informed of major changes via our official Discord server and/or by email.
+
+### Technical intervention in servers
+
+Our team reserves the right to intervene in users' Discord servers without prior notice, but with appropriate justification, particularly for critical bug fixes, technical problem resolution, emergency intervention in case of major malfunction, compliance verification with these ToS, and investigation of reports.
+
+These interventions are carried out with respect for user privacy and only to the extent necessary to resolve the identified problem. Moddy may also **leave a server, or refuse to join one**, where a sanction requires it.
+
+## Terms of Use
+
+### User obligations
+
+By using Moddy, you agree to:
+
+- Provide accurate and up-to-date information
+- Comply with applicable laws and regulations
+- Comply with [Discord's terms of use](https://discord.com/terms)
+- Not infringe on third-party rights
+- Use the services reasonably and fairly
+- Not attempt to circumvent security measures
+- Report any malfunction or security vulnerability
+
+### Source code usage
+
+Use of Moddy's source code is subject to:
+
+- Compliance with the [Moddy Community License](/legal/license)
+- Compliance with these ToS in any use, modification, or redistribution of the code
+- Appropriate attribution of Moddy, in the source code **and** in a location accessible to end users
+- Prohibition of commercial use without prior written authorization
+- Including a copy of the MCL in any redistribution
+- No claiming ownership of the original Software or misrepresenting its origin
+
+### Prohibited uses
+
+It is strictly forbidden to use Moddy for:
+
+- **Illegal content**: distribution of illegal, violent, pornographic content involving minors, discriminatory, defamatory, or privacy-infringing content
+- **Harassment**: harassing, threatening, or intimidating other users
+- **Spam and abuse**: mass sending of unsolicited messages, abusive use of commands
+- **Fraud**: identity theft, fraud attempts, phishing
+- **Hacking**: unauthorized access attempts, security vulnerability exploitation, DDoS attacks
+- **Circumvention**: circumventing sanctions, creating multiple accounts to avoid a ban
+- **Resale**: unauthorized resale of Moddy services
+- **Abusive automation**: using scripts or bots to automate Moddy usage abusively
+
+### Moderation and sanctions
+
+In case of non-compliance with these ToS, Moddy reserves the right, **with or without notice, without having to justify itself, and without compensation**, to remove inappropriate content, report illegal behavior to competent authorities, cut off access to all or part of the services, and apply a **global sanction** against a user **or a server**.
+
+Global sanctions come in three ordered levels:
+
+| Level | What it does |
+| --- | --- |
+| **Global warning** | Informational. Nothing is blocked — it is on the record and counts if the team escalates later. |
+| **Limited** | Reduced service: no Moddy Max, no new module can be configured, and AI automatic moderation stops running. |
+| **Suspended** | No access to any Moddy service at all. |
+
+Sanctions applied depend on the severity of the violation and may be applied at Moddy's sole discretion. A _limited_ or _suspended_ sanction may be **temporary**.
+
+<Note>
+  **Appeal window.** Irreversible consequences of a sanction — such as cancelling a Moddy Max subscription without refund, Moddy leaving your servers, or data being purged — are deferred by **48 hours** so you have the opportunity to appeal first. A suspended user retains access to `/mycases`, `/moddy`, `/ping`, and the appeal controls throughout.
+</Note>
+
+### Reporting to authorities
+
+In case of serious violation of the law (child pornography, terrorism, death threats, illegal trafficking, etc.), Moddy reserves the right to use collected data to report to competent authorities, in accordance with our legal obligations.
+
+These reports may be made without prior notice or information to the user concerned, in compliance with applicable legislation.
+
+### User content responsibility
+
+You are solely responsible for the content you create, share, or distribute via Moddy, including saved messages, personalized reminders, cross-server messages, and any other data generated by your use.
+
+Moddy is not responsible for user-created content and acts as a technical host.
+
+## Moddy Max Subscriptions and Payments
+
+### What Moddy Max includes
+
+Moddy's premium plan is called **Moddy Max**. It covers **up to 5 Discord servers** of the subscriber's choosing, selected from the dashboard and changeable at any time.
+
+Moddy Max unlocks:
+
+- **Bot customization** — a custom nickname, avatar, banner, and bio for Moddy on your server (the display-name style is available on the free plan)
+- **Social notifications** — follow up to **5 accounts per platform** instead of 1, with faster polling intervals
+
+<Warning>
+  **Premium follows the payer, not the server.** A server is premium only while at least one subscriber who selected it still holds an active subscription. If a subscription lapses or is cancelled, every server that subscriber had selected stops being premium.
+</Warning>
+
+Details of Moddy Max offers are available on our website and may evolve. A **free trial** tier may be offered; where it is, converting to a paid subscription is subject to the same terms as any new subscription.
+
+### Pricing
+
+Prices are displayed in euros (EUR) including all taxes on our website and via Stripe.
+
+Moddy reserves the right to modify its prices at any time. Price changes apply immediately to new subscriptions, apply at next renewal for existing subscriptions, and are communicated at least 30 days before their application.
+
+### Payment methods
+
+Payments are processed securely by **Stripe**, our PCI-DSS certified payment provider. Accepted methods are bank cards (Visa, Mastercard, American Express) and other means offered by Stripe depending on your region.
+
+Payments are made upon initial subscription, then automatically at each renewal period (monthly or annual).
+
+### Renewal and cancellation
+
+**Automatic renewal:** subscriptions are automatically renewed at the end of each period, unless previously cancelled.
+
+**Cancellation:** you can cancel your subscription at any time via your customer area on our website or by contacting our support. Cancellation takes effect at the end of the current period. No refund is made for the current period, except for legal exceptions.
+
+### Right of withdrawal
+
+In accordance with European regulations, you have a period of **14 days** from the subscription to exercise your right of withdrawal, without having to justify a reason. To exercise this right, contact our support. The refund will be made within 14 days following the withdrawal request.
+
+**Exception:** if you have expressly requested immediate execution of the service during the withdrawal period, you will not be able to exercise this right, or the refund will be proportional to the use.
+
+### Refund policy
+
+**No refund** is granted for voluntary cancellation during a subscription (outside the withdrawal period), a ban for ToS violation, non-use of services, or dissatisfaction after the withdrawal period.
+
+**Exceptional refunds** may be granted case by case for prolonged and proven service malfunction, a billing error, or exceptional circumstances at Moddy's discretion.
+
+## Intellectual Property
+
+### Open source license
+
+Moddy's source code is distributed under the [Moddy Community License (MCL) v1.0](/legal/license). It allows you to **use**, **modify**, and **redistribute** the Software for personal or non-commercial purposes, provided you give **attribution** (in the source code and in a location accessible to end users), do not imply any **association** with Moddy, make no **commercial** use without prior written authorization, and include a copy of the **license notice** in any redistribution.
+
+You are **not** permitted to sell the Software, claim ownership of it, or redistribute it without proper credit.
+
+### Elements excluded from the open source license
+
+The following remain Moddy's exclusive property:
+
+- The name "Moddy", logos, trademarks, and visual identity graphic elements
+- Databases and their content
+- API keys and configuration secrets
+- Commercial and marketing documentation
+- Website-specific editorial content
+
+### Service usage license
+
+Using Moddy services grants you a non-exclusive, non-transferable, revocable, and limited license to use the services in accordance with these ToS and to access features for your personal use or for your Discord server. This license does not grant you any ownership rights over the services or their content.
+
+### Restrictions
+
+It is forbidden to use the name "Moddy" or its logos without prior written authorization, to use the source code for commercial purposes without authorization, to disregard the [MCL](/legal/license) attribution conditions, or to extract or reuse a substantial part of the databases.
+
+### User content
+
+Regarding content you create via Moddy, you retain all your intellectual property rights. You grant Moddy a worldwide, free, non-exclusive license to host, store, process, and display this content as part of providing the services. This license ends when you delete the content or terminate your account.
+
+## Personal Data Protection
+
+The processing of your personal data is governed by our [Privacy Policy](/legal/privacy). By using Moddy, you acknowledge having read and accepted this policy.
+
+**Key points:**
+
+- **Data collected:** Discord identifiers, usage data, payment information (via Stripe)
+- **Purposes:** service provision, improvement, customer support, reporting to authorities in case of serious violation
+- **GDPR rights:** access, rectification, erasure, portability
+- **Use for reporting:** in case of serious violation of the law, your data may be transmitted to competent authorities
+
+## Limitation of Liability
+
+### Moddy's liability
+
+Moddy undertakes to provide its services with diligence and according to the rules of the art. However, **Moddy cannot be held liable** for:
+
+- Indirect, incidental, or consequential damages
+- Loss of profits, data, revenue, or business opportunities
+- Temporary or prolonged service interruption
+- Bugs, errors, or technical malfunctions
+- Actions of third parties (hackers, DDoS attacks)
+- Inappropriate use of services by users
+- Content created or shared by users
+- Data deletion following a legitimate ban
+- Consequences of technical intervention in users' servers
+
+### Force majeure
+
+Moddy cannot be held liable for non-performance of its obligations in case of force majeure, including natural disasters, wars, attacks, riots, general strikes, telecommunications network failure, legislative or regulatory changes, and large-scale cyberattacks.
+
+### Third-party services
+
+Moddy uses third-party services (Discord, Railway, Vercel, Stripe, OpenAI, DeepL, Groq, Sentry, and the AltGuard verification service, among others). We are not responsible for malfunctions of these services, their privacy policies or terms of use, or modifications or interruptions of these services.
+
+You are invited to consult the terms of use of these third-party platforms.
+
+### Legal limitation
+
+To the extent permitted by applicable law, Moddy's total liability to you may not exceed the total amount of sums actually paid by you over the 12 months preceding the event giving rise to liability.
+
+## Warranties and Representations
+
+### Services provided "as is"
+
+Moddy services are provided "as is" and "as available", without warranty of any kind, express or implied, including absence of interruption or errors, accuracy or reliability of results, correction of defects, or compatibility with your equipment.
+
+### No guarantee of results
+
+Moddy is a tool facilitating Discord server management, but does not guarantee 100% effective automatic moderation, total absence of spam or inappropriate behavior, or compliance with the specific requirements of each server.
+
+The server administrator remains responsible for moderation and compliance with Discord rules.
+
+## Data and Backups
+
+### Data backup
+
+Moddy performs regular backups of its databases to ensure service continuity. However, **you are responsible for backing up your own important data**.
+
+### Data loss
+
+Moddy cannot be held liable for data loss following voluntary or accidental deletion by the user, technical malfunction, a ban for ToS violation, or service closure.
+
+### Data retention
+
+Data is retained indefinitely — except where a shorter retention period is stated in the [Privacy Policy](/legal/privacy) — until manual deletion by our technical team, or an explicit deletion request on your part (GDPR right to erasure).
+
+## ToS Modifications
+
+Moddy reserves the right to modify these ToS at any time to reflect the evolution of our services, legislative or regulatory changes, or improvements to our practices.
+
+Any substantial modification will be published on this page with an updated date, notified to users via our official Discord server and/or by email, effective immediately for new users, and effective after a reasonable notice period (generally 30 days) for existing users.
+
+By continuing to use Moddy after the modifications take effect, you accept the new ToS. If you refuse the modifications, you must stop using the services.
 
 ## Termination
 
-The Moddy team reserves the right to remove Moddy from any server or restrict access for any user who:
+### Termination by user
 
-- Violates these Terms of Service
-- Violates Discord's Terms of Service or Community Guidelines
-- Engages in abusive, harmful, or disruptive behavior toward the Moddy service or its team
+You can stop using Moddy at any time by removing the bot from your Discord server, deactivating your account on our website, or cancelling your Moddy Max subscription.
 
-Termination may occur without prior notice in cases of severe or repeated violations.
+### Termination by Moddy
 
-## Changes to Terms
+Moddy reserves the right to suspend or terminate your access to services, **with or without notice, without having to justify itself**, in case of violation of these ToS, fraudulent or abusive behavior, non-payment of a subscription, prolonged inactivity (at our discretion), definitive service closure, or any other reason deemed legitimate by Moddy.
 
-These terms may be updated from time to time to reflect changes to the service, legal requirements, or operational needs. When changes are made, the updated terms will be published on this page. Your continued use of Moddy after any changes have been posted constitutes your acceptance of the revised terms.
+### Consequences of termination
+
+In case of termination, your access to Moddy Max services is immediately interrupted, your data may be deleted in accordance with our retention policy, no refund is made (except legal obligations), and ToS clauses that by nature must survive (intellectual property, limitation of liability) remain in effect.
+
+## General Provisions
+
+- **Entire agreement** — these ToS, together with the Privacy Policy, constitute the entire agreement between you and Moddy regarding the use of the services.
+- **Partial invalidity** — if a provision is deemed invalid or unenforceable by a competent court, the other provisions remain fully in effect. The invalid provision will be replaced by a valid provision as close as possible to the original intent.
+- **No waiver** — Moddy's failure to exercise a right or provision does not constitute a waiver of that right or provision.
+- **Assignment** — you may not assign or transfer your rights or obligations under these ToS without Moddy's prior written consent. Moddy may freely assign or transfer its rights and obligations, particularly in case of merger, acquisition, or asset sale.
+- **Language** — these ToS are written in English. In case of translation, only the English version is authoritative.
+
+## Applicable Law and Jurisdiction
+
+### Applicable law
+
+These ToS are governed and interpreted in accordance with **French law**, with the exception of its conflict of laws rules.
+
+For consumer users residing in the European Union, nothing in these ToS affects your rights as a consumer under the legislation of your country of residence.
+
+### Dispute resolution
+
+**Prior mediation:** in case of a dispute relating to the interpretation or execution of these ToS, we encourage you to contact us first to try to find an amicable solution via our support.
+
+**Consumer mediation (for EU consumers):** in accordance with articles L.612-1 et seq. of the French Consumer Code, you have the right to use a consumer mediator free of charge in case of a dispute. The contact details of the competent mediator will be provided upon request.
+
+**Competent jurisdiction:** failing an amicable solution, any dispute will be submitted to the competent French courts, according to applicable territorial jurisdiction rules. For consumers residing in the European Union, you may also seize the courts of your place of residence.
+
+**Online Dispute Resolution (ODR) platform:** the European Commission provides an online dispute resolution platform at [ec.europa.eu/consumers/odr](https://ec.europa.eu/consumers/odr).
 
 ## Contact
 
-If you have questions about these terms or need clarification on any point, join the [Moddy support server](https://moddy.app/support) — the team can help you directly.
+For any questions regarding these ToS, Moddy services, legal requests, or exercising your rights:
+
+<CardGroup cols={2}>
+  <Card title="Email" icon="envelope" href="mailto:hello@moddy.app">
+    [hello@moddy.app](mailto:hello@moddy.app)
+  </Card>
+
+  <Card title="Support Server" icon="discord" href="https://moddy.app/support">
+    Recommended — our support can handle all your requests, including legal ones.
+  </Card>
+</CardGroup>
+
+---
+
+<Note>
+  By using Moddy services (Discord bot, website, and associated services) or by using Moddy's source code, you acknowledge having read, understood, and accepted all of these Terms of Service as well as the [Moddy Community License (MCL)](/legal/license).
+</Note>
+
+**Effective date: December 31, 2025**

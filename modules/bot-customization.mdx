@@ -1,0 +1,71 @@
+---
+title: "Bot Customization: Make Moddy Look Like Your Own Bot"
+sidebarTitle: "Bot Customization"
+description: "Give Moddy a custom nickname, avatar, banner, and bio on your server — plus a styled display name available on every plan."
+---
+
+Bot Customization lets your server make Moddy look like its own bot: its own nickname, avatar, banner, and bio, plus a styled display name. Everything is **per-server** — another server never sees your customization — and every change is written to your own audit log.
+
+## What's Free and What's Moddy Max
+
+<CardGroup cols={2}>
+  <Card title="Name style — free" icon="wand-magic-sparkles">
+    Apply a font, an effect, and colours to Moddy's display name. Available on **every** server, no subscription required.
+  </Card>
+
+  <Card title="Identity — Moddy Max" icon="crown" href="/premium/overview">
+    A genuinely custom nickname, avatar, banner, and bio. Requires [Moddy Max](/premium/overview) on that server.
+  </Card>
+</CardGroup>
+
+On a server without Moddy Max, the identity section is still visible in the panel but locked, with a link to activate premium.
+
+## Identity Settings (Moddy Max)
+
+| Setting | What it controls | Limit |
+| --- | --- | --- |
+| **Nickname** | Moddy's name on your server | 32 characters |
+| **Bio** | Moddy's profile bio on your server | 137 characters |
+| **Avatar** | Moddy's avatar on your server | 8 MB — PNG, JPEG, GIF, or WebP |
+| **Banner** | Moddy's profile banner on your server | 8 MB — same formats |
+
+<Note>
+  **The bio always ends with a short "Powered by Moddy" line**, which can't be removed — the 137-character limit is what's left for your own text after it. Clearing your bio clears the attribution along with it.
+</Note>
+
+## Name Style Settings (free)
+
+| Setting | What it controls | Options |
+| --- | --- | --- |
+| **Font** | The typeface of the display name | Cherry Bomb, Chicle, MuseoModerno, Neo-Castel, Pixelify Sans, Sinistre, Zilla Slab |
+| **Effect** | A visual effect on the name | Gradient, Neon, Toon, Pop |
+| **Colours** | The effect's colours | **Gradient needs exactly 2**; Neon, Toon, and Pop take 1 |
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Bot Customization**.
+  </Step>
+  <Step title="Edit the identity or the style">
+    Each section has its own Edit button, which opens a form.
+  </Step>
+  <Step title="Submit">
+    There's no Save button — submitting the form applies the change to Discord immediately. You'll see it in the member list right away.
+  </Step>
+</Steps>
+
+<Tip>
+  **Leaving a file field empty keeps the current image.** To actually remove an avatar or banner, use the section's **Reset** button rather than submitting an empty form.
+</Tip>
+
+## Permissions
+
+Moddy needs **Change Nickname** to set its nickname. The avatar, banner, bio, and name style are changes Moddy makes to its own server profile, so they need no additional permission.
+
+## Things to Know
+
+- **Every change is logged twice** — to your server's audit log, with the reason attached, and to Moddy's internal technical logs. Failed attempts are logged too.
+- **If premium lapses, an applied identity stays applied.** Moddy doesn't revert a nickname or avatar you already set; the panel simply locks and you can no longer change it. This is deliberate — a server losing premium doesn't suddenly see its bot change appearance.
+- **The same settings are editable from the [dashboard](/getting-started/dashboard)**, and premium is verified either way.
+- The name style is re-applied automatically after Moddy restarts, since Discord doesn't store it the way it stores a nickname or avatar.

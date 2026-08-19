@@ -1,0 +1,84 @@
+---
+title: "Adaptive Slowmode: Throttle Busy Channels Automatically"
+sidebarTitle: "Adaptive Slowmode"
+description: "Moddy raises and lowers Discord's slowmode on its own as a channel heats up and calms down, learning each channel's normal pace."
+---
+
+Adaptive Slowmode watches the channels you pick and turns Discord's slowmode **up** when a conversation suddenly spikes, then eases it back **down** as things calm.
+
+The key difference from a fixed rule: it doesn't compare against a set messages-per-minute number. It learns what "normal" looks like _for that specific channel_, so a quiet channel and a busy one each get their own sense of what counts as a rush. A raid or a hype moment gets throttled within seconds; the throttle lifts gradually so the channel doesn't flip on and off.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Adaptive Slowmode**.
+  </Step>
+  <Step title="Add a channel">
+    Pick a channel to monitor. Each channel gets its own independent settings.
+  </Step>
+  <Step title="Set the minimum and maximum delay">
+    The minimum applies when the channel is calm, the maximum at full throttle.
+  </Step>
+  <Step title="Pick a sensitivity">
+    How big a spike has to be before Moddy reacts — Low, Medium, or High.
+  </Step>
+  <Step title="Repeat for any other channels">
+    There's no global on/off switch: the module is simply the list of channels you've added.
+  </Step>
+</Steps>
+
+## Settings (per channel)
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Minimum delay** | Slowmode when the channel is calm | `0` seconds | 0–21600s (6 hours), must be below the maximum |
+| **Maximum delay** | Slowmode at full throttle | `120` seconds | 1–21600s, must be above the minimum |
+| **Sensitivity** | How big a spike must be before it reacts | Medium | Low, Medium, or High |
+
+## How Sensitivity Works
+
+Moddy tracks how busy a channel is right now versus its learned normal, and turns that ratio into a level from 0 to 5. Level 0 applies your minimum delay, level 5 your maximum, with Discord's standard slowmode values in between.
+
+Sensitivity decides how much busier than normal the channel must get to reach each level:
+
+| Sensitivity | Level 1 | Level 2 | Level 3 | Level 4 | Level 5 |
+| --- | --- | --- | --- | --- | --- |
+| **Low** | 3× | 6× | 12× | 24× | 48× |
+| **Medium** | 2× | 4× | 8× | 16× | 32× |
+| **High** | 1.5× | 3× | 6× | 12× | 24× |
+
+<Tip>
+  Start on **Medium**. Move to **High** for a channel you want protected aggressively (announcements, a support channel during incidents), and to **Low** for a channel that is naturally bursty and where you'd rather let conversation flow.
+</Tip>
+
+A busy period counts for more when **many different people** are talking rather than one person posting repeatedly — a real conversation is weighted above a single spammer.
+
+## Rising Fast, Falling Slow
+
+Adaptive Slowmode deliberately reacts asymmetrically:
+
+- **Going up is fast** — it can jump several levels at once, and at most every 30 seconds.
+- **Coming down is slow** — one level at a time, at most every 5 minutes, and only once activity has fallen well below the threshold that triggered the rise.
+
+This prevents the slowmode from oscillating on and off around a threshold, which is more disruptive than the throttle itself.
+
+## Permissions
+
+<Warning>
+  Moddy needs **Manage Channels** on every monitored channel — this is checked when you save and refused without it. If the permission is later removed, slowmode simply stops adapting on that channel.
+</Warning>
+
+Every change Moddy makes is written to your server's audit log with the reason and the level it moved to, so it's always clear why a slowmode changed.
+
+<Note>
+  Members with **Manage Messages** or **Manage Channel** are exempt from slowmode — that's Discord's own behaviour, not something Moddy controls. Your moderators can keep talking normally while a throttle is active.
+</Note>
+
+## After a Restart
+
+The learned "normal pace" for each channel is held in memory. When Moddy restarts, it resets and the channel re-learns its baseline over the following minutes. During that window, throttling is less accurate but never wrong in a harmful way — it simply starts from a neutral assumption.
+
+## Free on Every Plan
+
+Adaptive Slowmode is available on all servers with no limits tied to [Moddy Max](/premium/overview).

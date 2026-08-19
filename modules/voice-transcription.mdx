@@ -1,0 +1,79 @@
+---
+title: "Voice Transcription: Turn Voice Messages Into Text"
+sidebarTitle: "Voice Transcription"
+description: "Add a Transcribe button under voice messages — or transcribe them automatically — so everyone can read what was said."
+---
+
+Voice Transcription turns voice messages into readable text, so people who can't listen — in a meeting, on mute, hard of hearing, or just in a noisy room — still get the content.
+
+## Two Ways to Use It
+
+|  | **Transcribe** context menu | **The in-server button** |
+| --- | --- | --- |
+| Where it works | Everywhere — servers, DMs, user-installed contexts | Only servers with this module enabled |
+| Needs the module? | **No** — always available to anyone | **Yes** |
+| Who can trigger it | The person who opens the menu | Anyone who can see the message |
+| Result | Posted **publicly** in the channel | Posted **publicly**, replacing the button |
+
+<Note>
+  The **Transcribe** right-click menu works for everyone, everywhere, regardless of this module. What the module adds is the convenience of a button sitting under every voice message in the channels you choose — or fully automatic transcription with no click at all.
+</Note>
+
+Transcriptions are always **public**: the whole point is that the channel can read the voice note. Only failures are private, and only to the person who asked.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Voice Transcription**.
+  </Step>
+  <Step title="Turn the module on">
+    Unlike most modules, this one has a real on/off switch.
+  </Step>
+  <Step title="Choose a mode">
+    **Button** posts a Transcribe button under each voice message. **Automatic** transcribes every voice message with no click required.
+  </Step>
+  <Step title="Restrict to channels (optional)">
+    Leave the channel list empty to cover every channel, or pick specific ones.
+  </Step>
+</Steps>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Status** | Module on/off | Off until configured | — |
+| **Mode** | Button, or fully automatic | Button | One of the two |
+| **Channels** | Restrict to specific channels | Empty = **every channel** | Up to 25 channels |
+
+Channels can be text channels, voice channels, or threads (public and private).
+
+<Tip>
+  **Automatic** mode is best in a dedicated channel where voice notes are the norm and everyone benefits from a transcript. In a general chat, **Button** mode is less noisy — the transcription only appears when someone actually needs it.
+</Tip>
+
+## What Can Be Transcribed
+
+- **Discord voice messages**, and any audio attachment
+- Formats: `.ogg`, `.oga`, `.opus`, `.mp3`, `.m4a`, `.wav`, `.webm`, `.flac`, `.aac`, `.mpga`, `.mpeg`
+- **Maximum file size: 25 MB**
+- **Maximum duration: 30 minutes**
+
+Transcriptions longer than 3,500 characters are shown as a preview with the full text attached as a `transcription.txt` file.
+
+The finished card shows the transcription, the detected language, the audio's duration, and who requested it. Nothing in a transcription can ping anyone.
+
+## Permissions
+
+Moddy needs **Send Messages** in the channels you're covering — checked when you save and again at runtime, so Moddy stays silent where it can't speak — plus **View Channel** and **Read Message History** to fetch the audio.
+
+## Things to Know
+
+- **Bots' voice messages are ignored.**
+- **In Automatic mode, failures are silent.** If a transcription can't be produced, the loading placeholder disappears and nothing is posted — there's no error message in the channel. In Button mode, the person who clicked gets a private explanation and the button comes back.
+- **Two people clicking the same button pay for the audio once** — the second click joins the first request rather than starting a new one.
+- If Moddy is being heavily used across all servers, a transcription can be briefly rate-limited, and the person who asked is told how long to wait.
+
+## Free on Every Plan
+
+Voice Transcription is available on all servers with no per-server quota and no limits tied to [Moddy Max](/premium/overview).

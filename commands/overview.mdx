@@ -4,38 +4,76 @@ sidebarTitle: "Overview"
 description: "Every Moddy slash command in one place — learn what each command does, its required and optional parameters, and see copy-paste examples."
 ---
 
-Moddy uses Discord slash commands exclusively. Type `/` in any Discord message box to see the full list of available commands and their options. Every command is self-documenting: Discord shows you each parameter, whether it's required or optional, and a short description before you even submit.
-
-## Global vs Server Commands
-
-Moddy's commands fall into two categories depending on where you can use them.
-
-**Global commands** are available everywhere — in your DMs with Moddy, in any server you share with Moddy, and even in servers that haven't added Moddy. These are standalone tools that don't rely on any server-specific configuration.
-
-Examples: `/translate`, `/ping`, `/avatar`, `/roll`
-
-**Server commands** only work inside a server where Moddy has been installed and set up. These commands interact with server-specific data like moderation cases, configuration, and module settings.
-
-Examples: `/config`, `/cases`
+Moddy uses Discord slash commands exclusively. Type `/` in any Discord message box to see the list. Every command is self-documenting: Discord shows each parameter, whether it's required, and a short description before you submit.
 
 <CardGroup cols={2}>
-  <Card title="Moderation Commands" icon="gavel" href="/commands/moderation">
-    Create and manage moderation cases, apply sanctions, add notes, and review a user's history — all from slash commands.
+  <Card title="Moderation" icon="gavel" href="/commands/moderation">
+    `/ban`, `/kick`, `/mute`, `/warn`, plus the `/cases` and `/mycases` browsers.
   </Card>
 
-  <Card title="Utility Commands" icon="wrench" href="/commands/utilities">
-    Translate text, set reminders, roll dice, generate Discord timestamps, and more — available anywhere, including DMs.
+  <Card title="Utilities" icon="wrench" href="/commands/utilities">
+    Translate, AI text tools, reminders, saved messages, dice, preferences.
   </Card>
 
-  <Card title="Information Commands" icon="magnifying-glass" href="/commands/information">
-    Look up Discord users, avatars, banners, server invites, custom emojis, and webhook details in seconds.
+  <Card title="Information" icon="magnifying-glass" href="/commands/information">
+    Look up users, avatars, banners, invites, emojis, and webhooks.
   </Card>
 
-  <Card title="Configuration Commands" icon="gear" href="/commands/configuration">
-    Open Moddy's server configuration panel with `/config` (Manage Server required), and browse your saved messages with `/library` (no permission needed).
+  <Card title="Configuration" icon="gear" href="/commands/configuration">
+    `/config` to set up your server's modules.
+  </Card>
+
+  <Card title="Modules & Menus" icon="puzzle-piece" href="/commands/module-commands">
+    Module-specific commands, plus the five right-click Apps menus.
   </Card>
 </CardGroup>
 
+## Global vs Server Commands
+
+**Global commands** work everywhere — in your DMs with Moddy, in any server you share with Moddy, and even in servers that haven't added Moddy. They don't rely on any server configuration.
+
+Examples: `/translate`, `/ping`, `/user`, `/roll`, `/mycases`, `/fix`
+
+**Server commands** only work inside a server where Moddy is installed. They interact with server-specific data like cases, configuration, and modules.
+
+Examples: `/config`, `/cases`, `/ban`, `/altguard verify`
+
+## Two Conventions Worth Knowing
+
+<AccordionGroup>
+  <Accordion title="Replies are private by default">
+    Most commands take an `incognito` option. Leave it blank and Moddy uses your saved preference from `/preferences` — which defaults to **private**, so nobody else sees your command output. Set `incognito:false` to post the reply visibly in the channel.
+
+    The one deliberate exception is the **Transcribe** right-click menu, which is public by design so the whole channel can read a voice note.
+  </Accordion>
+
+  <Accordion title="Right-click menus don't appear in the / picker">
+    Five of Moddy's features live in Discord's **Apps** context menu instead of the slash picker: **AI text tools**, **Translate**, **Transcribe**, **Save Message**, and **Get Emojis**. Right-click any message (or long-press on mobile) and hover **Apps** to find them. See [Modules & Menus](/commands/module-commands).
+  </Accordion>
+</AccordionGroup>
+
+## Full Command List
+
+| Command | What it does | Where |
+| --- | --- | --- |
+| `/ban` `/kick` `/mute` `/warn` | Sanction up to 10 members with a reason and evidence | Server |
+| `/cases` | Browse and manage your server's moderation cases | Server |
+| `/mycases` | Review your own moderation history | Anywhere |
+| `/config` | Enable and configure Moddy's modules | Server |
+| `/translate` | Translate text into 25 languages | Anywhere |
+| `/fix` `/rephrase` `/summarize` | AI writing helpers | Anywhere |
+| `/reminder-add` `/reminders` | Set and manage personal reminders | Anywhere |
+| `/library` | Browse your saved messages | Anywhere |
+| `/roll` | Roll a random number | Anywhere |
+| `/preferences` | Your privacy default and timezone | Anywhere |
+| `/subscription` | Your Moddy Max status | Anywhere |
+| `/ping` `/moddy` | Bot latency, and general info about Moddy | Anywhere |
+| `/user` `/avatar` `/banner` | Look up a Discord user's profile, avatar, or banner | Anywhere |
+| `/invite` `/emoji` `/webhook` | Inspect an invite, a custom emoji, or a webhook | Anywhere |
+| `/altguard verify` `/altguard unverify` | Override the AltGuard gate for a member | Server |
+| `/interserver report` `/interserver info` | Report or look up a relayed message | Server |
+| `/view-saved-roles` `/clear-saved-roles` | Manage stored roles for returning members | Server |
+
 <Tip>
-  All Moddy commands are slash commands. There are no prefix commands like `!warn` or `!ban` — every interaction starts with `/`.
+  All Moddy commands are slash commands. There are no prefix commands like `!warn` or `!ban` — every interaction starts with `/` or a right-click.
 </Tip>

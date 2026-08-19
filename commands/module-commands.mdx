@@ -1,0 +1,89 @@
+---
+title: "Module Commands & Right-Click Menus"
+sidebarTitle: "Modules & Menus"
+description: "Commands that belong to a specific module — AltGuard, Inter-Server, Auto-Restore Roles — plus every right-click Apps menu Moddy adds."
+---
+
+Some commands only make sense alongside a particular module, and only appear when that module is set up. Moddy also adds five **right-click menus**, which are easy to miss because they never show up in the `/` command picker.
+
+## Module Commands
+
+### AltGuard
+
+Manually override the [AltGuard](/modules/altguard) verification gate for a member. Both are guild-only and require the **Manage Roles** permission.
+
+```discord
+/altguard verify <member>
+/altguard unverify <member>
+```
+
+- **`/altguard verify`** — lets a member through manually, granting the verified role and handing them off to [Auto Role](/modules/auto-role) if it's enabled.
+- **`/altguard unverify`** — sends a previously verified member back behind the gate.
+
+### Inter-Server
+
+Look up or report a message relayed through an [Inter-Server](/modules/interserver) bridge. Both are guild-only.
+
+```discord
+/interserver report <message_id>
+/interserver info <message_id>
+```
+
+<ParamField path="message_id" type="string" required>
+  Either the message's Moddy ID — a short 8-character code like `F6ZEU3VS` attached to every relayed message — or its Discord message ID.
+</ParamField>
+
+- **`/interserver report`** — sends a relayed message to the Moddy team for review, independently of whatever your own moderators do locally.
+- **`/interserver info`** — shows where a relayed message came from and its current status.
+
+<Warning>
+  **`/interserver info`'s `incognito` option means something different** from everywhere else in Moddy. Here it controls whether the lookup is **logged with your identity**, not whether the reply is private — and it defaults to `false`, not to your saved preference.
+</Warning>
+
+### Auto-Restore Roles
+
+Inspect and clear the roles stored by [Auto-Restore Roles](/modules/auto-restore-roles). Both require **Manage Server** and reply privately.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — lists every member with stored roles, how many, and when they were saved.
+- **`/clear-saved-roles`** — wipes one member's stored roles so they do _not_ get them back if they return.
+
+---
+
+## Right-Click Menus
+
+These live in Discord's **Apps** menu. Right-click a message (or long-press on mobile), hover **Apps**, and pick one.
+
+<CardGroup cols={2}>
+  <Card title="AI text tools" icon="wand-magic-sparkles">
+    Opens a pre-filled editor where you choose Fix, Rephrase, or Summarize. The result is private to you.
+  </Card>
+
+  <Card title="Translate" icon="language">
+    Translates the message instantly, without retyping its text into `/translate`.
+  </Card>
+
+  <Card title="Transcribe" icon="microphone">
+    Turns a voice message or audio attachment into text. The result is posted **publicly** in the channel — see [Voice Transcription](/modules/voice-transcription).
+  </Card>
+
+  <Card title="Save Message" icon="bookmark">
+    Bookmarks the message privately. Browse everything you've saved with `/library`.
+  </Card>
+
+  <Card title="Get Emojis" icon="face-smile">
+    Lists every custom emoji used in the message, with links — handy for grabbing an emoji for your own server.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Transcribe** is the only Moddy command whose answer is public by default. That's deliberate: a transcription exists so the whole channel can read a voice note. Everything else defaults to private.
+</Note>
+
+<Tip>
+  The **Transcribe**, **Translate**, **AI text tools**, **Save Message**, and **Get Emojis** menus all work in DMs and in servers that don't have Moddy, as long as you've added Moddy as a user app.
+</Tip>

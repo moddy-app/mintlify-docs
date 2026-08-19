@@ -1,0 +1,75 @@
+---
+title: "Starboard: Highlight Your Community's Best Messages"
+sidebarTitle: "Starboard"
+description: "Turn a reaction into a highlight reel — popular messages get re-posted to a starboard channel automatically."
+---
+
+Starboard turns a chosen reaction into a community highlight reel. Once a message collects enough of your configured emoji, Moddy re-posts it to a starboard channel with the author, the text, any image, a live reaction counter, and a jump link back to the original.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Starboard**.
+  </Step>
+  <Step title="Choose the starboard channel">
+    Pick where starred messages get posted. This is required — the module doesn't run without it.
+  </Step>
+  <Step title="Set the reaction count">
+    How many reactions a message needs before it lands on the starboard. Default is 5.
+  </Step>
+  <Step title="Choose the emoji">
+    Which reaction counts. Default is ⭐.
+  </Step>
+  <Step title="Save">
+    Starboard activates as soon as a channel is set.
+  </Step>
+</Steps>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Channel** | Where starred messages are posted (required) | Not set | 1 text channel |
+| **Reaction count** | How many reactions trigger the starboard | `5` | 1–100 |
+| **Emoji** | Which reaction counts | ⭐ | **Standard Discord emoji only** |
+
+<Warning>
+  **Custom server emojis are not supported.** The emoji must be a standard Unicode Discord emoji — Moddy rejects a custom one with a clear message when you save.
+</Warning>
+
+## How It Behaves
+
+- **Reactions inside the starboard channel itself are ignored**, so a starred post can't star itself into a loop.
+- **If reactions drop back below the threshold, the entry is deleted.** Un-reacting genuinely removes a message from the starboard.
+- **Clicking the reaction count** on a starboard post shows a private list of who reacted (bots excluded, up to 40 names, then "\+N more").
+- **Nothing on the starboard can ping anyone.** Mentions in a starred message are inert, so highlighting a message never notifies the people it mentions.
+
+## Images and Link Previews
+
+Moddy looks for an image in this order:
+
+1. The first image attached to the message
+2. The first bare image URL in the text
+3. The preview Discord already resolved for a link
+4. As a last resort, the page's own preview image, fetched by Moddy
+
+This last step is what makes Tenor and Giphy links show their GIF on the starboard instead of appearing as a bare URL.
+
+## Permissions
+
+Moddy needs **Send Messages** in the starboard channel — checked when you save — plus **View Channel** and **Read Message History** in the channels being watched, so it can fetch the message that was reacted to.
+
+**Manage Messages is not required.** When an entry falls below the threshold, Moddy deletes its own starboard post, never the original message.
+
+## Known Limitation
+
+<Warning>
+  **Starboard entries are tracked in memory only.** After Moddy restarts, the link between an original message and its starboard post is lost: the existing entry stops updating its reaction count, and a new reaction on that same message creates a **duplicate** entry rather than updating the old one.
+
+  In practice this affects messages that keep gaining reactions across a restart. Deleting the stale duplicate by hand is currently the only cleanup.
+</Warning>
+
+## Free on Every Plan
+
+Starboard is available on all servers with no limits tied to [Moddy Max](/premium/overview).
