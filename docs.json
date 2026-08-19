@@ -109,5 +109,8 @@
         ]
       }
     ]
+  },
+  "fonts": {
+    "family": "Google Sans"
   }
 }
