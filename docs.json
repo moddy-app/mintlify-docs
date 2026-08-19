@@ -3,9 +3,9 @@
   "name": "Moddy",
   "theme": "almond",
   "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
+    "primary": "#0046F8",
+    "light": "#BEC2FF",
+    "dark": "#0046F8"
   },
   "favicon": {
     "light": "/images/LogoVerif(3).svg",
