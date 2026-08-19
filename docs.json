@@ -136,5 +136,8 @@
     "404": {
       "redirect": false
     }
+  },
+  "icons": {
+    "library": "tabler"
   }
 }
