@@ -4,44 +4,51 @@ sidebarTitle: "Translation"
 description: "Use Moddy's /translate command to instantly translate any text into dozens of languages — with automatic source language detection built in."
 ---
 
-The `/translate` command lets you translate any text into your target language without leaving Discord. Moddy automatically detects the source language, so you only need to specify what language you want the result in. It's available globally, meaning you can use it in DMs or any server — no setup required.
+The `/translate` command lets you translate any text into your target language without leaving Discord. Moddy always auto-detects the source language — there's no way to override it — so you only ever pick where you want the result translated _to_. It's available globally, meaning you can use it in DMs or any server, no setup required.
 
 ## Usage
 
-```
-/translate <text> <to_language> [from_language]
+```text
+/translate text: <text> [to] [incognito]
 ```
 
 <ParamField path="text" type="string" required>
   The text you want to translate.
 </ParamField>
 
-<ParamField path="to_language" type="string" required>
-  The language to translate into (e.g. `English`, `French`, `Spanish`, `Japanese`). Use the full language name.
+<ParamField path="to" type="string">
+  The target language, picked from a fixed dropdown list (see below). If you leave it out, Moddy translates into your Discord client's own language.
 </ParamField>
 
-<ParamField path="from_language" type="string">
-  The source language. If you leave this out, Moddy automatically detects the language of your input.
+<ParamField path="incognito" type="boolean">
+  Whether the result is visible only to you. If left unset, Moddy uses your saved preference.
 </ParamField>
+
+## Supported Languages
+
+`to` is a dropdown, not free text — pick from:
+
+English (US), English (UK), French, German, Spanish, Italian, Portuguese, Portuguese (Brazil), Dutch, Polish, Russian, Japanese, Chinese, Korean, Turkish, Swedish, Danish, Norwegian, Finnish, Greek, Czech, Romanian, Hungarian, Ukrainian, and Bulgarian.
 
 ## Examples
 
-Below are a few example usages to get you started:
+```text
+/translate text: Hello world to: 🇫🇷 Français
+```
 
-```
-/translate text: Hello world to_language: French
-```
-Translates "Hello world" into French → *Bonjour le monde*
+Translates "Hello world" into French → _Bonjour le monde_
 
+```text
+/translate text: Bonjour tout le monde to: 🇺🇸 English (US)
 ```
-/translate text: Bonjour tout le monde to_language: English
-```
-Translates the French phrase into English → *Hello everyone*
 
+Translates the French phrase into English → _Hello everyone_
+
+```text
+/translate text: こんにちは
 ```
-/translate text: こんにちは to_language: English from_language: Japanese
-```
-Explicitly specifies Japanese as the source language and translates into English → *Hello*
+
+No `to` given — Moddy translates into whatever language your Discord client is set to.
 
 ## Where It Works
 
@@ -52,5 +59,5 @@ Explicitly specifies Japanese as the source language and translates into English
 - **Your own server** — works the same way with no extra configuration needed
 
 <Tip>
-  Use `/translate` to understand messages from community members who speak other languages. It's especially handy in large, international servers where conversations naturally happen in multiple languages.
+  Right-click a message and use the **Translate** context menu entry to translate it instantly, without typing the text into the slash command yourself.
 </Tip>

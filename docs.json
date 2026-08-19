@@ -65,9 +65,17 @@
             "pages": [
               "modules/overview",
               "modules/welcome",
+              "modules/welcome-dm",
+              "modules/auto-restore-roles",
+              "modules/auto-role",
+              "modules/starboard",
+              "modules/adaptive-slowmode",
               "modules/social-notifications",
               "modules/interserver",
-              "modules/altguard"
+              "modules/voice-transcription",
+              "modules/bot-customization",
+              "modules/altguard",
+              "modules/altguard-data"
             ]
           },
           {
@@ -85,6 +93,13 @@
               "premium/overview",
               "premium/features"
             ]
+          },
+          {
+            "group": "Changelog",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "changelog"
+            ]
           }
         ]
       },
@@ -98,7 +113,8 @@
               "commands/moderation",
               "commands/utilities",
               "commands/information",
-              "commands/configuration"
+              "commands/configuration",
+              "commands/module-commands"
             ]
           }
         ]

@@ -10,12 +10,15 @@ Moddy's moderation system is built around **cases** — every warn, mute, or ban
   <Card title="Cases" icon="folder-open" href="/moderation/cases">
     Browse, create, and manage moderation cases with full timelines and reference codes.
   </Card>
+
   <Card title="Sanctions" icon="gavel" href="/moderation/sanctions">
     Understand warns, mutes, bans, and restrictions — and how to apply or revoke them.
   </Card>
+
   <Card title="AutoMod AI" icon="robot" href="/moderation/automod">
     Let Moddy's AI detect and act on harmful messages automatically, in real time.
   </Card>
+
   <Card title="Commands Reference" icon="terminal" href="/commands">
     Full list of moderation commands available to moderators and members.
   </Card>
@@ -31,7 +34,7 @@ Cases stay open as long as at least one sanction is active, and close automatica
 
 ## Who Can Moderate
 
-Any Discord member who holds the **Manage Server** permission (or the relevant Discord moderator permissions) can create and manage cases using Moddy's commands. Regular members can view their own cases at any time with `/mycases`, but cannot see or modify other members' records.
+Case management in your server happens through the `/cases` command, gated by Discord's **Manage Messages** permission (or Administrator) by default — adjustable per role from **Server Settings → Integrations**. Within `/cases`, adding a ban additionally requires **Ban Members**, and adding a warn or mute requires **Timeout Members**, so a moderator only sees the actions their own Discord permissions allow. Any member — with no permission requirement — can view their own moderation history across every server with `/mycases`, but only their own, and read-only.
 
 <Note>
   Moddy automatically records bans and timeouts that are applied directly through Discord — even when Moddy commands aren't used. This means your case history stays complete even if a moderator uses the native Discord moderation tools instead.

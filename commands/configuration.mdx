@@ -1,10 +1,10 @@
 ---
-title: "Moddy Configuration Commands: Setup, Config & Saved Messages"
+title: "Moddy Configuration Commands: Setup, Config & Message Library"
 sidebarTitle: "Configuration"
-description: "Use /config to open Moddy's interactive server setup panel and /saved-messages for personal notes. Requires Manage Server permission."
+description: "Use /config to open Moddy's interactive server setup panel and /library to browse your saved messages."
 ---
 
-Configuration commands let you control how Moddy behaves in your server. The primary command, `/config`, opens a full interactive setup panel covering every module Moddy offers. These commands only work inside servers where Moddy is installed, and most require the **Manage Server** permission to use.
+The primary command here, `/config`, opens a full interactive setup panel covering every module Moddy offers — it only works inside servers where Moddy is installed, and requires the **Manage Server** permission. `/library`, covered further down, is a personal command available everywhere and needs no special permission.
 
 ---
 
@@ -24,34 +24,46 @@ From the configuration panel, you can enable, disable, and fully customize each 
   <Card title="Welcome" icon="hand-wave">
     Set up to 5 custom welcome messages with variables like `{user}`, `{server}`, and `{member_count}`.
   </Card>
+
   <Card title="AutoMod AI" icon="robot">
-    Configure Moddy's AI-powered moderation pipeline — set action thresholds, manage allowlists and blocklists, and review flagged messages.
+    Set the mandatory alert channel, pick a severity level (1–5) that tunes detection sensitivity, and exempt trusted roles or channels. Sanctions themselves are decided automatically — there's no manual rule list to maintain.
   </Card>
+
   <Card title="Social Notifications" icon="bell">
     Follow YouTube channels, Twitch streamers, Bluesky accounts, and RSS feeds — Moddy posts to a Discord channel whenever new content appears.
   </Card>
+
   <Card title="Inter-Server" icon="link">
     Bridge a channel to channels in other servers for real-time cross-community communication.
   </Card>
+
   <Card title="AltGuard" icon="shield">
-    Detect and automatically act on suspected alternate accounts when they join your server.
+    Set a verification channel and gate roles so new joiners go through Moddy's consent-based alt-account check before getting full access.
   </Card>
 </CardGroup>
 
 <Note>
-  You need the **Manage Server** permission to use `/config`. If you don't see the command or receive a permissions error, ask your server owner to grant you the appropriate role.
+  You need the **Manage Server** permission to use `/config`, and Moddy must have **Administrator** on the server — it refuses to open the panel otherwise, with a re-invite link.
 </Note>
+
+<Warning>
+  **Server modules are currently in closed beta.** Beyond the permissions above, `/config` is restricted to accounts with beta access. If you run it and get a card inviting you to join the support server, that's why — [request access there](https://moddy.app/support) and the team can enable it for you.
+</Warning>
 
 ---
 
-## `/saved-messages`
+## `/library`
 
-Open your personal saved messages panel. Saved messages are private notes you've stored for yourself using Moddy — they're not visible to anyone else in your server.
+Open your personal saved messages library. Save any message with the **Save Message** entry in Discord's Apps context menu, then use `/library` to browse everything you've bookmarked — private notes tied to your Discord account, not visible to anyone else.
 
-This command has no parameters and is available **globally** (in DMs and in any server with Moddy).
+<ParamField path="incognito" type="boolean">
+  Whether the response is visible only to you. Defaults to your saved preference, or private if you haven't set one.
+</ParamField>
+
+This command is available **globally** (in DMs and in any server with Moddy).
 
 ```text
-/saved-messages
+/library
 ```
 
 <Info>

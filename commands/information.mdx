@@ -4,25 +4,21 @@ sidebarTitle: "Information"
 description: "Instantly pull up full profiles, avatars, banners, server invite details, custom emoji info, and webhook metadata — all without leaving Discord."
 ---
 
-Moddy's information commands let you pull up details about Discord users, servers, invites, custom emojis, and webhooks without leaving Discord. All of these commands are globally available — you can use them in your DMs with Moddy, in any server that has Moddy, or even in servers where Moddy isn't installed.
+Moddy's information commands let you pull up details about Discord users, invites, custom emojis, and webhooks without leaving Discord. All of these commands are globally available — you can use them in your DMs with Moddy, in any server that has Moddy, or even in servers where Moddy isn't installed. Every command below also takes an optional `incognito` boolean to make the response visible only to you.
 
 ---
 
 ## `/user`
 
-Look up profile information for any Discord user. Running the command without specifying a user returns your own profile.
+Look up profile information for any Discord user.
 
-<ParamField path="user" type="user">
-  The Discord user to look up. Defaults to yourself if omitted.
+<ParamField path="user" type="user" required>
+  The Discord user to look up.
 </ParamField>
 
-**Returns:** username, display name, account creation date, avatar, Discord badges, and a list of mutual servers you share with Moddy.
+**Returns:** username, display name, account creation date, avatar, and Discord badges.
 
 **Example usage:**
-
-```text
-/user
-```
 
 ```text
 /user user:@username
@@ -34,17 +30,11 @@ Look up profile information for any Discord user. Running the command without sp
 
 Display a user's full-size avatar with a direct download link. Supports both static and animated avatars.
 
-<ParamField path="user" type="user">
-  The user whose avatar you want to view. Defaults to yourself if omitted.
+<ParamField path="user" type="user" required>
+  The user whose avatar you want to view.
 </ParamField>
 
-**Returns:** Full-resolution avatar image and a link to download it directly.
-
 **Example usage:**
-
-```text
-/avatar
-```
 
 ```text
 /avatar user:@username
@@ -56,17 +46,11 @@ Display a user's full-size avatar with a direct download link. Supports both sta
 
 Display a user's full-size profile banner. If the user hasn't set a banner, Moddy will let you know.
 
-<ParamField path="user" type="user">
-  The user whose banner you want to view. Defaults to yourself if omitted.
+<ParamField path="user" type="user" required>
+  The user whose banner you want to view.
 </ParamField>
 
-**Returns:** Full-resolution profile banner image.
-
 **Example usage:**
-
-```text
-/banner
-```
 
 ```text
 /banner user:@username
@@ -78,20 +62,18 @@ Display a user's full-size profile banner. If the user hasn't set a banner, Modd
 
 Look up information about a Discord server invite without joining it. Useful for vetting invites before sharing them with your community.
 
-<ParamField path="invite" type="string" required>
+<ParamField path="invite_code" type="string" required>
   A Discord invite link (e.g. `https://discord.gg/abc123`) or just the invite code (e.g. `abc123`).
 </ParamField>
-
-**Returns:** server name, total member count, the user who created the invite, and the invite's expiry date (if set).
 
 **Example usage:**
 
 ```text
-/invite invite:https://discord.gg/abc123
+/invite invite_code:https://discord.gg/abc123
 ```
 
 ```text
-/invite invite:abc123
+/invite invite_code:abc123
 ```
 
 ---
@@ -101,16 +83,20 @@ Look up information about a Discord server invite without joining it. Useful for
 Inspect a custom Discord emoji to see where it's from and get a direct link to its image.
 
 <ParamField path="emoji" type="string" required>
-  A custom Discord emoji (e.g. `:custom_emoji:`). Note: this command only works with **custom** emojis, not built-in Unicode emoji.
+  A custom Discord emoji (e.g. `:custom_emoji:`). Only works with **custom** emojis, not built-in Unicode emoji.
 </ParamField>
 
-**Returns:** emoji name, emoji ID, the server it belongs to, creation date, and a direct image URL.
+**Returns:** emoji name, emoji ID, creation date, and a direct image URL.
 
 **Example usage:**
 
 ```text
 /emoji emoji::custom_emoji:
 ```
+
+<Tip>
+  Right-click a message that uses several custom emojis and select **Get Emojis** from the Apps menu to list every one of them at once, instead of looking each up individually with `/emoji`.
+</Tip>
 
 <Note>
   Standard Unicode emoji (like 😄) are not supported by `/emoji`. It only works with custom server emoji.
@@ -120,20 +106,20 @@ Inspect a custom Discord emoji to see where it's from and get a direct link to i
 
 ## `/webhook`
 
-Inspect a Discord webhook URL to verify its details before using it in an integration or third-party service.
+Inspect **and manage** a Discord webhook — not just look it up.
 
-<ParamField path="url" type="string" required>
-  The full Discord webhook URL (starts with `https://discord.com/api/webhooks/...`).
+<ParamField path="webhook" type="string" required>
+  The webhook's full URL, or its ID/token pair.
 </ParamField>
 
-**Returns:** webhook name, the channel it posts to, and the server it belongs to.
+**Returns:** webhook name, the channel it posts to, and the server it belongs to — plus action buttons to **send** a test message through it, **edit** its name/avatar, **refresh** its data, or **delete** it outright.
 
 **Example usage:**
 
 ```text
-/webhook url:https://discord.com/api/webhooks/000000000000/xxxxxxxxxxxx
+/webhook webhook:https://discord.com/api/webhooks/000000000000/xxxxxxxxxxxx
 ```
 
 <Warning>
-  Treat webhook URLs as sensitive credentials — anyone with a webhook URL can post messages to that channel. Avoid sharing them in public channels.
+  Treat webhook URLs as sensitive credentials — anyone with a webhook URL can post messages to that channel, and `/webhook` itself can delete or edit the webhook if you have the details. Avoid sharing them in public channels, and only run this command with URLs you trust.
 </Warning>

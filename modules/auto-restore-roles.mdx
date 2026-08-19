@@ -1,0 +1,81 @@
+---
+title: "Auto-Restore Roles: Give Roles Back on Rejoin"
+sidebarTitle: "Auto-Restore Roles"
+description: "Remember a member's roles when they leave and restore them automatically if they come back."
+---
+
+Auto-Restore Roles remembers which roles a member had when they left, and gives them straight back if they return — so a returning member doesn't have to be re-set-up by hand. You decide how much gets remembered: everything, everything except a blocklist, or only a specific allowlist.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Auto-Restore Roles**.
+  </Step>
+  <Step title="Choose a mode">
+    Pick **All**, **All except…**, or **Only these…** — see the table below.
+  </Step>
+  <Step title="Select the roles">
+    If you chose _All except_ or _Only these_, pick the roles for that list. At least one is required.
+  </Step>
+  <Step title="Choose a log channel (optional)">
+    Every save and restore is posted there, so your team can see what happened.
+  </Step>
+  <Step title="Save">
+    The module activates as soon as a mode is set.
+  </Step>
+</Steps>
+
+## Modes
+
+| Mode | What gets remembered |
+| --- | --- |
+| **All** | Every role the member had |
+| **All except…** | Every role _except_ the ones you list — use this to avoid restoring staff or moderator roles |
+| **Only these…** | _Only_ the roles you list — use this when you want to restore a specific set, like a subscription or level role |
+
+<Tip>
+  **All except** is the safest default for most servers. It restores the everyday roles a member accumulated while excluding anything sensitive — moderator, admin, or trusted-member roles that someone shouldn't get back automatically after leaving.
+</Tip>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Mode** | Which roles get saved (required) | Not set | One of the three above |
+| **Excluded roles** | Roles _not_ saved — _All except_ mode only | None | Up to 25, at least 1 required |
+| **Included roles** | The only roles saved — _Only these_ mode only | None | Up to 25, at least 1 required |
+| **Log channel** | Where save and restore events are posted | None | 1 text channel |
+
+Switching mode clears the other list, and each role selector only appears when its mode is active.
+
+## What Is Never Saved
+
+`@everyone` and **managed roles** (a bot's own role, the Server Booster role, and anything else owned by an integration) are never stored — Discord doesn't allow them to be reassigned.
+
+## Permissions
+
+- **Manage Roles** — required to reapply roles. Any role that has since moved above Moddy's own role is silently skipped on restore.
+- For the log channel: **Send Messages** and **Embed Links**, both checked when you save.
+
+## Managing Stored Roles
+
+Two commands let you inspect and clear what's been saved. Both require **Manage Server** and reply privately.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — lists every member with stored roles, how many, and when they were saved.
+- **`/clear-saved-roles`** — wipes one member's stored roles, so they do **not** get them back if they return. Use this when someone leaves after a moderation issue.
+
+## How Long Roles Are Kept
+
+<Note>
+  Stored roles have **no expiry** — a saved set waits indefinitely for the member to return. It's deleted automatically once a successful restore happens, or if none of the saved roles still exist on the server. To remove one manually, use `/clear-saved-roles`.
+</Note>
+
+## Free on Every Plan
+
+Auto-Restore Roles is available on all servers with no limits tied to [Moddy Max](/premium/overview).

@@ -1,0 +1,74 @@
+---
+title: "Welcome DM: Greet New Members Privately"
+sidebarTitle: "Welcome DM"
+description: "Send every new member a private welcome message when they join, with placeholders and an optional embed."
+---
+
+Welcome DM sends a private message to every new member the moment they join — a way to greet them, point them at the rules, or hand them a link without cluttering a channel. It runs independently of [Welcome Messages](/modules/welcome), so you can have a public greeting _and_ a private one on the same join.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Welcome DM**.
+  </Step>
+  <Step title="Write your message">
+    Enter the text new members will receive. Use the [placeholders below](#placeholders) to personalize it.
+  </Step>
+  <Step title="Optionally wrap it in an embed">
+    Turn on the embed option to send a styled card instead of plain text, with its own title, colour, and layout.
+  </Step>
+  <Step title="Save">
+    The module activates immediately — the next member to join gets the DM.
+  </Step>
+</Steps>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Message** | The DM text (required) | A generic welcome line | 1–2000 characters |
+| **Embed** | Wrap the message in a styled embed | Off | — |
+| **Embed title** | The embed's title | "Welcome!" | 256 characters |
+| **Embed description** | Replaces the message inside the embed | None | 4096 characters |
+| **Embed colour** | The embed's side bar colour | Blurple (`#5865F2`) | Any `#RRGGBB` value |
+| **Thumbnail** | Show the member's avatar as the embed thumbnail | On | — |
+| **Author header** | Show the member's name and avatar in the embed header | Off | — |
+
+<Info>
+  If you set an **embed description**, it replaces your message inside the embed. If you leave it empty, your message is used both as the message text and as the embed description.
+</Info>
+
+## Placeholders
+
+Use these anywhere in your message, embed title, or embed description:
+
+| Placeholder | Replaced with |
+| --- | --- |
+| `{user}` | The member's account name |
+| `{username}` | The member's account name |
+| `{server}` | Your server's name |
+| `{member_count}` | Your server's member count after the join |
+
+<Warning>
+  Unlike [Welcome Messages](/modules/welcome), `{user}` here does **not** produce a clickable mention — a DM has no server context, so Discord can't render a ping. It falls back to the plain account name.
+</Warning>
+
+**Example message:**
+
+```text
+Welcome to {server}, {user}! You're our {member_count}th member.
+Head to #rules to get started, and don't hesitate to ask if you need anything.
+```
+
+## Permissions
+
+Welcome DM needs **no server permissions** — Moddy messages the member directly.
+
+<Note>
+  **Some members will never receive it.** Discord lets anyone disable DMs from server members, and many people do. When that happens Moddy skips them silently — there's no error and no retry. Treat the welcome DM as a nice-to-have, and put anything essential (rules, verification instructions) in a channel too.
+</Note>
+
+## Free on Every Plan
+
+Welcome DM is available on all servers with no limits tied to [Moddy Max](/premium/overview).

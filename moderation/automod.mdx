@@ -39,11 +39,17 @@ You can enable AutoMod from the web dashboard or directly inside Discord using `
   <Step title="Navigate to AutoMod AI">
     Find the **AutoMod AI** section in the configuration panel.
   </Step>
+  <Step title="Set the alert channel">
+    Pick a text channel to receive AutoMod's alert cards. This channel is **required** — AutoMod won't run without one set.
+  </Step>
   <Step title="Toggle AutoMod on">
     Enable the toggle to activate AutoMod for your server.
   </Step>
-  <Step title="Configure sensitivity and actions">
-    Adjust the detection sensitivity and choose which actions AutoMod should take (warn, mute, or ban) for different severity levels.
+  <Step title="Adjust severity">
+    Pick a severity level from 1 to 5. This controls how sensitive detection is and how harshly the automatic sanction scale escalates — it's the only manual dial; Moddy decides the specific action (warn, mute, or ban) and duration for each violation on its own.
+  </Step>
+  <Step title="Exempt roles or channels (optional)">
+    Add trusted roles or channels to the exemption lists if you want AutoMod to skip them entirely.
   </Step>
 </Steps>
 
@@ -53,15 +59,22 @@ You can enable AutoMod from the web dashboard or directly inside Discord using `
 
 ## Actions AutoMod Can Take
 
-When AutoMod determines a message is harmful, it deletes the message and applies one of the following sanctions depending on the severity of the violation and your configuration:
+When AutoMod determines a message is harmful, it deletes the message and applies one of the following sanctions, chosen automatically from the violation's category, severity, and the member's history — there's no manual mapping to configure:
 
 | Action | Description |
-|---|---|
+| --- | --- |
 | **Warn** | A formal warning is recorded in the member's case. Suitable for minor or first-time violations. |
 | **Mute** | The member is temporarily timed out. You can configure the mute duration in your AutoMod settings. |
 | **Ban** | The member is banned from the server. Reserved for the most severe violations. |
 
 All AutoMod actions are recorded as moderation cases with a full timeline, just like manually-applied sanctions.
+
+## Getting Smarter Over Time
+
+AutoMod doesn't just react to a single message in isolation — two feedback loops shape future decisions for your server, with no manual tuning required:
+
+- **Appeal outcomes.** An accepted appeal doesn't just undo the sanction — it's a signal that the original call was a false positive, so it stops counting against that member for future escalation decisions. A refused appeal, on the other hand, confirms the sanction was right and weighs slightly more than an unreviewed one.
+- **Server precedents.** As your moderators accept or refuse appeals, Moddy builds a memory of what your specific community considers sanctionable — so its judgment calls become more consistent with how your team actually moderates, rather than relying on generic rules alone.
 
 ## Appealing AutoMod Decisions
 
@@ -75,26 +88,9 @@ Submitted appeals are routed to your server's moderators for review. Moderators 
 
 Every appeal outcome is logged in the case timeline.
 
-## Free vs Moddy Max
+## Available to Every Server
 
-<Tabs>
-  <Tab title="Free">
-    AutoMod is fully available on the free plan with the following limits:
-
-    - **Standard detection speed** — messages are evaluated with a slight delay compared to Moddy Max.
-    - **Basic AI quota** — a limited number of AI evaluations per day. High-traffic servers may reach this limit.
-    - AutoMod logs and case creation are included at no cost.
-  </Tab>
-  <Tab title="Moddy Max">
-    Moddy Max unlocks the full AutoMod experience:
-
-    - **Faster detection** — messages are evaluated with minimal latency so harmful content is removed more quickly.
-    - **Higher AI quota** — significantly more AI evaluations per day, suitable for large or busy servers.
-    - **More accurate over time** — Moddy Max servers benefit from a richer usage history that helps the AI model make better decisions for your community.
-
-    Upgrade at [moddy.app](https://moddy.app) to unlock Moddy Max.
-  </Tab>
-</Tabs>
+AutoMod AI is not a premium feature — it runs at full capability on every server, free or [Moddy Max](/premium/overview), with the same detection pipeline, sensitivity controls, and case creation. See [what Moddy Max actually unlocks](/premium/features) if you're wondering whether upgrading affects moderation — today it doesn't.
 
 <Note>
   Moddy's AutoMod works **alongside Discord's native AutoMod** — you can have both active at the same time. They operate independently, so enabling one does not disable or interfere with the other.

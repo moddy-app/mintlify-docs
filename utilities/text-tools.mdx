@@ -4,81 +4,62 @@ sidebarTitle: "Text Tools"
 description: "Extract text from images, generate time-zone-aware Discord timestamps, roll dice, and more with Moddy's built-in text processing utilities."
 ---
 
-Moddy packs several handy text-processing tools that go beyond simple commands. You can pull text out of an image without leaving Discord, generate timestamps that automatically adjust to every viewer's local time zone, look up word definitions, or roll dice for tabletop sessions — all from the same bot.
+Moddy packs several handy tools that go beyond simple commands — AI-assisted writing, voice message transcription, message bookmarking, and more. All of the commands below are global: they work in DMs with Moddy and in any server, even ones where Moddy isn't installed.
 
-## Available Text Tools
+## AI Text Tools
 
 <CardGroup cols={2}>
-  <Card title="OCR" icon="image">
-    Extract text from any image right inside Discord. Right-click a message containing an image, go to **Apps**, and select **Extract Text**.
+  <Card title="Fix" icon="spell-check">
+    `/fix <text>` corrects spelling, grammar, punctuation, and accents — nothing else. The meaning and tone stay exactly as you wrote them.
   </Card>
-  <Card title="Dictionary" icon="book-open">
-    Look up definitions, pronunciations, and usage examples for any word without leaving your server.
+
+  <Card title="Rephrase" icon="pen-nib">
+    `/rephrase <text> [style]` rewrites your text in a different style while keeping the same meaning. Choose from Neutral, Professional, Formal, Friendly, Casual, or Concise.
   </Card>
-  <Card title="Timestamp Generator" icon="clock">
-    `/timestamp <date_time>` creates a Discord timestamp that displays in every user's own local time zone — perfect for event announcements.
-  </Card>
-  <Card title="Dice Roller" icon="dice">
-    `/roll [dice]` rolls dice using standard tabletop notation. Try `2d6`, `1d20`, or `1d20+5`.
+
+  <Card title="Summarize" icon="align-left">
+    `/summarize <text> [length]` condenses a text down to its key points. Choose Short, Medium (default), or Bullet points.
   </Card>
 </CardGroup>
 
-## OCR: Extract Text from Images
+All three work with text in **any language** — Moddy detects the input language automatically and replies in the same one.
 
-OCR (optical character recognition) lets you pull readable text out of an image posted in Discord — no external app needed.
+### Using AI Text Tools on Someone Else's Message
 
-To use it:
-
-<Steps>
-  <Step title="Find a message with an image">
-    Locate any message in Discord that contains an image you want to extract text from.
-  </Step>
-  <Step title="Open the context menu">
-    Right-click the message (or long-press on mobile) to open the message context menu.
-  </Step>
-  <Step title="Select Apps → Extract Text">
-    Hover over **Apps** in the context menu, then click **Extract Text**.
-  </Step>
-  <Step title="Read the extracted text">
-    Moddy replies with the extracted text in an ephemeral message — only you can see it.
-  </Step>
-</Steps>
+You don't have to copy-paste text into the slash command. Right-click (or long-press on mobile) any message, open **Apps**, and select **AI text tools** to open a pre-filled, ephemeral editor where you pick Fix, Rephrase, or Summarize — with the message's text already loaded in.
 
 <Note>
-  The OCR reply is ephemeral, meaning it's visible only to you and disappears when you dismiss it. No one else in the channel will see the extracted content.
+  The context-menu result is ephemeral (only you can see it), while running `/fix`, `/rephrase`, or `/summarize` directly posts the result visibly in the channel.
 </Note>
 
-## Timestamp Generator
+## Voice Transcription
 
-Use `/timestamp` to generate a Discord timestamp that automatically displays in each viewer's local time zone. No more "what time is that for me?" questions in your announcements.
+Turn a Discord voice message — or any audio attachment — into readable text.
 
-```
-/timestamp 2026-06-01 20:00
-```
+- **Anywhere:** right-click a voice message, open **Apps**, and select **Transcribe**. This works in servers, DMs, and anywhere Moddy is user-installed.
+- **In servers with the module enabled:** a **Transcribe** button appears directly under voice messages, so any member can trigger it with one click.
 
-Discord renders the output as a formatted, clickable timestamp — for example, **June 1, 2026 8:00 PM** — but each person who reads it sees the equivalent time in their own time zone.
+The finished transcription is posted publicly in the channel — including the detected language and the audio's duration — so the whole conversation can read it, not just the person who requested it.
 
-<Tip>
-  Always use `/timestamp` when announcing events, maintenance windows, or deadlines in your server. It eliminates time zone confusion instantly and keeps your community in sync no matter where members are located.
-</Tip>
+## Saving Messages
+
+Right-click any message, open **Apps**, and select **Save Message** to bookmark it. Saved messages are private to you and stay accessible even if the original message is later deleted or the channel becomes unreachable — a quick way to keep track of something important without pinning it for the whole server.
+
+## Extracting Emojis
+
+Right-click a message that uses custom emojis, open **Apps**, and select **Get Emojis** to get a clean, browsable list of every custom emoji used in it — handy for finding the source of an emoji you want to steal for your own server.
 
 ## Dice Roller
 
-Roll dice for tabletop RPGs, mini-games, or any time you need a fair random result. The `/roll` command supports standard dice notation.
+Roll a random number for tabletop games, giveaways, or any time you need a fair random pick.
 
-```
+```text
 /roll
+/roll max: 20
 ```
-Rolls a single six-sided die (d6).
 
-```
-/roll 2d6
-```
-Rolls two six-sided dice and returns the total.
+`/roll` with no options rolls a number between 1 and 6, like a standard die. Pass `max` to roll between 1 and any value up to 1,000,000 — for example, `max: 20` for a twenty-sided die.
 
-```
-/roll 1d20+5
-```
-Rolls a twenty-sided die and adds 5 to the result — useful for D&D ability checks.
-
-Moddy displays each individual die result alongside the total, so every roll is transparent and verifiable.
+<Tip>
+  Use the `incognito` option if you'd rather see the result privately instead of posting it to the channel.
+</Tip>

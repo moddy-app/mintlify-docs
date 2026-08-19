@@ -4,31 +4,37 @@ sidebarTitle: "Features"
 description: "See exactly what changes when you upgrade to Moddy Max — from unlimited AI and faster notifications to bot customization and VIP support."
 ---
 
-Upgrading to Moddy Max enhances several key areas of the bot: AutoMod AI gets faster with a higher quota, social notifications become near real-time, and you gain the ability to fully customize Moddy's appearance on your server. Core features like moderation cases, welcome messages, and utility commands remain available on every server regardless of plan.
+Moddy Max is intentionally narrow in scope: it enhances **bot customization** and **social notifications**. Everything else — moderation cases, AutoMod AI, welcome messages, AltGuard, Inter-Server, and all utility commands — runs identically on every server, free or premium.
 
 ## Feature Comparison
 
 | Feature | Free | Moddy Max |
-|---|---|---|
+| --- | --- | --- |
 | Servers with premium features | 0 | Up to 5 |
-| AutoMod AI | ✓ Standard speed | ✓ Faster, higher quota |
-| Social Notifications — accounts per platform | Limited | More accounts |
-| Social Notifications — polling speed | Standard | Near real-time |
-| Bot Customization (nickname, avatar, banner, bio) | ✗ | ✓ |
-| Premium badge | ✗ | ✓ |
-| VIP support | ✗ | ✓ (skip the queue) |
-| Welcome Messages | ✓ Up to 5 channels | ✓ Up to 5 channels |
+| Bot Customization — nickname, avatar, banner, bio | ✗ | ✓ |
+| Bot Customization — name style (font, effect, colours) | ✓ | ✓ |
+| Social Notifications — accounts per platform | 1 | 5 |
+| Social Notifications — YouTube polling | every 300s (5 min) | every 60s (1 min) |
+| Social Notifications — Twitch polling | every 120s (2 min) | every 30s |
+| Social Notifications — RSS polling | every 600s (10 min) | every 120s (2 min) |
+| Social Notifications — Bluesky polling | realtime | realtime |
+| AutoMod AI | ✓ full capability | ✓ full capability (no difference) |
 | Moderation Cases | ✓ | ✓ |
-| Utility commands | ✓ | ✓ |
+| Welcome Messages — up to 5 channels | ✓ | ✓ |
+| AltGuard, Inter-Server, all utility commands | ✓ | ✓ |
+
+<Note>
+  Moddy Max does not currently change AutoMod AI's speed, quota, or accuracy — automatic moderation runs exactly the same regardless of your plan. If that ever changes, this page will be updated to reflect it.
+</Note>
 
 ## Bot Customization
 
-With Moddy Max, you can change Moddy's nickname, avatar, banner, and bio on each of your premium servers, making the bot feel native to your community's brand. Whether you want Moddy to blend in with a custom name or stand out with a unique avatar, full customization gives you complete control over how the bot presents itself to your members.
+With Moddy Max, you can change Moddy's nickname, avatar, banner, and bio on each of your premium servers, making the bot feel native to your community's brand. The name-style customization (fonts, effects, colours applied to the default name) stays available for free — Moddy Max additionally unlocks a genuinely custom identity: a different nickname, avatar, and banner altogether.
 
-## VIP Support
+## Social Notifications
 
-Moddy Max subscribers get priority access to the Moddy support team. Join the support Discord at [moddy.app/support](https://moddy.app/support) — your VIP role will be applied automatically once your subscription is detected. With VIP access, your support requests are handled ahead of the general queue so you can get back to running your server faster.
+Moddy Max raises both limits that matter for a busy content-tracking setup: you can follow **5 accounts per platform** instead of 1, and Moddy polls YouTube, Twitch, and RSS **significantly faster** — Bluesky is realtime on every plan already, so there's nothing to speed up there. See the [Social Notifications module page](/modules/social-notifications) for the full breakdown.
 
 <Note>
-  Moddy is always improving — new features and plan enhancements are added regularly. Visit [moddy.app](https://moddy.app) for the latest information on what's included with each plan.
+  Moddy is always improving — if new plan differences are added, they'll show up on this page and in the [module docs](/modules/overview) they affect. For anything not listed above, assume free and Moddy Max behave identically.
 </Note>

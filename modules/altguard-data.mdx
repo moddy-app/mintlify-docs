@@ -1,0 +1,66 @@
+---
+title: "What AltGuard Checks, and What Happens to That Data"
+sidebarTitle: "AltGuard Data"
+description: "A plain-language look at what AltGuard's verification actually collects, why, how long it sticks around, and how a member can ask for it to be erased."
+---
+
+When someone joins a server with AltGuard enabled, they're asked to go through a short verification step before they get full access. This article walks through what that step actually looks at, why, and what happens to the data afterward — useful if a member asks you about it, or if you're just curious what you're turning on for your server.
+
+<Info>
+  Version 2026-08-18b of the underlying data notice, the same one linked from the consent screen members see before verifying.
+</Info>
+
+## What Gets Looked At
+
+Four signals feed into the verification, each kept for a different length of time:
+
+<CardGroup cols={2}>
+  <Card title="Browser Characteristics & a Technical Cookie" icon="fingerprint">
+    Recognizes a device or browser that's already been seen — the core signal for catching a second account brought into the same server.
+
+    **Kept for:** 18 months of inactivity
+  </Card>
+
+  <Card title="Email Address (via Discord)" icon="envelope">
+    Catches an account reusing the same mailbox. Stored encrypted — nobody reads it except on a legitimate, logged request.
+
+    **Kept for:** 18 months of inactivity
+  </Card>
+
+  <Card title="IP Address" icon="network-wired">
+    A weaker correlation signal on its own. Never kept in clear text — only as a one-way fingerprint that can't be reversed back into an IP.
+
+    **Kept for:** 90 days
+  </Card>
+
+  <Card title="Which Discord Servers You're In (via Discord)" icon="server">
+    Used to measure how much two accounts' server lists overlap. Also kept only as one-way fingerprints — never as a readable list of server names or ids.
+
+    **Kept for:** 180 days
+  </Card>
+</CardGroup>
+
+<Card title="Proof That Consent Was Given" icon="file-signature">
+  Just the date and the version of the notice someone agreed to, kept apart from everything above as evidence the collection was authorized.
+
+  **Kept for:** 3 years
+</Card>
+
+## Why It's Collected — and What the Bot Never Sees
+
+The whole point is spotting multiple accounts landing in the same server, nothing else — none of this is sold or used for advertising. The signals above are converted into one-way fingerprints right away, so what actually crosses back over to Discord is never the raw data itself: your server and Moddy only ever get a verdict — **passed**, **flagged**, or **blocked** — plus a score.
+
+That's a deliberate design choice that runs all the way through: Moddy itself never touches a fingerprint, an email, an IP, or a server list at any point. See the [AltGuard module guide](/modules/altguard) for how the rest of the gate works.
+
+## If a Member Wants Their Data Gone
+
+Anyone who's gone through verification can:
+
+- **Ask what's stored** about them.
+- **Ask for it to be erased.**
+- **Withdraw consent**, at any time, no explanation needed.
+- **Ask for a correction** — though since most of what's stored is one-way fingerprints rather than raw data, correcting something in practice means erasing it and verifying again.
+
+Withdrawing consent doesn't undo a verification that already happened, but it does wipe the fingerprints and verified-membership records. The one thing that stays is the proof-of-consent record itself, kept as evidence for the 3 years mentioned above.
+
+Requests like these go through your server's staff first, who pass them along to the team running the verification service.

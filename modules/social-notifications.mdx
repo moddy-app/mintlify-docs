@@ -12,12 +12,15 @@ The Social Notifications module keeps your community informed without anyone hav
   <Card title="YouTube" icon="youtube">
     Get notified when a followed channel publishes a new video or goes live.
   </Card>
+
   <Card title="Twitch" icon="twitch">
     Receive an alert the moment a followed streamer goes live on Twitch.
   </Card>
+
   <Card title="Bluesky" icon="cloud">
     Follow a Bluesky account and post new entries directly in your server.
   </Card>
+
   <Card title="RSS" icon="rss">
     Follow any RSS feed — news sites, blogs, podcasts — and surface new articles automatically.
   </Card>
@@ -46,19 +49,33 @@ The Social Notifications module keeps your community informed without anyone hav
   </Step>
 </Steps>
 
-## Custom Notification Messages
+## Customizing Notifications
 
-For each followed account, you can write a custom message that Moddy posts alongside the notification. Use this to add context, ping a role, or add a personal touch — for example, `@everyone A new video just dropped! 🎬`. The custom message appears in the chosen channel each time new content is detected for that account.
+Each followed account has its own set of display options, editable from its **Manage** screen in `/config`:
+
+- **Custom message** — text posted alongside the notification card, for a personal touch or extra context (for example, `A new video just dropped! 🎬`).
+- **Role mentions** — choose one or more roles to ping every time this specific account posts.
+- **Accent color** — set a custom color for the notification card, or leave it to use the platform's default (YouTube red, Twitch purple, etc.).
+- **Avatar & media** — toggle whether the account's profile picture and a large media preview (thumbnail, video embed) are shown on the card.
+
+These settings are per-followed-account, so you can, for example, ping `@Streamers` for one Twitch channel and keep another silent.
 
 ## Free vs Moddy Max
 
-The speed at which Moddy checks for new content depends on your plan. If real-time notifications matter to your community, [Moddy Max](https://moddy.app) gives you a significantly faster experience.
+The speed at which Moddy checks for new content, and how many accounts you can follow per platform, depend on your plan:
 
-| Feature | Free | Moddy Max |
-|---|---|---|
-| Polling speed | Standard (slower checks) | Fast (near real-time) |
-| Accounts per platform | Limited | More accounts per platform |
-| Supported platforms | YouTube, Twitch, Bluesky, RSS | YouTube, Twitch, Bluesky, RSS |
+| Platform | Free polling | Moddy Max polling |
+| --- | --- | --- |
+| YouTube | every 300s (5 min) | every 60s (1 min) |
+| Twitch | every 120s (2 min) | every 30s |
+| RSS | every 600s (10 min) | every 120s (2 min) |
+| Bluesky | realtime | realtime |
+
+Accounts per platform: **1** on the free plan, **5** on [Moddy Max](/premium/overview) — this applies per platform, so a free server could follow 1 YouTube channel, 1 Twitch streamer, 1 Bluesky account, and 1 RSS feed at the same time.
+
+<Note>
+  When several servers follow the same account, Moddy always polls at the fastest interval any of them qualifies for — a free server benefits from a premium server's faster polling on a shared target, at no extra cost to either.
+</Note>
 
 <Tip>
   Keep your notification posts organized by using a dedicated channel like `#announcements` or `#content-feed`. This prevents social updates from getting lost in general chat and makes it easy for members to find the content they're interested in.
