@@ -116,5 +116,21 @@
   },
   "fonts": {
     "family": "Google Sans"
+  },
+  "banner": {
+    "content": "Moddy is currently under active development and will likely not be ready before **late August 2026**. Stay tuned for updates!",
+    "dismissible": true,
+    "type": "info"
+  },
+  "metadata": {
+    "timestamp": true
+  },
+  "styling": {
+    "eyebrows": "section"
+  },
+  "errors": {
+    "404": {
+      "redirect": false
+    }
   }
 }
