@@ -1,0 +1,79 @@
+---
+title: "Commandes slash Moddy : référence complète de toutes les fonctionnalités"
+sidebarTitle: "Vue d'ensemble"
+description: "Toutes les commandes slash de Moddy au même endroit — découvrez ce que fait chaque commande, ses paramètres obligatoires et facultatifs, et consultez des exemples à copier-coller."
+---
+
+Moddy utilise exclusivement les commandes slash de Discord. Tapez `/` dans n'importe quelle zone de message Discord pour voir la liste. Chaque commande est auto-documentée : Discord affiche chaque paramètre, s'il est obligatoire, et une courte description avant que vous ne validiez.
+
+<CardGroup cols={2}>
+  <Card title="Modération" icon="gavel" href="/commands/moderation">
+    `/ban`, `/kick`, `/mute`, `/warn`, ainsi que les navigateurs `/cases` et `/mycases`.
+  </Card>
+
+  <Card title="Utilitaires" icon="wrench" href="/commands/utilities">
+    Traduction, outils IA de texte, rappels, messages enregistrés, dés, préférences.
+  </Card>
+
+  <Card title="Informations" icon="magnifying-glass" href="/commands/information">
+    Consultez les utilisateurs, avatars, bannières, invitations, emojis et webhooks.
+  </Card>
+
+  <Card title="Configuration" icon="gear" href="/commands/configuration">
+    `/config` pour configurer les modules de votre serveur.
+  </Card>
+
+  <Card title="Modules et menus" icon="puzzle-piece" href="/commands/module-commands">
+    Commandes spécifiques aux modules, plus les cinq menus Apps du clic droit.
+  </Card>
+</CardGroup>
+
+## Commandes globales vs commandes de serveur
+
+Les **commandes globales** fonctionnent partout — dans vos MP avec Moddy, dans n'importe quel serveur que vous partagez avec Moddy, et même dans les serveurs qui n'ont pas ajouté Moddy. Elles ne dépendent d'aucune configuration serveur.
+
+Exemples : `/translate`, `/ping`, `/user`, `/roll`, `/mycases`, `/fix`
+
+Les **commandes de serveur** ne fonctionnent qu'à l'intérieur d'un serveur où Moddy est installé. Elles interagissent avec des données propres au serveur comme les cas, la configuration et les modules.
+
+Exemples : `/config`, `/cases`, `/ban`, `/altguard verify`
+
+## Deux conventions à connaître
+
+<AccordionGroup>
+  <Accordion title="Les réponses sont privées par défaut">
+    La plupart des commandes acceptent une option `incognito`. Laissez-la vide et Moddy utilise votre préférence enregistrée dans `/preferences` — qui est **privée** par défaut, afin que personne d'autre ne voie la sortie de votre commande. Définissez `incognito:false` pour publier la réponse visiblement dans le salon.
+
+    La seule exception délibérée est le menu clic droit **Transcribe**, qui est public par conception afin que tout le salon puisse lire une note vocale.
+  </Accordion>
+
+  <Accordion title="Les menus du clic droit n'apparaissent pas dans le sélecteur /">
+    Cinq des fonctionnalités de Moddy vivent dans le menu contextuel **Apps** de Discord plutôt que dans le sélecteur de commandes slash : **AI text tools**, **Translate**, **Transcribe**, **Save Message** et **Get Emojis**. Faites un clic droit sur n'importe quel message (ou un appui long sur mobile) et survolez **Apps** pour les trouver. Voir [Modules et menus](/commands/module-commands).
+  </Accordion>
+</AccordionGroup>
+
+## Liste complète des commandes
+
+| Commande | Ce qu'elle fait | Où |
+| --- | --- | --- |
+| `/ban` `/kick` `/mute` `/warn` | Sanctionne jusqu'à 10 membres avec un motif et des preuves | Serveur |
+| `/cases` | Parcourir et gérer les cas de modération de votre serveur | Serveur |
+| `/mycases` | Consulter votre propre historique de modération | Partout |
+| `/config` | Activer et configurer les modules de Moddy | Serveur |
+| `/translate` | Traduire du texte dans 25 langues | Partout |
+| `/fix` `/rephrase` `/summarize` | Assistants d'écriture IA | Partout |
+| `/reminder-add` `/reminders` | Définir et gérer des rappels personnels | Partout |
+| `/library` | Parcourir vos messages enregistrés | Partout |
+| `/roll` | Tirer un nombre aléatoire | Partout |
+| `/preferences` | Votre confidentialité par défaut et votre fuseau horaire | Partout |
+| `/subscription` | Votre statut Moddy Max | Partout |
+| `/ping` `/moddy` | Latence du bot et informations générales sur Moddy | Partout |
+| `/user` `/avatar` `/banner` | Consulter le profil, l'avatar ou la bannière d'un utilisateur Discord | Partout |
+| `/invite` `/emoji` `/webhook` | Inspecter une invitation, un emoji personnalisé ou un webhook | Partout |
+| `/altguard verify` `/altguard unverify` | Contourner manuellement la barrière AltGuard pour un membre | Serveur |
+| `/interserver report` `/interserver info` | Signaler ou consulter un message relayé | Serveur |
+| `/view-saved-roles` `/clear-saved-roles` | Gérer les rôles stockés pour les membres qui reviennent | Serveur |
+
+<Tip>
+  Toutes les commandes de Moddy sont des commandes slash. Il n'existe pas de commandes à préfixe comme `!warn` ou `!ban` — chaque interaction commence par `/` ou un clic droit.
+</Tip>

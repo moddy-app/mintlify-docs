@@ -1,0 +1,66 @@
+---
+title: "Inicio rápido: añade Moddy a tu servidor de Discord hoy mismo"
+sidebarTitle: "Inicio rápido"
+description: "Añade Moddy a tu servidor de Discord, inicia sesión en el panel, activa tu primer módulo e invita a tu equipo de moderación — todo en unos minutos."
+---
+
+Moddy está listo para usar en cuanto lo añades a tu servidor. Esta página te guía para añadir el bot, iniciar sesión en el panel, activar tu primer módulo y sumar a tu equipo de moderación.
+
+<Steps>
+  <Step title="Añade Moddy a tu servidor">
+    Abre la [página de Moddy en el Directorio de aplicaciones de Discord](https://discord.com/application-directory/1375596170713239622) y haz clic en **Añadir al servidor**. Selecciona el servidor al que quieres añadir Moddy y confirma los permisos solicitados.
+
+    <Note>
+      Moddy funciona mejor con el permiso de **Administrador**. Si prefieres una configuración más restringida, otorga como mínimo: **Gestionar mensajes**, **Gestionar roles**, **Banear miembros**, **Expulsar miembros** y **Moderar miembros**. La falta de permisos puede impedir que ciertas funciones se comporten correctamente.
+    </Note>
+  </Step>
+  <Step title="Abre el panel">
+    Ve a [dashboard.moddy.app](https://dashboard.moddy.app) y haz clic en **Log in with Discord**. Tras autenticarte, selecciona el servidor al que acabas de añadir Moddy. Llegarás a la página de resumen del servidor, donde tienes todas las opciones de configuración disponibles.
+  </Step>
+  <Step title="Configura tu primer módulo">
+    Desde el panel, ve a la sección **Módulos** y activa **Mensajes de bienvenida** para saludar a los nuevos miembros, o activa **AutoMod** para empezar a filtrar contenido dañino con moderación por IA.
+
+    ¿Prefieres quedarte en Discord? Escribe `/config` en cualquier canal del servidor para abrir un panel de configuración nativo y activar o ajustar módulos sin salir de la aplicación.
+  </Step>
+  <Step title="Invita a tu equipo">
+    Comparte Moddy con tus moderadores para que puedan gestionar casos y ejecutar comandos de moderación. Los miembros del equipo necesitan el permiso **Gestionar servidor** en Discord para acceder a `/config` y a los ajustes del servidor. Cualquier miembro puede consultar su propio historial de moderación en todos los servidores con `/mycases`; los moderadores con el permiso **Gestionar mensajes** (por defecto — ajustable por rol en **Ajustes del servidor → Integraciones**) pueden revisar y actuar sobre los casos de tu servidor con `/cases`.
+  </Step>
+</Steps>
+
+## Problemas comunes en la primera configuración
+
+<AccordionGroup>
+  <Accordion title="Moddy no responde a los comandos slash">
+    Discord puede tardar unos minutos en registrar los comandos slash de un bot después de añadirlo a un servidor. Si los comandos siguen sin aparecer tras 10 minutos, prueba a expulsar y volver a invitar a Moddy, o consulta la [página de estado](https://status.moddy.app) por si hay una incidencia en curso.
+  </Accordion>
+
+  <Accordion title="Un módulo no se activa desde /config">
+    `/config` solo muestra opciones para los permisos que tú y el bot realmente tenéis. Si un módulo necesita un permiso que a Moddy le falta (por ejemplo, Gestionar roles para AltGuard, o Gestionar webhooks para Notificaciones de redes sociales), otórgaselo al rol de Moddy en **Ajustes del servidor → Roles** e inténtalo de nuevo.
+  </Accordion>
+
+  <Accordion title="No veo mi servidor en el panel">
+    El panel solo muestra los servidores en los que tienes el permiso **Gestionar servidor** _y_ donde Moddy ya está instalado. Comprueba ambas condiciones — consulta la [guía del panel](/getting-started/dashboard) para más detalles.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Moddy está en desarrollo activo. Publicamos nuevas funciones, módulos y mejoras con regularidad. Consulta el [servidor de soporte](https://moddy.app/support) para ver los últimos anuncios y compartir tus comentarios con el equipo.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Guía del panel" icon="browser" href="/getting-started/dashboard">
+    Aprende a navegar y usar el panel web de Moddy para configurar tu servidor.
+  </Card>
+
+  <Card title="Visión general de la moderación" icon="shield-halved" href="/moderation/cases">
+    Comprende cómo funcionan los casos de moderación, las sanciones y las apelaciones en Moddy.
+  </Card>
+
+  <Card title="Visión general de los módulos" icon="puzzle-piece" href="/modules">
+    Explora Mensajes de bienvenida, AutoMod, Notificaciones de redes sociales, AltGuard y más.
+  </Card>
+
+  <Card title="Referencia de comandos" icon="terminal" href="/commands">
+    Consulta todos los comandos que admite Moddy, con ejemplos de uso y notas sobre permisos.
+  </Card>
+</CardGroup>

@@ -1,0 +1,63 @@
+---
+title: "Traduire du texte dans Discord avec la commande /translate de Moddy"
+sidebarTitle: "Traduction"
+description: "Utilisez la commande /translate de Moddy pour traduire instantanément du texte dans des dizaines de langues — avec la détection automatique de la langue source intégrée."
+---
+
+La commande `/translate` vous permet de traduire n'importe quel texte dans la langue de votre choix sans quitter Discord. Moddy détecte toujours automatiquement la langue source — impossible de la forcer manuellement — vous choisissez donc uniquement la langue _vers laquelle_ vous voulez traduire le résultat. Elle est disponible globalement, ce qui signifie que vous pouvez l'utiliser en DM ou sur n'importe quel serveur, sans configuration requise.
+
+## Utilisation
+
+```text
+/translate text: <text> [to] [incognito]
+```
+
+<ParamField path="text" type="string" required>
+  Le texte que vous souhaitez traduire.
+</ParamField>
+
+<ParamField path="to" type="string">
+  La langue cible, choisie dans une liste déroulante fixe (voir ci-dessous). Si vous la laissez vide, Moddy traduit dans la langue de votre propre client Discord.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Indique si le résultat est visible uniquement par vous. Si non défini, Moddy utilise votre préférence enregistrée.
+</ParamField>
+
+## Langues prises en charge
+
+`to` est une liste déroulante, pas du texte libre — choisissez parmi :
+
+Anglais (US), Anglais (UK), Français, Allemand, Espagnol, Italien, Portugais, Portugais (Brésil), Néerlandais, Polonais, Russe, Japonais, Chinois, Coréen, Turc, Suédois, Danois, Norvégien, Finnois, Grec, Tchèque, Roumain, Hongrois, Ukrainien et Bulgare.
+
+## Exemples
+
+```text
+/translate text: Hello world to: 🇫🇷 Français
+```
+
+Traduit "Hello world" en français → _Bonjour le monde_
+
+```text
+/translate text: Bonjour tout le monde to: 🇺🇸 English (US)
+```
+
+Traduit l'expression française en anglais → _Hello everyone_
+
+```text
+/translate text: こんにちは
+```
+
+Aucun `to` fourni — Moddy traduit dans la langue définie sur votre client Discord.
+
+## Où ça fonctionne
+
+`/translate` est une **commande globale** — vous pouvez l'exécuter dans l'un ou l'autre de ces endroits :
+
+- **En DM avec Moddy** — ouvrez un message direct avec Moddy et tapez la commande
+- **N'importe quel serveur** — même les serveurs où Moddy n'est pas installé comme bot
+- **Votre propre serveur** — fonctionne de la même façon sans configuration supplémentaire
+
+<Tip>
+  Faites un clic droit sur un message et utilisez l'entrée du menu contextuel **Traduire** pour le traduire instantanément, sans avoir à taper le texte dans la commande slash vous-même.
+</Tip>

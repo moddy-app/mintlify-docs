@@ -1,0 +1,242 @@
+---
+title: "Politique de confidentialité de Moddy : collecte, utilisation et vos droits"
+sidebarTitle: "Politique de confidentialité"
+description: "Découvrez quelles données Moddy collecte et ne collecte pas, comment elles sont utilisées, combien de temps elles sont conservées, et comment demander l'accès ou la suppression."
+---
+
+La présente Politique de confidentialité décrit les pratiques de Moddy concernant la collecte, l'utilisation, le stockage et la protection des données personnelles, conformément au Règlement général sur la protection des données (RGPD) et aux lois applicables en matière de protection des données.
+
+<Info>
+  **Dernière mise à jour : 29 décembre 2025.**
+</Info>
+
+## Responsable du traitement
+
+**Moddy.** Pour toute demande ou question, voir la section [Contact](#contact) à la fin de ce document.
+
+## Données personnelles collectées
+
+### Données collectées automatiquement
+
+Lors de l'utilisation de nos services, nous collectons automatiquement :
+
+- **Identifiants Discord** : ID utilisateur, ID serveur, ID salon
+- **Informations de profil Discord** : nom d'utilisateur, nom du serveur, avatars
+- **Données de journalisation** : journaux d'erreur, informations techniques, contexte d'exécution des commandes
+- **Données d'utilisation** : interactions avec le bot, commandes exécutées, événements système
+- **Télémétrie des appels d'API** : pour les fonctionnalités qui font appel à un fournisseur d'IA externe, nous enregistrons le fournisseur, le modèle, le nombre de tokens, le coût, ainsi que l'ID du serveur et de l'utilisateur associés
+
+<Note>
+  Moddy lui-même ne collecte jamais votre adresse e-mail. Le seul flux impliquant un e-mail est la [vérification AltGuard](/modules/altguard-data), où votre adresse e-mail Discord est transmise **au service de vérification externe** — jamais au bot — et uniquement après que vous ayez explicitement consenti.
+</Note>
+
+### Données collectées lorsque vous utilisez une fonctionnalité
+
+Certaines fonctionnalités stockent des données uniquement lorsque vous les utilisez activement :
+
+| Données | Ce qui est stocké | Limite |
+| --- | --- | --- |
+| **Messages enregistrés** | Les données complètes du message, y compris contenu, métadonnées et URL des pièces jointes | 500 par utilisateur |
+| **Rappels personnalisés** | Contenu, date, heure et identifiants associés | 50 par utilisateur |
+| **Messages inter-serveurs** | Contenu, auteur, serveur d'origine, statut de diffusion | — |
+| **Rôles Discord enregistrés** | Liste des identifiants de rôles (si le module est activé) | — |
+| **Cas de modération** | Sanctions, preuves, motifs, notes, historique complet | — |
+| **Appels de sanctions** | Le motif d'appel que vous rédigez, son parcours et son statut | — |
+| **Abonnements aux notifications sociales** | Comptes suivis, modèles de messages personnalisés, ID de celui qui les a ajoutés | — |
+| **Enregistrements de vérification AltGuard** | Le verdict, le score et les motifs renvoyés par le service de vérification, plus votre statut de barrière sur ce serveur | — |
+
+### Données collectées par la modération automatisée
+
+<Warning>
+  Contrairement aux fonctionnalités ci-dessus, la modération automatique par IA fonctionne **sans action par message de votre part**. Lorsqu'elle est activée par un serveur, le contenu des messages peut être lu et stocké comme décrit ci-dessous. Elle ne fonctionne que dans les serveurs, jamais en MP.
+</Warning>
+
+Lorsque la modération automatique par IA est activée sur un serveur :
+
+- **Le contenu des messages est analysé.** Le texte que l'entonnoir de détection escalade est envoyé à OpenAI pour embedding et classification.
+- **Les messages sanctionnés sont stockés comme preuves** sur le cas de modération résultant, avec un instantané du contexte du salon environnant (jusqu'à 15 messages, qui peuvent inclure des messages d'autres membres), le nom de l'auteur, et un lien de saut.
+- **Un corpus d'évaluation de qualité** peut conserver le contenu du message, son contexte et le verdict, afin que la précision de détection puisse être mesurée et améliorée.
+- **Les précédents de serveur** conservent une copie normalisée du texte du message modéré et son embedding, par serveur, afin que les décisions futures restent cohérentes avec la manière dont vos modérateurs jugent réellement. Ce stockage est plafonné à 500 entrées par serveur, les plus anciennes étant évincées.
+
+Séparément, la **détection de fuite de tokens Discord** scanne les messages à la recherche de tokens Discord divulgués. Lorsqu'un est trouvé, le token est stocké chiffré (AES-256-GCM) avec une copie masquée du message et les noms de l'auteur, du serveur et du salon, afin que le propriétaire puisse être alerté et le token invalidé.
+
+### Données de configuration et de préférences
+
+- **Attributs utilisateur** : statuts comme BETA, PREMIUM, DEVELOPER, et attributs d'identité comme TEAM ou marqueurs d'organisation vérifiée
+- **Configuration personnalisée** : préférences d'utilisation, paramètres du bot
+- **Configuration du serveur** : modules activés, salons configurés, préfixes personnalisés et personnalisation du bot (références au pseudo, à la bio, à l'avatar et à la bannière par serveur)
+
+<Note>
+  Les sanctions au niveau plateforme émises par l'équipe Moddy ne sont **plus stockées en tant qu'attribut utilisateur**. Elles sont enregistrées comme des cas de modération ordinaires à l'un des trois niveaux — avertissement global, limité ou suspendu — et peuvent cibler un utilisateur ou un serveur entier. Cela remplace l'ancien statut « BLACKLISTED » décrit dans les versions antérieures de cette politique.
+</Note>
+
+### Données de paiement
+
+Via notre prestataire de paiement Stripe, nous traitons les informations de paiement (numéro de carte tokenisé, nom du titulaire, adresse de facturation), l'historique des transactions (montants, dates, statuts), et les références client et transaction Stripe.
+
+<Warning>
+  Les informations de paiement sensibles (numéros de carte complets, CVV) ne sont **jamais** stockées dans notre infrastructure. Elles sont traitées et sécurisées directement par Stripe.
+</Warning>
+
+### Cookies et données de navigation (site web)
+
+Notre site web peut utiliser des cookies techniques nécessaires à son fonctionnement, des cookies d'analyse (Google Analytics) pour mesurer l'audience, et des cookies de préférences retenant vos choix. Vous pouvez configurer vos préférences de cookies via les paramètres de votre navigateur.
+
+## Finalité du traitement des données
+
+Vos données personnelles sont traitées aux finalités suivantes :
+
+- **Fourniture du service** : exécution des commandes, gestion des fonctionnalités, modération
+- **Gestion du compte** : authentification, préférences utilisateur, abonnements
+- **Traitement des paiements** : gestion des transactions, facturation, prévention de la fraude
+- **Support client** : assistance technique, résolution de problèmes, traitement des demandes
+- **Amélioration du service** : analyse de performance, correction d'erreurs, précision de la modération, développement de nouvelles fonctionnalités
+- **Sécurité** : prévention des abus, détection d'activité suspecte, alertes de fuite d'identifiants, application des règles
+- **Obligations légales** : réponse aux demandes des autorités, conformité réglementaire
+- **Communications** : notifications essentielles, mises à jour du service
+
+## Partage des données avec des prestataires tiers
+
+Nous travaillons avec des prestataires tiers pour fournir et améliorer nos services. Ces prestataires traitent vos données selon nos instructions et sont soumis à des obligations strictes de confidentialité :
+
+| Prestataire | À quoi il sert |
+| --- | --- |
+| **Railway** | Hébergement de l'infrastructure, base de données PostgreSQL, Redis, services backend |
+| **Vercel** | Hébergement du site web |
+| **Discord** | La plateforme sur laquelle le bot fonctionne (collecte automatique d'identifiants et métadonnées) |
+| **Sentry** | Surveillance des erreurs et des performances (reçoit les journaux d'erreur avec le contexte technique) |
+| **Stripe** | Traitement des paiements, gestion des abonnements |
+| **OpenAI** | Modération automatique par IA, et les outils de texte `/fix`, `/rephrase`, `/summarize` |
+| **DeepL** | La commande `/translate` |
+| **Groq** | Transcription de messages vocaux (reçoit l'audio brut du message transcrit) |
+| **Service de vérification AltGuard** | Vérification anti multi-comptes — voir la [notice dédiée](/modules/altguard-data) |
+| **moddy-feeds** | Interroge YouTube, Twitch, Bluesky et RSS pour le compte de votre serveur pour les notifications sociales |
+| **Tally** | Soumissions de formulaires, lorsque vous choisissez de remplir un formulaire Moddy |
+| **Google Analytics** _(si activé)_ | Analyse d'audience et statistiques de navigation sur notre site web |
+
+### Avertissement important sur les services externes
+
+<Warning>
+  **Les données transmises aux services de traitement de contenu ne sont pas anonymisées.** Cela s'applique à OpenAI, DeepL, Groq et à tout service comparable.
+
+  Les identifiants Discord peuvent être anonymisés ou remplacés par des références opaques lors de la transmission, mais **le contenu que vous soumettez — texte de message, traductions, requêtes et enregistrements vocaux — est transmis tel quel**.
+
+  **Certaines données envoyées à l'API OpenAI peuvent être utilisées par OpenAI pour entraîner et améliorer ses modèles**, conformément à leurs conditions d'utilisation.
+
+  N'incluez jamais d'informations personnelles, confidentielles ou sensibles dans vos requêtes aux services de traduction, IA, transcription ou traitement de contenu. Cela inclut, sans s'y limiter : mots de passe, informations bancaires, informations médicales, et documents professionnels ou personnels confidentiels.
+</Warning>
+
+## Durée de conservation des données
+
+**Les données personnelles collectées sont conservées indéfiniment** jusqu'à ce que soit une suppression manuelle effectuée par notre équipe technique, soit une demande explicite de suppression de votre part dans le cadre de l'exercice de votre droit à l'effacement.
+
+Voici les exceptions avec une conservation **plus courte et automatique** :
+
+- **Enregistrements de tokens divulgués** — le token chiffré est purgé après 24 heures, ou immédiatement une fois invalidé
+- **Précédents de serveur** utilisés par la modération automatique — plafonnés à 500 entrées par serveur, les plus anciennes évincées en premier
+- **Données de vérification AltGuard** — conservées par le service de vérification externe selon son propre calendrier, détaillé dans la [notice de données AltGuard](/modules/altguard-data) (90 jours à 18 mois selon le signal, 3 ans pour la preuve de consentement)
+
+## Sécurité et confidentialité des données
+
+### Mesures techniques de sécurité
+
+- **Chiffrement en transit** : toutes les communications entre nos services utilisent HTTPS/TLS
+- **Chiffrement au repos** : données chiffrées dans nos bases de données selon les standards Railway ; les tokens divulgués sont en plus chiffrés avec AES-256-GCM
+- **Aucun stockage de fichiers en local** : les fichiers ne sont jamais écrits sur disque sur nos serveurs. L'audio soumis pour transcription transite dans notre processus en mémoire uniquement et est diffusé directement au prestataire de transcription ; pour les messages enregistrés et les preuves, seules les URL hébergées sur le CDN de Discord sont conservées.
+
+### Contrôle d'accès
+
+- **Accès à la base de données** : réservé exclusivement aux développeurs et responsables Moddy
+- **Équipe de support** : n'a pas d'accès direct à la base de données, mais peut consulter certaines informations dans le cadre du support client
+- **Données Stripe** : notre équipe n'a pas accès aux informations de paiement complètes stockées par Stripe
+
+### Engagement de non-commercialisation
+
+<Note>
+  **Moddy ne vend jamais vos données personnelles à des tiers.** Vos informations ne sont partagées qu'avec les prestataires nécessaires au fonctionnement de notre plateforme, tels que listés dans [Partage des données avec des prestataires tiers](#data-sharing-with-third-party-providers).
+</Note>
+
+### Notification d'incident de sécurité
+
+En cas de violation de données personnelles susceptible d'engendrer un risque pour vos droits et libertés, nous nous engageons à :
+
+- Notifier l'autorité de contrôle compétente (CNIL en France) dans les **72 heures** suivant la découverte de l'incident
+- Vous informer dans les meilleurs délais par e-mail ou via notre serveur Discord
+- Communiquer la nature de la violation, les mesures prises et les recommandations pour atténuer les risques
+
+## Données non collectées
+
+Moddy ne collecte **jamais** :
+
+- Les mots de passe personnels (sauf l'authentification Discord)
+- Les données de géolocalisation GPS précises
+- L'historique de navigation web
+- Les carnets d'adresses ou contacts personnels
+- Les données biométriques
+- Le contenu de vos messages privés, sauf lorsque vous enregistrez explicitement un message vous-même
+
+<Warning>
+  **Une exception concernant les adresses IP.** Le bot Moddy ne collecte ni ne stocke d'adresses IP. Cependant, si un serveur que vous rejoignez utilise **AltGuard**, le service de vérification externe traite votre adresse IP dans le cadre du contrôle — jamais en clair, uniquement sous forme d'empreinte non réversible, et uniquement après que vous ayez explicitement consenti sur l'écran de vérification. Le bot ne la reçoit jamais. Voir la [notice de données AltGuard](/modules/altguard-data) pour tous les détails.
+</Warning>
+
+## Vos droits (RGPD)
+
+Conformément au RGPD, vous disposez des droits suivants concernant vos données personnelles :
+
+- **Droit d'accès** : obtenir la confirmation que vos données sont traitées et en recevoir une copie
+- **Droit de rectification** : demander la correction de données inexactes ou incomplètes
+- **Droit à l'effacement** (droit à l'oubli) : obtenir la suppression de vos données personnelles
+- **Droit à la limitation du traitement** : demander la limitation du traitement dans certaines circonstances
+- **Droit à la portabilité des données** : recevoir vos données dans un format structuré, couramment utilisé et lisible par machine
+- **Droit d'opposition** : vous opposer au traitement de vos données pour des raisons tenant à votre situation particulière
+- **Droit de retirer le consentement** : lorsque le traitement est fondé sur votre consentement
+- **Droit d'introduire une réclamation** : déposer une réclamation auprès de l'autorité de contrôle compétente (CNIL en France)
+
+Nous nous engageons à répondre à toute demande dans un délai maximum d'**un mois** à compter de sa réception. Ce délai peut être prolongé de deux mois supplémentaires pour une demande complexe, auquel cas vous serez informé de la prolongation.
+
+## Transferts internationaux de données
+
+Dans le cadre de la fourniture de nos services, vos données personnelles peuvent être transférées et traitées dans des pays hors de l'Espace économique européen (EEE), notamment aux États-Unis.
+
+Ces transferts sont effectués vers les prestataires listés dans [Partage des données avec des prestataires tiers](#data-sharing-with-third-party-providers).
+
+Nous nous assurons que ces transferts sont effectués conformément aux mécanismes juridiques appropriés prévus par le RGPD, notamment les Clauses contractuelles types (CCT) approuvées par la Commission européenne, les décisions d'adéquation pour certains pays, et les garanties appropriées spécifiques aux prestataires.
+
+## Base légale du traitement
+
+Le traitement de vos données personnelles repose sur les bases légales suivantes :
+
+- **Exécution du contrat** : fourniture des services demandés (Article 6.1.b RGPD)
+- **Consentement** : lorsque vous acceptez explicitement certains traitements, comme la vérification AltGuard (Article 6.1.a RGPD)
+- **Intérêt légitime** : amélioration du service, sécurité, prévention de la fraude (Article 6.1.f RGPD)
+- **Obligation légale** : conformité réglementaire, réponses aux autorités (Article 6.1.c RGPD)
+
+## Modifications de la Politique de confidentialité
+
+Moddy se réserve le droit de modifier la présente Politique de confidentialité à tout moment pour refléter les évolutions de nos pratiques, services ou obligations légales.
+
+Toute modification substantielle sera publiée sur cette page avec une date mise à jour, notifiée aux utilisateurs via notre serveur Discord officiel et/ou par e-mail, effective immédiatement pour les nouveaux utilisateurs et après un délai de préavis raisonnable pour les utilisateurs existants.
+
+## Contact
+
+Pour toute question ou demande concernant vos données personnelles ou la présente Politique de confidentialité — y compris l'exercice de vos droits RGPD, les demandes d'information, les demandes juridiques et judiciaires, et les questions générales de confidentialité :
+
+<CardGroup cols={2}>
+  <Card title="E-mail" icon="envelope" href="mailto:hello@moddy.app">
+    [hello@moddy.app](mailto:hello@moddy.app)
+  </Card>
+
+  <Card title="Serveur d'assistance" icon="discord" href="https://moddy.app/support">
+    Recommandé — notre support peut traiter toutes vos demandes.
+  </Card>
+</CardGroup>
+
+**Autorité de contrôle (France) :** Commission Nationale de l'Informatique et des Libertés (CNIL) 3 Place de Fontenoy — TSA 80715 — 75334 PARIS CEDEX 07 Téléphone : \+33 1 53 73 22 22 · [www.cnil.fr](https://www.cnil.fr)
+
+---
+
+<Note>
+  En utilisant les services Moddy (bot Discord, site web et services associés), vous reconnaissez avoir lu, compris et accepté les termes de la présente Politique de confidentialité.
+</Note>
+
+**Date d'entrée en vigueur : 29 décembre 2025**

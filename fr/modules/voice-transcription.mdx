@@ -1,0 +1,79 @@
+---
+title: "Transcription vocale : transformez les messages vocaux en texte"
+sidebarTitle: "Transcription vocale"
+description: "Ajoutez un bouton Transcrire sous les messages vocaux — ou transcrivez-les automatiquement — afin que tout le monde puisse lire ce qui a été dit."
+---
+
+La transcription vocale transforme les messages vocaux en texte lisible, afin que les personnes qui ne peuvent pas écouter — en réunion, en mode silencieux, malentendantes ou simplement dans une pièce bruyante — accèdent quand même au contenu.
+
+## Deux façons de l'utiliser
+
+|  | Menu contextuel **Transcrire** | **Le bouton dans le serveur** |
+| --- | --- | --- |
+| Où ça fonctionne | Partout — serveurs, MP, contextes installés par l'utilisateur | Uniquement les serveurs où ce module est activé |
+| Nécessite le module ? | **Non** — toujours disponible pour tout le monde | **Oui** |
+| Qui peut le déclencher | La personne qui ouvre le menu | Toute personne qui peut voir le message |
+| Résultat | Publié **publiquement** dans le salon | Publié **publiquement**, remplaçant le bouton |
+
+<Note>
+  Le menu clic-droit **Transcrire** fonctionne pour tout le monde, partout, indépendamment de ce module. Ce que le module ajoute, c'est la commodité d'un bouton sous chaque message vocal dans les salons que vous choisissez — ou une transcription entièrement automatique sans aucun clic.
+</Note>
+
+Les transcriptions sont toujours **publiques** : l'idée même est que le salon puisse lire la note vocale. Seuls les échecs sont privés, et seulement pour la personne qui a fait la demande.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Voice Transcription**.
+  </Step>
+  <Step title="Activer le module">
+    Contrairement à la plupart des modules, celui-ci dispose d'un vrai interrupteur on/off.
+  </Step>
+  <Step title="Choisir un mode">
+    **Button** publie un bouton Transcrire sous chaque message vocal. **Automatic** transcrit chaque message vocal sans qu'aucun clic ne soit nécessaire.
+  </Step>
+  <Step title="Restreindre à des salons (facultatif)">
+    Laissez la liste des salons vide pour couvrir tous les salons, ou choisissez des salons spécifiques.
+  </Step>
+</Steps>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Statut** | Module on/off | Désactivé jusqu'à configuration | — |
+| **Mode** | Bouton, ou entièrement automatique | Bouton | L'un des deux |
+| **Salons** | Restreindre à des salons spécifiques | Vide = **tous les salons** | Jusqu'à 25 salons |
+
+Les salons peuvent être des salons textuels, des salons vocaux ou des fils (publics et privés).
+
+<Tip>
+  Le mode **Automatique** est le meilleur choix dans un salon dédié où les notes vocales sont la norme et où tout le monde bénéficie d'une transcription. Dans un chat général, le mode **Bouton** est moins bruyant — la transcription n'apparaît que lorsque quelqu'un en a réellement besoin.
+</Tip>
+
+## Ce qui peut être transcrit
+
+- **Les messages vocaux Discord** et toute pièce jointe audio
+- Formats : `.ogg`, `.oga`, `.opus`, `.mp3`, `.m4a`, `.wav`, `.webm`, `.flac`, `.aac`, `.mpga`, `.mpeg`
+- **Taille maximale de fichier : 25 Mo**
+- **Durée maximale : 30 minutes**
+
+Les transcriptions de plus de 3 500 caractères sont affichées sous forme d'aperçu avec le texte complet joint en tant que fichier `transcription.txt`.
+
+La carte finale affiche la transcription, la langue détectée, la durée de l'audio et qui l'a demandée. Rien dans une transcription ne peut ping personne.
+
+## Permissions
+
+Moddy a besoin de **Envoyer des messages** dans les salons que vous couvrez — vérifié lors de l'enregistrement et à nouveau à l'exécution, afin que Moddy reste silencieux là où il ne peut pas parler — ainsi que de **Voir le salon** et **Lire l'historique des messages** pour récupérer l'audio.
+
+## Choses à savoir
+
+- **Les messages vocaux des bots sont ignorés.**
+- **En mode Automatique, les échecs sont silencieux.** Si une transcription ne peut pas être produite, le placeholder de chargement disparaît et rien n'est publié — il n'y a pas de message d'erreur dans le salon. En mode Bouton, la personne qui a cliqué reçoit une explication privée et le bouton revient.
+- **Deux personnes qui cliquent sur le même bouton ne paient l'audio qu'une seule fois** — le deuxième clic rejoint la première demande plutôt que d'en démarrer une nouvelle.
+- Si Moddy est fortement utilisé sur l'ensemble des serveurs, une transcription peut être brièvement soumise à une limitation de débit, et la personne qui a fait la demande est informée du temps d'attente.
+
+## Gratuit sur toutes les formules
+
+La transcription vocale est disponible sur tous les serveurs sans quota par serveur ni limites liées à [Moddy Max](/premium/overview).

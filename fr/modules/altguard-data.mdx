@@ -1,0 +1,66 @@
+---
+title: "Ce que vérifie AltGuard, et ce que deviennent ces données"
+sidebarTitle: "Données AltGuard"
+description: "Un aperçu en langage clair de ce que la vérification d'AltGuard collecte réellement, pourquoi, combien de temps elle est conservée et comment un membre peut demander son effacement."
+---
+
+Lorsque quelqu'un rejoint un serveur où AltGuard est activé, on lui demande de passer par une courte étape de vérification avant qu'il n'obtienne un accès complet. Cet article détaille ce que cette étape examine réellement, pourquoi, et ce qu'il advient des données ensuite — utile si un membre vous pose la question, ou simplement si vous voulez savoir ce que vous activez pour votre serveur.
+
+<Info>
+  Version 2026-08-18b de l'avis d'information sous-jacent, celui-là même qui est lié depuis l'écran de consentement que les membres voient avant de se vérifier.
+</Info>
+
+## Ce qui est examiné
+
+Quatre signaux alimentent la vérification, chacun conservé pendant une durée différente :
+
+<CardGroup cols={2}>
+  <Card title="Caractéristiques du navigateur et cookie technique" icon="fingerprint">
+    Reconnaît un appareil ou un navigateur déjà vu — le signal principal pour repérer un second compte introduit dans le même serveur.
+
+    **Conservé pendant :** 18 mois d'inactivité
+  </Card>
+
+  <Card title="Adresse e-mail (via Discord)" icon="envelope">
+    Détecte un compte réutilisant la même boîte mail. Stockée chiffrée — personne ne la lit sauf sur demande légitime et journalisée.
+
+    **Conservé pendant :** 18 mois d'inactivité
+  </Card>
+
+  <Card title="Adresse IP" icon="network-wired">
+    Signal de corrélation plus faible pris isolément. Jamais conservée en clair — uniquement sous forme d'empreinte à sens unique impossible à retransformer en IP.
+
+    **Conservé pendant :** 90 jours
+  </Card>
+
+  <Card title="Les serveurs Discord dont vous faites partie (via Discord)" icon="server">
+    Utilisé pour mesurer à quel point les listes de serveurs de deux comptes se chevauchent. Également conservé uniquement sous forme d'empreintes à sens unique — jamais comme une liste lisible de noms ou d'ids de serveurs.
+
+    **Conservé pendant :** 180 jours
+  </Card>
+</CardGroup>
+
+<Card title="Preuve du consentement" icon="file-signature">
+  Uniquement la date et la version de l'avis auquel la personne a consenti, conservées séparément de tout ce qui précède comme preuve que la collecte a été autorisée.
+
+  **Conservé pendant :** 3 ans
+</Card>
+
+## Pourquoi c'est collecté — et ce que le bot ne voit jamais
+
+Le seul objectif est de repérer plusieurs comptes atterrissant sur le même serveur, rien d'autre — rien de tout cela n'est vendu ni utilisé à des fins publicitaires. Les signaux ci-dessus sont immédiatement convertis en empreintes à sens unique, de sorte que ce qui revient effectivement à Discord n'est jamais la donnée brute elle-même : votre serveur et Moddy ne reçoivent qu'un verdict — **réussi**, **signalé** ou **bloqué** — plus un score.
+
+C'est un choix de conception délibéré qui traverse tout le système : Moddy lui-même ne touche jamais à une empreinte, à un e-mail, à une IP ou à une liste de serveurs à aucun moment. Voir le [guide du module AltGuard](/modules/altguard) pour comprendre le fonctionnement du reste de la porte.
+
+## Si un membre veut faire supprimer ses données
+
+Toute personne ayant traversé la vérification peut :
+
+- **Demander ce qui est stocké** à son sujet.
+- **Demander son effacement.**
+- **Retirer son consentement**, à tout moment, sans avoir à s'expliquer.
+- **Demander une correction** — cependant, comme la majeure partie de ce qui est stocké consiste en des empreintes à sens unique plutôt qu'en données brutes, corriger quelque chose revient en pratique à l'effacer et à se vérifier à nouveau.
+
+Retirer son consentement n'annule pas une vérification déjà effectuée, mais efface bien les empreintes et les enregistrements d'appartenance vérifiée. La seule chose qui reste est l'enregistrement de preuve de consentement lui-même, conservé comme preuve pendant les 3 ans mentionnés plus haut.
+
+Ce type de demandes passe d'abord par le staff de votre serveur, qui les transmet à l'équipe gérant le service de vérification.

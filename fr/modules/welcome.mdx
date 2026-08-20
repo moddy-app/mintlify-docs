@@ -1,0 +1,58 @@
+---
+title: "Messages de bienvenue : accueillez automatiquement les nouveaux membres Discord"
+sidebarTitle: "Bienvenue"
+description: "Envoyez automatiquement un message de bienvenue personnalisé et stylisé aux nouveaux membres lorsqu'ils rejoignent, avec des variables personnalisées et la prise en charge de jusqu'à 5 salons."
+---
+
+Le module Bienvenue vous permet d'accueillir automatiquement chaque nouveau membre lorsqu'il rejoint votre serveur. Vous pouvez rédiger un message personnalisé à l'aide de variables dynamiques, choisir le salon dans lequel il apparaît, et le styliser avec une couleur d'accentuation personnalisée — le tout sans écrire une seule ligne de code. Moddy envoie le message de bienvenue sous la forme d'une carte soignée dès qu'un membre rejoint.
+
+## Configurer les messages de bienvenue
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur pour ouvrir le panneau de configuration de Moddy.
+  </Step>
+  <Step title="Sélectionner Bienvenue">
+    Choisissez **Welcome** dans la liste des modules pour ouvrir les paramètres du message de bienvenue.
+  </Step>
+  <Step title="Choisir un salon">
+    Sélectionnez le salon Discord dans lequel Moddy doit publier les messages de bienvenue pour les nouveaux membres.
+  </Step>
+  <Step title="Rédiger votre message">
+    Saisissez le texte de votre message de bienvenue. Utilisez l'une des [variables ci-dessous](#message-variables) pour le personnaliser pour chaque nouveau membre.
+  </Step>
+  <Step title="Enregistrer vos modifications">
+    Cliquez sur **Save**. Moddy commencera immédiatement à envoyer des messages de bienvenue dans ce salon lorsque de nouveaux membres rejoindront.
+  </Step>
+</Steps>
+
+## Variables du message
+
+Utilisez ces variables n'importe où dans le texte de votre message de bienvenue. Moddy les remplace automatiquement par les bonnes valeurs à l'arrivée de chaque membre.
+
+| Variable | Remplacée par |
+| --- | --- |
+| `{server}` | Le nom de votre serveur |
+| `{user}` | Une mention du nouveau membre (par ex. @Username) |
+| `{display_name}` | Le nom d'affichage du membre sur votre serveur |
+| `{username}` | Le nom d'utilisateur Discord du membre |
+| `{member_count}` | Le nombre total actuel de membres de votre serveur |
+| `{timestamp}` | La date et l'heure exactes auxquelles le membre a rejoint |
+
+**Exemple de message :**
+
+```text
+Welcome to {server}, {user}! 🎉 You're member #{member_count}. We're glad to have you here.
+```
+
+## Plusieurs salons de bienvenue
+
+Vous pouvez configurer jusqu'à **5 messages de bienvenue** par serveur, chacun publiant dans un salon différent. C'est utile lorsque votre parcours d'accueil s'étend sur plusieurs salons — par exemple, publier un accueil général dans `#welcome` et un rappel des règles distinct dans `#get-started`. Chaque message de bienvenue est configuré et enregistré indépendamment, vous pouvez donc personnaliser le texte, le salon et l'apparence pour chacun.
+
+## Personnaliser l'apparence
+
+Définissez une couleur d'accentuation personnalisée pour la carte du message de bienvenue afin qu'elle corresponde à l'identité ou au thème de votre serveur. Choisissez n'importe quelle couleur hexadécimale depuis le panneau de configuration, et Moddy l'utilisera comme accent de la carte. Cette fonctionnalité est disponible sur toutes les formules — aucun abonnement premium requis.
+
+<Note>
+  Les messages de bienvenue sont envoyés au format **Components V2** de Discord — une carte interactive stylisée, et non un simple message texte ou un embed basique. Cela donne à vos messages de bienvenue un aspect propre et moderne qui se démarque dans n'importe quel salon.
+</Note>

@@ -1,0 +1,53 @@
+---
+title: "Modération de serveur Moddy — Dossiers, AutoMod et appels"
+sidebarTitle: "Aperçu"
+description: "Moddy transforme chaque action de modération en un dossier structuré et auditable — avec sanctions, chronologies et appels intégrés pour votre serveur."
+---
+
+Le système de modération de Moddy est construit autour des **dossiers** — chaque avertissement, mute ou bannissement que vos modérateurs émettent (ou qu'AutoMod déclenche) est automatiquement suivi dans un enregistrement structuré avec un code de référence unique, une chronologie complète, et un flux d'appel intégré. Rien ne passe à travers les mailles du filet.
+
+<CardGroup cols={2}>
+  <Card title="Dossiers" icon="folder-open" href="/moderation/cases">
+    Parcourez, créez et gérez les dossiers de modération avec chronologies complètes et codes de référence.
+  </Card>
+
+  <Card title="Sanctions" icon="gavel" href="/moderation/sanctions">
+    Comprenez les avertissements, mutes, bannissements et restrictions — et comment les appliquer ou les révoquer.
+  </Card>
+
+  <Card title="AutoMod IA" icon="robot" href="/moderation/automod">
+    Laissez l'IA de Moddy détecter et agir automatiquement sur les messages nuisibles, en temps réel.
+  </Card>
+
+  <Card title="Référence des commandes" icon="terminal" href="/commands">
+    Liste complète des commandes de modération disponibles pour les modérateurs et les membres.
+  </Card>
+</CardGroup>
+
+## Comment fonctionne la modération
+
+Chaque fois qu'un modérateur émet une sanction — ou qu'AutoMod agit sur un message — Moddy crée ou met à jour un **dossier**. Chaque dossier reçoit un **code de référence unique de 6 caractères** (par exemple, `AB3XR7`) qui permet à toute personne disposant des bonnes permissions d'ouvrir instantanément le dossier complet.
+
+À l'intérieur d'un dossier, vous trouverez une **chronologie** de chaque événement lié à ce membre : sanctions appliquées, sanctions révoquées, notes laissées par les modérateurs et pièces jointes de preuve. Cela permet de voir facilement l'historique complet d'une interaction en un coup d'œil, que vous examiniez un incident isolé ou que vous auditiez un schéma de comportement.
+
+Les dossiers restent ouverts tant qu'au moins une sanction est active, et se ferment automatiquement lorsque toutes les sanctions expirent ou sont révoquées. Les modérateurs peuvent également fermer ou rouvrir manuellement un dossier à tout moment.
+
+## Qui peut modérer
+
+La gestion des dossiers sur votre serveur passe par la commande `/cases`, contrôlée par défaut par la permission Discord **Gérer les messages** (ou Administrateur) — ajustable par rôle depuis **Paramètres du serveur → Intégrations**. Au sein de `/cases`, ajouter un bannissement nécessite en outre **Bannir des membres**, et ajouter un avertissement ou un mute nécessite **Modérer les membres**, de sorte qu'un modérateur ne voit que les actions autorisées par ses propres permissions Discord. Tout membre — sans exigence de permission — peut consulter son propre historique de modération sur chaque serveur avec `/mycases`, mais uniquement le sien, et en lecture seule.
+
+<Note>
+  Moddy enregistre automatiquement les bannissements et les timeouts appliqués directement via Discord — même lorsque les commandes Moddy ne sont pas utilisées. Cela signifie que votre historique de dossiers reste complet même si un modérateur utilise les outils de modération natifs de Discord.
+</Note>
+
+## Appels
+
+Lorsqu'AutoMod sanctionne un membre, Moddy envoie à ce membre un **message direct** contenant un bouton d'appel. Le membre peut soumettre un appel sans quitter Discord, et celui-ci est acheminé vers les modérateurs de votre serveur pour examen.
+
+Les modérateurs peuvent résoudre un appel de trois manières :
+
+- **Accepter** — la sanction est révoquée et le dossier est mis à jour en conséquence.
+- **Refuser** — la sanction est maintenue et le membre en est informé.
+- **Transformer** — la sanction d'origine est remplacée par une autre (par exemple, un bannissement rétrogradé en mute).
+
+Tous les résultats d'appels sont enregistrés dans la chronologie du dossier afin qu'il y ait toujours une piste d'audit claire.

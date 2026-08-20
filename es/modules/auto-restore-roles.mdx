@@ -1,0 +1,81 @@
+---
+title: "Auto-Restore Roles: devuelve los roles al reingresar"
+sidebarTitle: "Auto-Restore Roles"
+description: "Recuerda los roles de un miembro cuando se va y se los devuelve automáticamente si vuelve."
+---
+
+Auto-Restore Roles recuerda qué roles tenía un miembro cuando se fue y se los devuelve directamente si regresa, para que un miembro que vuelve no tenga que ser reconfigurado a mano. Tú decides cuánto se recuerda: todo, todo salvo una lista de exclusión o solo una lista de permitidos específica.
+
+## Configuración
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Auto-Restore Roles**.
+  </Step>
+  <Step title="Elige un modo">
+    Elige **All**, **All except…** o **Only these…**: consulta la tabla de abajo.
+  </Step>
+  <Step title="Selecciona los roles">
+    Si elegiste _All except_ u _Only these_, elige los roles para esa lista. Se requiere al menos uno.
+  </Step>
+  <Step title="Elige un canal de registro (opcional)">
+    Cada guardado y restauración se publica allí para que tu equipo pueda ver qué pasó.
+  </Step>
+  <Step title="Guarda">
+    El módulo se activa en cuanto se establece un modo.
+  </Step>
+</Steps>
+
+## Modos
+
+| Modo | Qué se recuerda |
+| --- | --- |
+| **All** | Todos los roles que tenía el miembro |
+| **All except…** | Todos los roles _excepto_ los que enumeres — úsalo para evitar restaurar roles de staff o moderador |
+| **Only these…** | _Solo_ los roles que enumeres — úsalo cuando quieras restaurar un conjunto específico, como un rol de suscripción o de nivel |
+
+<Tip>
+  **All except** es el valor predeterminado más seguro para la mayoría de los servidores. Restaura los roles cotidianos que un miembro acumuló, excluyendo cualquier rol sensible: moderador, administrador o miembro de confianza que alguien no debería recuperar automáticamente tras haberse ido.
+</Tip>
+
+## Ajustes
+
+| Ajuste | Qué controla | Predeterminado | Límite |
+| --- | --- | --- | --- |
+| **Mode** | Qué roles se guardan (obligatorio) | No establecido | Uno de los tres anteriores |
+| **Excluded roles** | Roles que _no_ se guardan — solo modo _All except_ | Ninguno | Hasta 25, al menos 1 requerido |
+| **Included roles** | Los únicos roles guardados — solo modo _Only these_ | Ninguno | Hasta 25, al menos 1 requerido |
+| **Log channel** | Dónde se publican los eventos de guardado y restauración | Ninguno | 1 canal de texto |
+
+Cambiar de modo borra la otra lista, y cada selector de roles solo aparece cuando su modo está activo.
+
+## Lo que nunca se guarda
+
+`@everyone` y los **roles gestionados** (el rol propio de un bot, el rol de Server Booster y cualquier otro propiedad de una integración) nunca se almacenan: Discord no permite reasignarlos.
+
+## Permisos
+
+- **Manage Roles** — necesario para volver a aplicar los roles. Cualquier rol que desde entonces se haya movido por encima del propio rol de Moddy se omite en silencio al restaurar.
+- Para el canal de registro: **Send Messages** y **Embed Links**, ambos verificados al guardar.
+
+## Gestionar los roles almacenados
+
+Dos comandos te permiten inspeccionar y limpiar lo que se ha guardado. Ambos requieren **Manage Server** y responden en privado.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — enumera cada miembro con roles almacenados, cuántos y cuándo se guardaron.
+- **`/clear-saved-roles`** — borra los roles almacenados de un miembro, de modo que **no** los recupere si regresa. Úsalo cuando alguien se va tras un problema de moderación.
+
+## Cuánto tiempo se conservan los roles
+
+<Note>
+  Los roles almacenados **no caducan**: un conjunto guardado espera indefinidamente a que el miembro regrese. Se elimina automáticamente una vez que se produce una restauración exitosa o si ninguno de los roles guardados sigue existiendo en el servidor. Para eliminar uno manualmente, usa `/clear-saved-roles`.
+</Note>
+
+## Gratis en todos los planes
+
+Auto-Restore Roles está disponible en todos los servidores sin límites ligados a [Moddy Max](/premium/overview).

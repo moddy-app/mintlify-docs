@@ -1,0 +1,58 @@
+---
+title: "Mensajes de bienvenida: saluda automáticamente a los nuevos miembros de Discord"
+sidebarTitle: "Bienvenida"
+description: "Envía automáticamente un mensaje de bienvenida personalizado y con estilo a los nuevos miembros cuando se unan, con variables personalizadas y compatibilidad con hasta 5 canales."
+---
+
+El módulo de Bienvenida te permite saludar automáticamente a cada nuevo miembro cuando se une a tu servidor. Puedes redactar un mensaje personalizado usando variables dinámicas, elegir en qué canal aparece y darle estilo con un color de acento personalizado, todo sin escribir una sola línea de código. Moddy envía el mensaje de bienvenida como una tarjeta elegante en el momento en que un miembro se une.
+
+## Configurar los mensajes de bienvenida
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor para abrir el panel de configuración de Moddy.
+  </Step>
+  <Step title="Selecciona Bienvenida">
+    Elige **Welcome** en la lista de módulos para abrir la configuración del mensaje de bienvenida.
+  </Step>
+  <Step title="Elige un canal">
+    Selecciona el canal de Discord donde Moddy publicará los mensajes de bienvenida para los nuevos miembros.
+  </Step>
+  <Step title="Escribe tu mensaje">
+    Introduce el texto de tu mensaje de bienvenida. Usa cualquiera de las [variables de abajo](#message-variables) para personalizarlo para cada nuevo miembro.
+  </Step>
+  <Step title="Guarda los cambios">
+    Haz clic en **Save**. Moddy comenzará a enviar mensajes de bienvenida a ese canal inmediatamente cuando se unan nuevos miembros.
+  </Step>
+</Steps>
+
+## Variables del mensaje
+
+Usa estas variables en cualquier parte del texto de tu mensaje de bienvenida. Moddy las reemplaza automáticamente con los valores correctos cuando cada miembro se une.
+
+| Variable | Reemplazada por |
+| --- | --- |
+| `{server}` | El nombre de tu servidor |
+| `{user}` | Una mención al nuevo miembro (p. ej. @Username) |
+| `{display_name}` | El nombre visible del miembro en tu servidor |
+| `{username}` | El nombre de usuario de Discord del miembro |
+| `{member_count}` | El total actual de miembros de tu servidor |
+| `{timestamp}` | La fecha y hora exactas en que el miembro se unió |
+
+**Mensaje de ejemplo:**
+
+```text
+Welcome to {server}, {user}! 🎉 You're member #{member_count}. We're glad to have you here.
+```
+
+## Varios canales de bienvenida
+
+Puedes configurar hasta **5 mensajes de bienvenida** por servidor, cada uno publicando en un canal distinto. Esto resulta útil cuando tu flujo de incorporación abarca varios canales: por ejemplo, publicar un saludo general en `#welcome` y un recordatorio de las reglas por separado en `#get-started`. Cada mensaje de bienvenida se configura y guarda de forma independiente, así que puedes personalizar el texto, el canal y la apariencia de cada uno.
+
+## Personalizar la apariencia
+
+Establece un color de acento personalizado para la tarjeta del mensaje de bienvenida y así combinarla con la identidad o el tema de tu servidor. Elige cualquier color hexadecimal desde el panel de configuración y Moddy lo usará como color de acento de la tarjeta. Esta función está disponible en todos los planes, no requiere suscripción premium.
+
+<Note>
+  Los mensajes de bienvenida se envían utilizando el formato **Components V2** de Discord: una tarjeta interactiva con estilo, no un mensaje de texto plano ni un embed básico. Esto le da a tus mensajes de bienvenida un aspecto limpio y moderno que destaca en cualquier canal.
+</Note>

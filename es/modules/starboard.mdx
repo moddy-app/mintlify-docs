@@ -1,0 +1,75 @@
+---
+title: "Starboard: destaca los mejores mensajes de tu comunidad"
+sidebarTitle: "Starboard"
+description: "Convierte una reacción en un tablero de momentos destacados: los mensajes populares se vuelven a publicar automáticamente en un canal de starboard."
+---
+
+Starboard convierte una reacción elegida en un tablero de momentos destacados de la comunidad. Una vez que un mensaje reúne suficientes emojis del configurado, Moddy lo vuelve a publicar en un canal de starboard con el autor, el texto, cualquier imagen, un contador de reacciones en vivo y un enlace de salto al original.
+
+## Configuración
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Starboard**.
+  </Step>
+  <Step title="Elige el canal del starboard">
+    Elige dónde se publican los mensajes destacados. Esto es obligatorio: el módulo no funciona sin ello.
+  </Step>
+  <Step title="Establece el número de reacciones">
+    Cuántas reacciones necesita un mensaje para aterrizar en el starboard. El valor predeterminado es 5.
+  </Step>
+  <Step title="Elige el emoji">
+    Qué reacción cuenta. El valor predeterminado es ⭐.
+  </Step>
+  <Step title="Guarda">
+    Starboard se activa en cuanto se establece un canal.
+  </Step>
+</Steps>
+
+## Ajustes
+
+| Ajuste | Qué controla | Predeterminado | Límite |
+| --- | --- | --- | --- |
+| **Channel** | Dónde se publican los mensajes destacados (obligatorio) | No establecido | 1 canal de texto |
+| **Reaction count** | Cuántas reacciones activan el starboard | `5` | 1–100 |
+| **Emoji** | Qué reacción cuenta | ⭐ | **Solo emojis estándar de Discord** |
+
+<Warning>
+  **Los emojis personalizados del servidor no son compatibles.** El emoji debe ser un emoji Unicode estándar de Discord: Moddy rechaza uno personalizado con un mensaje claro al guardar.
+</Warning>
+
+## Cómo se comporta
+
+- **Las reacciones dentro del propio canal del starboard se ignoran**, para que una publicación destacada no pueda destacarse a sí misma en un bucle.
+- **Si las reacciones vuelven a caer por debajo del umbral, la entrada se elimina.** Retirar la reacción efectivamente elimina un mensaje del starboard.
+- **Al hacer clic en el contador de reacciones** de una publicación del starboard se muestra una lista privada de quién reaccionó (excluyendo bots, hasta 40 nombres, luego "\+N more").
+- **Nada en el starboard puede mencionar a nadie.** Las menciones en un mensaje destacado son inertes, así que destacar un mensaje nunca notifica a las personas mencionadas.
+
+## Imágenes y vistas previas de enlaces
+
+Moddy busca una imagen en este orden:
+
+1. La primera imagen adjunta al mensaje
+2. La primera URL de imagen sin adornos en el texto
+3. La vista previa que Discord ya haya resuelto para un enlace
+4. Como último recurso, la propia imagen de vista previa de la página, obtenida por Moddy
+
+Este último paso es lo que hace que los enlaces de Tenor y Giphy muestren su GIF en el starboard en lugar de aparecer como una URL pelada.
+
+## Permisos
+
+Moddy necesita **Send Messages** en el canal del starboard —verificado al guardar—, además de **View Channel** y **Read Message History** en los canales que se observan, para poder recuperar el mensaje al que se reaccionó.
+
+**No se requiere Manage Messages.** Cuando una entrada cae por debajo del umbral, Moddy elimina su propia publicación del starboard, nunca el mensaje original.
+
+## Limitación conocida
+
+<Warning>
+  **Las entradas del starboard se rastrean solo en memoria.** Tras un reinicio de Moddy, se pierde el enlace entre un mensaje original y su publicación en el starboard: la entrada existente deja de actualizar su contador de reacciones, y una nueva reacción sobre ese mismo mensaje crea una entrada **duplicada** en lugar de actualizar la antigua.
+
+  En la práctica, esto afecta a los mensajes que siguen ganando reacciones a lo largo de un reinicio. Eliminar el duplicado obsoleto a mano es actualmente la única forma de limpieza.
+</Warning>
+
+## Gratis en todos los planes
+
+Starboard está disponible en todos los servidores sin límites ligados a [Moddy Max](/premium/overview).

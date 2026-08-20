@@ -1,0 +1,79 @@
+---
+title: "Transcripción de voz: convierte mensajes de voz en texto"
+sidebarTitle: "Transcripción de voz"
+description: "Añade un botón Transcribe debajo de los mensajes de voz, o transcríbelos automáticamente, para que todos puedan leer lo que se dijo."
+---
+
+Voice Transcription convierte los mensajes de voz en texto legible, para que las personas que no pueden escuchar —en una reunión, con el sonido silenciado, con dificultades auditivas o simplemente en una sala ruidosa— sigan recibiendo el contenido.
+
+## Dos formas de usarlo
+
+|  | Menú contextual **Transcribe** | **El botón dentro del servidor** |
+| --- | --- | --- |
+| Dónde funciona | En todas partes: servidores, MD, contextos instalados por el usuario | Solo servidores con este módulo activado |
+| ¿Necesita el módulo? | **No** — siempre disponible para cualquiera | **Sí** |
+| Quién puede activarlo | La persona que abre el menú | Cualquiera que pueda ver el mensaje |
+| Resultado | Publicado **públicamente** en el canal | Publicado **públicamente**, reemplazando el botón |
+
+<Note>
+  El menú de clic derecho **Transcribe** funciona para todos, en todas partes, independientemente de este módulo. Lo que añade el módulo es la comodidad de un botón que aparece debajo de cada mensaje de voz en los canales que elijas, o la transcripción totalmente automática sin necesidad de hacer clic.
+</Note>
+
+Las transcripciones son siempre **públicas**: precisamente lo que se busca es que el canal pueda leer la nota de voz. Solo los fallos son privados, y solo para la persona que lo pidió.
+
+## Configuración
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Voice Transcription**.
+  </Step>
+  <Step title="Activa el módulo">
+    A diferencia de la mayoría de los módulos, este tiene un interruptor real de encendido/apagado.
+  </Step>
+  <Step title="Elige un modo">
+    **Button** publica un botón Transcribe debajo de cada mensaje de voz. **Automatic** transcribe cada mensaje de voz sin necesidad de hacer clic.
+  </Step>
+  <Step title="Restringir a canales (opcional)">
+    Deja la lista de canales vacía para cubrir todos los canales, o elige unos específicos.
+  </Step>
+</Steps>
+
+## Ajustes
+
+| Ajuste | Qué controla | Predeterminado | Límite |
+| --- | --- | --- | --- |
+| **Status** | Módulo activado/desactivado | Desactivado hasta que se configure | — |
+| **Mode** | Botón o totalmente automático | Button | Uno de los dos |
+| **Channels** | Restringir a canales específicos | Vacío = **todos los canales** | Hasta 25 canales |
+
+Los canales pueden ser canales de texto, canales de voz o hilos (públicos y privados).
+
+<Tip>
+  El modo **Automatic** funciona mejor en un canal dedicado donde las notas de voz sean la norma y todos se beneficien de una transcripción. En un chat general, el modo **Button** es menos ruidoso: la transcripción solo aparece cuando alguien realmente la necesita.
+</Tip>
+
+## Qué se puede transcribir
+
+- **Mensajes de voz de Discord** y cualquier archivo de audio adjunto
+- Formatos: `.ogg`, `.oga`, `.opus`, `.mp3`, `.m4a`, `.wav`, `.webm`, `.flac`, `.aac`, `.mpga`, `.mpeg`
+- **Tamaño máximo del archivo: 25 MB**
+- **Duración máxima: 30 minutos**
+
+Las transcripciones de más de 3.500 caracteres se muestran como una vista previa con el texto completo adjunto como archivo `transcription.txt`.
+
+La tarjeta finalizada muestra la transcripción, el idioma detectado, la duración del audio y quién la solicitó. Nada en una transcripción puede mencionar a nadie.
+
+## Permisos
+
+Moddy necesita **Send Messages** en los canales que estés cubriendo —verificado al guardar y de nuevo en tiempo de ejecución, para que Moddy permanezca en silencio donde no pueda hablar— además de **View Channel** y **Read Message History** para obtener el audio.
+
+## Cosas que conviene saber
+
+- **Los mensajes de voz de bots se ignoran.**
+- **En el modo Automatic, los fallos son silenciosos.** Si no puede producirse una transcripción, el marcador de carga desaparece y no se publica nada: no hay ningún mensaje de error en el canal. En el modo Button, la persona que hizo clic recibe una explicación privada y el botón vuelve.
+- **Si dos personas hacen clic en el mismo botón, se paga por el audio una vez**: el segundo clic se une a la primera solicitud en lugar de iniciar una nueva.
+- Si Moddy está muy solicitado en todos los servidores, una transcripción puede quedar brevemente limitada por tasa, y a la persona que la pidió se le indica cuánto debe esperar.
+
+## Gratis en todos los planes
+
+Voice Transcription está disponible en todos los servidores sin cuota por servidor y sin límites ligados a [Moddy Max](/premium/overview).

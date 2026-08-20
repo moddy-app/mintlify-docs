@@ -1,0 +1,86 @@
+---
+title: "Dossiers de modération Moddy : codes de référence et chronologies"
+sidebarTitle: "Dossiers"
+description: "Chaque action de modération dans Moddy crée un dossier structuré avec un code de référence unique, une chronologie complète et la prise en charge intégrée des appels."
+---
+
+Un dossier de modération est l'unité centrale d'enregistrement dans Moddy. Qu'un modérateur émette manuellement un avertissement ou qu'AutoMod mute automatiquement un membre, l'action est capturée dans un dossier — avec un code de référence unique, une chronologie de chaque événement, et une piste d'audit claire à laquelle vous pouvez revenir à tout moment.
+
+## Qu'est-ce qu'un dossier ?
+
+Considérez un dossier comme un **classeur de modération** pour un incident ou un membre spécifique. Chaque dossier est identifié par un **code de référence unique de 6 caractères** (par exemple, `AB3XR7`) que vous pouvez utiliser pour le récupérer instantanément depuis n'importe quelle commande.
+
+À l'intérieur d'un dossier, vous trouverez :
+
+- **Une ou plusieurs sanctions** — avertissements, mutes ou bannissements liés à ce dossier
+- **Une chronologie** — chaque action, note, élément de preuve et résultat d'appel, dans l'ordre
+- **Un statut** — ouvert (au moins une sanction active) ou fermé (toutes les sanctions résolues)
+
+Les dossiers sont limités à votre serveur, chaque communauté conservant donc ses propres enregistrements indépendants.
+
+<Tip>
+  Enregistrez le code de référence de 6 caractères dès qu'un dossier est créé. Passez-le comme option `case` sur `/cases` (modérateurs) ou `/mycases` (votre propre historique) pour accéder directement au dossier complet sans avoir à chercher.
+</Tip>
+
+## Consulter vos propres dossiers
+
+Si vous souhaitez vérifier si vous avez un historique de modération sur un serveur, utilisez la commande `/mycases`. Elle fonctionne sur tout serveur où Moddy est présent et affiche tous les dossiers liés à votre compte.
+
+```discord
+/mycases
+```
+
+Cette vue est en **lecture seule** — vous pouvez voir vos dossiers et leur statut actuel, mais vous ne pouvez pas les modifier ni gérer les sanctions depuis cette commande.
+
+## Parcourir les dossiers du serveur (modérateurs)
+
+Les modérateurs peuvent consulter chaque dossier du serveur en cours à l'aide de `/cases`. Passez éventuellement une référence de dossier pour y accéder directement.
+
+```discord
+/cases
+/cases [case]
+```
+
+`/cases` requiert la permission **Gérer les messages** (ou Administrateur) par défaut — ajustable par rôle depuis **Paramètres du serveur → Intégrations**. Depuis le panneau, vous pouvez parcourir la liste complète des dossiers du serveur, la filtrer, ouvrir des dossiers individuels et — si les permissions le permettent — gérer les sanctions directement depuis l'écran de détail.
+
+<Note>
+  `/mod case` (avec des sous-commandes telles que `create`, `view` ou `sanction`) est une commande **réservée au staff Moddy**, disponible exclusivement sur les serveurs officiels de Moddy. Elle ne fait pas partie de la boîte à outils de modération pour les serveurs utilisant Moddy — la gestion quotidienne des dossiers pour votre communauté se fait entièrement via le panneau `/cases` décrit ci-dessous.
+</Note>
+
+## Gérer les dossiers
+
+Tout ce dont un modérateur a besoin est intégré dans l'écran de détail de `/cases` — ouvrez un dossier (depuis la liste, ou directement avec `/cases [case]`) et utilisez ses boutons d'action :
+
+| Action | Ce qu'elle fait | Permission nécessaire |
+| --- | --- | --- |
+| Ajouter une sanction | Enregistrer un nouveau avertissement, mute ou bannissement sur le dossier | **Modérer les membres** pour avertissement/mute, **Bannir des membres** pour bannissement |
+| Révoquer une sanction | Lever une sanction active avant son expiration | Identique à la sanction en cours de révocation |
+| Commenter | Ajouter une note publique visible par les autres modérateurs dans `/cases` | Gérer les messages |
+| Modifier le motif | Mettre à jour le motif enregistré sur le dossier | Gérer les messages |
+| Fermer / Rouvrir | Verrouiller manuellement le statut du dossier | Gérer les messages |
+| Ajouter une preuve | Joindre un lien ou une capture d'un message Discord à la chronologie | Gérer les messages |
+
+Un nouveau dossier s'ouvre de la même manière — depuis `/cases`, lancez une sanction contre un membre qui n'a pas encore de dossier ouvert, et Moddy crée le classeur et sa première sanction ensemble.
+
+## Statut du dossier
+
+Chaque dossier a l'un des deux statuts suivants :
+
+- **Ouvert** — le dossier a au moins une sanction active (par exemple, un mute qui n'a pas expiré, ou un bannissement toujours en vigueur). Moddy maintient automatiquement le dossier ouvert tant que des sanctions sont actives.
+- **Fermé** — toutes les sanctions associées au dossier ont expiré ou ont été révoquées. Moddy ferme automatiquement le dossier, ou un modérateur peut le fermer manuellement à l'aide de `/mod case close`.
+
+<Info>
+  Fermer manuellement un dossier « verrouille » son statut — Moddy ne le rouvrira pas automatiquement si une sanction est modifiée plus tard. Utilisez à nouveau `/mod case close` pour rouvrir un dossier verrouillé.
+</Info>
+
+## Appels
+
+Lorsqu'AutoMod sanctionne un membre, Moddy lui envoie un **message direct** avec un bouton d'appel. Le membre peut appuyer sur le bouton pour soumettre un appel sans quitter Discord.
+
+Les appels sont examinés par les modérateurs de votre serveur, qui peuvent :
+
+- **Accepter** l'appel — la sanction est révoquée et la chronologie est mise à jour.
+- **Refuser** l'appel — la sanction est maintenue et le membre en est informé.
+- **Transformer** l'appel — la sanction est remplacée par une autre (par exemple, un bannissement échangé contre un mute temporaire).
+
+Chaque résultat d'appel est consigné dans la chronologie du dossier, vous offrant un enregistrement complet et transparent de la décision.

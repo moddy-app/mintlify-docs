@@ -1,0 +1,125 @@
+---
+title: "Comandos de información de Moddy: usuarios, avatares e invitaciones"
+sidebarTitle: "Información"
+description: "Consulta al instante perfiles completos, avatares, banners, detalles de invitaciones a servidores, información de emojis personalizados y metadatos de webhooks, todo sin salir de Discord."
+---
+
+Los comandos de información de Moddy te permiten obtener detalles sobre usuarios de Discord, invitaciones, emojis personalizados y webhooks sin salir de Discord. Todos estos comandos están disponibles globalmente: puedes usarlos en tus MD con Moddy, en cualquier servidor que tenga a Moddy, o incluso en servidores en los que Moddy no esté instalado. Cada comando a continuación también acepta un booleano opcional `incognito` para que la respuesta solo sea visible para ti.
+
+---
+
+## `/user`
+
+Consulta la información del perfil de cualquier usuario de Discord.
+
+<ParamField path="user" type="user" required>
+  El usuario de Discord a consultar.
+</ParamField>
+
+**Devuelve:** nombre de usuario, nombre para mostrar, fecha de creación de la cuenta, avatar y insignias de Discord.
+
+**Ejemplo de uso:**
+
+```text
+/user user:@username
+```
+
+---
+
+## `/avatar`
+
+Muestra el avatar de un usuario a tamaño completo con un enlace de descarga directa. Admite tanto avatares estáticos como animados.
+
+<ParamField path="user" type="user" required>
+  El usuario cuyo avatar quieres ver.
+</ParamField>
+
+**Ejemplo de uso:**
+
+```text
+/avatar user:@username
+```
+
+---
+
+## `/banner`
+
+Muestra el banner de perfil de un usuario a tamaño completo. Si el usuario no ha establecido un banner, Moddy te lo hará saber.
+
+<ParamField path="user" type="user" required>
+  El usuario cuyo banner quieres ver.
+</ParamField>
+
+**Ejemplo de uso:**
+
+```text
+/banner user:@username
+```
+
+---
+
+## `/invite`
+
+Consulta información sobre una invitación de servidor de Discord sin unirte a él. Útil para examinar invitaciones antes de compartirlas con tu comunidad.
+
+<ParamField path="invite_code" type="string" required>
+  Un enlace de invitación de Discord (por ejemplo, `https://discord.gg/abc123`) o solo el código de invitación (por ejemplo, `abc123`).
+</ParamField>
+
+**Ejemplo de uso:**
+
+```text
+/invite invite_code:https://discord.gg/abc123
+```
+
+```text
+/invite invite_code:abc123
+```
+
+---
+
+## `/emoji`
+
+Inspecciona un emoji personalizado de Discord para ver de dónde procede y obtener un enlace directo a su imagen.
+
+<ParamField path="emoji" type="string" required>
+  Un emoji personalizado de Discord (por ejemplo, `:custom_emoji:`). Solo funciona con emojis **personalizados**, no con emojis Unicode integrados.
+</ParamField>
+
+**Devuelve:** nombre del emoji, ID del emoji, fecha de creación y una URL directa a la imagen.
+
+**Ejemplo de uso:**
+
+```text
+/emoji emoji::custom_emoji:
+```
+
+<Tip>
+  Haz clic derecho en un mensaje que utilice varios emojis personalizados y selecciona **Get Emojis** en el menú Apps para listarlos todos a la vez, en lugar de buscar cada uno individualmente con `/emoji`.
+</Tip>
+
+<Note>
+  Los emojis Unicode estándar (como 😄) no son compatibles con `/emoji`. Solo funciona con emojis personalizados de servidor.
+</Note>
+
+---
+
+## `/webhook`
+
+Inspecciona **y gestiona** un webhook de Discord, no solo consultarlo.
+
+<ParamField path="webhook" type="string" required>
+  La URL completa del webhook, o su par de ID/token.
+</ParamField>
+
+**Devuelve:** el nombre del webhook, el canal en el que publica y el servidor al que pertenece, además de botones de acción para **enviar** un mensaje de prueba a través de él, **editar** su nombre/avatar, **actualizar** sus datos o **eliminarlo** directamente.
+
+**Ejemplo de uso:**
+
+```text
+/webhook webhook:https://discord.com/api/webhooks/000000000000/xxxxxxxxxxxx
+```
+
+<Warning>
+  Trata las URL de webhooks como credenciales sensibles: cualquier persona con una URL de webhook puede publicar mensajes en ese canal, y el propio `/webhook` puede eliminar o editar el webhook si tienes los datos. Evita compartirlas en canales públicos y ejecuta este comando únicamente con URL en las que confíes.
+</Warning>

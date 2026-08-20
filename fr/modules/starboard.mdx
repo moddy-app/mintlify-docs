@@ -1,0 +1,75 @@
+---
+title: "Starboard : mettez en valeur les meilleurs messages de votre communauté"
+sidebarTitle: "Starboard"
+description: "Transformez une réaction en best-of — les messages populaires sont republiés automatiquement dans un salon starboard."
+---
+
+Starboard transforme une réaction choisie en best-of communautaire. Dès qu'un message a collecté suffisamment de votre emoji configuré, Moddy le republie dans un salon starboard avec l'auteur, le texte, toute image, un compteur de réactions en direct et un lien de saut vers l'original.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Starboard**.
+  </Step>
+  <Step title="Choisir le salon starboard">
+    Choisissez où les messages étoilés sont publiés. C'est obligatoire — le module ne fonctionne pas sans.
+  </Step>
+  <Step title="Définir le nombre de réactions">
+    Combien de réactions un message doit avoir pour atterrir sur le starboard. La valeur par défaut est 5.
+  </Step>
+  <Step title="Choisir l'emoji">
+    Quelle réaction compte. Par défaut ⭐.
+  </Step>
+  <Step title="Enregistrer">
+    Starboard s'active dès qu'un salon est défini.
+  </Step>
+</Steps>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Salon** | Où les messages étoilés sont publiés (obligatoire) | Non défini | 1 salon textuel |
+| **Nombre de réactions** | Combien de réactions déclenchent le starboard | `5` | 1–100 |
+| **Emoji** | Quelle réaction compte | ⭐ | **Emoji Discord standards uniquement** |
+
+<Warning>
+  **Les emojis personnalisés du serveur ne sont pas pris en charge.** L'emoji doit être un emoji Discord Unicode standard — Moddy rejette un emoji personnalisé avec un message clair lorsque vous enregistrez.
+</Warning>
+
+## Comportement
+
+- **Les réactions à l'intérieur du salon starboard lui-même sont ignorées**, pour qu'une publication étoilée ne puisse pas s'étoiler elle-même en boucle.
+- **Si les réactions redescendent sous le seuil, l'entrée est supprimée.** Le fait de retirer sa réaction supprime réellement un message du starboard.
+- **En cliquant sur le compteur de réactions** d'une publication starboard, une liste privée des personnes ayant réagi est affichée (bots exclus, jusqu'à 40 noms, puis "\+N more").
+- **Rien dans le starboard ne peut ping personne.** Les mentions dans un message étoilé sont inertes, donc mettre en avant un message ne notifie jamais les personnes qu'il mentionne.
+
+## Images et aperçus de liens
+
+Moddy recherche une image dans cet ordre :
+
+1. La première image attachée au message
+2. La première URL d'image brute dans le texte
+3. L'aperçu que Discord a déjà résolu pour un lien
+4. En dernier recours, l'image d'aperçu de la page elle-même, récupérée par Moddy
+
+Cette dernière étape est ce qui permet aux liens Tenor et Giphy d'afficher leur GIF sur le starboard au lieu d'apparaître comme une simple URL.
+
+## Permissions
+
+Moddy a besoin de **Envoyer des messages** dans le salon starboard — vérifié lors de l'enregistrement — ainsi que de **Voir le salon** et **Lire l'historique des messages** dans les salons surveillés, afin de pouvoir récupérer le message auquel il a été réagi.
+
+**Gérer les messages n'est pas requis.** Lorsqu'une entrée passe sous le seuil, Moddy supprime sa propre publication starboard, jamais le message original.
+
+## Limitation connue
+
+<Warning>
+  **Les entrées Starboard sont suivies uniquement en mémoire.** Après un redémarrage de Moddy, le lien entre un message original et sa publication starboard est perdu : l'entrée existante cesse de mettre à jour son compteur de réactions, et une nouvelle réaction sur ce même message crée une entrée **dupliquée** plutôt que de mettre à jour l'ancienne.
+
+  En pratique, cela affecte les messages qui continuent à gagner des réactions après un redémarrage. Supprimer manuellement le doublon obsolète est actuellement le seul nettoyage possible.
+</Warning>
+
+## Gratuit sur toutes les formules
+
+Starboard est disponible sur tous les serveurs sans limites liées à [Moddy Max](/premium/overview).

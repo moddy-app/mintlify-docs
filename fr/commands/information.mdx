@@ -1,0 +1,125 @@
+---
+title: "Commandes d'information Moddy : utilisateurs, avatars et invitations"
+sidebarTitle: "Informations"
+description: "Consultez instantanément des profils complets, avatars, bannières, détails d'invitations serveur, informations sur les emojis personnalisés et métadonnées de webhook — le tout sans quitter Discord."
+---
+
+Les commandes d'information de Moddy vous permettent de récupérer des détails sur les utilisateurs Discord, les invitations, les emojis personnalisés et les webhooks sans quitter Discord. Toutes ces commandes sont disponibles globalement — vous pouvez les utiliser dans vos MP avec Moddy, dans n'importe quel serveur qui a Moddy, ou même dans des serveurs où Moddy n'est pas installé. Chaque commande ci-dessous accepte également un booléen `incognito` facultatif pour que la réponse ne soit visible que par vous.
+
+---
+
+## `/user`
+
+Consultez les informations de profil de n'importe quel utilisateur Discord.
+
+<ParamField path="user" type="user" required>
+  L'utilisateur Discord à consulter.
+</ParamField>
+
+**Renvoie :** nom d'utilisateur, nom d'affichage, date de création du compte, avatar et badges Discord.
+
+**Exemple d'utilisation :**
+
+```text
+/user user:@username
+```
+
+---
+
+## `/avatar`
+
+Affiche l'avatar en taille réelle d'un utilisateur avec un lien de téléchargement direct. Prend en charge les avatars statiques et animés.
+
+<ParamField path="user" type="user" required>
+  L'utilisateur dont vous voulez voir l'avatar.
+</ParamField>
+
+**Exemple d'utilisation :**
+
+```text
+/avatar user:@username
+```
+
+---
+
+## `/banner`
+
+Affiche la bannière de profil en taille réelle d'un utilisateur. Si l'utilisateur n'a pas défini de bannière, Moddy vous le fera savoir.
+
+<ParamField path="user" type="user" required>
+  L'utilisateur dont vous voulez voir la bannière.
+</ParamField>
+
+**Exemple d'utilisation :**
+
+```text
+/banner user:@username
+```
+
+---
+
+## `/invite`
+
+Consultez des informations sur une invitation de serveur Discord sans la rejoindre. Utile pour vérifier des invitations avant de les partager avec votre communauté.
+
+<ParamField path="invite_code" type="string" required>
+  Un lien d'invitation Discord (par ex. `https://discord.gg/abc123`) ou simplement le code d'invitation (par ex. `abc123`).
+</ParamField>
+
+**Exemple d'utilisation :**
+
+```text
+/invite invite_code:https://discord.gg/abc123
+```
+
+```text
+/invite invite_code:abc123
+```
+
+---
+
+## `/emoji`
+
+Inspectez un emoji Discord personnalisé pour voir d'où il vient et obtenir un lien direct vers son image.
+
+<ParamField path="emoji" type="string" required>
+  Un emoji Discord personnalisé (par ex. `:custom_emoji:`). Fonctionne uniquement avec les emojis **personnalisés**, pas avec les emojis Unicode intégrés.
+</ParamField>
+
+**Renvoie :** nom de l'emoji, ID de l'emoji, date de création et une URL directe vers l'image.
+
+**Exemple d'utilisation :**
+
+```text
+/emoji emoji::custom_emoji:
+```
+
+<Tip>
+  Faites un clic droit sur un message qui utilise plusieurs emojis personnalisés et sélectionnez **Get Emojis** dans le menu Apps pour les lister tous en une seule fois, au lieu de les consulter un par un avec `/emoji`.
+</Tip>
+
+<Note>
+  Les emojis Unicode standard (comme 😄) ne sont pas pris en charge par `/emoji`. Cette commande ne fonctionne qu'avec les emojis personnalisés de serveur.
+</Note>
+
+---
+
+## `/webhook`
+
+Inspectez **et gérez** un webhook Discord — pas seulement le consulter.
+
+<ParamField path="webhook" type="string" required>
+  L'URL complète du webhook, ou sa paire ID/token.
+</ParamField>
+
+**Renvoie :** nom du webhook, le salon dans lequel il publie, et le serveur auquel il appartient — plus des boutons d'action pour **envoyer** un message de test, **modifier** son nom/avatar, **actualiser** ses données, ou le **supprimer** définitivement.
+
+**Exemple d'utilisation :**
+
+```text
+/webhook webhook:https://discord.com/api/webhooks/000000000000/xxxxxxxxxxxx
+```
+
+<Warning>
+  Traitez les URL de webhook comme des identifiants sensibles — quiconque possède une URL de webhook peut publier des messages dans ce salon, et `/webhook` peut lui-même supprimer ou modifier le webhook si vous en avez les détails. Évitez de les partager dans des salons publics, et n'exécutez cette commande qu'avec des URL en lesquelles vous avez confiance.
+</Warning>

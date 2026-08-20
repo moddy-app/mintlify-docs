@@ -1,0 +1,98 @@
+---
+title: "Módulos de Moddy: activa funciones para tu servidor de Discord"
+sidebarTitle: "Visión general"
+description: "Los módulos son funciones por servidor que activas y configuras para añadir moderación, feeds sociales, puentes entre servidores y más a tu servidor de Discord."
+---
+
+Los módulos son funciones opcionales que puedes activar servidor por servidor para ampliar lo que Moddy hace por tu comunidad. Cada módulo es independiente — eliges cuáles activar, los configuras para adaptarlos a las necesidades de tu servidor y los desactivas cuando quieras. Todos los ajustes de los módulos se gestionan mediante el comando `/config` directamente en Discord o desde el panel web en [dashboard.moddy.app](https://dashboard.moddy.app).
+
+<Warning>
+  **Los módulos de servidor están actualmente en beta cerrada.** `/config` está restringido a cuentas con acceso beta — si recibes una tarjeta invitándote a unirte al servidor de soporte en lugar del panel, [solicita acceso allí](https://moddy.app/support).
+</Warning>
+
+### Bienvenida y roles
+
+<CardGroup cols={2}>
+  <Card title="Bienvenida" icon="hand-wave" href="/modules/welcome">
+    Saluda a los nuevos miembros con mensajes personalizados y tarjetas estilizadas en hasta 5 canales.
+  </Card>
+
+  <Card title="MD de bienvenida" icon="envelope" href="/modules/welcome-dm">
+    Envía a cada nuevo miembro un mensaje privado de bienvenida cuando se une.
+  </Card>
+
+  <Card title="Auto Role" icon="user-plus" href="/modules/auto-role">
+    Asigna roles automáticamente al unirse, con una lista separada para humanos y para bots.
+  </Card>
+
+  <Card title="Restauración automática de roles" icon="clock-rotate-left" href="/modules/auto-restore-roles">
+    Recuerda los roles de un miembro cuando se va y devuélveselos si regresa.
+  </Card>
+</CardGroup>
+
+### Moderación y seguridad
+
+<CardGroup cols={2}>
+  <Card title="AutoMod AI" icon="robot" href="/moderation/automod">
+    Detecta y actúa automáticamente sobre mensajes dañinos, con apelaciones y evidencias.
+  </Card>
+
+  <Card title="AltGuard" icon="shield-halved" href="/modules/altguard">
+    Retén a los nuevos miembros tras una verificación basada en consentimiento que detecta posibles cuentas alternativas.
+  </Card>
+
+  <Card title="Slowmode adaptativo" icon="gauge-high" href="/modules/adaptive-slowmode">
+    Sube y baja el slowmode automáticamente según se caldee o se calme un canal.
+  </Card>
+</CardGroup>
+
+### Comunidad y contenido
+
+<CardGroup cols={2}>
+  <Card title="Notificaciones de redes sociales" icon="bell" href="/modules/social-notifications">
+    Sigue feeds de YouTube, Twitch, Bluesky y RSS y publica las novedades en tu servidor.
+  </Card>
+
+  <Card title="Starboard" icon="star" href="/modules/starboard">
+    Vuelve a publicar los mensajes populares en un canal destacado cuando alcancen un número de reacciones.
+  </Card>
+
+  <Card title="Inter-Server" icon="arrows-left-right" href="/modules/interserver">
+    Conecta un canal con canales de otros servidores de Discord para chatear entre comunidades en tiempo real.
+  </Card>
+
+  <Card title="Transcripción de voz" icon="microphone" href="/modules/voice-transcription">
+    Añade un botón Transcribir bajo los mensajes de voz, o transcríbelos automáticamente.
+  </Card>
+
+  <Card title="Personalización del bot" icon="paintbrush" href="/modules/bot-customization">
+    Dale a Moddy un apodo, avatar, banner y biografía personalizados en tu servidor.
+  </Card>
+</CardGroup>
+
+## Activar un módulo
+
+Puedes activar y configurar cualquier módulo en segundos sin salir de Discord.
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en cualquier canal de tu servidor. Esto abre el panel interactivo de configuración del servidor de Moddy.
+  </Step>
+  <Step title="Selecciona el módulo">
+    Elige del menú el módulo que quieres activar. Cada módulo tiene su propia sección de ajustes.
+  </Step>
+  <Step title="Configura sus ajustes">
+    Rellena los datos necesarios — como el canal de destino, el texto del mensaje o la acción a realizar. La página de cada módulo cubre sus opciones específicas en detalle.
+  </Step>
+  <Step title="Guarda los cambios">
+    Haz clic en **Guardar** para aplicar la configuración. El módulo se activará inmediatamente.
+  </Step>
+</Steps>
+
+## Gestionar módulos desde el panel
+
+Todos los módulos disponibles a través de `/config` también están accesibles desde el panel web en [dashboard.moddy.app](https://dashboard.moddy.app). El panel ofrece las mismas opciones de configuración con una interfaz a página completa, lo que facilita gestionar ajustes complejos como varios mensajes de bienvenida o varios feeds de notificaciones de redes sociales a la vez. Inicia sesión con tu cuenta de Discord y selecciona tu servidor para empezar.
+
+<Tip>
+  Activar o editar los ajustes de un módulo requiere el permiso **Gestionar servidor** en el servidor de Discord que estás configurando. Si ves que `/config` no funciona, comprueba que tu rol tiene este permiso.
+</Tip>
