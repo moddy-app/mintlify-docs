@@ -1,0 +1,98 @@
+---
+title: "AutoMod IA : modération automatique des messages pour Discord"
+sidebarTitle: "AutoMod IA"
+description: "L'AutoMod IA de Moddy détecte et agit sur les messages nuisibles en temps réel — avertissant, mutant ou bannissant automatiquement les membres avant que le mal ne soit fait."
+icon: "robot"
+---
+
+L'AutoMod de Moddy utilise l'intelligence artificielle pour surveiller les messages sur votre serveur et prendre des mesures automatiquement lorsqu'un contenu nuisible est détecté. Au lieu de s'appuyer uniquement sur des listes de mots-clés, il comprend le contexte — attrapant les violations subtiles que les simples filtres ratent, et évitant les faux positifs sur les messages légitimes.
+
+## Comment ça fonctionne
+
+Chaque message envoyé dans un salon où AutoMod est actif est évalué à travers une série de vérifications, du plus rapide au plus approfondi :
+
+<Steps>
+  <Step title="Pré-filtre rapide">
+    Les messages très courts et autres contenus manifestement sûrs sont validés instantanément sans autre traitement.
+  </Step>
+  <Step title="Vérification des phrases sûres">
+    Les phrases sûres courantes et bien connues sont comparées à une liste d'autorisation et laissées passer immédiatement, ce qui maintient une détection rapide pour les conversations normales.
+  </Step>
+  <Step title="Correspondance de motifs nuisibles">
+    Le message est comparé à des motifs nuisibles connus. Tout ce qui correspond clairement à un motif bloqué est signalé pour action.
+  </Step>
+  <Step title="Évaluation par IA">
+    Les messages qui franchissent les vérifications précédentes sont évalués par un modèle d'IA. **Le modèle d'IA prend la décision finale** — il n'agit que lorsqu'il est certain que le message est nuisible, ce qui minimise les faux positifs.
+  </Step>
+  <Step title="Action appliquée">
+    Si l'IA signale le message, il est supprimé immédiatement. Une sanction (avertissement, mute ou bannissement) est appliquée au membre en fonction de la gravité de la violation et des paramètres AutoMod configurés sur votre serveur.
+  </Step>
+</Steps>
+
+## Activer AutoMod
+
+Vous pouvez activer AutoMod depuis le tableau de bord web ou directement dans Discord via `/config`.
+
+<Steps>
+  <Step title="Ouvrir la configuration du serveur">
+    Exécutez `/config` dans votre serveur, ou rendez-vous sur le [tableau de bord Moddy](https://dashboard.moddy.app) et sélectionnez votre serveur.
+  </Step>
+  <Step title="Accéder à AutoMod IA">
+    Trouvez la section **AutoMod IA** dans le panneau de configuration.
+  </Step>
+  <Step title="Définir le salon d'alerte">
+    Choisissez un salon textuel pour recevoir les cartes d'alerte d'AutoMod. Ce salon est **obligatoire** — AutoMod ne fonctionnera pas sans qu'un salon soit défini.
+  </Step>
+  <Step title="Activer AutoMod">
+    Basculez l'interrupteur pour activer AutoMod sur votre serveur.
+  </Step>
+  <Step title="Ajuster la sévérité">
+    Choisissez un niveau de sévérité de 1 à 5. Cela contrôle la sensibilité de la détection et la sévérité de l'escalade automatique des sanctions — c'est le seul curseur manuel ; Moddy décide de l'action spécifique (avertissement, mute ou bannissement) et de la durée pour chaque violation par lui-même.
+  </Step>
+  <Step title="Exempter des rôles ou des salons (optionnel)">
+    Ajoutez des rôles ou des salons de confiance aux listes d'exemption si vous voulez qu'AutoMod les ignore entièrement.
+  </Step>
+</Steps>
+
+<Tip>
+  Consultez régulièrement les journaux AutoMod dans le [tableau de bord](https://dashboard.moddy.app) pour voir quels messages sont attrapés et signalés. Cela vous aide à ajuster la sensibilité afin qu'AutoMod fonctionne bien pour le ton et le style de votre communauté.
+</Tip>
+
+## Actions qu'AutoMod peut prendre
+
+Lorsqu'AutoMod détermine qu'un message est nuisible, il supprime le message et applique l'une des sanctions suivantes, choisie automatiquement en fonction de la catégorie de la violation, de la sévérité et de l'historique du membre — aucune correspondance manuelle à configurer :
+
+| Action | Description |
+| --- | --- |
+| **Avertissement** | Un avertissement formel est enregistré dans le dossier du membre. Convient aux violations mineures ou de première fois. |
+| **Mute** | Le membre est temporairement mis en timeout. Vous pouvez configurer la durée du mute dans vos paramètres AutoMod. |
+| **Bannissement** | Le membre est banni du serveur. Réservé aux violations les plus graves. |
+
+Toutes les actions d'AutoMod sont enregistrées comme des dossiers de modération avec une chronologie complète, tout comme les sanctions appliquées manuellement.
+
+## Devenir plus intelligent au fil du temps
+
+AutoMod ne réagit pas seulement à un seul message de manière isolée — deux boucles de rétroaction façonnent les décisions futures pour votre serveur, sans aucun réglage manuel requis :
+
+- **Résultats des appels.** Un appel accepté n'annule pas seulement la sanction — c'est un signal que la décision initiale était un faux positif, et il cesse donc de compter contre ce membre pour les futures décisions d'escalade. Un appel refusé, en revanche, confirme que la sanction était juste et pèse légèrement plus qu'un appel non examiné.
+- **Précédents du serveur.** Au fur et à mesure que vos modérateurs acceptent ou refusent les appels, Moddy construit une mémoire de ce que votre communauté spécifique considère comme sanctionnable — de sorte que ses jugements deviennent plus cohérents avec la façon dont votre équipe modère réellement, au lieu de s'appuyer uniquement sur des règles génériques.
+
+## Faire appel des décisions d'AutoMod
+
+Lorsqu'AutoMod sanctionne un membre, Moddy lui envoie immédiatement un **message direct** — expliquant ce qui s'est passé et incluant un bouton **Appel**. Le membre peut soumettre un appel sans quitter Discord.
+
+Les appels soumis sont acheminés vers les modérateurs de votre serveur pour examen. Les modérateurs peuvent :
+
+- **Accepter** l'appel — la sanction est révoquée.
+- **Refuser** l'appel — la sanction est maintenue.
+- **Transformer** l'appel — remplacer la sanction par une autre.
+
+Chaque résultat d'appel est consigné dans la chronologie du dossier.
+
+## Disponible pour chaque serveur
+
+AutoMod IA n'est pas une fonctionnalité premium — elle fonctionne à pleine capacité sur chaque serveur, gratuit ou [Moddy Max](/premium/overview), avec le même pipeline de détection, les mêmes contrôles de sensibilité et la même création de dossiers. Voir [ce que débloque réellement Moddy Max](/premium/features) si vous vous demandez si passer à la version premium affecte la modération — aujourd'hui, non.
+
+<Note>
+  L'AutoMod de Moddy fonctionne **aux côtés de l'AutoMod natif de Discord** — vous pouvez avoir les deux actifs en même temps. Ils fonctionnent indépendamment, donc en activer un ne désactive pas et n'interfère pas avec l'autre.
+</Note>

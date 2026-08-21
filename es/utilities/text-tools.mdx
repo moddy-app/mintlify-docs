@@ -1,0 +1,82 @@
+---
+title: "Herramientas de texto para Discord: OCR, marcas de tiempo, dados y más"
+sidebarTitle: "Herramientas de texto"
+description: "Extrae texto de imágenes, genera marcas de tiempo con zona horaria para Discord, tira dados y más con las utilidades de procesamiento de texto integradas de Moddy."
+icon: "spell-check"
+---
+
+Moddy incluye varias herramientas útiles que van más allá de los comandos simples — escritura asistida por IA, transcripción de mensajes de voz, marcadores de mensajes y más. Todos los comandos siguientes son globales: funcionan en DMs con Moddy y en cualquier servidor, incluso en aquellos donde Moddy no esté instalado.
+
+## Herramientas de texto con IA
+
+```text
+/timestamp 2026-06-01 20:00
+```
+
+<CardGroup cols={2}>
+  <Card title="Fix" icon="spell-check">
+    `/fix <text>` corrige la ortografía, gramática, puntuación y tildes — nada más. El significado y el tono permanecen exactamente como los escribiste.
+  </Card>
+
+  <Card title="Rephrase" icon="pen-nib">
+    `/rephrase <text> [style]` reescribe tu texto en un estilo diferente manteniendo el mismo significado. Elige entre Neutral, Professional, Formal, Friendly, Casual o Concise.
+  </Card>
+
+  <Card title="Summarize" icon="align-left">
+    `/summarize <text> [length]` condensa un texto a sus puntos clave. Elige Short, Medium (por defecto) o Bullet points.
+  </Card>
+</CardGroup>
+
+Los tres funcionan con texto en **cualquier idioma** — Moddy detecta automáticamente el idioma de entrada y responde en el mismo.
+
+### Usar las herramientas de texto con IA en el mensaje de otra persona
+
+No tienes que copiar y pegar el texto en el comando slash. Haz clic derecho (o mantén pulsado en móvil) sobre cualquier mensaje, abre **Apps** y selecciona **AI text tools** para abrir un editor efímero prellenado donde eliges Fix, Rephrase o Summarize — con el texto del mensaje ya cargado.
+
+<Note>
+  El resultado del menú contextual es efímero (solo tú puedes verlo), mientras que ejecutar `/fix`, `/rephrase` o `/summarize` directamente publica el resultado de forma visible en el canal.
+</Note>
+
+## Transcripción de voz
+
+Convierte un mensaje de voz de Discord — o cualquier archivo de audio adjunto — en texto legible.
+
+- **En cualquier sitio:** haz clic derecho en un mensaje de voz, abre **Apps** y selecciona **Transcribe**. Esto funciona en servidores, DMs y en cualquier sitio donde Moddy esté instalado por el usuario.
+- **En servidores con el módulo habilitado:** aparece un botón **Transcribe** directamente debajo de los mensajes de voz, para que cualquier miembro pueda activarlo con un clic.
+
+La transcripción terminada se publica públicamente en el canal — incluyendo el idioma detectado y la duración del audio — para que toda la conversación pueda leerla, no solo la persona que la solicitó.
+
+## Guardar mensajes
+
+Haz clic derecho en cualquier mensaje, abre **Apps** y selecciona **Save Message** para marcarlo. Los mensajes guardados son privados para ti y permanecen accesibles incluso si el mensaje original se elimina posteriormente o el canal deja de ser accesible — una forma rápida de hacer seguimiento de algo importante sin fijarlo para todo el servidor.
+
+## Extraer emojis
+
+Haz clic derecho en un mensaje que use emojis personalizados, abre **Apps** y selecciona **Get Emojis** para obtener una lista limpia y navegable de cada emoji personalizado utilizado en él — útil para encontrar la fuente de un emoji que quieras robar para tu propio servidor.
+
+## Tirador de dados
+
+Tira un número aleatorio para juegos de mesa, sorteos o cualquier momento en que necesites una elección aleatoria justa.
+
+```text
+/roll
+```
+
+```text
+/roll
+/roll max: 20
+```
+
+```text
+/roll 2d6
+```
+
+```text
+/roll 1d20+5
+```
+
+`/roll` sin opciones tira un número entre 1 y 6, como un dado estándar. Pasa `max` para tirar entre 1 y cualquier valor hasta 1.000.000 — por ejemplo, `max: 20` para un dado de veinte caras.
+
+<Tip>
+  Usa la opción `incognito` si prefieres ver el resultado en privado en lugar de publicarlo en el canal.
+</Tip>

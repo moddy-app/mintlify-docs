@@ -1,0 +1,114 @@
+---
+title: "Comandos de moderación de Moddy: sanciones, casos e historial"
+sidebarTitle: "Moderación"
+description: "Banea, expulsa, silencia y advierte a los miembros, y luego explora y gestiona cada caso de moderación, todo desde comandos de barra de Discord."
+icon: "gavel"
+---
+
+Los comandos de moderación de Moddy le proporcionan a tu equipo un flujo de trabajo estructurado y auditable. Cada acción (una advertencia, un silencio, un baneo) se registra como un **caso** con un código de referencia único de 6 caracteres (por ejemplo, `AB3XR7`), construyendo una línea de tiempo completa de sanciones, notas y pruebas.
+
+Todos los comandos de esta página son **exclusivos de servidor** y responden en **privado** por defecto.
+
+---
+
+## Aplicar sanciones
+
+`/ban`, `/kick`, `/mute` y `/warn` funcionan todos de la misma forma: el comando de barra selecciona un primer objetivo y luego abre un formulario en el que confirmas todo antes de que ocurra nada.
+
+```discord
+/ban user:@member
+/kick user:@member
+/mute user:@member
+/warn user:@member
+```
+
+<ParamField path="user" type="member" required>
+  El primer miembro a sancionar. Puedes añadir más dentro del formulario.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si la confirmación es visible solo para ti. Por defecto usa tu configuración de `/preferences`, o privada.
+</ParamField>
+
+### Dentro del formulario
+
+| Campo | Detalles |
+| --- | --- |
+| **Objetivos** | De 1 a **10** miembros en una sola acción |
+| **Motivo** | Obligatorio, hasta 1000 caracteres |
+| **Duración** | Solo `/ban` y `/mute` — texto libre, hasta 50 caracteres. Déjalo en blanco para que sea permanente. |
+| **Pruebas** | Hasta **10** archivos subidos, adjuntos al caso |
+| **Notificar por MD** | Activado por defecto — el miembro recibe el motivo y las pruebas |
+
+### Lo que hace cada uno
+
+| Comando | Permiso de Discord | Efecto |
+| --- | --- | --- |
+| `/ban` | **Banear miembros** | Elimina al miembro y bloquea su reingreso. Admite una duración para un baneo temporal. |
+| `/kick` | **Expulsar miembros** | Elimina al miembro; puede volver a unirse con una nueva invitación. Sin duración. |
+| `/mute` | **Moderar miembros** | Aplica un tiempo de espera de Discord durante la duración que establezcas. |
+| `/warn` | **Moderar miembros** | Registra una advertencia y opcionalmente envía un MD al miembro. Sin acción del lado de Discord. |
+
+### Protección de jerarquía
+
+<Warning>
+  Moddy rechaza una sanción cuando el objetivo es el **propietario del servidor**, cuando el objetivo eres **tú mismo**, cuando el rol más alto del objetivo es **igual o superior al tuyo** (a menos que seas el propietario), o cuando el rol más alto del objetivo es **igual o superior al de Moddy**. Cada objetivo se vuelve a comprobar cuando envías el formulario, no solo cuando ejecutas el comando.
+
+  `/warn` es la única excepción a la última regla: una advertencia es un registro, no una acción de Discord, por lo que la posición del propio rol de Moddy no importa.
+</Warning>
+
+---
+
+## `/cases`
+
+Explora todos los casos de moderación del servidor actual en un panel interactivo.
+
+<ParamField path="case" type="string">
+  Opcional. Una referencia de caso de 6 caracteres (por ejemplo, `AB3XR7`) para saltar directamente a ese caso.
+</ParamField>
+
+```discord
+/cases
+/cases case:AB3XR7
+```
+
+Requiere **Gestionar mensajes** (o Administrador), ajustable por rol desde **Configuración del servidor → Integraciones**. La respuesta siempre es privada.
+
+Desde la pantalla de lista, un botón de **Filtros** acota por estado, tipo de sanción, período y miembro. Al seleccionar un caso se abre su pantalla de detalle, donde puedes:
+
+| Acción | Permiso necesario |
+| --- | --- |
+| Añadir una sanción (warn, mute, ban) | **Expulsar por tiempo a miembros** para warn/mute, **Banear miembros** para ban |
+| Revocar una sanción activa | El mismo que la sanción que se está revocando |
+| Comentar, editar el motivo, cerrar o reabrir | Gestionar mensajes |
+| Adjuntar pruebas — un enlace o un mensaje capturado | Gestionar mensajes |
+
+---
+
+## `/mycases`
+
+Consulta tus propios casos de moderación en todos los servidores que usan Moddy. Solo lectura, disponible para todos sin necesidad de ningún permiso, y funciona tanto en servidores como en MD.
+
+<ParamField path="case" type="string">
+  Opcional. Un código de referencia para abrir directamente — solo resuelve casos que realmente son tuyos.
+</ParamField>
+
+```discord
+/mycases
+```
+
+<Info>
+  Si has recibido una sanción de AutoMod y quieres apelarla, utiliza los botones de apelación en el MD que Moddy te envía; no necesitas contactar directamente con un moderador.
+</Info>
+
+---
+
+## Sanciones registradas automáticamente
+
+Los baneos y las expulsiones por tiempo aplicados directamente a través de Discord —sin usar Moddy en absoluto— se detectan automáticamente y se registran como casos, usando el registro de auditoría para capturar al moderador y motivo reales. Al retirar el baneo o eliminar el tiempo de espera se revoca la sanción correspondiente.
+
+Esto requiere que Moddy tenga el permiso **Ver el registro de auditoría**. Las expulsiones nunca se registran como casos.
+
+<Note>
+  `/mod case` y los demás comandos `/mod`, `/dev`, `/team` y `/manage` son **exclusivos del personal de Moddy**, disponibles solo en los servidores oficiales de Moddy. No forman parte del conjunto de herramientas para los servidores que ejecutan Moddy.
+</Note>

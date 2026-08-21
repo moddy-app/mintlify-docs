@@ -39,95 +39,294 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Guide",
-        "groups": [
+        "language": "en",
+        "tabs": [
           {
-            "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "getting-started/dashboard"
+            "tab": "Guide",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "introduction",
+                  "quickstart",
+                  "getting-started/dashboard"
+                ]
+              },
+              {
+                "group": "Moderation",
+                "pages": [
+                  "moderation/overview",
+                  "moderation/cases",
+                  "moderation/sanctions",
+                  "moderation/automod"
+                ]
+              },
+              {
+                "group": "Modules",
+                "pages": [
+                  "modules/overview",
+                  "modules/welcome",
+                  "modules/welcome-dm",
+                  "modules/auto-restore-roles",
+                  "modules/auto-role",
+                  "modules/starboard",
+                  "modules/adaptive-slowmode",
+                  "modules/social-notifications",
+                  "modules/interserver",
+                  "modules/voice-transcription",
+                  "modules/bot-customization",
+                  "modules/altguard",
+                  "modules/altguard-data"
+                ]
+              },
+              {
+                "group": "Utilities",
+                "pages": [
+                  "utilities/overview",
+                  "utilities/translation",
+                  "utilities/reminders",
+                  "utilities/text-tools"
+                ]
+              },
+              {
+                "group": "Moddy Max",
+                "pages": [
+                  "premium/overview",
+                  "premium/features"
+                ]
+              },
+              {
+                "group": "Changelog",
+                "icon": "clock-rotate-left",
+                "pages": [
+                  "changelog"
+                ]
+              }
             ]
           },
           {
-            "group": "Moderation",
-            "pages": [
-              "moderation/overview",
-              "moderation/cases",
-              "moderation/sanctions",
-              "moderation/automod"
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Command Reference",
+                "pages": [
+                  "commands/overview",
+                  "commands/moderation",
+                  "commands/utilities",
+                  "commands/information",
+                  "commands/configuration",
+                  "commands/module-commands"
+                ]
+              }
             ]
           },
           {
-            "group": "Modules",
-            "pages": [
-              "modules/overview",
-              "modules/welcome",
-              "modules/welcome-dm",
-              "modules/auto-restore-roles",
-              "modules/auto-role",
-              "modules/starboard",
-              "modules/adaptive-slowmode",
-              "modules/social-notifications",
-              "modules/interserver",
-              "modules/voice-transcription",
-              "modules/bot-customization",
-              "modules/altguard",
-              "modules/altguard-data"
-            ]
-          },
-          {
-            "group": "Utilities",
-            "pages": [
-              "utilities/overview",
-              "utilities/translation",
-              "utilities/reminders",
-              "utilities/text-tools"
-            ]
-          },
-          {
-            "group": "Moddy Max",
-            "pages": [
-              "premium/overview",
-              "premium/features"
-            ]
-          },
-          {
-            "group": "Changelog",
-            "icon": "clock-rotate-left",
-            "pages": [
-              "changelog"
+            "tab": "Legal",
+            "groups": [
+              {
+                "group": "Legal",
+                "pages": [
+                  "legal/tos",
+                  "legal/privacy",
+                  "legal/license"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "Commands",
-        "groups": [
+        "language": "fr",
+        "tabs": [
           {
-            "group": "Command Reference",
-            "pages": [
-              "commands/overview",
-              "commands/moderation",
-              "commands/utilities",
-              "commands/information",
-              "commands/configuration",
-              "commands/module-commands"
+            "tab": "Guide",
+            "groups": [
+              {
+                "group": "Prise en main",
+                "pages": [
+                  "fr/introduction",
+                  "fr/quickstart",
+                  "fr/getting-started/dashboard"
+                ]
+              },
+              {
+                "group": "Modération",
+                "pages": [
+                  "fr/moderation/overview",
+                  "fr/moderation/cases",
+                  "fr/moderation/sanctions",
+                  "fr/moderation/automod"
+                ]
+              },
+              {
+                "group": "Modules",
+                "pages": [
+                  "fr/modules/overview",
+                  "fr/modules/welcome",
+                  "fr/modules/welcome-dm",
+                  "fr/modules/auto-restore-roles",
+                  "fr/modules/auto-role",
+                  "fr/modules/starboard",
+                  "fr/modules/adaptive-slowmode",
+                  "fr/modules/social-notifications",
+                  "fr/modules/interserver",
+                  "fr/modules/voice-transcription",
+                  "fr/modules/bot-customization",
+                  "fr/modules/altguard",
+                  "fr/modules/altguard-data"
+                ]
+              },
+              {
+                "group": "Utilitaires",
+                "pages": [
+                  "fr/utilities/overview",
+                  "fr/utilities/translation",
+                  "fr/utilities/reminders",
+                  "fr/utilities/text-tools"
+                ]
+              },
+              {
+                "group": "Moddy Max",
+                "pages": [
+                  "fr/premium/overview",
+                  "fr/premium/features"
+                ]
+              },
+              {
+                "group": "Journal des modifications",
+                "icon": "clock-rotate-left",
+                "pages": [
+                  "fr/changelog"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Commandes",
+            "groups": [
+              {
+                "group": "Référence des commandes",
+                "pages": [
+                  "fr/commands/overview",
+                  "fr/commands/moderation",
+                  "fr/commands/utilities",
+                  "fr/commands/information",
+                  "fr/commands/configuration",
+                  "fr/commands/module-commands"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Mentions légales",
+            "groups": [
+              {
+                "group": "Mentions légales",
+                "pages": [
+                  "fr/legal/tos",
+                  "fr/legal/privacy",
+                  "fr/legal/license"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "Legal",
-        "groups": [
+        "language": "es",
+        "tabs": [
           {
-            "group": "Legal",
-            "pages": [
-              "legal/tos",
-              "legal/privacy",
-              "legal/license"
+            "tab": "Guía",
+            "groups": [
+              {
+                "group": "Primeros pasos",
+                "pages": [
+                  "es/introduction",
+                  "es/quickstart",
+                  "es/getting-started/dashboard"
+                ]
+              },
+              {
+                "group": "Moderación",
+                "pages": [
+                  "es/moderation/overview",
+                  "es/moderation/cases",
+                  "es/moderation/sanctions",
+                  "es/moderation/automod"
+                ]
+              },
+              {
+                "group": "Módulos",
+                "pages": [
+                  "es/modules/overview",
+                  "es/modules/welcome",
+                  "es/modules/welcome-dm",
+                  "es/modules/auto-restore-roles",
+                  "es/modules/auto-role",
+                  "es/modules/starboard",
+                  "es/modules/adaptive-slowmode",
+                  "es/modules/social-notifications",
+                  "es/modules/interserver",
+                  "es/modules/voice-transcription",
+                  "es/modules/bot-customization",
+                  "es/modules/altguard",
+                  "es/modules/altguard-data"
+                ]
+              },
+              {
+                "group": "Utilidades",
+                "pages": [
+                  "es/utilities/overview",
+                  "es/utilities/translation",
+                  "es/utilities/reminders",
+                  "es/utilities/text-tools"
+                ]
+              },
+              {
+                "group": "Moddy Max",
+                "pages": [
+                  "es/premium/overview",
+                  "es/premium/features"
+                ]
+              },
+              {
+                "group": "Registro de cambios",
+                "icon": "clock-rotate-left",
+                "pages": [
+                  "es/changelog"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Comandos",
+            "groups": [
+              {
+                "group": "Referencia de comandos",
+                "pages": [
+                  "es/commands/overview",
+                  "es/commands/moderation",
+                  "es/commands/utilities",
+                  "es/commands/information",
+                  "es/commands/configuration",
+                  "es/commands/module-commands"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Legal",
+            "groups": [
+              {
+                "group": "Legal",
+                "pages": [
+                  "es/legal/tos",
+                  "es/legal/privacy",
+                  "es/legal/license"
+                ]
+              }
             ]
           }
         ]

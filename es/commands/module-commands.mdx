@@ -1,0 +1,90 @@
+---
+title: "Comandos de módulo y menús con clic derecho"
+sidebarTitle: "Módulos y menús"
+description: "Comandos que pertenecen a un módulo específico — AltGuard, Inter-Server, Auto-Restore Roles — además de todos los menús Apps con clic derecho que añade Moddy."
+icon: "puzzle-piece"
+---
+
+Algunos comandos solo tienen sentido junto a un módulo concreto y solo aparecen cuando ese módulo está configurado. Moddy también añade cinco **menús con clic derecho**, que son fáciles de pasar por alto porque nunca aparecen en el selector de comandos `/`.
+
+## Comandos de módulo
+
+### AltGuard
+
+Anula manualmente la puerta de verificación de [AltGuard](/modules/altguard) para un miembro. Ambos son exclusivos de servidor y requieren el permiso **Gestionar roles**.
+
+```discord
+/altguard verify <member>
+/altguard unverify <member>
+```
+
+- **`/altguard verify`** — deja pasar a un miembro manualmente, otorgándole el rol de verificado y entregándolo a [Auto Role](/modules/auto-role) si está habilitado.
+- **`/altguard unverify`** — devuelve a un miembro previamente verificado detrás de la puerta.
+
+### Inter-Server
+
+Consulta o reporta un mensaje reenviado a través de un puente [Inter-Server](/modules/interserver). Ambos son exclusivos de servidor.
+
+```discord
+/interserver report <message_id>
+/interserver info <message_id>
+```
+
+<ParamField path="message_id" type="string" required>
+  Bien el ID de Moddy del mensaje — un código corto de 8 caracteres como `F6ZEU3VS` adjunto a cada mensaje reenviado — o su ID de mensaje de Discord.
+</ParamField>
+
+- **`/interserver report`** — envía un mensaje reenviado al equipo de Moddy para su revisión, independientemente de lo que hagan localmente tus propios moderadores.
+- **`/interserver info`** — muestra de dónde vino un mensaje reenviado y su estado actual.
+
+<Warning>
+  **La opción `incognito` de `/interserver info` significa algo distinto** al resto de Moddy. Aquí controla si la consulta se **registra con tu identidad**, no si la respuesta es privada — y por defecto es `false`, no la preferencia que hayas guardado.
+</Warning>
+
+### Auto-Restore Roles
+
+Inspecciona y borra los roles almacenados por [Auto-Restore Roles](/modules/auto-restore-roles). Ambos requieren **Gestionar servidor** y responden en privado.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — lista cada miembro con roles almacenados, cuántos y cuándo se guardaron.
+- **`/clear-saved-roles`** — borra los roles almacenados de un miembro para que _no_ los recupere si regresa.
+
+---
+
+## Menús con clic derecho
+
+Estos viven en el menú **Apps** de Discord. Haz clic derecho en un mensaje (o mantén pulsado en móvil), pasa el ratón sobre **Apps** y elige uno.
+
+<CardGroup cols={2}>
+  <Card title="AI text tools" icon="wand-magic-sparkles">
+    Abre un editor precargado en el que eliges Fix, Rephrase o Summarize. El resultado es privado para ti.
+  </Card>
+
+  <Card title="Translate" icon="language">
+    Traduce el mensaje al instante, sin necesidad de volver a escribir su texto en `/translate`.
+  </Card>
+
+  <Card title="Transcribe" icon="microphone">
+    Convierte un mensaje de voz o un archivo de audio adjunto en texto. El resultado se publica **públicamente** en el canal — consulta [Transcripción de voz](/modules/voice-transcription).
+  </Card>
+
+  <Card title="Save Message" icon="bookmark">
+    Marca el mensaje de forma privada. Explora todo lo que hayas guardado con `/library`.
+  </Card>
+
+  <Card title="Get Emojis" icon="face-smile">
+    Lista todos los emojis personalizados utilizados en el mensaje, con enlaces — útil para obtener un emoji para tu propio servidor.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Transcribe** es el único comando de Moddy cuya respuesta es pública por defecto. Eso es intencional: una transcripción existe para que todo el canal pueda leer una nota de voz. Todo lo demás es privado por defecto.
+</Note>
+
+<Tip>
+  Los menús **Transcribe**, **Translate**, **AI text tools**, **Save Message** y **Get Emojis** funcionan en MD y en servidores que no tienen a Moddy, siempre que hayas añadido a Moddy como aplicación de usuario.
+</Tip>

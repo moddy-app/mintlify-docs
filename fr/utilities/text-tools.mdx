@@ -1,0 +1,82 @@
+---
+title: "Outils de texte Discord : OCR, horodatages, dés et plus"
+sidebarTitle: "Outils de texte"
+description: "Extrayez du texte depuis des images, générez des horodatages Discord tenant compte des fuseaux horaires, lancez des dés et plus encore avec les utilitaires de traitement de texte intégrés à Moddy."
+icon: "spell-check"
+---
+
+Moddy embarque plusieurs outils pratiques qui vont au-delà des simples commandes — écriture assistée par IA, transcription de messages vocaux, mise en favori de messages, et plus. Toutes les commandes ci-dessous sont globales : elles fonctionnent en DM avec Moddy et sur n'importe quel serveur, même ceux où Moddy n'est pas installé.
+
+## Outils de texte IA
+
+```text
+/timestamp 2026-06-01 20:00
+```
+
+<CardGroup cols={2}>
+  <Card title="Fix" icon="spell-check">
+    `/fix <text>` corrige l'orthographe, la grammaire, la ponctuation et les accents — rien d'autre. Le sens et le ton restent exactement tels que vous les avez écrits.
+  </Card>
+
+  <Card title="Rephrase" icon="pen-nib">
+    `/rephrase <text> [style]` réécrit votre texte dans un style différent tout en gardant le même sens. Choisissez parmi Neutre, Professionnel, Formel, Amical, Décontracté ou Concis.
+  </Card>
+
+  <Card title="Summarize" icon="align-left">
+    `/summarize <text> [length]` condense un texte à ses points essentiels. Choisissez Court, Moyen (par défaut) ou Points à puces.
+  </Card>
+</CardGroup>
+
+Les trois fonctionnent avec du texte dans **n'importe quelle langue** — Moddy détecte automatiquement la langue d'entrée et répond dans la même.
+
+### Utiliser les outils de texte IA sur le message de quelqu'un d'autre
+
+Vous n'avez pas besoin de copier-coller du texte dans la commande slash. Faites un clic droit (ou un appui long sur mobile) sur n'importe quel message, ouvrez **Apps** et sélectionnez **AI text tools** pour ouvrir un éditeur préchargé et éphémère où vous choisissez Fix, Rephrase ou Summarize — avec le texte du message déjà chargé.
+
+<Note>
+  Le résultat via le menu contextuel est éphémère (vous seul pouvez le voir), tandis qu'exécuter directement `/fix`, `/rephrase` ou `/summarize` publie le résultat de manière visible dans le salon.
+</Note>
+
+## Transcription vocale
+
+Transformez un message vocal Discord — ou toute pièce jointe audio — en texte lisible.
+
+- **Partout :** faites un clic droit sur un message vocal, ouvrez **Apps** et sélectionnez **Transcribe**. Cela fonctionne dans les serveurs, en DM et partout où Moddy est installé par l'utilisateur.
+- **Dans les serveurs où le module est activé :** un bouton **Transcribe** apparaît directement sous les messages vocaux, afin que n'importe quel membre puisse le déclencher en un clic.
+
+La transcription finale est publiée publiquement dans le salon — avec la langue détectée et la durée de l'audio — pour que toute la conversation puisse la lire, pas seulement la personne qui l'a demandée.
+
+## Enregistrer des messages
+
+Faites un clic droit sur n'importe quel message, ouvrez **Apps** et sélectionnez **Save Message** pour le mettre en favori. Les messages enregistrés vous sont privés et restent accessibles même si le message d'origine est ensuite supprimé ou si le salon devient inaccessible — un moyen rapide de garder trace de quelque chose d'important sans l'épingler pour tout le serveur.
+
+## Extraire des émojis
+
+Faites un clic droit sur un message qui utilise des émojis personnalisés, ouvrez **Apps** et sélectionnez **Get Emojis** pour obtenir une liste propre et parcourable de chaque émoji personnalisé qu'il utilise — pratique pour trouver la source d'un émoji que vous voulez récupérer pour votre propre serveur.
+
+## Lanceur de dés
+
+Tirez un nombre aléatoire pour des jeux de plateau, des tirages au sort ou à chaque fois que vous avez besoin d'un choix aléatoire équitable.
+
+```text
+/roll
+```
+
+```text
+/roll
+/roll max: 20
+```
+
+```text
+/roll 2d6
+```
+
+```text
+/roll 1d20+5
+```
+
+`/roll` sans option tire un nombre entre 1 et 6, comme un dé standard. Passez `max` pour tirer entre 1 et n'importe quelle valeur jusqu'à 1 000 000 — par exemple, `max: 20` pour un dé à vingt faces.
+
+<Tip>
+  Utilisez l'option `incognito` si vous préférez voir le résultat en privé plutôt que de le publier dans le salon.
+</Tip>

@@ -1,0 +1,75 @@
+---
+title: "Bienvenida por MD: saluda a los nuevos miembros en privado"
+sidebarTitle: "Bienvenida por MD"
+description: "Envía a cada nuevo miembro un mensaje de bienvenida privado cuando se una, con marcadores y un embed opcional."
+icon: "envelope"
+---
+
+Welcome DM envía un mensaje privado a cada nuevo miembro en el momento en que se une: una forma de saludarlos, indicarles las reglas o entregarles un enlace sin llenar un canal. Funciona de forma independiente de los [Mensajes de bienvenida](/modules/welcome), así que puedes tener un saludo público _y_ uno privado en la misma unión.
+
+## Configuración
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Welcome DM**.
+  </Step>
+  <Step title="Escribe tu mensaje">
+    Introduce el texto que recibirán los nuevos miembros. Usa los [marcadores de abajo](#placeholders) para personalizarlo.
+  </Step>
+  <Step title="Opcionalmente, envuélvelo en un embed">
+    Activa la opción de embed para enviar una tarjeta con estilo en lugar de texto plano, con su propio título, color y diseño.
+  </Step>
+  <Step title="Guarda">
+    El módulo se activa inmediatamente: el siguiente miembro que se una recibirá el MD.
+  </Step>
+</Steps>
+
+## Ajustes
+
+| Ajuste | Qué controla | Predeterminado | Límite |
+| --- | --- | --- | --- |
+| **Message** | El texto del MD (obligatorio) | Una línea de bienvenida genérica | 1–2000 caracteres |
+| **Embed** | Envuelve el mensaje en un embed con estilo | Desactivado | — |
+| **Embed title** | El título del embed | "Welcome!" | 256 caracteres |
+| **Embed description** | Reemplaza el mensaje dentro del embed | Ninguna | 4096 caracteres |
+| **Embed colour** | El color de la barra lateral del embed | Blurple (`#5865F2`) | Cualquier valor `#RRGGBB` |
+| **Thumbnail** | Muestra el avatar del miembro como miniatura del embed | Activado | — |
+| **Author header** | Muestra el nombre y avatar del miembro en la cabecera del embed | Desactivado | — |
+
+<Info>
+  Si estableces una **embed description**, reemplaza tu mensaje dentro del embed. Si la dejas vacía, tu mensaje se usa tanto como texto del mensaje como descripción del embed.
+</Info>
+
+## Marcadores
+
+Usa estos en cualquier parte de tu mensaje, título del embed o descripción del embed:
+
+| Marcador | Reemplazado por |
+| --- | --- |
+| `{user}` | El nombre de cuenta del miembro |
+| `{username}` | El nombre de cuenta del miembro |
+| `{server}` | El nombre de tu servidor |
+| `{member_count}` | El recuento de miembros de tu servidor tras la unión |
+
+<Warning>
+  A diferencia de los [Mensajes de bienvenida](/modules/welcome), aquí `{user}` **no** produce una mención en la que se pueda hacer clic: un MD no tiene contexto de servidor, así que Discord no puede renderizar un ping. Se sustituye por el nombre de cuenta en texto plano.
+</Warning>
+
+**Mensaje de ejemplo:**
+
+```text
+Welcome to {server}, {user}! You're our {member_count}th member.
+Head to #rules to get started, and don't hesitate to ask if you need anything.
+```
+
+## Permisos
+
+Welcome DM **no necesita permisos de servidor**: Moddy envía un mensaje al miembro directamente.
+
+<Note>
+  **Algunos miembros nunca lo recibirán.** Discord permite que cualquiera desactive los MD de los miembros del servidor, y mucha gente lo hace. Cuando eso ocurre, Moddy los omite en silencio: no hay error ni reintento. Considera el MD de bienvenida como un extra agradable y pon todo lo esencial (reglas, instrucciones de verificación) también en un canal.
+</Note>
+
+## Gratis en todos los planes
+
+Welcome DM está disponible en todos los servidores sin límites ligados a [Moddy Max](/premium/overview).

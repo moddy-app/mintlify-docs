@@ -1,0 +1,66 @@
+---
+title: "Panel web de Moddy: configura tu servidor desde cualquier navegador"
+sidebarTitle: "Panel de control"
+description: "Usa el panel web de Moddy para activar módulos, revisar casos de moderación, personalizar el bot y gestionar todos los ajustes del servidor sin comandos de Discord."
+icon: "gauge-high"
+---
+
+El panel de Moddy en [dashboard.moddy.app](https://dashboard.moddy.app) es tu centro de control para configurar cada aspecto del bot. Desde activar módulos y revisar casos de moderación hasta personalizar la apariencia del bot con Moddy Max, todo es accesible desde una interfaz web limpia — sin necesidad de comandos de Discord.
+
+## Acceder al panel
+
+Ve a [dashboard.moddy.app](https://dashboard.moddy.app) y haz clic en **Log in with Discord**. Moddy utiliza el flujo OAuth de Discord, así que se te redirigirá a Discord para autorizar la conexión y luego volverás al panel automáticamente. Moddy nunca almacena las credenciales de tu cuenta de Discord.
+
+## Seleccionar un servidor
+
+Tras iniciar sesión, el panel muestra una lista de los servidores que puedes gestionar. Solo aparecerán los servidores en los que tienes el permiso **Gestionar servidor** y Moddy ya está instalado. Haz clic en un servidor para abrir su panel de configuración.
+
+<Note>
+  Si un servidor tuyo no aparece, asegúrate de haber [añadido Moddy](https://discord.com/application-directory/1375596170713239622) previamente y de que tu cuenta de Discord tiene el permiso Gestionar servidor en él.
+</Note>
+
+## Qué puedes configurar
+
+El panel te da control total sobre las funciones de Moddy en cada servidor. Esto es lo que encontrarás:
+
+<CardGroup cols={2}>
+  <Card title="Módulos" icon="puzzle-piece">
+    Activa y configura Mensajes de bienvenida, AutoMod AI, Notificaciones de redes sociales, canales Inter-Server y AltGuard — todo desde un único panel de módulos.
+  </Card>
+
+  <Card title="Casos de moderación" icon="shield-halved">
+    Consulta cada caso de moderación de tu servidor, revisa sus líneas de tiempo, gestiona sanciones, añade notas y atiende las apelaciones de los miembros.
+  </Card>
+
+  <Card title="Personalización del bot" icon="paintbrush" href="/premium">
+    Con **Moddy Max**, personaliza el apodo, el avatar, el banner y la biografía del bot para que encajen con la imagen de tu servidor.
+  </Card>
+
+  <Card title="Servidores premium" icon="crown" href="/premium">
+    Gestiona en cuáles de tus servidores está activo **Moddy Max**. Una única suscripción cubre hasta 5 servidores con todas las funciones premium desbloqueadas.
+  </Card>
+</CardGroup>
+
+## Gestionar tu suscripción
+
+Si te suscribes a **Moddy Max**, dos páginas específicas del panel se encargan de la facturación y de la selección de servidores:
+
+- [dashboard.moddy.app/billing](https://dashboard.moddy.app/billing) — actualiza los datos de pago, consulta facturas o cancela tu suscripción. Al cancelar, el premium sigue activo hasta el final del periodo de facturación actual; los servidores que hayas seleccionado simplemente pierden el premium cuando este caduque.
+- [dashboard.moddy.app/select-premium-servers](https://dashboard.moddy.app/select-premium-servers) — elige cuáles de tus servidores (hasta 5) reciben las funciones premium de Moddy Max. También puedes ejecutar `/subscription` en Discord para comprobar tu plan actual y la fecha de renovación en cualquier momento.
+
+## Gestionar tu suscripción
+
+Si te suscribes a **Moddy Max**, dos páginas específicas del panel se encargan de la facturación y de la selección de servidores:
+
+- [dashboard.moddy.app/billing](https://dashboard.moddy.app/billing) — actualiza los datos de pago, consulta facturas o cancela tu suscripción. Al cancelar, el premium sigue activo hasta el final del periodo de facturación actual; los servidores que hayas seleccionado simplemente pierden el premium cuando este caduque.
+- [dashboard.moddy.app/select-premium-servers](https://dashboard.moddy.app/select-premium-servers) — elige cuáles de tus servidores (hasta 5) reciben las funciones premium de Moddy Max. También puedes ejecutar `/subscription` en Discord para comprobar tu plan actual y la fecha de renovación en cualquier momento.
+
+## Usar /config en Discord
+
+<Warning>
+  El comando `/config` requiere el permiso **Gestionar servidor**. Los miembros sin este permiso no verán el comando ni podrán ejecutarlo.
+</Warning>
+
+<Tip>
+  Usa el **panel** para configuraciones detalladas — como definir reglas de AutoMod, personalizar plantillas de mensajes de bienvenida o gestionar varios feeds de notificaciones de redes sociales. Usa **`/config`** para cambios rápidos sobre la marcha cuando ya estés en Discord y necesites activar un módulo al vuelo.
+</Tip>

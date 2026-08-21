@@ -1,0 +1,65 @@
+---
+title: "Sanciones de moderación: advertencias, silencios, baneos y restricciones"
+sidebarTitle: "Sanciones"
+description: "Descubre todos los tipos de sanciones que Moddy puede aplicar, cómo emitirlas y revocarlas, y cómo se registran automáticamente las acciones nativas de Discord."
+icon: "gavel"
+---
+
+Una sanción es una acción disciplinaria aplicada a un miembro como parte de un caso de moderación. Moddy admite varios tipos de sanciones — desde una advertencia formal hasta un baneo — y registra cada una de ellas en la línea de tiempo del caso, para que tu historial de moderación esté siempre completo y sea auditable.
+
+## Tipos de sanciones
+
+<CardGroup cols={2}>
+  <Card title="Advertencia" icon="triangle-exclamation">
+    Una advertencia formal emitida a un miembro. Las advertencias se registran en la línea de tiempo del caso pero no conllevan ninguna consecuencia automática a nivel de Discord. Sirven como aviso oficial y auditable al miembro.
+  </Card>
+
+  <Card title="Silencio" icon="microphone-slash">
+    Un tiempo fuera temporal que impide al miembro enviar mensajes o unirse a canales de voz. Puedes configurar una fecha de expiración — cuando esta se cumple, el silencio se levanta automáticamente y el caso se actualiza.
+  </Card>
+
+  <Card title="Baneo" icon="ban">
+    Expulsa al miembro del servidor y le impide volver. Los baneos se registran en la línea de tiempo del caso y pueden revocarse desde Moddy para levantar simultáneamente el baneo de Discord.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Las expulsiones no se registran como casos.** Como una expulsión no deja una consecuencia duradera a nivel de Discord, Moddy no crea ni actualiza un caso cuando se expulsa a un miembro — ya sea mediante comandos de Moddy o directamente desde Discord.
+</Note>
+
+<Info>
+  Estas tres son sanciones **con alcance de servidor**, emitidas y gestionadas por completo desde `/cases`. Son distintas de las **sanciones globales** de Moddy — _Advertencia global_, _Limitado_ y _Suspendido_ — que el equipo de Moddy aplica a nivel de plataforma contra cuentas o servidores que incumplen los propios términos de servicio de Moddy, con independencia de la moderación de cualquier servidor individual.
+</Info>
+
+## Aplicar sanciones
+
+Abre el panel `/cases` e inicia una sanción contra un miembro:
+
+```discord
+/cases
+```
+
+- Si el miembro no tiene un caso abierto en tu servidor, añadir una sanción crea uno — eliges el tipo de sanción, una duración opcional (para silencios) y un motivo, y el caso y su primera sanción se crean a la vez.
+- Si el miembro ya tiene un caso abierto, añadir una sanción se suma a este en lugar de abrir un duplicado — útil para escalar, como pasar de una advertencia a un silencio tras conductas repetidas.
+
+Cada botón de acción está controlado por el permiso de Discord correspondiente: **Moderar miembros** para añadir una advertencia o un silencio, **Banear miembros** para añadir un baneo.
+
+Las sanciones también se aplican **automáticamente por AutoMod** cuando se detectan mensajes dañinos. Las sanciones creadas por AutoMod aparecen en la línea de tiempo del caso igual que las aplicadas manualmente.
+
+## Revocar sanciones
+
+Abre el caso desde `/cases` y usa la acción **Revocar** sobre la sanción activa — requiere el mismo permiso que la sanción que se revoca (Moderar miembros para una advertencia/silencio, Banear miembros para un baneo).
+
+Revocar una sanción elimina inmediatamente la consecuencia a nivel de Discord — se levanta un silencio, se retira un baneo — y actualiza la línea de tiempo del caso con una entrada de revocación. Si al revocar esa sanción no quedan sanciones activas en el caso, Moddy lo cierra automáticamente.
+
+<Tip>
+  Si aceptas la apelación de un miembro, Moddy se encarga de la revocación automáticamente — no necesitas ejecutar `/mod case revoke` aparte.
+</Tip>
+
+## Sanciones registradas automáticamente
+
+Moddy vigila los baneos y tiempos fuera aplicados directamente desde Discord — sin usar ningún comando de Moddy — y los registra como casos automáticamente, usando la entrada del registro de auditoría para capturar al moderador real y el motivo. Desbanear a un miembro o retirar un tiempo fuera desde Discord también revoca la sanción correspondiente, de modo que el caso puede cerrarse solo. Las acciones realizadas por otros bots se ignoran.
+
+<Warning>
+  El registro automático requiere que Moddy tenga el permiso **Ver registro de auditoría** en tu servidor. Sin él, los baneos y tiempos fuera aplicados fuera de `/cases` no se detectarán.
+</Warning>

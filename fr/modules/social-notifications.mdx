@@ -1,0 +1,83 @@
+---
+title: "Notifications sociales : publiez les mises à jour de créateurs dans votre serveur"
+sidebarTitle: "Notifications sociales"
+description: "Publiez automatiquement des mises à jour dans votre serveur lorsqu'une chaîne YouTube publie, qu'un streamer Twitch démarre en direct, qu'un compte Bluesky publie ou qu'un flux RSS publie."
+icon: "bell"
+---
+
+Le module Notifications sociales tient votre communauté informée sans que personne n'ait à consulter manuellement les plateformes externes. Connectez des chaînes YouTube, des streamers Twitch, des comptes Bluesky ou n'importe quel flux RSS, et Moddy publiera une mise à jour dans un salon de votre choix dès qu'un nouveau contenu apparaîtra. C'est le moyen le plus simple de tenir votre serveur à jour avec les créateurs et les sujets qui vous intéressent.
+
+## Plateformes prises en charge
+
+<CardGroup cols={2}>
+  <Card title="YouTube" icon="youtube">
+    Soyez averti lorsqu'une chaîne suivie publie une nouvelle vidéo ou passe en direct.
+  </Card>
+
+  <Card title="Twitch" icon="twitch">
+    Recevez une alerte dès qu'un streamer suivi passe en direct sur Twitch.
+  </Card>
+
+  <Card title="Bluesky" icon="cloud">
+    Suivez un compte Bluesky et publiez les nouvelles entrées directement dans votre serveur.
+  </Card>
+
+  <Card title="RSS" icon="rss">
+    Suivez n'importe quel flux RSS — sites d'actualités, blogs, podcasts — et faites remonter automatiquement les nouveaux articles.
+  </Card>
+</CardGroup>
+
+## Configurer les notifications
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur pour ouvrir le panneau de configuration de Moddy.
+  </Step>
+  <Step title="Sélectionner Notifications sociales">
+    Choisissez **Social Notifications** dans la liste des modules.
+  </Step>
+  <Step title="Choisir une plateforme">
+    Sélectionnez la plateforme que vous souhaitez suivre : YouTube, Twitch, Bluesky ou RSS.
+  </Step>
+  <Step title="Saisir le compte ou le flux">
+    Fournissez le nom de la chaîne, le nom d'utilisateur ou l'URL du flux du compte que vous souhaitez suivre. Pour RSS, collez l'URL complète du flux.
+  </Step>
+  <Step title="Choisir un salon Discord">
+    Sélectionnez le salon de votre serveur dans lequel Moddy doit publier les notifications lorsqu'un nouveau contenu est détecté.
+  </Step>
+  <Step title="Enregistrer vos modifications">
+    Cliquez sur **Save**. Moddy commencera à interroger ce compte et à notifier le salon choisi lorsqu'un nouveau contenu apparaîtra.
+  </Step>
+</Steps>
+
+## Personnaliser les notifications
+
+Chaque compte suivi possède son propre ensemble d'options d'affichage, modifiables depuis son écran **Manage** dans `/config` :
+
+- **Message personnalisé** — texte publié à côté de la carte de notification, pour une touche personnelle ou du contexte supplémentaire (par exemple, `A new video just dropped! 🎬`).
+- **Mentions de rôles** — choisissez un ou plusieurs rôles à mentionner à chaque publication de ce compte spécifique.
+- **Couleur d'accentuation** — définissez une couleur personnalisée pour la carte de notification, ou laissez la couleur par défaut de la plateforme (rouge YouTube, violet Twitch, etc.).
+- **Avatar et média** — activez ou désactivez l'affichage de la photo de profil du compte et d'un aperçu média large (miniature, embed vidéo) sur la carte.
+
+Ces paramètres sont par compte suivi, vous pouvez donc, par exemple, mentionner `@Streamers` pour une chaîne Twitch et garder l'autre silencieuse.
+
+## Gratuit vs Moddy Max
+
+La vitesse à laquelle Moddy recherche du nouveau contenu, et le nombre de comptes que vous pouvez suivre par plateforme, dépendent de votre formule :
+
+| Plateforme | Polling gratuit | Polling Moddy Max |
+| --- | --- | --- |
+| YouTube | toutes les 300 s (5 min) | toutes les 60 s (1 min) |
+| Twitch | toutes les 120 s (2 min) | toutes les 30 s |
+| RSS | toutes les 600 s (10 min) | toutes les 120 s (2 min) |
+| Bluesky | temps réel | temps réel |
+
+Comptes par plateforme : **1** sur la formule gratuite, **5** sur [Moddy Max](/premium/overview) — cela s'applique par plateforme, donc un serveur gratuit peut suivre 1 chaîne YouTube, 1 streamer Twitch, 1 compte Bluesky et 1 flux RSS en même temps.
+
+<Note>
+  Lorsque plusieurs serveurs suivent le même compte, Moddy interroge toujours à l'intervalle le plus rapide auquel l'un d'entre eux est éligible — un serveur gratuit bénéficie du polling plus rapide d'un serveur premium sur une cible partagée, sans coût supplémentaire pour l'un ou l'autre.
+</Note>
+
+<Tip>
+  Gardez vos publications de notification organisées en utilisant un salon dédié comme `#announcements` ou `#content-feed`. Cela évite que les mises à jour sociales ne se perdent dans la discussion générale et permet aux membres de trouver facilement le contenu qui les intéresse.
+</Tip>

@@ -1,0 +1,90 @@
+---
+title: "Commandes de module et menus du clic droit"
+sidebarTitle: "Modules et menus"
+description: "Commandes appartenant à un module spécifique — AltGuard, Inter-Server, Auto-Restore Roles — ainsi que tous les menus Apps du clic droit ajoutés par Moddy."
+icon: "puzzle-piece"
+---
+
+Certaines commandes n'ont de sens qu'aux côtés d'un module particulier, et n'apparaissent que lorsque ce module est configuré. Moddy ajoute aussi cinq **menus du clic droit**, faciles à manquer parce qu'ils n'apparaissent jamais dans le sélecteur de commandes `/`.
+
+## Commandes de module
+
+### AltGuard
+
+Contournez manuellement la barrière de vérification [AltGuard](/modules/altguard) pour un membre. Les deux sont réservées aux serveurs et nécessitent la permission **Gérer les rôles**.
+
+```discord
+/altguard verify <member>
+/altguard unverify <member>
+```
+
+- **`/altguard verify`** — laisse passer un membre manuellement, en accordant le rôle vérifié et en le transmettant à [Auto Role](/modules/auto-role) s'il est activé.
+- **`/altguard unverify`** — renvoie derrière la barrière un membre précédemment vérifié.
+
+### Inter-Server
+
+Consultez ou signalez un message relayé via un pont [Inter-Server](/modules/interserver). Les deux sont réservées aux serveurs.
+
+```discord
+/interserver report <message_id>
+/interserver info <message_id>
+```
+
+<ParamField path="message_id" type="string" required>
+  Soit l'ID Moddy du message — un court code à 8 caractères comme `F6ZEU3VS` attaché à chaque message relayé — soit son ID de message Discord.
+</ParamField>
+
+- **`/interserver report`** — envoie un message relayé à l'équipe Moddy pour examen, indépendamment de ce que vos propres modérateurs font localement.
+- **`/interserver info`** — indique d'où vient un message relayé et son statut actuel.
+
+<Warning>
+  **L'option `incognito` de `/interserver info` a une signification différente** du reste de Moddy. Ici, elle contrôle si la consultation est **enregistrée avec votre identité**, pas si la réponse est privée — et sa valeur par défaut est `false`, pas votre préférence enregistrée.
+</Warning>
+
+### Auto-Restore Roles
+
+Inspectez et effacez les rôles stockés par [Auto-Restore Roles](/modules/auto-restore-roles). Les deux nécessitent **Gérer le serveur** et répondent en privé.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — liste chaque membre avec des rôles stockés, combien, et quand ils ont été enregistrés.
+- **`/clear-saved-roles`** — efface les rôles stockés d'un membre pour qu'il ne les récupère _pas_ s'il revient.
+
+---
+
+## Menus du clic droit
+
+Ceux-ci vivent dans le menu **Apps** de Discord. Faites un clic droit sur un message (ou un appui long sur mobile), survolez **Apps**, et choisissez-en un.
+
+<CardGroup cols={2}>
+  <Card title="AI text tools" icon="wand-magic-sparkles">
+    Ouvre un éditeur pré-rempli où vous choisissez Fix, Rephrase ou Summarize. Le résultat est privé.
+  </Card>
+
+  <Card title="Translate" icon="language">
+    Traduit le message instantanément, sans avoir à retaper son texte dans `/translate`.
+  </Card>
+
+  <Card title="Transcribe" icon="microphone">
+    Transforme un message vocal ou une pièce jointe audio en texte. Le résultat est publié **publiquement** dans le salon — voir [Transcription vocale](/modules/voice-transcription).
+  </Card>
+
+  <Card title="Save Message" icon="bookmark">
+    Met le message en favori de manière privée. Parcourez tout ce que vous avez enregistré avec `/library`.
+  </Card>
+
+  <Card title="Get Emojis" icon="face-smile">
+    Liste chaque emoji personnalisé utilisé dans le message, avec des liens — pratique pour récupérer un emoji pour votre propre serveur.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Transcribe** est la seule commande Moddy dont la réponse est publique par défaut. C'est volontaire : une transcription existe pour que tout le salon puisse lire une note vocale. Tout le reste est privé par défaut.
+</Note>
+
+<Tip>
+  Les menus **Transcribe**, **Translate**, **AI text tools**, **Save Message** et **Get Emojis** fonctionnent tous en MP et dans les serveurs qui n'ont pas Moddy, à condition que vous ayez ajouté Moddy en tant qu'application utilisateur.
+</Tip>

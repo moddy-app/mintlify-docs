@@ -1,0 +1,86 @@
+---
+title: "Pon recordatorios personales en Discord con /reminder de Moddy"
+sidebarTitle: "Recordatorios"
+description: "Pon recordatorios personales en Discord con /reminder — Moddy te envía un DM privado cuando llega el momento, sin apps de terceros ni configuración adicional."
+icon: "clock"
+---
+
+Nunca vuelvas a perder de vista una tarea importante. El comando `/reminder-add` de Moddy te permite poner un recordatorio personal directamente dentro de Discord, y Moddy te notificará cuando llegue el momento. Los recordatorios son privados para ti, y el comando funciona globalmente, así que puedes poner uno desde cualquier sitio — incluidos los DMs con Moddy.
+
+## Configurar un recordatorio
+
+```text
+/reminder <time> <message>
+```
+
+```text
+/reminder-add message: <text> time: <text> [send_here] [incognito]
+```
+
+<ParamField path="message" type="string" required>
+  Aquello que quieres que se te recuerde. Hasta 1.000 caracteres.
+</ParamField>
+
+<ParamField path="time" type="string" required>
+  Cuándo quieres que se te recuerde — duraciones relativas como `1h30m`, `2d`, o frases naturales como `tomorrow 3pm`.
+</ParamField>
+
+<ParamField path="send_here" type="boolean">
+  Si es `true`, Moddy publica el recordatorio en el canal donde ejecutaste el comando en lugar de enviar un DM. Por defecto es `false`.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si el mensaje de confirmación que recibes justo después de crear el recordatorio es visible solo para ti. Si no se establece, Moddy usa tu preferencia guardada (ver `/preferences`), por defecto privado.
+</ParamField>
+
+## Ejemplos
+
+```text
+/reminder time: 30m message: Check the oven
+```
+
+```text
+/reminder-add message: Check the oven time: 30m
+```
+
+```text
+/reminder time: 2h message: Team meeting
+```
+
+```text
+/reminder-add message: Team meeting time: 2h
+```
+
+```text
+/reminder time: 1d message: Review the moderation logs
+```
+
+```text
+/reminder-add message: Review the moderation logs time: 1d
+```
+
+```text
+/reminder-add message: Stream starts! time: 1h send_here: true
+```
+
+El último ejemplo publica el recordatorio directamente en el canal actual en lugar de enviarte un DM — útil para recordatorios compartidos o públicos.
+
+<Note>
+  Puedes tener hasta **50 recordatorios pendientes** a la vez. Una vez que alcances el límite, cancela algunos con `/reminders` antes de añadir nuevos.
+</Note>
+
+## Cómo se te notifica
+
+Por defecto, cuando venza tu recordatorio, Moddy te envía un **mensaje directo** que contiene el texto que proporcionaste. Si usaste `send_here: true` al crearlo, Moddy lo publica en el canal original en su lugar.
+
+<Tip>
+  Si no estás recibiendo notificaciones por DM, abre la configuración de **Privacy & Safety** de Discord y activa **"Allow direct messages from server members"** para un servidor en el que esté Moddy — o usa `send_here: true` para que el recordatorio se publique en el canal.
+</Tip>
+
+## Gestionar recordatorios
+
+Ejecuta `/reminders` para ver una lista de tus próximos recordatorios y cancelar los que ya no necesites.
+
+<Note>
+  Los recordatorios son personales y privados. Otros miembros del servidor — incluidos administradores y moderadores — no pueden ver, examinar ni gestionar tus recordatorios.
+</Note>

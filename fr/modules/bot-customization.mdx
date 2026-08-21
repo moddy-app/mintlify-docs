@@ -1,0 +1,72 @@
+---
+title: "Personnalisation du bot : donnez à Moddy l'apparence de votre propre bot"
+sidebarTitle: "Personnalisation du bot"
+description: "Attribuez à Moddy un pseudonyme, un avatar, une bannière et une bio personnalisés sur votre serveur — avec en plus un nom d'affichage stylisé disponible sur tous les forfaits."
+icon: "paintbrush"
+---
+
+La personnalisation du bot permet à votre serveur de donner à Moddy l'apparence de son propre bot : son propre pseudonyme, avatar, bannière et bio, ainsi qu'un nom d'affichage stylisé. Tout est **par serveur** — un autre serveur ne voit jamais votre personnalisation — et chaque modification est inscrite dans votre propre journal d'audit.
+
+## Ce qui est gratuit et ce qui relève de Moddy Max
+
+<CardGroup cols={2}>
+  <Card title="Style du nom — gratuit" icon="wand-magic-sparkles">
+    Appliquez une police, un effet et des couleurs au nom d'affichage de Moddy. Disponible sur **tous** les serveurs, sans abonnement requis.
+  </Card>
+
+  <Card title="Identité — Moddy Max" icon="crown" href="/premium/overview">
+    Un pseudonyme, un avatar, une bannière et une bio réellement personnalisés. Nécessite [Moddy Max](/premium/overview) sur ce serveur.
+  </Card>
+</CardGroup>
+
+Sur un serveur sans Moddy Max, la section identité reste visible dans le panneau mais verrouillée, avec un lien pour activer le premium.
+
+## Paramètres d'identité (Moddy Max)
+
+| Paramètre | Ce qu'il contrôle | Limite |
+| --- | --- | --- |
+| **Pseudonyme** | Le nom de Moddy sur votre serveur | 32 caractères |
+| **Bio** | La bio du profil de Moddy sur votre serveur | 137 caractères |
+| **Avatar** | L'avatar de Moddy sur votre serveur | 8 Mo — PNG, JPEG, GIF ou WebP |
+| **Bannière** | La bannière de profil de Moddy sur votre serveur | 8 Mo — mêmes formats |
+
+<Note>
+  **La bio se termine toujours par une courte mention "Powered by Moddy"** qui ne peut pas être retirée — la limite de 137 caractères correspond à ce qu'il vous reste pour votre propre texte après cette mention. Effacer votre bio efface aussi l'attribution.
+</Note>
+
+## Paramètres de style du nom (gratuit)
+
+| Paramètre | Ce qu'il contrôle | Options |
+| --- | --- | --- |
+| **Police** | La typographie du nom d'affichage | Cherry Bomb, Chicle, MuseoModerno, Neo-Castel, Pixelify Sans, Sinistre, Zilla Slab |
+| **Effet** | Un effet visuel sur le nom | Gradient, Neon, Toon, Pop |
+| **Couleurs** | Les couleurs de l'effet | **Gradient en exige exactement 2** ; Neon, Toon et Pop en prennent 1 |
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrez le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Bot Customization**.
+  </Step>
+  <Step title="Modifiez l'identité ou le style">
+    Chaque section a son propre bouton Modifier, qui ouvre un formulaire.
+  </Step>
+  <Step title="Envoyez">
+    Il n'y a pas de bouton Enregistrer — envoyer le formulaire applique immédiatement le changement à Discord. Vous le verrez dans la liste des membres tout de suite.
+  </Step>
+</Steps>
+
+<Tip>
+  **Laisser un champ de fichier vide conserve l'image actuelle.** Pour réellement supprimer un avatar ou une bannière, utilisez le bouton **Réinitialiser** de la section plutôt que d'envoyer un formulaire vide.
+</Tip>
+
+## Permissions
+
+Moddy a besoin de **Changer de pseudo** pour définir son pseudonyme. L'avatar, la bannière, la bio et le style du nom sont des modifications que Moddy apporte à son propre profil de serveur, donc aucune permission supplémentaire n'est nécessaire.
+
+## À savoir
+
+- **Chaque modification est enregistrée deux fois** — dans le journal d'audit de votre serveur, avec la raison jointe, et dans les journaux techniques internes de Moddy. Les tentatives échouées sont également enregistrées.
+- **Si le premium expire, une identité déjà appliquée reste appliquée.** Moddy ne revient pas sur un pseudonyme ou un avatar que vous avez déjà défini ; le panneau se verrouille simplement et vous ne pouvez plus le modifier. C'est délibéré — un serveur qui perd son premium ne voit pas soudainement son bot changer d'apparence.
+- **Les mêmes paramètres sont modifiables depuis le [tableau de bord](/getting-started/dashboard)**, et le premium est vérifié dans les deux cas.
+- Le style du nom est réappliqué automatiquement après un redémarrage de Moddy, puisque Discord ne le stocke pas comme il stocke un pseudonyme ou un avatar.

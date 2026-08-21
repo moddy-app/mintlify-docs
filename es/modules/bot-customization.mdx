@@ -1,0 +1,72 @@
+---
+title: "Personalización del bot: Haz que Moddy parezca tu propio bot"
+sidebarTitle: "Personalización del bot"
+description: "Dale a Moddy un apodo, avatar, banner y biografía personalizados en tu servidor, además de un nombre con estilo disponible en todos los planes."
+icon: "paintbrush"
+---
+
+La Personalización del bot permite que tu servidor haga que Moddy parezca su propio bot: su propio apodo, avatar, banner y biografía, además de un nombre con estilo. Todo es **por servidor** — otro servidor nunca ve tu personalización — y cada cambio se registra en tu propio registro de auditoría.
+
+## Qué es gratis y qué es Moddy Max
+
+<CardGroup cols={2}>
+  <Card title="Estilo del nombre — gratis" icon="wand-magic-sparkles">
+    Aplica una fuente, un efecto y colores al nombre visible de Moddy. Disponible en **todos** los servidores, sin necesidad de suscripción.
+  </Card>
+
+  <Card title="Identidad — Moddy Max" icon="crown" href="/premium/overview">
+    Un apodo, avatar, banner y biografía realmente personalizados. Requiere [Moddy Max](/premium/overview) en ese servidor.
+  </Card>
+</CardGroup>
+
+En un servidor sin Moddy Max, la sección de identidad sigue siendo visible en el panel pero está bloqueada, con un enlace para activar premium.
+
+## Ajustes de identidad (Moddy Max)
+
+| Ajuste | Qué controla | Límite |
+| --- | --- | --- |
+| **Apodo** | El nombre de Moddy en tu servidor | 32 caracteres |
+| **Biografía** | La biografía del perfil de Moddy en tu servidor | 137 caracteres |
+| **Avatar** | El avatar de Moddy en tu servidor | 8 MB — PNG, JPEG, GIF o WebP |
+| **Banner** | El banner del perfil de Moddy en tu servidor | 8 MB — mismos formatos |
+
+<Note>
+  **La biografía siempre termina con una breve línea "Powered by Moddy"**, que no se puede eliminar — el límite de 137 caracteres es lo que queda para tu propio texto después de esa línea. Al vaciar la biografía se elimina también la atribución.
+</Note>
+
+## Ajustes del estilo del nombre (gratis)
+
+| Ajuste | Qué controla | Opciones |
+| --- | --- | --- |
+| **Fuente** | La tipografía del nombre visible | Cherry Bomb, Chicle, MuseoModerno, Neo-Castel, Pixelify Sans, Sinistre, Zilla Slab |
+| **Efecto** | Un efecto visual sobre el nombre | Gradient, Neon, Toon, Pop |
+| **Colores** | Los colores del efecto | **Gradient necesita exactamente 2**; Neon, Toon y Pop toman 1 |
+
+## Cómo configurarlo
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Bot Customization**.
+  </Step>
+  <Step title="Edita la identidad o el estilo">
+    Cada sección tiene su propio botón Edit, que abre un formulario.
+  </Step>
+  <Step title="Envía">
+    No hay un botón Guardar — al enviar el formulario, el cambio se aplica a Discord inmediatamente. Lo verás en la lista de miembros al instante.
+  </Step>
+</Steps>
+
+<Tip>
+  **Dejar un campo de archivo vacío mantiene la imagen actual.** Para eliminar realmente un avatar o banner, usa el botón **Reset** de la sección en lugar de enviar un formulario vacío.
+</Tip>
+
+## Permisos
+
+Moddy necesita **Change Nickname** para establecer su apodo. El avatar, banner, biografía y el estilo del nombre son cambios que Moddy hace a su propio perfil de servidor, por lo que no requieren ningún permiso adicional.
+
+## Cosas que debes saber
+
+- **Cada cambio se registra dos veces** — en el registro de auditoría de tu servidor, con el motivo adjunto, y en los registros técnicos internos de Moddy. Los intentos fallidos también se registran.
+- **Si el premium caduca, la identidad aplicada permanece aplicada.** Moddy no revierte un apodo o avatar que ya hayas configurado; el panel simplemente se bloquea y ya no puedes cambiarlo. Esto es intencional — un servidor que pierde premium no ve de repente que su bot cambie de apariencia.
+- **Los mismos ajustes se pueden editar desde el [dashboard](/getting-started/dashboard)**, y el premium se verifica de cualquier manera.
+- El estilo del nombre se vuelve a aplicar automáticamente después de que Moddy se reinicie, ya que Discord no lo almacena como almacena un apodo o avatar.

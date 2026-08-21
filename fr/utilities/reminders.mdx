@@ -1,0 +1,86 @@
+---
+title: "Définir des rappels Discord personnels avec /reminder de Moddy"
+sidebarTitle: "Rappels"
+description: "Définissez des rappels Discord personnels avec /reminder — Moddy vous envoie un DM privé le moment venu, sans applications tierces ni configuration supplémentaire."
+icon: "clock"
+---
+
+Ne perdez plus jamais de vue une tâche importante. La commande `/reminder-add` de Moddy vous permet de définir un rappel personnel directement dans Discord, et Moddy vous préviendra le moment venu. Les rappels vous sont privés, et la commande fonctionne globalement, vous pouvez donc en définir un depuis n'importe où — y compris en DM avec Moddy.
+
+## Définir un rappel
+
+```text
+/reminder <time> <message>
+```
+
+```text
+/reminder-add message: <text> time: <text> [send_here] [incognito]
+```
+
+<ParamField path="message" type="string" required>
+  Ce que vous voulez qu'on vous rappelle. Jusqu'à 1 000 caractères.
+</ParamField>
+
+<ParamField path="time" type="string" required>
+  Quand vous voulez être rappelé — durées relatives comme `1h30m`, `2d`, ou formulations naturelles comme `tomorrow 3pm`.
+</ParamField>
+
+<ParamField path="send_here" type="boolean">
+  Si `true`, Moddy publie le rappel dans le salon où vous avez exécuté la commande au lieu d'envoyer un DM. Par défaut `false`.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Indique si le message de confirmation que vous recevez juste après la création du rappel est visible uniquement par vous. Si non défini, Moddy utilise votre préférence enregistrée (voir `/preferences`), par défaut privée.
+</ParamField>
+
+## Exemples
+
+```text
+/reminder time: 30m message: Check the oven
+```
+
+```text
+/reminder-add message: Check the oven time: 30m
+```
+
+```text
+/reminder time: 2h message: Team meeting
+```
+
+```text
+/reminder-add message: Team meeting time: 2h
+```
+
+```text
+/reminder time: 1d message: Review the moderation logs
+```
+
+```text
+/reminder-add message: Review the moderation logs time: 1d
+```
+
+```text
+/reminder-add message: Stream starts! time: 1h send_here: true
+```
+
+Le dernier exemple publie le rappel directement dans le salon actuel au lieu de vous l'envoyer par DM — pratique pour des rappels partagés ou publics.
+
+<Note>
+  Vous pouvez avoir jusqu'à **50 rappels en attente** à la fois. Une fois la limite atteinte, annulez-en quelques-uns avec `/reminders` avant d'en ajouter de nouveaux.
+</Note>
+
+## Comment vous êtes notifié
+
+Par défaut, lorsque votre rappel arrive à échéance, Moddy vous envoie un **message direct** contenant le texte que vous avez fourni. Si vous avez utilisé `send_here: true` lors de sa création, Moddy le publie dans le salon d'origine à la place.
+
+<Tip>
+  Si vous ne recevez pas les notifications par DM, ouvrez vos paramètres Discord **Confidentialité et sécurité** et activez **"Autoriser les messages directs des membres du serveur"** pour un serveur où Moddy est présent — ou utilisez `send_here: true` afin que le rappel soit publié dans le salon à la place.
+</Tip>
+
+## Gérer les rappels
+
+Exécutez `/reminders` pour voir la liste de vos rappels à venir et annuler ceux dont vous n'avez plus besoin.
+
+<Note>
+  Les rappels sont personnels et privés. Les autres membres du serveur — y compris les administrateurs et modérateurs — ne peuvent pas voir, parcourir ni gérer vos rappels.
+</Note>

@@ -1,0 +1,66 @@
+---
+title: "Tableau de bord web Moddy : configurez votre serveur depuis n'importe quel navigateur"
+sidebarTitle: "Tableau de bord"
+description: "Utilisez le tableau de bord web de Moddy pour activer des modules, examiner les dossiers de modération, personnaliser le bot et gérer tous les paramètres du serveur sans commandes Discord."
+icon: "gauge-high"
+---
+
+Le tableau de bord Moddy à [dashboard.moddy.app](https://dashboard.moddy.app) est votre point central pour configurer chaque aspect du bot. De l'activation des modules à l'examen des dossiers de modération, en passant par la personnalisation de l'apparence du bot avec Moddy Max, tout est accessible via une interface web épurée — sans commande Discord requise.
+
+## Accéder au tableau de bord
+
+Rendez-vous sur [dashboard.moddy.app](https://dashboard.moddy.app) et cliquez sur **Log in with Discord**. Moddy utilise le flux OAuth de Discord, vous serez donc redirigé vers Discord pour autoriser la connexion puis renvoyé automatiquement vers le tableau de bord. Les identifiants de votre compte Discord ne sont jamais stockés par Moddy.
+
+## Sélectionner un serveur
+
+Après vous être connecté, le tableau de bord affiche la liste des serveurs que vous pouvez gérer. Seuls les serveurs sur lesquels vous disposez de la permission **Gérer le serveur** et où Moddy est déjà installé apparaîtront. Cliquez sur un serveur pour ouvrir son panneau de configuration.
+
+<Note>
+  Si un serveur dont vous êtes propriétaire n'apparaît pas, assurez-vous d'avoir d'abord [ajouté Moddy](https://discord.com/application-directory/1375596170713239622) à celui-ci et que votre compte Discord y dispose de la permission Gérer le serveur.
+</Note>
+
+## Ce que vous pouvez configurer
+
+Le tableau de bord vous donne le contrôle total sur les fonctionnalités de Moddy pour chaque serveur. Voici ce que vous y trouverez :
+
+<CardGroup cols={2}>
+  <Card title="Modules" icon="puzzle-piece">
+    Activez et configurez les Messages de bienvenue, AutoMod IA, Notifications sociales, pont de salons Inter-Server et AltGuard — le tout depuis un unique panneau de modules.
+  </Card>
+
+  <Card title="Dossiers de modération" icon="shield-halved">
+    Parcourez chaque dossier de modération de votre serveur, examinez les chronologies des dossiers, gérez les sanctions, ajoutez des notes et traitez les appels des membres.
+  </Card>
+
+  <Card title="Personnalisation du bot" icon="paintbrush" href="/premium">
+    Avec **Moddy Max**, personnalisez le pseudonyme, l'avatar, la bannière et la bio du bot pour correspondre à l'identité de votre serveur.
+  </Card>
+
+  <Card title="Serveurs premium" icon="crown" href="/premium">
+    Gérez lesquels de vos serveurs ont **Moddy Max** actif. Un abonnement couvre jusqu'à 5 serveurs avec toutes les fonctionnalités premium débloquées.
+  </Card>
+</CardGroup>
+
+## Gérer votre abonnement
+
+Si vous êtes abonné à **Moddy Max**, deux pages dédiées du tableau de bord gèrent la facturation et la sélection des serveurs :
+
+- [dashboard.moddy.app/billing](https://dashboard.moddy.app/billing) — mettez à jour les informations de paiement, consultez les factures ou annulez votre abonnement. L'annulation maintient le premium actif jusqu'à la fin de la période de facturation en cours ; les serveurs que vous aviez sélectionnés perdent simplement le premium une fois qu'il expire.
+- [dashboard.moddy.app/select-premium-servers](https://dashboard.moddy.app/select-premium-servers) — choisissez lesquels de vos serveurs (jusqu'à 5) reçoivent les fonctionnalités premium de Moddy Max. Vous pouvez également exécuter `/subscription` dans Discord pour vérifier votre plan actuel et la date de renouvellement à tout moment.
+
+## Gérer votre abonnement
+
+Si vous êtes abonné à **Moddy Max**, deux pages dédiées du tableau de bord gèrent la facturation et la sélection des serveurs :
+
+- [dashboard.moddy.app/billing](https://dashboard.moddy.app/billing) — mettez à jour les informations de paiement, consultez les factures ou annulez votre abonnement. L'annulation maintient le premium actif jusqu'à la fin de la période de facturation en cours ; les serveurs que vous aviez sélectionnés perdent simplement le premium une fois qu'il expire.
+- [dashboard.moddy.app/select-premium-servers](https://dashboard.moddy.app/select-premium-servers) — choisissez lesquels de vos serveurs (jusqu'à 5) reçoivent les fonctionnalités premium de Moddy Max. Vous pouvez également exécuter `/subscription` dans Discord pour vérifier votre plan actuel et la date de renouvellement à tout moment.
+
+## Utiliser /config dans Discord
+
+<Warning>
+  La commande `/config` requiert la permission **Gérer le serveur**. Les membres sans cette permission ne verront pas la commande et ne pourront pas l'exécuter.
+</Warning>
+
+<Tip>
+  Utilisez le **tableau de bord** pour la configuration détaillée — comme la mise en place des règles AutoMod, la personnalisation des modèles de messages de bienvenue, ou la gestion de plusieurs flux de notifications sociales. Utilisez **`/config`** pour des changements rapides et à la volée quand vous êtes déjà dans Discord et devez activer un module rapidement.
+</Tip>

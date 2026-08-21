@@ -1,0 +1,85 @@
+---
+title: "Adaptive Slowmode: regula automáticamente los canales concurridos"
+sidebarTitle: "Adaptive Slowmode"
+description: "Moddy sube y baja por su cuenta el slowmode de Discord a medida que un canal se calienta y se calma, aprendiendo el ritmo normal de cada canal."
+icon: "gauge"
+---
+
+Adaptive Slowmode observa los canales que elijas y **sube** el slowmode de Discord cuando una conversación se dispara de repente, y luego lo relaja **a la baja** a medida que las cosas se calman.
+
+La diferencia clave con una regla fija: no se compara con un número fijo de mensajes por minuto. Aprende cómo se ve lo "normal" _para ese canal en particular_, de modo que un canal tranquilo y uno concurrido tienen cada uno su propia noción de lo que cuenta como una avalancha. Un raid o un momento de hype se limita en segundos; la limitación se levanta gradualmente para que el canal no se encienda y apague de golpe.
+
+## Configuración
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Adaptive Slowmode**.
+  </Step>
+  <Step title="Añade un canal">
+    Elige un canal a monitorear. Cada canal tiene sus propios ajustes independientes.
+  </Step>
+  <Step title="Establece el retraso mínimo y máximo">
+    El mínimo se aplica cuando el canal está tranquilo, el máximo a plena limitación.
+  </Step>
+  <Step title="Elige una sensibilidad">
+    Cuán grande debe ser una avalancha antes de que Moddy reaccione: Low, Medium o High.
+  </Step>
+  <Step title="Repite para cualquier otro canal">
+    No hay un interruptor global de encendido/apagado: el módulo es simplemente la lista de canales que has añadido.
+  </Step>
+</Steps>
+
+## Ajustes (por canal)
+
+| Ajuste | Qué controla | Predeterminado | Límite |
+| --- | --- | --- | --- |
+| **Minimum delay** | Slowmode cuando el canal está tranquilo | `0` segundos | 0–21600s (6 horas), debe ser menor que el máximo |
+| **Maximum delay** | Slowmode a plena limitación | `120` segundos | 1–21600s, debe ser mayor que el mínimo |
+| **Sensitivity** | Cuán grande debe ser una avalancha antes de reaccionar | Medium | Low, Medium o High |
+
+## Cómo funciona la sensibilidad
+
+Moddy rastrea qué tan concurrido está un canal ahora mismo frente a su normalidad aprendida y convierte esa proporción en un nivel del 0 al 5. El nivel 0 aplica tu retraso mínimo, el nivel 5 tu máximo, con los valores estándar de slowmode de Discord en medio.
+
+La sensibilidad decide cuánto más concurrido de lo normal debe estar el canal para alcanzar cada nivel:
+
+| Sensibilidad | Nivel 1 | Nivel 2 | Nivel 3 | Nivel 4 | Nivel 5 |
+| --- | --- | --- | --- | --- | --- |
+| **Low** | 3× | 6× | 12× | 24× | 48× |
+| **Medium** | 2× | 4× | 8× | 16× | 32× |
+| **High** | 1.5× | 3× | 6× | 12× | 24× |
+
+<Tip>
+  Comienza en **Medium**. Muévete a **High** para un canal que quieras proteger de forma agresiva (anuncios, un canal de soporte durante incidentes), y a **Low** para un canal que sea naturalmente movido y donde prefieras dejar fluir la conversación.
+</Tip>
+
+Un período de actividad cuenta más cuando **muchas personas distintas** están hablando en lugar de una sola publicando repetidamente: una conversación real tiene más peso que un solo spammer.
+
+## Sube rápido, baja despacio
+
+Adaptive Slowmode reacciona deliberadamente de forma asimétrica:
+
+- **Subir es rápido**: puede saltar varios niveles a la vez, y como máximo cada 30 segundos.
+- **Bajar es lento**: un nivel a la vez, como máximo cada 5 minutos, y solo una vez que la actividad ha caído bien por debajo del umbral que provocó la subida.
+
+Esto evita que el slowmode oscile encendiéndose y apagándose en torno a un umbral, lo que es más disruptivo que la propia limitación.
+
+## Permisos
+
+<Warning>
+  Moddy necesita **Manage Channels** en cada canal monitoreado: esto se verifica al guardar y se rechaza sin ello. Si el permiso se retira más tarde, el slowmode simplemente deja de adaptarse en ese canal.
+</Warning>
+
+Cada cambio que Moddy realiza se escribe en el registro de auditoría de tu servidor con el motivo y el nivel al que se movió, así siempre queda claro por qué cambió un slowmode.
+
+<Note>
+  Los miembros con **Manage Messages** o **Manage Channel** están exentos del slowmode: ese es el comportamiento propio de Discord, no algo que Moddy controle. Tus moderadores pueden seguir hablando con normalidad mientras haya una limitación activa.
+</Note>
+
+## Tras un reinicio
+
+El "ritmo normal" aprendido para cada canal se guarda en memoria. Cuando Moddy se reinicia, se restablece y el canal vuelve a aprender su base durante los minutos siguientes. Durante esa ventana, la limitación es menos precisa pero nunca errónea de forma perjudicial: simplemente parte de un supuesto neutral.
+
+## Gratis en todos los planes
+
+Adaptive Slowmode está disponible en todos los servidores sin límites ligados a [Moddy Max](/premium/overview).

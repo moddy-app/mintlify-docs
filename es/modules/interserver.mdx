@@ -1,0 +1,62 @@
+---
+title: "Inter-Server: conecta canales entre servidores de Discord"
+sidebarTitle: "Inter-Server"
+description: "Conecta un canal de tu servidor con canales de otros servidores de Discord para que los miembros puedan chatear entre comunidades en tiempo real, todo sin salir de Discord."
+icon: "network-wired"
+---
+
+Inter-Server te permite conectar un canal de tu servidor con canales de otros servidores de Discord, de modo que los miembros de comunidades diferentes puedan comunicarse entre sí en tiempo real. Ya sea que quieras asociarte con otro servidor, coordinarte entre secciones de tu comunidad o crear un espacio compartido con aliados de confianza, Inter-Server lo hace posible sin herramientas externas ni integraciones.
+
+## Cómo funciona
+
+Cuando un canal forma parte de una red puente, cualquier mensaje enviado en ese canal se retransmite automáticamente a todos los demás canales conectados a la misma red. Los miembros de cada servidor ven los mensajes como si se hubiesen publicado localmente. Los moderadores de cada servidor conservan el control total sobre su propio canal puenteado: puedes configurar AutoMod, gestionar permisos y eliminar mensajes retransmitidos de forma independiente, sin necesidad de coordinarte con los administradores del otro servidor.
+
+## Configurar un puente
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor para abrir el panel de configuración de Moddy.
+  </Step>
+  <Step title="Selecciona Inter-Server">
+    Elige **Inter-Server** en la lista de módulos para abrir la configuración del puente.
+  </Step>
+  <Step title="Elige un canal">
+    Selecciona el canal de tu servidor que quieres conectar al puente. Solo se retransmitirán los mensajes enviados en este canal.
+  </Step>
+  <Step title="Crea o únete a una red">
+    Para iniciar un nuevo puente, crea una nueva red: Moddy generará un **network ID** único para ella. Para unirte a un puente existente, introduce el network ID que te haya compartido el administrador del otro servidor. Comparte tu network ID con cualquier otro administrador de servidor que deba formar parte del mismo puente.
+  </Step>
+  <Step title="Guarda tus ajustes">
+    Haz clic en **Save**. Tu canal ya forma parte de la red puente y retransmitirá mensajes desde y hacia todos los demás canales conectados.
+  </Step>
+</Steps>
+
+<Warning>
+  Moddy necesita el permiso **Manage Webhooks** en el canal puenteado: los mensajes retransmitidos se publican a través de un webhook para poder mostrar el nombre y el avatar del autor original. Sin él, guardar el puente para ese canal fallará.
+</Warning>
+
+## Moderación en canales puenteados
+
+Los mensajes retransmitidos se publican a través de un **webhook** para que puedan llevar el nombre y el avatar del autor original, lo que significa que llegan desde una cuenta de Discord distinta a la del remitente original. Los moderadores del servidor todavía pueden eliminar un mensaje retransmitido de su propio canal en cualquier momento (esto lo elimina localmente, sin afectar a los demás servidores de la red), y el servidor del mensaje original lo modera normalmente en el origen.
+
+<Warning>
+  La IA AutoMod de Moddy **no** analiza los mensajes retransmitidos (publicados vía webhook): por diseño solo evalúa los mensajes enviados directamente por miembros. Si contenido dañino se cuela a través de un puente, elimínalo localmente y usa `/interserver report` (más abajo) para que el equipo de Moddy pueda investigarlo, o contacta directamente con los moderadores del servidor de origen.
+</Warning>
+
+<Warning>
+  Puentear un canal lo expone a todos los miembros de todos los demás servidores de la red. Crea o únete a puentes solo con comunidades en las que confíes plenamente. Revisa las reglas y las prácticas de moderación del otro servidor antes de conectar.
+</Warning>
+
+<Note>
+  Inter-Server es una función integrada de Moddy: no requiere bots externos, webhooks que gestiones tú mismo ni servicios de terceros. Todo se maneja automáticamente una vez que configuras el puente en `/config`.
+</Note>
+
+## Reportar un mensaje abusivo
+
+Si un mensaje retransmitido viola los Términos de Servicio de Discord o las propias reglas de Moddy y necesita la atención del equipo de Moddy (en lugar de solo la moderación de tu propio servidor), cualquier miembro puede reportarlo directamente:
+
+```discord
+/interserver report <message_id>
+```
+
+`<message_id>` acepta bien el ID snowflake de Discord del mensaje retransmitido o su ID de Moddy: un código único y corto de 8 caracteres que Moddy adjunta a cada mensaje retransmitido para que pueda rastrearse en todos los servidores de la red. El reporte se envía directamente al equipo de Moddy para su revisión, con independencia de la acción que tomen tus propios moderadores localmente.

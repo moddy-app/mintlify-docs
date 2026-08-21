@@ -1,0 +1,75 @@
+---
+title: "MP de bienvenue : accueillez les nouveaux membres en privé"
+sidebarTitle: "MP de bienvenue"
+description: "Envoyez à chaque nouveau membre un message privé de bienvenue à son arrivée, avec des variables et un embed facultatif."
+icon: "envelope"
+---
+
+MP de bienvenue envoie un message privé à chaque nouveau membre dès qu'il rejoint — une manière de l'accueillir, de lui indiquer les règles ou de lui transmettre un lien sans encombrer un salon. Il fonctionne indépendamment des [messages de bienvenue](/modules/welcome), vous pouvez donc avoir un accueil public _et_ un accueil privé à la même arrivée.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Welcome DM**.
+  </Step>
+  <Step title="Rédiger votre message">
+    Saisissez le texte que les nouveaux membres recevront. Utilisez les [variables ci-dessous](#placeholders) pour le personnaliser.
+  </Step>
+  <Step title="Éventuellement, l'englober dans un embed">
+    Activez l'option d'embed pour envoyer une carte stylisée plutôt qu'un texte brut, avec son propre titre, sa couleur et sa mise en page.
+  </Step>
+  <Step title="Enregistrer">
+    Le module s'active immédiatement — le prochain membre à rejoindre recevra le MP.
+  </Step>
+</Steps>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Message** | Le texte du MP (obligatoire) | Une ligne de bienvenue générique | 1 à 2000 caractères |
+| **Embed** | Englobe le message dans un embed stylisé | Désactivé | — |
+| **Titre de l'embed** | Le titre de l'embed | "Welcome!" | 256 caractères |
+| **Description de l'embed** | Remplace le message à l'intérieur de l'embed | Aucune | 4096 caractères |
+| **Couleur de l'embed** | La couleur de la barre latérale de l'embed | Blurple (`#5865F2`) | Toute valeur `#RRGGBB` |
+| **Miniature** | Afficher l'avatar du membre en miniature de l'embed | Activé | — |
+| **En-tête d'auteur** | Afficher le nom et l'avatar du membre dans l'en-tête de l'embed | Désactivé | — |
+
+<Info>
+  Si vous définissez une **description d'embed**, elle remplace votre message à l'intérieur de l'embed. Si vous la laissez vide, votre message est utilisé à la fois comme texte du message et comme description de l'embed.
+</Info>
+
+## Variables
+
+Utilisez celles-ci n'importe où dans votre message, le titre de l'embed ou la description de l'embed :
+
+| Variable | Remplacée par |
+| --- | --- |
+| `{user}` | Le nom du compte du membre |
+| `{username}` | Le nom du compte du membre |
+| `{server}` | Le nom de votre serveur |
+| `{member_count}` | Le nombre de membres de votre serveur après l'arrivée |
+
+<Warning>
+  Contrairement aux [messages de bienvenue](/modules/welcome), `{user}` ici ne produit **pas** de mention cliquable — un MP n'a pas de contexte de serveur, donc Discord ne peut pas afficher de ping. Il retombe sur le simple nom du compte.
+</Warning>
+
+**Exemple de message :**
+
+```text
+Welcome to {server}, {user}! You're our {member_count}th member.
+Head to #rules to get started, and don't hesitate to ask if you need anything.
+```
+
+## Permissions
+
+MP de bienvenue ne nécessite **aucune permission serveur** — Moddy envoie le message directement au membre.
+
+<Note>
+  **Certains membres ne le recevront jamais.** Discord permet à n'importe qui de désactiver les MP des membres du serveur, et beaucoup le font. Lorsque cela se produit, Moddy les ignore silencieusement — pas d'erreur ni de nouvelle tentative. Considérez le MP de bienvenue comme un plus, et placez tout ce qui est essentiel (règles, instructions de vérification) aussi dans un salon.
+</Note>
+
+## Gratuit sur toutes les formules
+
+MP de bienvenue est disponible sur tous les serveurs sans limites liées à [Moddy Max](/premium/overview).

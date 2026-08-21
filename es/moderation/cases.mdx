@@ -1,0 +1,87 @@
+---
+title: "Casos de moderación de Moddy: códigos de referencia y líneas de tiempo"
+sidebarTitle: "Casos"
+description: "Cada acción de moderación en Moddy crea un caso estructurado con un código de referencia único, una línea de tiempo completa y soporte de apelaciones integrado."
+icon: "folder-open"
+---
+
+Un caso de moderación es la unidad central de registro en Moddy. Ya sea que un moderador emita manualmente una advertencia o que AutoMod silencie automáticamente a un miembro, la acción queda registrada en un caso — con un código de referencia único, una línea de tiempo de cada evento y un rastro de auditoría claro al que puedes volver en cualquier momento.
+
+## ¿Qué es un caso?
+
+Piensa en un caso como una **carpeta de moderación** para un incidente o miembro concreto. Cada caso se identifica con un **código de referencia único de 6 caracteres** (por ejemplo, `AB3XR7`) que puedes usar para abrirlo al instante desde cualquier comando.
+
+Dentro de un caso encontrarás:
+
+- **Una o más sanciones** — advertencias, silencios o baneos vinculados a ese caso
+- **Una línea de tiempo cronológica** — cada acción, nota, evidencia y resultado de apelación, en orden
+- **Un estado** — abierto (al menos una sanción activa) o cerrado (todas las sanciones resueltas)
+
+Los casos están limitados a tu servidor, así que cada comunidad mantiene sus propios registros independientes.
+
+<Tip>
+  Guarda el código de referencia de 6 caracteres en cuanto se cree un caso. Pásalo como opción `case` en `/cases` (moderadores) o `/mycases` (tu propio historial) para saltar directamente al registro completo sin buscar.
+</Tip>
+
+## Consultar tus propios casos
+
+Si quieres comprobar si tienes algún historial de moderación en un servidor, usa el comando `/mycases`. Funciona en cualquier servidor donde esté Moddy y muestra todos los casos vinculados a tu cuenta.
+
+```discord
+/mycases
+```
+
+Esta vista es de **solo lectura** — puedes ver tus casos y su estado actual, pero no puedes editarlos ni gestionar sanciones desde este comando.
+
+## Consultar los casos del servidor (moderadores)
+
+Los moderadores pueden ver todos los casos del servidor actual con `/cases`. Opcionalmente, pasa una referencia de caso para saltar directamente a él.
+
+```discord
+/cases
+/cases [case]
+```
+
+`/cases` requiere el permiso **Gestionar mensajes** (o Administrador) por defecto — ajustable por rol desde **Ajustes del servidor → Integraciones**. Desde el panel puedes navegar por la lista completa de casos del servidor, filtrarla, abrir casos individuales y — si los permisos lo permiten — gestionar sanciones directamente desde la pantalla de detalle.
+
+<Note>
+  `/mod case` (con subcomandos como `create`, `view` o `sanction`) es un comando **exclusivo del equipo de Moddy**, disponible únicamente en los servidores oficiales de Moddy. No forma parte del conjunto de herramientas de moderación para servidores que usan Moddy — la gestión diaria de casos en tu comunidad se realiza íntegramente a través del panel `/cases` descrito a continuación.
+</Note>
+
+## Gestionar casos
+
+Todo lo que un moderador necesita está integrado en la pantalla de detalle de `/cases` — abre un caso (desde la lista o directamente con `/cases [case]`) y utiliza sus botones de acción:
+
+| Acción | Qué hace | Permiso necesario |
+| --- | --- | --- |
+| Añadir sanción | Registrar una nueva advertencia, silencio o baneo en el caso | **Moderar miembros** para advertencia/silencio, **Banear miembros** para baneo |
+| Revocar sanción | Levantar una sanción activa antes de que expire | El mismo que la sanción que se revoca |
+| Comentar | Añadir una nota pública visible para otros moderadores en `/cases` | Gestionar mensajes |
+| Editar motivo | Actualizar el motivo registrado en el caso | Gestionar mensajes |
+| Cerrar / Reabrir | Bloquear manualmente el estado del caso | Gestionar mensajes |
+| Añadir evidencia | Adjuntar un enlace o una captura de un mensaje de Discord a la línea de tiempo | Gestionar mensajes |
+
+Un caso nuevo se abre de la misma manera — desde `/cases`, inicia una sanción contra un miembro que aún no tiene un caso abierto y Moddy crea la carpeta y su primera sanción a la vez.
+
+## Estado del caso
+
+Cada caso tiene uno de dos estados:
+
+- **Abierto** — el caso tiene al menos una sanción activa (por ejemplo, un silencio que no ha expirado o un baneo aún vigente). Moddy mantiene el caso abierto automáticamente mientras haya sanciones activas.
+- **Cerrado** — todas las sanciones asociadas al caso han expirado o se han revocado. Moddy cierra el caso automáticamente, o un moderador puede cerrarlo manualmente con `/mod case close`.
+
+<Info>
+  Cerrar manualmente un caso "bloquea" su estado — Moddy no lo reabrirá automáticamente si una sanción se modifica más tarde. Usa `/mod case close` de nuevo para reabrir un caso bloqueado.
+</Info>
+
+## Apelaciones
+
+Cuando AutoMod sanciona a un miembro, Moddy le envía un **mensaje directo** con un botón de apelación. El miembro puede pulsarlo para enviar una apelación sin salir de Discord.
+
+Las apelaciones las revisan los moderadores de tu servidor, que pueden:
+
+- **Aceptar** la apelación — la sanción se revoca y la línea de tiempo se actualiza.
+- **Rechazar** la apelación — la sanción se mantiene y se notifica al miembro.
+- **Transformar** la apelación — la sanción se sustituye por otra distinta (por ejemplo, cambiar un baneo por un silencio temporal).
+
+Cada resultado de apelación queda registrado en la línea de tiempo del caso, ofreciéndote un registro completo y transparente de la decisión.

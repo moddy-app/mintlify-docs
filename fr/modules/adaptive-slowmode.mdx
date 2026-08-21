@@ -1,0 +1,85 @@
+---
+title: "Slowmode adaptatif : ralentissez automatiquement les salons animés"
+sidebarTitle: "Slowmode adaptatif"
+description: "Moddy augmente et diminue le slowmode de Discord tout seul lorsqu'un salon s'échauffe et se calme, en apprenant le rythme normal de chaque salon."
+icon: "gauge"
+---
+
+Le slowmode adaptatif surveille les salons que vous choisissez et pousse le slowmode de Discord vers le **haut** lorsqu'une conversation s'emballe soudainement, puis le fait redescendre progressivement au **fur et à mesure** que les choses se calment.
+
+La différence clé avec une règle fixe : il ne se compare pas à un nombre de messages par minute défini. Il apprend à quoi ressemble la "normale" _pour ce salon spécifique_, si bien qu'un salon calme et un salon animé ont chacun leur propre notion de ce qui compte comme un pic. Un raid ou un moment de hype est ralenti en quelques secondes ; le ralentissement se lève progressivement pour que le salon ne s'active pas et ne se désactive pas en alternance.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Adaptive Slowmode**.
+  </Step>
+  <Step title="Ajouter un salon">
+    Choisissez un salon à surveiller. Chaque salon a ses propres paramètres indépendants.
+  </Step>
+  <Step title="Définir le délai minimum et maximum">
+    Le minimum s'applique lorsque le salon est calme, le maximum en plein ralentissement.
+  </Step>
+  <Step title="Choisir une sensibilité">
+    Quelle doit être l'ampleur d'un pic avant que Moddy ne réagisse — Basse, Moyenne ou Haute.
+  </Step>
+  <Step title="Répéter pour d'autres salons">
+    Il n'y a pas d'interrupteur global on/off : le module est simplement la liste des salons que vous avez ajoutés.
+  </Step>
+</Steps>
+
+## Paramètres (par salon)
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Délai minimum** | Slowmode lorsque le salon est calme | `0` seconde | 0–21600 s (6 heures), doit être inférieur au maximum |
+| **Délai maximum** | Slowmode en plein ralentissement | `120` secondes | 1–21600 s, doit être supérieur au minimum |
+| **Sensibilité** | Quelle doit être l'ampleur d'un pic avant qu'il ne réagisse | Moyenne | Basse, Moyenne ou Haute |
+
+## Fonctionnement de la sensibilité
+
+Moddy suit à quel point un salon est animé en ce moment par rapport à sa normale apprise, et convertit ce ratio en un niveau de 0 à 5. Le niveau 0 applique votre délai minimum, le niveau 5 votre maximum, avec les valeurs standards de slowmode de Discord entre les deux.
+
+La sensibilité détermine à quel point le salon doit être plus animé que la normale pour atteindre chaque niveau :
+
+| Sensibilité | Niveau 1 | Niveau 2 | Niveau 3 | Niveau 4 | Niveau 5 |
+| --- | --- | --- | --- | --- | --- |
+| **Basse** | 3× | 6× | 12× | 24× | 48× |
+| **Moyenne** | 2× | 4× | 8× | 16× | 32× |
+| **Haute** | 1,5× | 3× | 6× | 12× | 24× |
+
+<Tip>
+  Commencez sur **Moyenne**. Passez à **Haute** pour un salon que vous voulez protéger agressivement (annonces, un salon de support en cas d'incident), et à **Basse** pour un salon naturellement en rafale où vous préférez laisser la conversation couler.
+</Tip>
+
+Une période animée compte davantage lorsque **plusieurs personnes différentes** parlent plutôt qu'une seule personne postant à répétition — une vraie conversation est pondérée au-dessus d'un unique spammeur.
+
+## Monter vite, descendre lentement
+
+Le slowmode adaptatif réagit délibérément de manière asymétrique :
+
+- **La montée est rapide** — il peut sauter plusieurs niveaux à la fois, et au maximum toutes les 30 secondes.
+- **La descente est lente** — un niveau à la fois, au maximum toutes les 5 minutes, et seulement une fois que l'activité est bien tombée en dessous du seuil qui a déclenché la montée.
+
+Cela empêche le slowmode d'osciller entre on et off autour d'un seuil, ce qui est plus perturbateur que le ralentissement lui-même.
+
+## Permissions
+
+<Warning>
+  Moddy a besoin de **Gérer les salons** sur chaque salon surveillé — c'est vérifié lors de l'enregistrement et refusé sans. Si la permission est retirée par la suite, le slowmode cesse simplement de s'adapter sur ce salon.
+</Warning>
+
+Chaque modification effectuée par Moddy est inscrite dans le journal d'audit de votre serveur avec la raison et le niveau atteint, il est donc toujours clair pourquoi un slowmode a changé.
+
+<Note>
+  Les membres disposant de **Gérer les messages** ou **Gérer le salon** sont exemptés du slowmode — c'est le comportement propre de Discord, pas quelque chose que Moddy contrôle. Vos modérateurs peuvent continuer à parler normalement pendant qu'un ralentissement est actif.
+</Note>
+
+## Après un redémarrage
+
+Le "rythme normal" appris pour chaque salon est conservé en mémoire. Lorsque Moddy redémarre, il se réinitialise et le salon réapprend sa base de référence au cours des minutes suivantes. Pendant cette fenêtre, le ralentissement est moins précis, mais jamais erroné de manière nuisible — il part simplement d'une hypothèse neutre.
+
+## Gratuit sur toutes les formules
+
+Le slowmode adaptatif est disponible sur tous les serveurs sans limites liées à [Moddy Max](/premium/overview).

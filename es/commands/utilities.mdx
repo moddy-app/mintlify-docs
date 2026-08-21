@@ -1,0 +1,139 @@
+---
+title: "Comandos de utilidad de Moddy: traducir, recordar, lanzar y mucho más"
+sidebarTitle: "Utilidades"
+description: "Disponibles en cualquier lugar, incluidos los MD: traduce texto, programa recordatorios, lanza dados con notación personalizada y genera marcas de tiempo de Discord."
+icon: "wrench"
+---
+
+Los comandos de utilidad de Moddy están **disponibles globalmente**: puedes usarlos en tus MD con Moddy, en cualquier servidor que compartas con Moddy, o incluso en servidores que no hayan añadido a Moddy. Son herramientas independientes que no necesitan configuración de servidor ni permisos.
+
+<Note>
+  **Casi todos los comandos aceptan una opción `incognito`.** Déjala en blanco y Moddy utilizará la preferencia que hayas guardado en `/preferences`, que por defecto es **privada**. Configúrala explícitamente para anularla en un solo comando.
+</Note>
+
+---
+
+## `/translate`
+
+Traduce texto a otro idioma. Moddy siempre detecta automáticamente el idioma de origen.
+
+<ParamField path="text" type="string" required>
+  El texto a traducir. Hasta 3000 caracteres.
+</ParamField>
+
+<ParamField path="to" type="choice">
+  El idioma de destino, de una lista fija de 25. Si se omite, Moddy traduce al idioma del propio cliente de Discord.
+</ParamField>
+
+**Idiomas disponibles:** inglés (EE. UU.), inglés (Reino Unido), francés, alemán, español, italiano, portugués, portugués (BR), neerlandés, polaco, ruso, japonés, chino, coreano, turco, sueco, danés, noruego, finlandés, griego, checo, rumano, húngaro, ucraniano, búlgaro.
+
+```text
+/translate text:Bonjour tout le monde to:🇺🇸 English (US)
+/translate text:Hello, how are you?
+```
+
+Limitado a 20 usos por minuto por usuario. No hay opción de idioma de origen — DeepL lo detecta.
+
+---
+
+## `/fix`, `/rephrase`, `/summarize`
+
+Asistentes de escritura con IA. Los tres aceptan hasta **2000 caracteres** de entrada, devuelven hasta 3500 y están limitados a **10 usos por minuto por usuario**.
+
+<ParamField path="text" type="string" required>
+  El texto a procesar.
+</ParamField>
+
+| Comando | Opción adicional | Opciones |
+| --- | --- | --- |
+| `/fix` | — | Corrige ortografía, gramática, puntuación y acentos, nada más |
+| `/rephrase` | `style` | Neutro _(por defecto)_, Profesional, Formal, Amistoso, Casual, Conciso |
+| `/summarize` | `length` | Corto, Medio _(por defecto)_, Puntos |
+
+```text
+/fix text:teh quikc brown fox
+/rephrase text:Hey can u send that file style:Professional
+/summarize text:<a long paragraph> length:Bullet points
+```
+
+<Tip>
+  No tienes que pegar el texto. Haz clic derecho en cualquier mensaje, abre **Apps** y elige **AI text tools** para ejecutar cualquiera de los tres directamente sobre él.
+</Tip>
+
+---
+
+## `/reminder-add`
+
+Programa un recordatorio que Moddy te enviará cuando llegue el momento.
+
+<ParamField path="message" type="string" required>
+  De qué recordarte. Hasta 1000 caracteres.
+</ParamField>
+
+<ParamField path="time" type="string" required>
+  Cuándo — duraciones relativas como `1h30m`, `2d`, o frases naturales como `tomorrow 3pm`.
+</ParamField>
+
+<ParamField path="send_here" type="boolean">
+  Publicar el recordatorio en el canal actual en lugar de enviártelo por MD. Por defecto es `false`.
+</ParamField>
+
+```text
+/reminder-add message:Check the server for new applications time:2h
+/reminder-add message:Stream starts! time:1h send_here:true
+```
+
+Puedes tener hasta **50** recordatorios activos. Las horas se interpretan en tu propia zona horaria, detectada automáticamente a partir de tu idioma de Discord o establecida en `/preferences`.
+
+## `/reminders`
+
+Abre un panel que lista tus recordatorios pendientes, para que puedas revisarlos o eliminarlos.
+
+---
+
+## `/library`
+
+Abre tu biblioteca personal de mensajes guardados, 10 por página. Guardas un mensaje haciendo clic derecho sobre él y eligiendo **Save Message** en el menú Apps: hasta **500** mensajes guardados.
+
+---
+
+## `/roll`
+
+Selecciona un número entero aleatorio.
+
+<ParamField path="max" type="integer">
+  El valor más alto posible. Por defecto es `6`, como un dado estándar. Los valores por encima de 1.000.000 se limitan.
+</ParamField>
+
+```text
+/roll
+/roll max:20
+```
+
+<Note>
+  `/roll` **no** admite notación de dados: `2d6` o `1d20+5` no funcionarán. Utiliza en su lugar la opción numérica `max`.
+</Note>
+
+---
+
+## `/preferences`
+
+Abre tu panel personal de configuración. Aquí es donde estableces tu **privacidad por defecto** (si las respuestas de comandos son privadas salvo que indiques lo contrario) y tu **zona horaria**, que utilizan los recordatorios.
+
+---
+
+## `/subscription`
+
+Muestra tu estado de [Moddy Max](/premium/overview): tu nivel, fecha de vencimiento, si la facturación está enlazada, qué servidores cubre tu suscripción y un botón para gestionarla.
+
+---
+
+## `/ping`
+
+Comprueba la latencia y el estado de Moddy. Útil para confirmar si el bot está respondiendo con lentitud.
+
+---
+
+## `/moddy`
+
+Información general sobre el bot — enlaces al sitio web, al servidor de soporte y a esta documentación.

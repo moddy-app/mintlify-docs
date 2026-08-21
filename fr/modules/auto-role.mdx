@@ -1,0 +1,64 @@
+---
+title: "Auto Role : attribuez des rôles automatiquement à l'arrivée"
+sidebarTitle: "Auto Role"
+description: "Attribuez automatiquement des rôles aux membres et aux bots dès qu'ils rejoignent votre serveur, avec une liste distincte pour chacun."
+icon: "user-plus"
+---
+
+Auto Role distribue des rôles automatiquement à toute personne qui rejoint. Il conserve **deux listes distinctes** — une pour les membres humains, une pour les bots — afin qu'un bot invité atterrisse directement dans un rôle "Bots" sans récupérer vos rôles de membre.
+
+Utilisations typiques : un rôle de base "Membre" qui débloque le serveur, un rôle de couleur par défaut, ou un rôle qui ping une catégorie de contenu.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Auto Role**.
+  </Step>
+  <Step title="Choisir les rôles des membres">
+    Choisissez les rôles que chaque nouveau membre humain doit recevoir.
+  </Step>
+  <Step title="Choisir les rôles des bots (facultatif)">
+    Choisissez les rôles que les bots doivent recevoir lorsqu'ils sont ajoutés au serveur.
+  </Step>
+  <Step title="Enregistrer">
+    Auto Role s'active dès qu'au moins un rôle est défini dans l'une ou l'autre liste.
+  </Step>
+</Steps>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Rôles de membre** | Rôles donnés aux membres humains à l'arrivée | Aucun | Jusqu'à 25 rôles |
+| **Rôles de bot** | Rôles donnés aux bots à l'arrivée | Aucun | Jusqu'à 25 rôles |
+
+Le module est actif dès que **l'une** des listes contient au moins un rôle. L'enregistrement avec les deux listes vides est refusé.
+
+## Permissions et hiérarchie des rôles
+
+<Warning>
+  Moddy a besoin de la permission **Gérer les rôles**, et **le rôle propre de Moddy doit se trouver au-dessus de chaque rôle que vous sélectionnez** dans la liste des rôles de votre serveur. L'enregistrement est refusé sinon, et si un rôle est ensuite déplacé au-dessus de Moddy, il est silencieusement ignoré à l'arrivée.
+</Warning>
+
+Trois types de rôles ne peuvent jamais être sélectionnés :
+
+- `@everyone`
+- **Rôles gérés** — ceux créés et détenus par une intégration, tels que le rôle propre d'un bot ou le rôle Server Booster. Discord n'autorise personne à les attribuer.
+- Rôles qui n'existent plus
+
+## Fonctionnement avec AltGuard
+
+<Note>
+  Si [AltGuard](/modules/altguard) est activé sur votre serveur, Auto Role **attend**. Un membre humain qui n'a pas passé la vérification ne reçoit aucun rôle automatique — sinon la vérification n'aurait aucun intérêt. Les rôles sont accordés dès qu'il passe, automatiquement ou via un `/altguard verify` manuel.
+
+  Les bots ne sont jamais soumis à la vérification, donc les rôles de bot s'appliquent immédiatement. Et si AltGuard ne peut pas être joint du tout, Auto Role échoue de manière sûre : il n'accorde rien plutôt que de risquer de laisser passer un membre non vérifié.
+</Note>
+
+## Restaurer les rôles à la place
+
+Auto Role donne les _mêmes_ rôles à _tout le monde_. Si vous voulez que les membres de retour récupèrent les rôles spécifiques qu'ils avaient avant leur départ, c'est un module différent — voir [Restauration automatique des rôles](/modules/auto-restore-roles). Les deux fonctionnent ensemble : un membre de retour peut recevoir ses rôles restaurés _et_ vos auto rôles.
+
+## Gratuit sur toutes les formules
+
+Auto Role est disponible sur tous les serveurs sans limites liées à [Moddy Max](/premium/overview).

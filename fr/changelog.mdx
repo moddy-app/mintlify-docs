@@ -1,0 +1,206 @@
+---
+title: "Journal des modifications de Moddy : chaque nouvelle fonctionnalité et amélioration"
+sidebarTitle: "Journal des modifications"
+description: "Un historique en continu de ce qui a été publié dans Moddy — nouveaux modules, nouvelles commandes et améliorations, les plus récents en premier."
+icon: "clock-rotate-left"
+---
+
+Tout ce qui est nouveau dans Moddy, les plus récents en premier. Moddy est en développement actif, donc cette page est le moyen le plus rapide de voir ce qui a changé depuis votre dernière visite.
+
+<Note>
+  Vous voulez être informé au fur et à mesure ? Les annonces sont diffusées sur le [serveur de support Moddy](https://moddy.app/support) dès qu'une fonctionnalité est en ligne.
+</Note>
+
+<Update label="19 août 2026" description="AltGuard — comptes liés dans les journaux">
+  ## Les modérateurs peuvent voir pourquoi AltGuard a signalé un compte
+
+  Lorsqu'AltGuard signale un membre entrant, votre salon de journal liste désormais les comptes contre lesquels la vérification a établi une correspondance — jusqu'à cinq, les plus liés en premier — afin que votre équipe puisse voir le raisonnement derrière une décision au lieu du seul verdict.
+
+  Le membre signalé ne voit jamais ces informations ; elles restent dans le salon de journal réservé aux modérateurs.
+</Update>
+
+<Update label="18 août 2026" description="AltGuard">
+  ## AltGuard : arrêtez les comptes alternatifs dès l'entrée
+
+  Un nouveau module qui maintient chaque humain entrant derrière un rôle _non vérifié_ jusqu'à ce qu'un service de vérification externe décide si son compte ressemble au deuxième compte de quelqu'un déjà présent sur votre serveur.
+
+  - Les membres cliquent sur un bouton dans un salon de vérification, cochent un formulaire de consentement explicite, et obtiennent un lien personnel à usage unique
+  - Vous choisissez le salon de vérification, les deux rôles de sas, un salon de journal optionnel, et la langue du panneau
+  - Auto Role attend et n'applique ses rôles qu'une fois le sas ouvert
+  - Le staff peut vérifier ou dévérifier manuellement un membre à tout moment avec `/altguard`
+
+  Moddy lui-même ne reçoit jamais aucune des données personnelles impliquées — voir [ce qu'AltGuard vérifie](/modules/altguard-data) et le [guide du module](/modules/altguard).
+</Update>
+
+<Update label="10 août 2026" description="Sanctions globales">
+  ## Les sanctions à l'échelle de Moddy repensées en trois niveaux, avec une fenêtre d'appel
+
+  Les sanctions émises par l'équipe Moddy étaient auparavant une unique « liste noire » tout-ou-rien. Elles sont désormais trois niveaux graduels qui s'appliquent **aux utilisateurs et aux serveurs** :
+
+  | Niveau | Effet |
+  | --- | --- |
+  | **Avertissement global** | Informatif — rien n'est bloqué |
+  | **Limité** | Pas de premium, pas de configuration de nouveau module, la modération IA s'arrête |
+  | **Suspendu** | Pas d'accès à Moddy du tout |
+
+  _Limité_ et _Suspendu_ peuvent désormais être temporaires. Un sujet sanctionné reçoit un unique DM d'avis couvrant l'ensemble du dossier, et la sanction ne prend effet qu'après un compte à rebours de grâce qui s'arrête automatiquement s'il fait appel.
+</Update>
+
+<Update label="8 août 2026" description="Transcription vocale · Personnalisation du bot">
+  ## Transcription des messages vocaux
+
+  Les messages vocaux peuvent désormais être transformés en texte. N'importe qui peut utiliser le menu clic droit **Transcrire** sur un message vocal, et les serveurs peuvent activer le module de transcription vocale pour ajouter un bouton Transcrire sous chaque message vocal — ou publier la transcription automatiquement — dans les salons de votre choix. Les longues transcriptions arrivent sous forme de fichier `.txt`.
+
+  ## Personnalisation du bot : donnez à Moddy l'apparence de votre propre bot
+
+  Un nouveau module qui change l'identité de Moddy à l'intérieur de votre serveur. Les serveurs **Moddy Max** peuvent définir un pseudonyme, un avatar, une bannière et une bio personnalisés ; **tous** les serveurs, premium ou non, peuvent appliquer un style de nom d'affichage (police, effet, couleurs).
+</Update>
+
+<Update label="7 août 2026" description="Messages de bienvenue · Starboard">
+  ## Messages de bienvenue : jusqu'à 5 par serveur
+
+  Les messages de bienvenue sont passés d'un message dans un salon à **jusqu'à cinq** messages indépendants, chacun avec son propre salon, son texte, sa couleur d'accent et son interrupteur de pause — tous édités via un unique formulaire avec un aide-mémoire de placeholders. Les modifications s'appliquent désormais immédiatement au lieu de se cacher derrière un bouton Enregistrer.
+
+  Cette version a également corrigé un bug où les messages de bienvenue en salon et les DM de bienvenue n'étaient en fait jamais envoyés.
+
+  ## Cartes Starboard repensées
+
+  Le message du starboard a été reconstruit selon l'apparence familière des embeds Discord : barre latérale colorée, avatar et nom de l'auteur, texte du message, première image, horodatage natif, ligne de comptage des réactions, et un bouton pour accéder au message.
+</Update>
+
+<Update label="6 août 2026" description="Emoji du starboard · Renommage d'Automod IA">
+  ## Choisissez votre propre emoji de starboard
+
+  Vous pouvez désormais saisir l'emoji qui déclenche le starboard au lieu d'être bloqué avec un emoji fixe. Emojis Discord standards uniquement — les emojis personnalisés de serveur sont refusés avec un message clair. L'entrée du starboard transfère désormais le message original au lieu de le copier.
+
+  ## Automod devient « Automod IA »
+
+  Le module est renommé **Automod IA** dans `/config`, faisant place à un futur automod basé sur des règles. Le détecteur expérimental de harcèlement de groupe diffus a été supprimé — il n'avait fonctionné qu'en mode simulation et n'appliquait jamais rien, donc aucun serveur ne perd de protection active.
+</Update>
+
+<Update label="5 août 2026" description="Outils texte IA · 32 langues">
+  ## Outils texte IA : /fix, /rephrase, /summarize
+
+  Trois assistants d'écriture IA, utilisables comme commandes slash ou en cliquant droit sur un message et en choisissant **AI text tools** :
+
+  - `/fix` — corrige l'orthographe et la grammaire, rien d'autre
+  - `/rephrase` — réécrit dans un style choisi (neutre, professionnel, formel, amical, décontracté, concis)
+  - `/summarize` — condense le texte (court, moyen, ou en puces)
+
+  Ils fonctionnent dans les serveurs, en DM, et en tant qu'application installée par l'utilisateur, et les réponses peuvent rester privées. Voir le [guide des Outils texte](/utilities/text-tools).
+
+  ## Commandes traduites en 32 langues
+
+  Les **noms et descriptions** des commandes slash — ainsi que leurs options et les menus clic droit — apparaissent désormais dans la langue Discord de chaque utilisateur, dans les 32 langues de Discord. `/avatar` s'affiche comme `/アバター` en japonais, `/roll` comme `/würfeln` en allemand, `/mycases` comme `/mes-dossiers` en français.
+</Update>
+
+<Update label="13 juillet 2026" description="Automod IA v2">
+  ## Automod IA v2 : ancré, explicable, et il apprend de votre serveur
+
+  Une refonte de fond en comble de la façon dont Automod IA décide :
+
+  - **Il ne peut pas sanctionner sur la base de quelque chose que le message ne dit pas** — chaque verdict doit citer le message textuellement
+  - **Les sanctions suivent une échelle fixe et explicable** qui tient compte des récidives, au lieu d'être inventées au cas par cas
+  - **Le contexte compte** — il évalue à quel point deux membres se connaissent et comment la cible a réellement réagi avant de qualifier quelque chose d'attaque
+  - **Les sanctions lourdes reçoivent un second avis** d'un modèle plus puissant avant d'être appliquées
+  - **Il retient les décisions passées de votre propre serveur** issues des appels et des retours des modérateurs, et les applique à de futurs messages similaires
+
+  Les administrateurs bénéficient également d'un **mode simulation** : Automod publie ce qu'il _aurait_ fait, avec des boutons Correct / Faux positif / Disproportionné, et n'applique rien. Idéal pour peaufiner avant la mise en production.
+</Update>
+
+<Update label="30 juin 2026" description="Messages Automod et appels">
+  ## Messages Automod et flux d'appel repensés
+
+  Le DM au membre, le journal d'alerte du serveur et le panneau d'examen des appels ont tous été repensés : chaque sanction reçoit sa propre icône et sa propre couleur, le message incriminé est masqué derrière un spoiler (ou joint sous forme de fichier s'il est long), le dossier est lié, et les mises à jour d'appel répondent à l'alerte d'origine au lieu de se perdre.
+
+  Automod peut désormais émettre des avertissements, mutes et bannissements **temporaires** qui se lèvent d'eux-mêmes, rédige ses motifs dans la langue du serveur, et ouvre un dossier par incident au lieu d'entasser tout dans un seul dossier. Les examinateurs peuvent revendiquer un appel, générer une invitation unique, l'accepter tel quel ou modifier la sanction — et personne ne peut examiner son propre appel.
+</Update>
+
+<Update label="29 juin 2026" description="Appels · curseur de sévérité">
+  ## Faire appel d'une sanction
+
+  Les membres sanctionnés par Automod peuvent désormais faire appel — soit auprès des modérateurs du serveur, soit auprès de l'équipe Moddy dont la décision est finale — le résultat étant reporté dans le dossier, un DM et une notification du serveur.
+
+  ## Curseur de sévérité et indications sur le serveur
+
+  Les administrateurs ont gagné un réglage de **sévérité de 1 à 5** qui rend Automod à la fois plus sensible et plus sévère (ou l'inverse), un salon d'alerte obligatoire, et un champ de texte libre décrivant les règles propres à leur serveur, vérifié par l'IA avant enregistrement.
+
+  Automod a également cessé de re-punir un comportement déjà sanctionné, et exige désormais une intention manifeste de nuire avant de sanctionner — de sorte que l'humour, les citations et les grossièretés occasionnelles passent.
+</Update>
+
+<Update label="28 juin 2026" description="Automod IA">
+  ## Automod IA : première version
+
+  La modération assistée par IA arrive. Moddy lit les messages, décide s'ils sont insultants, menaçants ou harcelants, et peut supprimer, avertir, muter ou bannir — enregistrant chaque action comme un dossier avec le message incriminé attaché comme preuve et une publication dans un salon de journal.
+
+  Configuré depuis `/config` avec un interrupteur d'activation, un champ pour les règles du serveur, des rôles et salons exemptés, et une option « ignorer les modérateurs ». Voir le [guide AutoMod IA](/moderation/automod).
+</Update>
+
+<Update label="27 juin 2026" description="Commandes de modération · navigateurs de dossiers">
+  ## /ban, /mute, /warn
+
+  Trois commandes de modération qui ouvrent un formulaire dans lequel un modérateur sélectionne jusqu'à 10 membres à la fois, rédige un motif, définit une durée, joint des fichiers de preuves et choisit d'envoyer ou non un DM au membre. Chaque sanction est automatiquement classée comme dossier, et les membres sanctionnés reçoivent un DM clair avec le motif et les preuves. Les propres paramètres de permissions de Discord contrôlent qui peut voir chaque commande.
+
+  ## /mycases et /cases
+
+  Deux historiques de sanctions parcourables et filtrables :
+
+  - **`/mycases`** — tout membre peut consulter chaque sanction reçue, sur tous les serveurs, en lecture seule
+  - **`/cases`** — les modérateurs parcourent et gèrent les sanctions émises sur leur serveur
+
+  Les deux proposent la pagination, un formulaire de filtre (statut, type de sanction, période, serveur ou membre) et une vue détaillée. Les modérateurs peuvent ajouter ou révoquer une sanction, commenter, modifier le motif, et fermer ou rouvrir un dossier — chaque action étant contrôlée par la permission Discord correspondante. Les notes internes du staff ne sont jamais montrées aux membres.
+</Update>
+
+<Update label="24 juin 2026" description="Dossiers de modération">
+  ## Sanctions enregistrées automatiquement, même en dehors de Moddy
+
+  L'enregistrement de modération a été reconstruit pour qu'un **dossier** soit un classeur contenant plusieurs sanctions et une chronologie complète de commentaires, notes et preuves, avec un code de référence court et partageable.
+
+  Moddy surveille désormais le journal d'audit et ouvre un dossier pour chaque bannissement, expulsion et timeout **même lorsque l'action a été effectuée avec les propres outils de Discord ou un autre bot**, en capturant le vrai modérateur et le motif. Les débannissements et les timeouts levés ferment le dossier, et les sanctions temporaires expirent d'elles-mêmes.
+</Update>
+
+<Update label="14 juin 2026" description="Notifications sociales">
+  ## Notifications sociales
+
+  Un module de notifications reconstruit : suivez des comptes sur YouTube, Twitch, Bluesky et RSS, et recevez une publication dans le salon de votre choix avec des pings de rôles.
+
+  Le message est **entièrement personnalisable** — votre propre texte avec des placeholders, votre propre couleur d'accent, et des interrupteurs pour afficher l'avatar de l'auteur et l'aperçu du média. Chaque abonnement peut être mis en pause, modifié ou supprimé depuis le panneau de configuration. Les serveurs Moddy Max bénéficient d'une interrogation plus rapide et de plus de comptes par plateforme. Voir le [guide du module](/modules/social-notifications).
+</Update>
+
+<Update label="11 juin 2026" description="Slowmode adaptatif">
+  ## Slowmode adaptatif
+
+  Un module qui surveille les salons de votre choix et augmente ou diminue automatiquement le slowmode de Discord au fur et à mesure que la conversation s'échauffe ou se calme.
+
+  Il apprend le rythme normal de chaque salon plutôt que d'utiliser un seuil fixe — montée rapide, redescente lente — et se règle avec trois paramètres : délai minimal, délai maximal, et sensibilité.
+</Update>
+
+<Update label="26 mai 2026" description="Commande d'abonnement">
+  ## /subscription
+
+  Une commande qui affiche votre abonnement d'un coup d'œil : palier, date d'expiration, si la facturation est liée, quels serveurs sont couverts par votre abonnement, et un bouton pour le gérer. Les changements d'abonnement déclenchent désormais aussi un DM.
+</Update>
+
+<Update label="8 mai 2026" description="Détecteur de tokens">
+  ## Détecteur de tokens
+
+  Si un token Discord est publié sur un serveur, Moddy le vérifie et envoie immédiatement un DM à la personne — ou, pour un token de bot, au propriétaire et à l'équipe du bot — avec une alerte expliquant ce qui s'est passé et des boutons pour voir où il a été publié, supprimer le message et invalider le token.
+
+  Le token lui-même n'est jamais stocké sous une forme lisible, et est purgé sous 24 heures.
+</Update>
+
+<Update label="19 avril 2026" description="Badges de vérification">
+  ## Badges de vérification sur les noms d'utilisateur
+
+  Les utilisateurs peuvent porter un badge de vérification affiché à côté de leur nom partout où Moddy l'affiche — `/user`, `/avatar`, `/banner`, et plus — en trois paliers : utilisateur vérifié, organisation vérifiée, et membre d'une organisation vérifiée.
+
+  Le badge renvoie à une page expliquant sa signification, et la vue de profil affiche la date de vérification et la ou les organisations auxquelles la personne appartient.
+</Update>
+
+<Update label="9 avril 2026" description="Les boutons n'expirent plus">
+  ## Les boutons n'expirent plus
+
+  Les boutons et menus interactifs ne meurent plus après quelques minutes d'inactivité, et continuent de fonctionner après un redémarrage de Moddy au lieu de renvoyer « cette interaction a échoué ».
+
+  Cela a été livré comme un mécanisme accompagné des premiers écrans migrés, et est devenu ensuite une exigence à l'échelle du projet — donc chaque fonctionnalité publiée depuis en hérite.
+</Update>

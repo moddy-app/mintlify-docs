@@ -1,0 +1,86 @@
+---
+title: "Commandes de configuration Moddy : installation, config et bibliothèque de messages"
+sidebarTitle: "Configuration"
+description: "Utilisez /config pour ouvrir le panneau interactif de configuration serveur de Moddy et /library pour parcourir vos messages enregistrés."
+icon: "gear"
+---
+
+La commande principale ici, `/config`, ouvre un panneau de configuration interactif complet couvrant chaque module proposé par Moddy — elle ne fonctionne qu'à l'intérieur des serveurs où Moddy est installé, et nécessite la permission **Gérer le serveur**. `/library`, couverte plus bas, est une commande personnelle disponible partout et ne nécessite aucune permission spéciale.
+
+---
+
+## `/config`
+
+Ouvre le panneau de configuration serveur de Moddy. Le panneau apparaît sous forme de message éphémère — vous seul pouvez le voir, ce qui vous permet de configurer votre serveur sans encombrer le salon pour les autres.
+
+Cette commande n'a aucun paramètre.
+
+```text
+/config
+```
+
+Depuis le panneau de configuration, vous pouvez activer, désactiver et personnaliser entièrement chacun des modules de Moddy :
+
+<CardGroup cols={2}>
+  <Card title="Bienvenue" icon="hand">
+    Définissez jusqu'à 5 messages de bienvenue personnalisés avec des variables comme `{user}`, `{server}` et `{member_count}`.
+  </Card>
+
+  <Card title="AutoMod IA" icon="robot">
+    Définissez le salon d'alerte obligatoire, choisissez un niveau de sévérité (1–5) qui ajuste la sensibilité de détection, et excluez les rôles ou salons de confiance. Les sanctions elles-mêmes sont décidées automatiquement — il n'y a pas de liste de règles manuelle à maintenir.
+  </Card>
+
+  <Card title="Notifications sociales" icon="bell">
+    Suivez des chaînes YouTube, des streamers Twitch, des comptes Bluesky et des flux RSS — Moddy publie dans un salon Discord dès qu'un nouveau contenu apparaît.
+  </Card>
+
+  <Card title="Inter-Server" icon="link">
+    Reliez un salon à des salons dans d'autres serveurs pour une communication inter-communautés en temps réel.
+  </Card>
+
+  <Card title="AltGuard" icon="shield">
+    Définissez un salon de vérification et des rôles de barrière pour que les nouveaux arrivants passent par le contrôle de compte alternatif basé sur le consentement de Moddy avant d'obtenir un accès complet.
+  </Card>
+</CardGroup>
+
+<Note>
+  Vous avez besoin de la permission **Gérer le serveur** pour utiliser `/config`, et Moddy doit avoir **Administrateur** sur le serveur — sinon il refuse d'ouvrir le panneau, avec un lien de réinvitation.
+</Note>
+
+<Warning>
+  **Les modules serveur sont actuellement en bêta fermée.** Au-delà des permissions ci-dessus, `/config` est restreint aux comptes ayant accès à la bêta. Si vous l'exécutez et obtenez une carte vous invitant à rejoindre le serveur d'assistance, c'est pour cela — [demandez-y l'accès](https://moddy.app/support) et l'équipe pourra l'activer pour vous.
+</Warning>
+
+---
+
+## `/library`
+
+Ouvre votre bibliothèque personnelle de messages enregistrés. Enregistrez n'importe quel message avec l'entrée **Save Message** du menu contextuel Apps de Discord, puis utilisez `/library` pour parcourir tout ce que vous avez mis en favori — notes privées liées à votre compte Discord, invisibles pour les autres.
+
+<ParamField path="incognito" type="boolean">
+  Si la réponse n'est visible que par vous. Par défaut, votre préférence enregistrée, ou privée si vous n'en avez pas défini.
+</ParamField>
+
+Cette commande est disponible **globalement** (en MP et dans n'importe quel serveur avec Moddy).
+
+```text
+/library
+```
+
+<Info>
+  Les messages enregistrés sont liés à votre compte Discord, pas à un serveur spécifique. Vous pouvez y accéder depuis n'importe quel serveur qui a Moddy, ou depuis vos MP avec Moddy.
+</Info>
+
+---
+
+## Utiliser le tableau de bord
+
+Bien que `/config` couvre tout en ligne, le [tableau de bord Moddy](https://dashboard.moddy.app) fournit une interface plus riche pour les configurations complexes — particulièrement utile lors de la configuration de plusieurs modules, de la gestion des flux de notifications sociales, ou du réglage fin des règles AutoMod IA.
+
+<Card title="Ouvrir le tableau de bord" icon="arrow-up-right-from-square" href="https://dashboard.moddy.app">
+  Connectez-vous avec votre compte Discord sur dashboard.moddy.app pour gérer les paramètres de tous vos serveurs depuis un seul endroit.
+</Card>
+
+<Tip>
+  Pour des modifications simples — activer ou désactiver un module par exemple — `/config` est l'option la plus rapide. Pour une configuration détaillée comme la mise en place de plusieurs flux sociaux ou la personnalisation des modèles de messages de bienvenue, l'interface du tableau de bord est plus facile à naviguer.
+</Tip>

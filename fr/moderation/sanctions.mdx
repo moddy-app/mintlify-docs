@@ -1,0 +1,65 @@
+---
+title: "Sanctions de modération : avertissements, mutes, bannissements et restrictions"
+sidebarTitle: "Sanctions"
+description: "Découvrez chaque type de sanction que Moddy peut appliquer, comment les émettre et les révoquer, et comment les actions natives de Discord sont enregistrées automatiquement."
+icon: "gavel"
+---
+
+Une sanction est une action disciplinaire appliquée à un membre dans le cadre d'un dossier de modération. Moddy prend en charge plusieurs types de sanctions — d'un avertissement formel jusqu'au bannissement — et enregistre chacune d'elles dans la chronologie du dossier afin que votre historique de modération soit toujours complet et auditable.
+
+## Types de sanctions
+
+<CardGroup cols={2}>
+  <Card title="Avertissement" icon="triangle-exclamation">
+    Un avertissement formel émis à l'encontre d'un membre. Les avertissements sont enregistrés dans la chronologie du dossier mais n'entraînent aucune conséquence automatique au niveau de Discord. Ils servent d'avis officiel et auditable auprès du membre.
+  </Card>
+
+  <Card title="Mute" icon="microphone-slash">
+    Un timeout temporaire qui empêche le membre d'envoyer des messages ou de rejoindre les salons vocaux. Vous pouvez configurer une date d'expiration — à son échéance, le mute est levé automatiquement et le dossier est mis à jour.
+  </Card>
+
+  <Card title="Bannissement" icon="ban">
+    Retire le membre du serveur et l'empêche de le rejoindre à nouveau. Les bannissements sont enregistrés dans la chronologie du dossier et peuvent être révoqués via Moddy pour lever simultanément le bannissement Discord.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Les expulsions ne sont pas enregistrées comme des dossiers.** Comme une expulsion ne laisse pas de conséquence durable au niveau de Discord, Moddy ne crée ni ne met à jour de dossier lorsqu'un membre est expulsé — que ce soit via les commandes Moddy ou directement via Discord.
+</Note>
+
+<Info>
+  Ces trois sanctions sont **limitées au serveur**, émises et gérées entièrement via `/cases`. Elles sont distinctes des **sanctions globales** propres à Moddy — _Avertissement global_, _Limité_ et _Suspendu_ — que l'équipe Moddy applique à l'échelle de la plateforme contre les comptes ou serveurs qui enfreignent les propres conditions d'utilisation de Moddy, indépendamment de la modération d'un serveur donné.
+</Info>
+
+## Appliquer des sanctions
+
+Ouvrez le panneau `/cases` et lancez une sanction contre un membre :
+
+```discord
+/cases
+```
+
+- Si le membre n'a pas de dossier ouvert sur votre serveur, ajouter une sanction en crée un — vous choisissez le type de sanction, une durée facultative (pour les mutes) et un motif, et le dossier ainsi que sa première sanction sont créés ensemble.
+- Si le membre a déjà un dossier ouvert, ajouter une sanction s'y ajoute au lieu d'ouvrir un doublon — utile pour l'escalade, comme passer d'un avertissement à un mute après un comportement répété.
+
+Chaque bouton d'action est contrôlé par la permission Discord correspondante : **Modérer les membres** pour ajouter un avertissement ou un mute, **Bannir des membres** pour ajouter un bannissement.
+
+Les sanctions sont également appliquées **automatiquement par AutoMod** lorsque des messages nuisibles sont détectés. Les sanctions créées par AutoMod apparaissent dans la chronologie du dossier au même titre que celles appliquées manuellement.
+
+## Révoquer des sanctions
+
+Ouvrez le dossier depuis `/cases` et utilisez l'action **Révoquer** sur la sanction active — elle requiert la même permission que la sanction en cours de révocation (Modérer les membres pour un avertissement/mute, Bannir des membres pour un bannissement).
+
+Révoquer une sanction retire immédiatement la conséquence au niveau de Discord — un mute est levé, un bannissement est retiré — et met à jour la chronologie du dossier avec une entrée de révocation. Si révoquer cette sanction signifie qu'il ne reste plus aucune sanction active sur le dossier, Moddy ferme automatiquement le dossier.
+
+<Tip>
+  Si vous acceptez l'appel d'un membre, Moddy s'occupe automatiquement de la révocation — vous n'avez pas besoin d'exécuter `/mod case revoke` séparément.
+</Tip>
+
+## Sanctions enregistrées automatiquement
+
+Moddy surveille les bannissements et timeouts appliqués directement via Discord — sans utiliser aucune commande Moddy — et les enregistre automatiquement comme dossiers, en utilisant l'entrée du journal d'audit pour capturer le vrai modérateur et le motif. Débannir un membre ou lever un timeout via Discord révoque de même la sanction correspondante, de sorte que le dossier peut se fermer automatiquement. Les actions effectuées par d'autres bots sont ignorées.
+
+<Warning>
+  L'enregistrement automatique nécessite que Moddy dispose de la permission **Voir le journal d'audit** sur votre serveur. Sans elle, les bannissements et timeouts appliqués en dehors de `/cases` ne seront pas détectés.
+</Warning>

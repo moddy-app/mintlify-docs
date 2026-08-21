@@ -1,0 +1,54 @@
+---
+title: "Moderación de servidor con Moddy — casos, AutoMod y apelaciones"
+sidebarTitle: "Visión general"
+description: "Moddy convierte cada acción de moderación en un caso estructurado y auditable — con sanciones, líneas de tiempo y apelaciones integradas para tu servidor."
+icon: "shield-halved"
+---
+
+El sistema de moderación de Moddy se organiza en torno a los **casos** — cada advertencia, silencio o baneo que emiten tus moderadores (o que activa AutoMod) se registra automáticamente en un archivo estructurado con un código de referencia único, una línea de tiempo cronológica completa y un flujo de apelaciones integrado. Nada se queda por el camino.
+
+<CardGroup cols={2}>
+  <Card title="Casos" icon="folder-open" href="/moderation/cases">
+    Consulta, crea y gestiona casos de moderación con líneas de tiempo completas y códigos de referencia.
+  </Card>
+
+  <Card title="Sanciones" icon="gavel" href="/moderation/sanctions">
+    Comprende las advertencias, silencios, baneos y restricciones — y cómo aplicarlas o revocarlas.
+  </Card>
+
+  <Card title="AutoMod AI" icon="robot" href="/moderation/automod">
+    Deja que la IA de Moddy detecte y actúe sobre los mensajes dañinos automáticamente y en tiempo real.
+  </Card>
+
+  <Card title="Referencia de comandos" icon="terminal" href="/commands">
+    Lista completa de los comandos de moderación disponibles para moderadores y miembros.
+  </Card>
+</CardGroup>
+
+## Cómo funciona la moderación
+
+Cada vez que un moderador aplica una sanción — o AutoMod actúa sobre un mensaje — Moddy crea o actualiza un **caso**. A cada caso se le asigna un **código de referencia único de 6 caracteres** (por ejemplo, `AB3XR7`) que permite a cualquier persona con los permisos adecuados abrir el registro completo al instante.
+
+Dentro de un caso encontrarás una **línea de tiempo cronológica** con cada evento relacionado con ese miembro: sanciones aplicadas, sanciones revocadas, notas dejadas por moderadores y evidencias adjuntas. Esto facilita ver el historial completo de una interacción de un vistazo, tanto si estás revisando un incidente puntual como si estás auditando un patrón de comportamiento.
+
+Los casos permanecen abiertos mientras haya al menos una sanción activa, y se cierran automáticamente cuando todas las sanciones expiran o se revocan. Los moderadores también pueden cerrar o reabrir manualmente un caso en cualquier momento.
+
+## Quién puede moderar
+
+La gestión de casos en tu servidor se realiza mediante el comando `/cases`, controlado por defecto por el permiso **Gestionar mensajes** de Discord (o Administrador) — ajustable por rol desde **Ajustes del servidor → Integraciones**. Dentro de `/cases`, añadir un baneo requiere además **Banear miembros**, y añadir una advertencia o un silencio requiere **Moderar miembros**, de modo que un moderador solo ve las acciones que sus propios permisos de Discord le permiten. Cualquier miembro — sin requisitos de permiso — puede consultar su propio historial de moderación en todos los servidores con `/mycases`, pero solo el suyo y en modo solo lectura.
+
+<Note>
+  Moddy registra automáticamente los baneos y tiempos fuera aplicados directamente a través de Discord — incluso cuando no se usan comandos de Moddy. Esto significa que tu historial de casos se mantiene completo aunque un moderador utilice las herramientas de moderación nativas de Discord.
+</Note>
+
+## Apelaciones
+
+Cuando AutoMod sanciona a un miembro, Moddy le envía un **mensaje directo** con un botón de apelación. El miembro puede enviar una apelación sin salir de Discord y esta se dirige a los moderadores de tu servidor para su revisión.
+
+Los moderadores pueden resolver una apelación de tres maneras:
+
+- **Aceptar** — la sanción se revoca y el caso se actualiza en consecuencia.
+- **Rechazar** — la sanción se mantiene y se notifica al miembro.
+- **Transformar** — la sanción original se sustituye por otra distinta (por ejemplo, rebajar un baneo a un silencio).
+
+Todos los resultados de las apelaciones se registran en la línea de tiempo del caso, de modo que siempre queda un rastro de auditoría claro.

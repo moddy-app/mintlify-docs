@@ -1,0 +1,82 @@
+---
+title: "Restauration automatique des rôles : redonnez les rôles à la reconnexion"
+sidebarTitle: "Restauration automatique des rôles"
+description: "Mémorisez les rôles d'un membre lorsqu'il part et restaurez-les automatiquement s'il revient."
+icon: "arrow-rotate-left"
+---
+
+La restauration automatique des rôles mémorise les rôles qu'un membre avait lorsqu'il est parti, et les lui redonne directement s'il revient — pour qu'un membre de retour n'ait pas à être reconfiguré à la main. Vous décidez de ce qui est mémorisé : tout, tout sauf une liste d'exclusion, ou seulement une liste d'autorisation spécifique.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Auto-Restore Roles**.
+  </Step>
+  <Step title="Choisir un mode">
+    Choisissez **All**, **All except…**, ou **Only these…** — voir le tableau ci-dessous.
+  </Step>
+  <Step title="Sélectionner les rôles">
+    Si vous avez choisi _All except_ ou _Only these_, sélectionnez les rôles pour cette liste. Au moins un est requis.
+  </Step>
+  <Step title="Choisir un salon de logs (facultatif)">
+    Chaque sauvegarde et restauration y est publiée, pour que votre équipe puisse voir ce qui s'est passé.
+  </Step>
+  <Step title="Enregistrer">
+    Le module s'active dès qu'un mode est défini.
+  </Step>
+</Steps>
+
+## Modes
+
+| Mode | Ce qui est mémorisé |
+| --- | --- |
+| **All** | Tous les rôles que le membre avait |
+| **All except…** | Tous les rôles _sauf_ ceux que vous listez — utilisez ceci pour éviter de restaurer des rôles de staff ou de modérateur |
+| **Only these…** | _Seulement_ les rôles que vous listez — utilisez ceci lorsque vous souhaitez restaurer un ensemble spécifique, comme un rôle d'abonnement ou de niveau |
+
+<Tip>
+  **All except** est le choix par défaut le plus sûr pour la plupart des serveurs. Il restaure les rôles habituels qu'un membre a accumulés tout en excluant tout ce qui est sensible — rôles de modérateur, d'admin, ou de membre de confiance que quelqu'un ne devrait pas récupérer automatiquement après son départ.
+</Tip>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Mode** | Quels rôles sont sauvegardés (obligatoire) | Non défini | Un des trois ci-dessus |
+| **Rôles exclus** | Rôles _non_ sauvegardés — mode _All except_ uniquement | Aucun | Jusqu'à 25, au moins 1 requis |
+| **Rôles inclus** | Les seuls rôles sauvegardés — mode _Only these_ uniquement | Aucun | Jusqu'à 25, au moins 1 requis |
+| **Salon de logs** | Où les événements de sauvegarde et de restauration sont publiés | Aucun | 1 salon textuel |
+
+Changer de mode efface l'autre liste, et chaque sélecteur de rôle n'apparaît que lorsque son mode est actif.
+
+## Ce qui n'est jamais sauvegardé
+
+`@everyone` et les **rôles gérés** (le rôle propre d'un bot, le rôle Server Booster, et tout ce qui appartient à une intégration) ne sont jamais stockés — Discord n'autorise pas leur réassignation.
+
+## Permissions
+
+- **Gérer les rôles** — requis pour réappliquer les rôles. Tout rôle qui est depuis passé au-dessus du rôle de Moddy est silencieusement ignoré lors de la restauration.
+- Pour le salon de logs : **Envoyer des messages** et **Intégrer des liens**, tous deux vérifiés lorsque vous enregistrez.
+
+## Gérer les rôles stockés
+
+Deux commandes vous permettent d'inspecter et d'effacer ce qui a été sauvegardé. Toutes deux nécessitent **Gérer le serveur** et répondent en privé.
+
+```discord
+/view-saved-roles
+/clear-saved-roles <user>
+```
+
+- **`/view-saved-roles`** — liste chaque membre avec des rôles stockés, combien, et quand ils ont été sauvegardés.
+- **`/clear-saved-roles`** — efface les rôles stockés d'un membre, afin qu'il ne les récupère **pas** s'il revient. Utilisez ceci lorsqu'une personne part après un problème de modération.
+
+## Combien de temps les rôles sont-ils conservés
+
+<Note>
+  Les rôles stockés n'ont **aucune expiration** — un ensemble sauvegardé attend indéfiniment le retour du membre. Il est supprimé automatiquement dès qu'une restauration réussie a lieu, ou si aucun des rôles sauvegardés n'existe encore sur le serveur. Pour en supprimer un manuellement, utilisez `/clear-saved-roles`.
+</Note>
+
+## Gratuit sur toutes les formules
+
+La restauration automatique des rôles est disponible sur tous les serveurs sans limites liées à [Moddy Max](/premium/overview).

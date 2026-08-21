@@ -1,0 +1,62 @@
+---
+title: "Inter-Serveur : reliez des salons entre serveurs Discord"
+sidebarTitle: "Inter-Serveur"
+description: "Connectez un salon de votre serveur à des salons d'autres serveurs Discord afin que les membres puissent discuter entre communautés en temps réel, sans quitter Discord."
+icon: "network-wired"
+---
+
+Inter-Serveur vous permet de connecter un salon de votre serveur à des salons d'autres serveurs Discord, afin que les membres de différentes communautés puissent communiquer entre eux en temps réel. Que vous souhaitiez établir un partenariat avec un autre serveur, coordonner entre les branches de votre communauté ou créer un espace partagé avec des alliés de confiance, Inter-Serveur le rend possible sans aucun outil ni intégration externe.
+
+## Fonctionnement
+
+Lorsqu'un salon fait partie d'un réseau de pont, tout message envoyé dans ce salon est automatiquement relayé vers tous les autres salons connectés au même réseau. Les membres de chaque serveur voient les messages comme s'ils avaient été publiés localement. Les modérateurs de chaque serveur conservent le contrôle total de leur propre salon relayé — vous pouvez configurer AutoMod, gérer les permissions et supprimer les messages relayés indépendamment, sans avoir besoin d'une coordination des admins de l'autre serveur.
+
+## Configurer un pont
+
+<Steps>
+  <Step title="Ouvrir le panneau de configuration">
+    Tapez `/config` dans votre serveur pour ouvrir le panneau de configuration de Moddy.
+  </Step>
+  <Step title="Sélectionner Inter-Serveur">
+    Choisissez **Inter-Server** dans la liste des modules pour ouvrir les paramètres de pont.
+  </Step>
+  <Step title="Choisir un salon">
+    Sélectionnez le salon de votre serveur que vous souhaitez connecter au pont. Seuls les messages envoyés dans ce salon seront relayés.
+  </Step>
+  <Step title="Créer ou rejoindre un réseau">
+    Pour démarrer un nouveau pont, créez un nouveau réseau — Moddy générera un **identifiant de réseau** unique pour celui-ci. Pour rejoindre un pont existant, saisissez l'identifiant de réseau partagé par l'admin de l'autre serveur. Partagez votre identifiant de réseau avec tout autre admin de serveur qui devrait faire partie du même pont.
+  </Step>
+  <Step title="Enregistrer vos paramètres">
+    Cliquez sur **Save**. Votre salon fait maintenant partie du réseau de pont et relaiera les messages depuis et vers tous les autres salons connectés.
+  </Step>
+</Steps>
+
+<Warning>
+  Moddy a besoin de la permission **Gérer les webhooks** dans le salon relayé — les messages relayés sont publiés via un webhook afin d'afficher le nom et l'avatar de l'auteur original. Sans elle, l'enregistrement du pont pour ce salon échouera.
+</Warning>
+
+## Modération dans les salons relayés
+
+Les messages relayés sont publiés via un **webhook** afin de porter le nom et l'avatar de l'auteur original — ce qui signifie qu'ils arrivent depuis un compte Discord différent de celui de l'expéditeur original. Les modérateurs du serveur peuvent toujours supprimer un message relayé de leur propre salon à tout moment (cela le supprime localement, sans affecter les autres serveurs du réseau), et les modérateurs du serveur d'origine du message le modèrent normalement à la source.
+
+<Warning>
+  L'IA AutoMod de Moddy n'analyse **pas** les messages relayés (publiés via webhook) — elle n'évalue que les messages envoyés directement par les membres, par conception. Si un contenu nuisible passe à travers un pont, supprimez-le localement et utilisez `/interserver report` (ci-dessous) pour que l'équipe Moddy puisse enquêter, ou contactez directement les modérateurs du serveur source.
+</Warning>
+
+<Warning>
+  Relayer un salon l'expose à tous les membres de tous les autres serveurs du réseau. Ne créez ou ne rejoignez des ponts qu'avec des communautés en qui vous avez pleinement confiance. Examinez les règles et les pratiques de modération de l'autre serveur avant de vous connecter.
+</Warning>
+
+<Note>
+  Inter-Serveur est une fonctionnalité intégrée à Moddy — elle ne nécessite aucun bot externe, aucun webhook que vous gérez vous-même ni aucun service tiers. Tout est géré automatiquement une fois que vous avez configuré le pont dans `/config`.
+</Note>
+
+## Signaler un message abusif
+
+Si un message relayé viole les conditions d'utilisation de Discord ou les règles propres de Moddy et nécessite l'attention de l'équipe Moddy (plutôt que la seule modération de votre serveur), n'importe quel membre peut le signaler directement :
+
+```discord
+/interserver report <message_id>
+```
+
+`<message_id>` accepte soit l'identifiant snowflake Discord du message relayé, soit son identifiant Moddy — un code court et unique de 8 caractères que Moddy attache à chaque message relayé afin qu'il puisse être suivi à travers chaque serveur du réseau. Le signalement est envoyé directement à l'équipe Moddy pour examen, indépendamment de l'action prise localement par vos propres modérateurs.
