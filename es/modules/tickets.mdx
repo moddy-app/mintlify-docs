@@ -1,0 +1,231 @@
+---
+title: "Tickets: solicitudes de soporte organizadas con paneles y permisos"
+description: "Tickets le da a tu servidor un auténtico mostrador de soporte: los miembros pulsan un botón o eligen una opción de un menú desplegable, y Moddy les abre un canal privado con tu equipo. Tú controlas cada detalle de esa experiencia — a dónde va cada tipo de solicitud, qué roles pueden verla y actuar sobre ella, qué dice el mensaje de apertura y cómo se coordina tu staff en torno a ella."
+icon: "tickets-perforated"
+sidebarTitle: "Tickets"
+---
+
+## Los tres niveles
+
+<Steps>
+  <Step title="Panel">
+    Un mensaje que publicas en un canal público, con botones o un menú desplegable. Es el punto de entrada con el que interactúan los miembros.
+  </Step>
+  <Step title="Categoría">
+    Una opción dentro de un panel — un botón o una entrada del desplegable. Cada categoría decide dónde se crean sus tickets, quién puede abrirlos, qué roles pueden actuar sobre ellos y qué texto muestran.
+  </Step>
+  <Step title="Ticket">
+    El canal privado en el que acaba un miembro tras elegir una categoría.
+  </Step>
+</Steps>
+
+Puedes tener varios paneles — por ejemplo, uno para soporte general y otro para enviar reportes — cada uno con su propio conjunto de categorías.
+
+## Configuración
+
+Abre `/config` en tu servidor y selecciona **Tickets**. Cada pantalla aplica tus cambios en el momento en que los haces — no hay un botón de guardar aparte, salvo al eliminar un panel o una categoría, que siempre te pide confirmación primero.
+
+### La pantalla principal
+
+Es la raíz del módulo: la lista de tus paneles, con un botón para añadir uno nuevo. Al seleccionar un panel existente se abre su pantalla (más abajo).
+
+<Steps>
+  <Step title="Abrir el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Tickets**.
+  </Step>
+  <Step title="Crear un panel">
+    Dale un nombre (solo para tu referencia — los miembros nunca lo ven), y su mensaje se publica en cuanto hayas indicado un canal.
+  </Step>
+</Steps>
+
+### Configurar un panel
+
+Cada panel tiene su propia pantalla con los siguientes ajustes:
+
+| Ajuste | Qué controla |
+| --- | --- |
+| Canal | Dónde se publica el mensaje del panel. Cambiarlo mueve el mensaje existente. |
+| Título | El encabezado que ven los miembros. Viene prerellenado con un texto razonable que puedes editar libremente. |
+| Descripción | El texto que los miembros ven bajo el título, explicando para qué sirve el panel. |
+| Color de acento | El color de la tarjeta del panel. |
+| Estilo | **Botones** (hasta 15 categorías, dispuestas en filas) o un **menú desplegable** (hasta 25 categorías) — ver abajo. |
+| Placeholder | El texto que muestra el desplegable antes de que un miembro elija algo (solo en el estilo desplegable). |
+| Activado | Pausar un panel retira su mensaje sin borrar tu configuración — vuelve a activarlo para republicarlo exactamente como estaba. |
+| Categorías | La lista de categorías de este panel, con botones para añadir, editar, reordenar o eliminar una. |
+
+<Tip>
+  Elige **botones** para un puñado de opciones con etiquetas claras que los miembros reconozcan de un vistazo (`General support`, `Report a member`…). Elige un **desplegable** cuando tengas muchas categorías, o cuando prefieras mostrar una breve descripción bajo cada opción — los botones no tienen espacio para ella, un desplegable sí.
+</Tip>
+
+El panel se publica (o se actualiza en el sitio) en el momento en que guardas cualquiera de los campos anteriores — no hay un paso de publicación aparte.
+
+### Configurar una categoría
+
+Se abre desde la lista de categorías de un panel, y su pantalla está organizada en unos pocos grupos:
+
+**Identidad**
+
+| Campo | Qué controla |
+| --- | --- |
+| Nombre | La etiqueta del botón, o el título de la opción del desplegable |
+| Emoji | Opcional, se muestra junto al nombre |
+| Descripción | Se muestra bajo la opción en un panel desplegable (no se usa en los botones) |
+| Estilo del botón | Color primario, secundario, de éxito o de peligro (solo botones) |
+| Activada | Una categoría pausada desaparece del panel sin perder su configuración |
+
+**Dónde y quién**
+
+| Campo | Qué controla |
+| --- | --- |
+| Destino | La categoría de Discord bajo la que se crean los nuevos canales de ticket. Obligatorio — una categoría sin destino configurado nunca aparece en el panel. |
+| Roles permitidos | Quién puede abrir un ticket aquí. Vacío significa todos. |
+| Roles denegados | Explícitamente vetados para abrir uno, incluso por encima de un permiso o de ser administrador del servidor. |
+| Roles de staff y permisos | Qué roles pueden ver y actuar sobre los tickets de esta categoría, y con cuáles de los nueve permisos — ver [Permisos](#permisos). |
+| Roles a mencionar | Roles mencionados en el momento en que se abre un ticket |
+| Mencionar roles de staff | Cuando está activado, cada rol con el permiso **Ver** en esta categoría también es mencionado, además de los roles anteriores |
+
+**Mensajes**
+
+| Campo | Qué controla |
+| --- | --- |
+| Mensaje de apertura | El mensaje fijado completo que se publica al crear el ticket — título, cuerpo, todo. Viene prerellenado con un texto razonable por defecto. |
+| Mensaje de cierre | Se añade a la tarjeta que se muestra cuando se cierra el ticket. |
+
+Ambos aceptan los placeholders `{user}`, `{username}`, `{display_name}`, `{server}`, `{category}`, `{number}` y `{ticket}`. Una línea que contenga solo `---` se muestra como un separador visual.
+
+**Comportamiento**
+
+| Campo | Qué controla |
+| --- | --- |
+| Botones | Qué controles aparecen en el mensaje del ticket: Cerrar, Reclamar, Escalar, Hilo de staff, Participantes, Solicitar cierre. Dejarlos todos desactivados es una opción válida — el staff puede seguir usando los comandos `/ticket` equivalentes. |
+| Reclamación activada | Activa o desactiva el [sistema de reclamación](#reclamación) para esta categoría |
+| Bloqueo por reclamación | Ver [Reclamación](#reclamación) |
+| Formato del nombre del canal | Cómo se nombran los canales de ticket. Admite `{number}` (con ceros a la izquierda), `{username}`, `{display_name}` y `{category}`. |
+| Máximo de tickets abiertos por miembro | Cuántos tickets puede tener abiertos a la vez el mismo miembro en esta categoría |
+
+<Note>
+  Una categoría sin destino configurado, o que hayas pausado, simplemente no aparecerá en el panel. Si todas las categorías de un panel quedan inutilizables de esta forma, Moddy retira el panel en lugar de dejarles a los miembros un botón sin salida.
+</Note>
+
+## Límites
+
+|  | Gratis | Premium |
+| --- | --- | --- |
+| Paneles por servidor | 3 | 10 |
+| Categorías por panel | 5 | 15 |
+
+Consulta [Premium](/premium) para saber qué desbloquea el nivel superior.
+
+## Permisos
+
+El acceso a los tickets de una categoría se concede **por rol**, con nueve permisos independientes:
+
+| Permiso | Permite a un rol... |
+| --- | --- |
+| Ver | Ver y responder dentro de los tickets de esta categoría |
+| Cerrar | Cerrar y reabrir un ticket |
+| Reclamar | Hacerse cargo de un ticket, y soltar los suyos |
+| Quitar reclamación a otros | Quitarle un ticket a quien lo tenga reclamado en ese momento |
+| Hilo de staff | Abrir y unirse al hilo privado exclusivo del staff adjunto a un ticket |
+| Renombrar | Renombrar el canal del ticket |
+| Mover | Mover un ticket a otra categoría |
+| Participantes | Añadir o quitar miembros y roles de un ticket |
+| Admin | Todo lo anterior, y conserva el acceso incluso si el ticket es escalado |
+
+<Tip>
+  Reclamar y quitar la reclamación a otros están separados a propósito. Soltar un ticket que estás gestionando tú mismo es rutina; quitárselo a un compañero es una decisión mayor que tu equipo quizá quiera reservar a los líderes o responsables.
+</Tip>
+
+Un miembro que abre un ticket — o cualquiera añadido a él manualmente — siempre puede verlo y hablar en él, incluso sin tener ningún permiso de rol para esa categoría. Que además pueda cerrarlo él mismo depende de ti: concede al rol de tus miembros el permiso **Cerrar** si quieres que puedan hacerlo.
+
+### Quién puede abrir un ticket
+
+Cada categoría puede restringir quién tiene permitido abrirla: deja la lista de permitidos vacía para «cualquiera», rellénala para restringirla a ciertos roles, o añade roles a una lista de denegados para vetarlos explícitamente — una denegación siempre gana, incluso por encima de un permiso o de ser administrador del servidor.
+
+## Gestionar un ticket
+
+Todas las acciones de abajo están disponibles tanto como botón en el propio ticket como mediante un comando `/ticket` — usa lo que te resulte más rápido en cada momento.
+
+### Reclamación
+
+Si una categoría tiene la reclamación activada, cualquier agente con el permiso **Reclamar** puede marcarse como responsable de un ticket:
+
+```discord
+/ticket claim
+/ticket unclaim
+```
+
+El nombre del canal recibe un pequeño punto de color para que todo tu equipo pueda ver el estado de un ticket de un vistazo:
+
+| Punto | Significado |
+| --- | --- |
+| 🔴 | Abierto, sin reclamar |
+| 🟢 | Reclamado |
+| 🟣 | Escalado |
+| ⚫ | Cerrado |
+
+<Tip>
+  Activa el **bloqueo por reclamación** en una categoría si quieres que un ticket reclamado quede en silencio para todos excepto quien lo reclamó, tus administradores y el propio miembro — el resto de tu equipo conserva acceso de lectura, pero solo la persona que lo gestiona puede responder. Útil en equipos donde los cruces (dos agentes respondiendo al mismo mensaje) son un problema real.
+</Tip>
+
+### Escalar
+
+Escala un ticket para entregárselo a tu staff de mayor rango — solo los roles con el permiso **Admin** siguen al tanto una vez escalado. Si el ticket tenía participantes añadidos manualmente, se te pregunta qué debe pasar con ellos: mantenerlos como estaban, mantenerlos pero dejarles el ticket en solo lectura, o eliminarlos por completo.
+
+```discord
+/ticket escalate
+/ticket deescalate
+```
+
+Escalar libera automáticamente a quien tuviera el ticket reclamado — la reclamación queda aparcada y se le devuelve automáticamente si la escalada se cancela más adelante.
+
+### Cerrar
+
+```discord
+/ticket close
+/ticket reopen
+```
+
+Cerrar no borra nada: el canal se bloquea y aparece una tarjeta de cierre con un botón **Reabrir** y un botón **Eliminar** (este último requiere el permiso **Admin**). El miembro que abrió el ticket recibe un MD en cualquier caso, para que siempre sepa en qué punto están las cosas.
+
+Si prefieres pedirle permiso a un miembro antes de cerrar, usa:
+
+```discord
+/ticket close-request
+```
+
+### Añadir personas a un ticket
+
+```discord
+/ticket participants
+```
+
+Abre un formulario prerellenado con quienes ya tienen acceso, de modo que quitar a alguien es tan sencillo como desmarcarlo.
+
+### El hilo de staff
+
+Para las conversaciones que tu equipo necesita tener _sobre_ un ticket sin que el miembro las vea, abre el hilo privado adjunto:
+
+```discord
+/ticket staff-thread
+```
+
+<Warning>
+  Mencionar a alguien dentro del hilo de staff lo añade a él de inmediato — es el comportamiento propio de Discord para los hilos privados. Moddy elimina automáticamente a cualquiera que se una de esta forma pero que en realidad no deba tener acceso de staff a esa categoría, para que un ping perdido no pueda exponer la conversación por accidente.
+</Warning>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puede un miembro abrir más de un ticket a la vez?">
+    Solo si tú lo permites — cada categoría tiene su propio límite de cuántos tickets abiertos puede tener simultáneamente el mismo miembro (uno, por defecto).
+  </Accordion>
+
+  <Accordion title="¿Qué pasa si elimino un panel o una categoría?">
+    El mensaje del panel se retira de inmediato. Los tickets existentes ya abiertos desde él no se ven afectados — solo se impide crear nuevos.
+  </Accordion>
+
+  <Accordion title="¿Puedo mover un ticket a otra categoría después de abrirlo?">
+    Sí, con el permiso **Mover** en la categoría actual del ticket. A partir de entonces se aplican los permisos y el staff de la categoría de destino.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,147 @@
+---
+icon: "newspaper"
+title: "Logs del servidor: no te pierdas nada de lo que pasa en tu servidor"
+sidebarTitle: "Logs del servidor"
+description: "Los Logs del servidor vigilan todo lo que ocurre en tu servidor — un mensaje editado, un rol creado, un miembro baneado, los permisos de un canal modificados — y publican una entrada clara y legible en el canal que elijas, segundos después de que suceda. Nada se filtra a ciegas: cada uno de los **163 eventos** que Moddy puede detectar pertenece a una de las 18 categorías, y tú decides exactamente qué categorías van a dónde."
+---
+
+<Note>
+  Los logs son totalmente pasivos. Moddy nunca actúa sobre lo que registra — solo lo informa. La moderación en sí (bans, avisos, silencios) la gestionan tus moderadores o el Automod AI; los Logs simplemente se aseguran de que siempre quede constancia.
+</Note>
+
+## Cómo funciona
+
+<Steps>
+  <Step title="Algo sucede en tu servidor">
+    Un miembro se une, se renombra un canal, cambian los permisos de un rol, se elimina un mensaje — todo lo que el propio Discord mostraría en su registro de auditoría, y bastantes cosas que no muestra.
+  </Step>
+  <Step title="Moddy averigua quién lo hizo">
+    Para cualquier cosa que un moderador o un administrador haya podido causar, Moddy contrasta en segundo plano el registro de auditoría de Discord para que la entrada pueda nombrar a la persona responsable — no solo qué cambió.
+  </Step>
+  <Step title="La entrada se publica en el canal configurado">
+    Un mensaje limpio por evento, con código de colores según el tipo de cambio, y los detalles relevantes en líneas claramente etiquetadas: quién, qué, cuándo y por qué si se indicó un motivo.
+  </Step>
+  <Step title="Las entradas similares se fusionan cuando tiene sentido">
+    Una sola acción de moderación puede desencadenar más de un evento subyacente (consulta [Evitar entradas duplicadas](#evitar-entradas-duplicadas)) — por defecto, Moddy las fusiona en una sola entrada en lugar de inundar tu canal.
+  </Step>
+</Steps>
+
+### Cómo se ve una entrada de log
+
+![Image](/images/image-1.png "Image")
+
+El color del borde izquierdo te indica de un vistazo qué tipo de cambio es:
+
+| Color | Significado |
+| --- | --- |
+| 🟢 Verde | Se creó algo |
+| 🔴 Rojo | Se eliminó algo |
+| 🔵 Azul | Se actualizó algo |
+| 🟠 Naranja | Un moderador tomó una acción |
+
+## Categorías
+
+Una **categoría** es la unidad que enrutas a un canal — todos los eventos que contiene van al mismo sitio. Esto mantiene la configuración manejable: eliges "a dónde van los logs de mensajes", en lugar de tomar 163 decisiones individuales.
+
+| Categoría | Cubre |
+| --- | --- |
+| Servidor | Cambios de ajustes e identidad a nivel de servidor |
+| Mensajes | Ediciones, eliminaciones, mensajes fijados |
+| Usuarios | Entradas, salidas, cambios de apodo y de perfil |
+| Moderación | Bans, expulsiones, avisos, silencios, aislamientos temporales |
+| Canales | Creación, eliminación, cambios de permisos y ajustes |
+| Roles | Creación, eliminación, cambios de permisos |
+| Hilos | Creación, archivado, eliminación |
+| Voz | Conexiones, desconexiones, traslados, silencios |
+| Invitaciones | Creación y eliminación |
+| AutoMod de Discord | Activaciones de las reglas de automod del propio Discord |
+| Emojis, stickers, soundboard | Adiciones, eliminaciones, ediciones |
+| Eventos | Ciclo de vida de los eventos programados |
+| Escenario | Cambios en las instancias de escenario |
+| Encuestas | Creación y resultados de encuestas |
+| Webhooks | Creación, eliminación, ediciones |
+| Aplicaciones | Cambios de integraciones y bots |
+
+<Tip>
+  La misma acción real puede aparecer en dos categorías a la vez. Un ban, por ejemplo, aparece tanto en **Moderación** como en **Servidor** — así puedes enviar el historial de moderación a un canal privado de moderadores mientras mantienes un feed general de actividad del servidor para todos los que tengan acceso.
+</Tip>
+
+## Configuración
+
+Abre `/config` en tu servidor y selecciona **Logs**. El módulo tiene tres pantallas y — a diferencia de la mayoría de formularios — **no hace falta guardar nada**: cada cambio que haces se aplica en el instante en que lo haces.
+
+### La pantalla principal
+
+Es donde aterrizas, y a donde siempre acabas volviendo. Muestra una línea por cada categoría que ya hayas configurado, además de:
+
+| Acción | Qué hace |
+| --- | --- |
+| Elegir una categoría | Abre la pantalla de esa categoría (ver abajo) |
+| Enviar todo a un solo canal | Un atajo que vincula **todas** las categorías a la vez a un único canal — la forma más rápida de empezar si solo quieres un log de actividad general |
+| Borrar todo | Elimina los canales de todas las categorías de una vez, desactivando en la práctica el módulo |
+
+<Steps>
+  <Step title="Abrir el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Logs**.
+  </Step>
+  <Step title="Elegir una categoría">
+    Elige de la lista qué categoría configurar, o usa el atajo "enviar todo a un solo canal" de arriba para tener un log general funcionando en segundos.
+  </Step>
+  <Step title="Elegir uno o más canales">
+    Cada categoría puede publicar en hasta **3 canales**. Repartir una categoría entre varios canales es útil si, por ejemplo, distintos equipos deben ver los mismos eventos cada uno en su propio espacio.
+  </Step>
+  <Step title="Ajustar qué eventos se incluyen">
+    Cada categoría viene con todos sus eventos activados. Desmarca lo que no quieras ver, o usa el atajo **activar todo / desactivar todo** en la parte superior de la lista. La lista está paginada (25 eventos por página) cuando una categoría tiene muchos.
+  </Step>
+</Steps>
+
+<Warning>
+  Moddy necesita el permiso **Gestionar webhooks** para publicar logs de forma eficiente. Sin él, los logs siguen llegando, solo que un poco más despacio y con menos resistencia a ráfagas de actividad (una raid, un ban masivo).
+</Warning>
+
+### La pantalla de Opciones
+
+Accesible desde la pantalla principal, aquí ajustas el módulo en su conjunto en lugar de una categoría concreta:
+
+| Opción | Qué hace |
+| --- | --- |
+| Canales ignorados | Los eventos que ocurren en estos canales (o sus hilos) nunca se registran. Hasta 25 canales. |
+| Roles ignorados | Los miembros que tienen uno de estos roles nunca se registran como sujeto de un evento. Hasta 25 roles. |
+| Ignorar bots | Omite los eventos causados por bots o dirigidos a ellos |
+| Adjuntar transcripciones | Adjunta el contenido completo del mensaje como archivo cuando es demasiado largo para caber en la propia entrada. Desactívalo si prefieres ver siempre solo el embed, con el contenido largo simplemente recortado. |
+| Fusionar duplicados | Consulta [Evitar entradas duplicadas](#evitar-entradas-duplicadas) más abajo |
+| Idioma de los logs | El idioma en el que se escriben tus entradas de log |
+
+<Note>
+  Las entradas de log siempre usan el idioma configurado de tu servidor (establecido una vez, en **Ajustes del servidor**), no el idioma personal de cada moderador — un canal de logs debe leerse igual para todos los que tienen acceso a él. El ajuste **Idioma de los logs** de aquí solo controla en cuál de los idiomas compatibles se escribe esa redacción compartida.
+</Note>
+
+<Tip>
+  No hay un interruptor para "apagar" todo el módulo: quitar todos los canales de todas las categorías (o usar **Borrar todo** en la pantalla principal) es lo que lo desactiva. Vuelve a añadir un canal a cualquier categoría y el registro se reanuda de inmediato.
+</Tip>
+
+## Evitar entradas duplicadas
+
+Algunas acciones se describen legítimamente con más de un evento. Silenciar a alguien a través de Moddy, por ejemplo, es a la vez una acción de moderación _y_ un aislamiento temporal a nivel de Discord — cada uno cierto y útil por sí solo, pero publicar ambos en el mismo canal significaría dos entradas casi idénticas por un solo clic.
+
+Con **Fusionar duplicados** activado (el valor por defecto), Moddy espera un breve instante para ver si llegan juntos eventos relacionados, y luego entrega una sola entrada más rica que combina todo lo que sabían — claramente marcada con aquello con lo que se fusionó, para que nada quede oculto. Esto solo fusiona eventos que llegan al _mismo_ canal: si has repartido deliberadamente los eventos de moderación y de usuarios en dos canales distintos, ambos siguen recibiendo su propia entrada, porque no había nada duplicado desde el principio.
+
+<Tip>
+  Desactiva la fusión si prefieres ver cada evento subyacente listado por separado — útil si estás reconstruyendo una cronología técnica exacta de lo que el propio Discord informó.
+</Tip>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Por qué un evento concreto no apareció en mi canal de logs?">
+    Comprueba que su categoría está vinculada a un canal, que el propio evento no está desmarcado en la lista de esa categoría, y que ni el canal ni el miembro implicado están en tus listas de ignorados en Opciones.
+  </Accordion>
+
+  <Accordion title="¿Puedo registrar un evento en más de un canal?">
+    Sí — cada categoría puede enrutarse a hasta 3 canales a la vez.
+  </Accordion>
+
+  <Accordion title="¿Es una función premium?">
+    No, todos los servidores tienen acceso a las 18 categorías.
+  </Accordion>
+</AccordionGroup>
