@@ -1,0 +1,231 @@
+---
+title: "Tickets: Organized Support Requests With Panels And Permissions"
+description: "Tickets gives your server a proper support desk: members click a button or pick an option from a dropdown, and Moddy opens them a private channel with your team. You control everything about that experience — where each type of request goes, which roles can see and act on it, what the opening message says, and how your staff coordinates around it."
+icon: "tickets-perforated"
+sidebarTitle: "Tickets"
+---
+
+## The three levels
+
+<Steps>
+  <Step title="Panel">
+    A message you post in a public channel, showing either buttons or a dropdown. This is the entry point members interact with.
+  </Step>
+  <Step title="Category">
+    One option inside a panel — one button, or one dropdown entry. Each category decides where its tickets are created, who can open them, which roles can act on them, and what they say.
+  </Step>
+  <Step title="Ticket">
+    The private channel a member ends up in after picking a category.
+  </Step>
+</Steps>
+
+You can have several panels — for example, one for general support and one for report submissions — each with its own set of categories.
+
+## Configuration
+
+Open `/config` in your server and select **Tickets**. Every screen applies your changes the moment you make them — there's no separate save button, except when deleting a panel or a category, which always asks you to confirm first.
+
+### The main screen
+
+This is the root of the module: the list of your panels, with a button to add a new one. Selecting an existing panel opens its screen (below).
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Tickets**.
+  </Step>
+  <Step title="Create a panel">
+    Give it a name (for your own reference — members never see it), and its message posts as soon as you've filled in a channel.
+  </Step>
+</Steps>
+
+### Configuring a panel
+
+Each panel has its own screen with the following settings:
+
+| Setting | What it controls |
+| --- | --- |
+| Channel | Where the panel message is posted. Changing it moves the existing message. |
+| Title | The heading members see. Pre-filled with sensible wording you can edit freely. |
+| Description | The text members see under the title, explaining what the panel is for. |
+| Accent colour | The colour of the panel's card. |
+| Style | **Buttons** (up to 15 categories, laid out in rows) or a **dropdown menu** (up to 25 categories) — see below. |
+| Placeholder | The text shown in the dropdown before a member picks anything (dropdown style only). |
+| Enabled | Pausing a panel takes its message down without deleting your configuration — turn it back on to repost it exactly as it was. |
+| Categories | The list of categories on this panel, with buttons to add, edit, reorder, or remove one. |
+
+<Tip>
+  Choose **buttons** for a handful of clearly-labelled options members recognize at a glance (`General support`, `Report a member`…). Choose a **dropdown** once you have many categories, or when you'd rather show a short description under each option — buttons have no room for one, a dropdown does.
+</Tip>
+
+The panel posts (or updates in place) the moment you save any of the fields above — there's no separate publish step.
+
+### Configuring a category
+
+Opened from a panel's category list, this screen is organized into a few groups:
+
+**Identity**
+
+| Field | What it controls |
+| --- | --- |
+| Name | The button label, or the dropdown option's title |
+| Emoji | Optional, shown next to the name |
+| Description | Shown under the option in a dropdown panel (not used for buttons) |
+| Button style | Primary, secondary, success, or danger colour (buttons only) |
+| Enabled | A paused category disappears from the panel without losing its configuration |
+
+**Where and who**
+
+| Field | What it controls |
+| --- | --- |
+| Destination | The Discord category new ticket channels are created under. Required — a category with none configured never appears on the panel. |
+| Allowed roles | Who may open a ticket here. Empty means everyone. |
+| Denied roles | Explicitly barred from opening one, even over an allow or over being a server admin. |
+| Staff roles & permissions | Which roles can see and act on this category's tickets, and with which of the nine permissions — see [Permissions](#permissions). |
+| Ping roles | Roles mentioned the moment a ticket opens |
+| Ping staff roles | When on, every role holding **View** on this category is also pinged, in addition to the roles above |
+
+**Messages**
+
+| Field | What it controls |
+| --- | --- |
+| Opening message | The whole pinned message posted when the ticket is created — title, body, everything. Pre-filled with sensible default wording. |
+| Closing message | Added to the card shown when the ticket is closed. |
+
+Both accept the placeholders `{user}`, `{username}`, `{display_name}`, `{server}`, `{category}`, `{number}`, and `{ticket}`. A line containing only `---` renders as a visual divider.
+
+**Behavior**
+
+| Field | What it controls |
+| --- | --- |
+| Buttons | Which controls appear on the ticket message: Close, Claim, Escalate, Staff thread, Participants, Request closure. Leaving all of them off is a valid choice — staff can still use the equivalent `/ticket` commands. |
+| Claim enabled | Turns the [claim system](#claiming) on or off for this category |
+| Claim lock | See [Claiming](#claiming) |
+| Channel name format | How ticket channels are named. Supports `{number}` (zero-padded), `{username}`, `{display_name}`, and `{category}`. |
+| Max open tickets per member | How many tickets the same member may have open at once in this category |
+
+<Note>
+  A category that has no destination configured, or that you've paused, simply won't appear on the panel. If every category on a panel becomes unusable this way, Moddy takes the panel down rather than leaving members a dead-end button.
+</Note>
+
+## Limits
+
+|  | Free | Premium |
+| --- | --- | --- |
+| Panels per server | 3 | 10 |
+| Categories per panel | 5 | 15 |
+
+See [Premium](/premium) for what unlocks the higher tier.
+
+## Permissions
+
+Access to a category's tickets is granted **per role**, with nine independent permissions:
+
+| Permission | Lets a role... |
+| --- | --- |
+| View | See and reply inside tickets of this category |
+| Close | Close and reopen a ticket |
+| Claim | Take a ticket in charge, and release their own |
+| Unclaim others | Take a ticket away from whoever currently holds it |
+| Staff thread | Open and join the private staff-only thread attached to a ticket |
+| Rename | Rename the ticket channel |
+| Move | Move a ticket to a different category |
+| Participants | Add or remove members and roles from a ticket |
+| Admin | Everything above, and keeps access even if the ticket is escalated |
+
+<Tip>
+  Claim and unclaim-others are deliberately split. Releasing a ticket you're handling yourself is routine; taking one away from a teammate is a bigger decision your team may want to reserve for leads or managers.
+</Tip>
+
+A member who opens a ticket — or anyone added to it by hand — can always see and speak in it, even without holding any role permission for that category. Whether they can also close it themselves is up to you: grant your members' role the **Close** permission if you want them to be able to.
+
+### Who can open a ticket
+
+Each category can restrict who's allowed to open it: leave the allow list empty for "anyone", fill it in to restrict it to certain roles, or add roles to a deny list to explicitly bar them — a deny always wins, even over an allow or over being a server admin.
+
+## Managing a ticket
+
+Every action below is available both as a button on the ticket itself and as a `/ticket` command — use whichever is faster in the moment.
+
+### Claiming
+
+If a category has claiming enabled, any agent with the **Claim** permission can mark themselves as handling a ticket:
+
+```discord
+/ticket claim
+/ticket unclaim
+```
+
+The channel name picks up a small coloured dot so your whole team can tell a ticket's state at a glance:
+
+| Dot | Meaning |
+| --- | --- |
+| 🔴 | Open, unclaimed |
+| 🟢 | Claimed |
+| 🟣 | Escalated |
+| ⚫ | Closed |
+
+<Tip>
+  Enable **claim lock** on a category if you want a claimed ticket to go quiet for everyone except the claimer, your admins, and the member themselves — the rest of your team keeps read access, but only the person handling it can reply. Useful for teams where crossed wires (two agents answering the same message) are a real problem.
+</Tip>
+
+### Escalating
+
+Escalate a ticket to hand it to your most senior staff — only roles with the **Admin** permission remain in the loop once it's escalated. If the ticket had participants added by hand, you're asked what should happen to them: keep them as they were, keep them but make the ticket read-only for them, or remove them entirely.
+
+```discord
+/ticket escalate
+/ticket deescalate
+```
+
+Escalating automatically releases whoever had the ticket claimed — it's parked and handed back to them automatically if the escalation is later cancelled.
+
+### Closing
+
+```discord
+/ticket close
+/ticket reopen
+```
+
+Closing doesn't delete anything: the channel is locked and a closing card appears with a **Reopen** button and a **Delete** button (the latter needs the **Admin** permission). The member who opened the ticket gets a DM either way, so they always know where things stand.
+
+If you'd rather ask a member's permission before closing, use:
+
+```discord
+/ticket close-request
+```
+
+### Adding people to a ticket
+
+```discord
+/ticket participants
+```
+
+Opens a form pre-filled with whoever already has access, so removing someone is as simple as unchecking them.
+
+### The staff thread
+
+For discussion your team needs to have _about_ a ticket without the member seeing it, open the attached private thread:
+
+```discord
+/ticket staff-thread
+```
+
+<Warning>
+  Mentioning someone inside the staff thread adds them to it immediately — Discord's own behavior for private threads. Moddy automatically removes anyone who joins this way but isn't actually meant to have staff access to that category, so a stray ping can't accidentally expose the conversation.
+</Warning>
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can a member open more than one ticket at a time?">
+    Only if you allow it — each category has its own limit on how many open tickets the same member can have simultaneously (one, by default).
+  </Accordion>
+
+  <Accordion title="What happens if I delete a panel or a category?">
+    The panel message is taken down immediately. Existing tickets already opened from it are unaffected — only new ones are prevented.
+  </Accordion>
+
+  <Accordion title="Can I move a ticket to a different category after it's opened?">
+    Yes, with the **Move** permission on the ticket's current category. The destination category's permissions and staff then apply going forward.
+  </Accordion>
+</AccordionGroup>
