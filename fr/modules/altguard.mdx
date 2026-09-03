@@ -32,65 +32,25 @@ AltGuard retient chaque nouveau membre humain derrière une porte de vérificati
   AltGuard peut occasionnellement signaler un nouveau membre légitime qui partage par hasard des signaux avec un compte précédemment banni. Examinez les signalements dans votre salon de journalisation avant de conclure au pire — c'est exactement à cela que sert le remplacement manuel `/altguard verify` ci-dessous.
 </Note>
 
-<Warning>
-  AltGuard n'est pas une heuristique que le bot exécute de son côté — il repose sur une vérification explicite, basée sur le consentement, effectuée par le service de vérification de Moddy dans le navigateur du membre. Un membre doit activement passer par l'écran de vérification ; il n'existe aucune détection passive du type "l'IA devine l'ancienneté de votre compte" qui tournerait en arrière-plan.
-</Warning>
-
-## Fonctionnement
-
-<Steps>
-  <Step title="Un membre rejoint">
-    Il reçoit immédiatement le **rôle non vérifié** et ne peut voir que le salon de vérification que vous avez configuré. Les bots sautent entièrement cette étape — ils ne peuvent pas cliquer sur un bouton, donc ils ne sont jamais mis en attente.
-  </Step>
-  <Step title="Il ouvre le panneau de vérification">
-    Un unique message permanent avec un seul bouton se trouve dans le salon de vérification. Cliquer dessus ouvre un écran de consentement expliquant précisément ce qui va être vérifié (caractéristiques du navigateur, un cookie technique, e-mail Discord, liste des serveurs, adresse IP — tout chiffré), avec des liens vers l'avis d'information sur les données, les conditions et la politique de confidentialité. Deux cases doivent être cochées pour continuer ; fermer l'écran n'envoie rien nulle part.
-  </Step>
-  <Step title="Il autorise via l'écran de Discord">
-    Après avoir donné son consentement, le membre reçoit un lien personnel à usage unique (valable 20 minutes) où le service de vérification effectue ses contrôles. Moddy n'intervient pas dans cette étape.
-  </Step>
-  <Step title="Le verdict revient">
-    Le service retourne l'un des trois résultats : **réussi** (le membre obtient le rôle vérifié et passe à Auto Role, si configuré), **signalé** (maintenu derrière la porte, en attente d'une revue manuelle d'un modérateur) ou **bloqué** (maintenu derrière la porte). Le résultat est envoyé au membre par DM en langage clair — jamais le score sous-jacent ni les signaux.
-  </Step>
-</Steps>
-
-<Note>
-  AltGuard peut occasionnellement signaler un nouveau membre légitime qui partage par hasard des signaux avec un compte précédemment banni. Examinez les signalements dans votre salon de journalisation avant de conclure au pire — c'est exactement à cela que sert le remplacement manuel `/altguard verify` ci-dessous.
-</Note>
-
 ## Activer AltGuard
 
 <Steps>
   <Step title="Ouvrez le panneau de configuration">
-    Tapez `/config` dans votre serveur et sélectionnez **AltGuard**et sélectionnez **AltGuard**.
+    Tapez `/config` dans votre serveur et sélectionnez **AltGuard**.
   </Step>
-  <Step title="Choisissez un salon de vérificationChoisissez un salon de vérification">
-    Ce salon devient le _seul_ que le rôle non vérifié peut voir. Moddy verrouille automatiquement tous les autres salons pour ce rôle lorsque vous enregistrez — vous n'avez pas besoin de configurer les permissions des salons à la mainCe salon devient le _seul_ que le rôle non vérifié peut voir. Moddy verrouille automatiquement tous les autres salons pour ce rôle lorsque vous enregistrez — vous n'avez pas besoin de configurer les permissions des salons à la main.
+  <Step title="Choisissez un salon de vérification">
+    Ce salon devient le _seul_ que le rôle non vérifié peut voir. Moddy verrouille automatiquement tous les autres salons pour ce rôle lorsque vous enregistrez — vous n'avez pas besoin de configurer les permissions des salons à la main.
   </Step>
-  <Step title="Choisissez les rôles vérifié et non vérifiéles rôles vérifié et non vérifié">
-    Les deux sont requis pour que le module s'active. Le rôle non vérifié retient les nouveaux membres ; le rôle vérifié est accordé une fois qu'ils passent la vérificationLes deux sont requis pour que le module s'active. Le rôle non vérifié retient les nouveaux membres ; le rôle vérifié est accordé une fois qu'ils passent la vérification.
+  <Step title="Choisissez les rôles vérifié et non vérifié">
+    Les deux sont requis pour que le module s'active. Le rôle non vérifié retient les nouveaux membres ; le rôle vérifié est accordé une fois qu'ils passent la vérification.
   </Step>
-  <Step title="Choisissez un salon de journalisation (recommandé) (recommandé)">
-    Les verdicts et les décisions manuelles du staff y sont publiés. Gardez-le privé pour votre équipe de modérationLes verdicts et les décisions manuelles du staff y sont publiés. Gardez-le privé pour votre équipe de modération.
+  <Step title="Choisissez un salon de journalisation (recommandé)">
+    Les verdicts et les décisions manuelles du staff y sont publiés. Gardez-le privé pour votre équipe de modération.
   </Step>
-  <Step title="Choisissez la langue du panneauChoisissez la langue du panneau">
-    Le texte du panneau de vérification est fixe (chaque serveur explique le même traitement des données à ses membres) — vous choisissez uniquement dans laquelle des langues prises en charge il est affichéLe texte du panneau de vérification est fixe (chaque serveur explique le même traitement des données à ses membres) — vous choisissez uniquement dans laquelle des langues prises en charge il est affiché.
+  <Step title="Choisissez la langue du panneau">
+    Le texte du panneau de vérification est fixe (chaque serveur explique le même traitement des données à ses membres) — vous choisissez uniquement dans laquelle des langues prises en charge il est affiché.
   </Step>
 </Steps>
-
-<Warning>
-  Moddy a besoin des permissions **Gérer les rôles** et **Gérer les salons**, avec son propre rôle positionné au-dessus des rôles vérifié et non vérifié, pour verrouiller correctement les salons et distribuer les rôles.
-</Warning>
-
-## Examiner et remplacer les verdicts
-
-Les membres signalés et bloqués restent derrière la porte jusqu'à ce qu'un modérateur intervienne. Depuis votre salon de journalisation, les modérateurs disposant de la permission **Gérer les rôles** peuvent remplacer n'importe quel verdict directement dans Discord :
-
-```discord
-/altguard verify <member>
-/altguard unverify <member>
-```
-
-`/altguard verify` laisse passer un membre manuellement — en lui accordant le rôle vérifié et en le transmettant à Auto Role, si activé — tandis que `/altguard unverify` renvoie un membre précédemment vérifié derrière la porte.
 
 <Warning>
   Moddy a besoin des permissions **Gérer les rôles** et **Gérer les salons**, avec son propre rôle positionné au-dessus des rôles vérifié et non vérifié, pour verrouiller correctement les salons et distribuer les rôles.
@@ -108,12 +68,8 @@ Les membres signalés et bloqués restent derrière la porte jusqu'à ce qu'un m
 `/altguard verify` laisse passer un membre manuellement — en lui accordant le rôle vérifié et en le transmettant à Auto Role, si activé — tandis que `/altguard unverify` renvoie un membre précédemment vérifié derrière la porte.
 
 <Tip>
-  Si vous avez des questions sur une décision précise — pourquoi un membre a été signalé, quel score ou quels signaux ont été impliqués — ce détail n'est pas exposé dans `/altguard`. Contactez-nous via le [serveur de support](https://moddy.app/support) avec les détails du cas, et l'équipe Moddy pourra le vérifier sur demandeSi vous avez des questions sur une décision précise — pourquoi un membre a été signalé, quel score ou quels signaux ont été impliqués — ce détail n'est pas exposé dans `/altguard`. Contactez-nous via le [serveur de support](https://moddy.app/support) avec les détails du cas, et l'équipe Moddy pourra le vérifier sur demande.
+  Si vous avez des questions sur une décision précise — pourquoi un membre a été signalé, quel score ou quels signaux ont été impliqués — ce détail n'est pas exposé dans `/altguard`. Contactez-nous via le [serveur de support](https://moddy.app/support) avec les détails du cas, et l'équipe Moddy pourra le vérifier sur demande.
 </Tip>
-
-## Intégration avec Auto Role
-
-Si votre serveur utilise également la fonctionnalité **Auto Role**, AltGuard la met automatiquement en attente : un membre qui n'a pas passé la porte n'obtient aucun rôle automatique, quoi qu'il arrive. Dès qu'il passe — automatiquement ou via un `/altguard verify` manuel — Auto Role s'exécute normalement.
 
 ## Intégration avec Auto Role
 

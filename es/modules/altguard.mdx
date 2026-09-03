@@ -32,31 +32,6 @@ AltGuard mantiene a cada nuevo miembro humano detrás de una puerta de verificac
   AltGuard puede, ocasionalmente, marcar a un nuevo miembro legítimo que casualmente comparte señales con una cuenta previamente baneada. Revisa las marcas en tu canal de registro antes de suponer lo peor — para eso está exactamente la anulación manual `/altguard verify` que se muestra a continuación.
 </Note>
 
-<Warning>
-  AltGuard no es una heurística que el bot ejecuta por sí solo — depende de una comprobación explícita, basada en consentimiento, realizada por el servicio de verificación de Moddy en el navegador del miembro. Un miembro debe pasar activamente por la pantalla de verificación; no hay ninguna detección pasiva del tipo "una IA adivina la antigüedad de tu cuenta" ejecutándose en segundo plano.
-</Warning>
-
-## Cómo funciona
-
-<Steps>
-  <Step title="Un miembro se une">
-    Recibe inmediatamente el **rol de no verificado** y solo puede ver tu canal de verificación configurado. Los bots se saltan esto por completo — no pueden hacer clic en un botón, así que nunca se los retiene.
-  </Step>
-  <Step title="Abre el panel de verificación">
-    Un único mensaje permanente con un botón está en el canal de verificación. Al hacer clic se abre una pantalla de consentimiento que explica exactamente qué se comprobará (características del navegador, una cookie técnica, correo electrónico de Discord, lista de servidores, dirección IP — todo cifrado), con enlaces al aviso de datos, los términos y la política de privacidad. Se deben marcar dos casillas para continuar; cerrar la pantalla no envía nada a ningún sitio.
-  </Step>
-  <Step title="Autoriza en la propia pantalla de Discord">
-    Tras dar su consentimiento, el miembro recibe un enlace personal y de un solo uso (válido durante 20 minutos) donde el servicio de verificación realiza sus comprobaciones. Moddy no participa en este paso.
-  </Step>
-  <Step title="Llega el veredicto">
-    El servicio devuelve uno de tres resultados: **passed** (el miembro recibe el rol de verificado y pasa a Auto Role, si está configurado), **flagged** (se mantiene detrás de la puerta, a la espera de una revisión manual de un moderador) o **blocked** (se mantiene detrás de la puerta). Al miembro se le envía un DM con el resultado en lenguaje sencillo — nunca la puntuación subyacente ni las señales.
-  </Step>
-</Steps>
-
-<Note>
-  AltGuard puede, ocasionalmente, marcar a un nuevo miembro legítimo que casualmente comparte señales con una cuenta previamente baneada. Revisa las marcas en tu canal de registro antes de suponer lo peor — para eso está exactamente la anulación manual `/altguard verify` que se muestra a continuación.
-</Note>
-
 ## Habilitar AltGuard
 
 <Steps>
@@ -92,28 +67,9 @@ Los miembros marcados y bloqueados permanecen detrás de la puerta hasta que un 
 
 `/altguard verify` deja pasar a un miembro manualmente — concediéndole el rol de verificado y pasándolo a Auto Role, si está habilitado — mientras que `/altguard unverify` devuelve a un miembro previamente verificado detrás de la puerta.
 
-<Warning>
-  Moddy necesita los permisos **Manage Roles** y **Manage Channels**, con su propio rol posicionado por encima tanto del rol de verificado como del de no verificado, para bloquear canales y entregar los roles correctamente.
-</Warning>
-
-## Revisar y anular veredictos
-
-Los miembros marcados y bloqueados permanecen detrás de la puerta hasta que un moderador interviene. Desde tu canal de registro, los moderadores con el permiso **Manage Roles** pueden anular cualquier veredicto directamente en Discord:
-
-```discord
-/altguard verify <member>
-/altguard unverify <member>
-```
-
-`/altguard verify` deja pasar a un miembro manualmente — concediéndole el rol de verificado y pasándolo a Auto Role, si está habilitado — mientras que `/altguard unverify` devuelve a un miembro previamente verificado detrás de la puerta.
-
 <Tip>
   Si tienes preguntas sobre una decisión concreta — por qué se marcó a un miembro, qué puntuación o señales estuvieron implicadas — ese detalle no se expone en `/altguard`. Ponte en contacto a través del [servidor de soporte](https://moddy.app/support) con los datos del caso y el equipo de Moddy podrá consultarlo bajo petición.
 </Tip>
-
-## Integración con Auto Role
-
-Si tu servidor también usa la función **Auto Role**, AltGuard la retiene automáticamente: un miembro que no ha pasado la puerta no obtiene ningún rol automático, pase lo que pase. En el momento en que pasa — automáticamente o mediante un `/altguard verify` manual — Auto Role se ejecuta con normalidad.
 
 ## Integración con Auto Role
 
