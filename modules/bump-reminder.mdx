@@ -1,0 +1,108 @@
+---
+title: "Bump Reminder: Never Miss a Bump Window Again"
+sidebarTitle: "Bump Reminder"
+description: "Moddy notices when a bump actually goes through on DISBOARD, DiscordL, French.gg and four other directories, thanks the member who ran it, and calls the channel back the moment the command is available again."
+icon: "rocket"
+---
+
+Server directories let you climb back to the top of their listing with a `/bump` command, reusable every one to four hours. The window is easy to miss, and a missed window is visibility lost.
+
+Bump Reminder watches the channel you point it at, recognises that a bump **actually went through**, thanks whoever ran it, and calls the channel back the moment the command becomes available again.
+
+## Supported Directories
+
+| Directory | Command | Cooldown |
+| --- | --- | --- |
+| **DISBOARD** | `/bump` | 2 hours |
+| **DSMonitoring** | `/bump` | 4 hours |
+| **D-INVITES** | `/bump` | 2 hours |
+| **DiscordL** | `/bump` | 1 hour |
+| **Beemp** | `/bump` | 1 hour |
+| **DiscordTop** | `/boost` | 1 hour |
+| **French.gg** | `/bump` | 2 hours |
+
+<Note>
+  Moddy reads the directory's own reply. When a directory announces its next bump time itself, that time wins over the interval you configured — so the reminder lands exactly when the command reopens, not a minute early.
+</Note>
+
+## Why It Never Fires Early
+
+A directory answers `/bump` from the same bot with the same command whether the bump went through or the server is still on cooldown. Moddy therefore detects **"the bump is through"**, never "the command was run".
+
+When the two can't be told apart, Moddy stays quiet. That's deliberate: a missed reminder costs one bump window, a false one costs your channel's trust in every reminder after it.
+
+## Setting It Up
+
+<Steps>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Bump Reminder**.
+  </Step>
+  <Step title="Add a reminder">
+    Pick the directory, then the channel where your members run the bump command. That same channel is where Moddy answers.
+  </Step>
+  <Step title="Choose who gets pinged (optional)">
+    Add up to 5 roles to mention when the window reopens — a `@Bumpers` role, for example.
+  </Step>
+  <Step title="Pick a ping mode">
+    Decide whether the last bumper is mentioned by the reminder. See the table below.
+  </Step>
+</Steps>
+
+## The Two Messages
+
+<CardGroup cols={2}>
+  <Card title="The thank-you" icon="heart">
+    Posted immediately after a successful bump. It names the member, the directory, and when the next bump will be possible. It **doesn't notify** them — they ran the command a second ago and are looking at the channel.
+  </Card>
+
+  <Card title="The reminder" icon="bell">
+    Posted when the window reopens. It pings your chosen roles, shows the bump command as a one-click command mention, and credits the last bumper.
+  </Card>
+</CardGroup>
+
+## Ping Modes
+
+| Mode | The last bumper is mentioned |
+| --- | --- |
+| **Ask** *(default)* | Only if they asked, using the **Remind me** button on the thank-you message. |
+| **Always** | By every reminder. |
+| **Never** | Not at all — only the roles you chose are pinged. |
+
+The **Remind me** button toggles: someone who armed it by reflex and changed their mind clicks it again. It keeps working forever, including after a restart or weeks later.
+
+<Tip>
+  The last bumper is always credited at the bottom of the reminder, whatever the ping mode. The credit stays; only the notification depends on the mode.
+</Tip>
+
+## Settings
+
+| Setting | What it controls | Default | Limit |
+| --- | --- | --- | --- |
+| **Directory** | Which listing this reminder covers | — | One of the seven above |
+| **Channel** | Where Moddy watches for the bump, and where it answers | — | One channel per reminder |
+| **Roles** | Roles mentioned when the window reopens | None | Up to 5 |
+| **Ping mode** | How the last bumper is mentioned | Ask | Ask / Always / Never |
+| **Interval** | Fallback cooldown when the directory doesn't state one | The directory's own cooldown | 5 minutes – 24 hours |
+| **Paused** | A paused reminder watches nothing | Active | — |
+
+## Limits
+
+Reminders are capped **per directory**, not as one global total, so a free server can still cover every listing it bumps on.
+
+| | Per directory | In total |
+| --- | --- | --- |
+| **Free** | 1 | 7 |
+| **Moddy Max** | 3 | 21 |
+
+One reminder per directory is all a normal server needs: a bump puts the *whole server* on that directory's cooldown. A second entry only makes sense to call a **second channel** back, which is why it's a [Moddy Max](/premium/overview) feature.
+
+<Note>
+  Two reminders for the same directory in the same channel are refused at any tier — both would post the same card, every time.
+</Note>
+
+## Good to Know
+
+- **Bumping in one channel arms every reminder for that directory.** The cooldown belongs to your server, not to a channel, so a Moddy Max server watching one channel can still call three of them back.
+- **Bumping again before the reminder fires restarts the countdown**, and credits the new bumper.
+- **A directory that shuts down doesn't break your panel.** Its entry is simply ignored.
+- Moddy only reads bumps in the channel the reminder points at — it never answers in a channel you didn't pick.

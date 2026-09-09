@@ -11,6 +11,96 @@ Tout ce qui est nouveau dans Moddy, les plus récents en premier. Moddy est en d
   Vous voulez être informé au fur et à mesure ? Les annonces sont diffusées sur le [serveur de support Moddy](https://moddy.app/support) dès qu'une fonctionnalité est en ligne.
 </Note>
 
+<Update label="3 septembre 2026" description="Bump Reminder">
+  ## Bump Reminder : ne manquez plus jamais une fenêtre de bump
+
+  Un nouveau module qui surveille un bump **réussi** sur sept annuaires de serveurs — DISBOARD, DSMonitoring, D-INVITES, DiscordL, Beemp, DiscordTop et French.gg — remercie le membre qui l'a lancé, et rappelle le salon dès que la commande redevient disponible.
+
+  - Moddy détecte qu'un bump est réellement **passé**, pas seulement que la commande a été exécutée, donc un rappel ne se déclenche jamais pendant que l'annuaire est encore en recharge
+  - Quand un annuaire annonce lui-même son prochain horaire de bump, cet horaire est utilisé à la place d'un intervalle fixe
+  - Ping les rôles de votre choix, et laissez le dernier bumpeur s'inscrire à son propre rappel d'un seul bouton — ou mentionnez-le à chaque fois, ou jamais
+  - Les serveurs gratuits ont un rappel par annuaire (sept au total), les serveurs Moddy Max en ont trois (vingt-et-un)
+
+  Voir le [guide du module](/modules/bump-reminder) pour la présentation complète.
+</Update>
+
+<Update label="1er septembre 2026" description="Rôle Moddy Team">
+  ## Une manière propre de laisser l'équipe Moddy vous aider
+
+  Quand vous demandez à l'équipe Moddy une aide directe, elle n'a plus besoin d'un rôle administrateur. `/team role` crée un rôle **Moddy Team** dédié, **sans aucune permission**, et toute permission dont il a besoin par la suite est demandée via une carte qu'un administrateur accepte ou refuse — ajoutée au rôle, jamais au compte d'une personne.
+
+  Ce rôle est un *rôle lié* Discord : il ne peut être détenu que par un membre vérifié de l'équipe Moddy, et Discord le retire automatiquement le jour où cette personne cesse de l'être.
+</Update>
+
+<Update label="30 août 2026" description="Tickets · Reçus de facturation">
+  ## Les demandes de fermeture fonctionnent désormais dans les deux sens
+
+  `/ticket close-request` n'était auparavant qu'une action du membre. Le staff peut maintenant proposer une fermeture à la personne qui a ouvert le ticket au lieu de mettre fin à la conversation sans la prévenir — la même carte, les deux mêmes boutons (**Fermer le ticket** / **Garder ouvert**), à laquelle répond le camp qui n'a pas fait la demande.
+
+  ## Un vrai reçu pour chaque facture
+
+  Chaque facture d'abonnement arrive désormais sous forme de reçu clair dans vos DM en plus de l'e-mail — y compris les factures à 0 € issues d'un essai gratuit, qui précisent quand l'essai se termine et quand le premier prélèvement aura lieu, et n'affirment jamais qu'un paiement a été effectué.
+</Update>
+
+<Update label="29 août 2026" description="Brocoli">
+  ## Brocoli : configurez votre serveur en lui parlant
+
+  Un nouvel assistant IA vit désormais dans le tableau de bord. Décrivez ce que vous voulez — « retenez les nouveaux membres derrière un sas de vérification et donnez-leur le rôle Membre une fois passés » — et Brocoli lit votre serveur, propose une configuration en langage clair, et l'applique une fois que vous l'approuvez.
+
+  - Trois modes, comme un terminal : **lecture seule** (il peut regarder, jamais toucher), **sur demande** (il vérifie avec vous avant chaque changement) et **automatique**
+  - Il parle des salons et des rôles par leur nom, jamais par identifiant ou paramètre brut, et pose une question à la fois avec une recommandation
+  - Les actions sensibles — remboursements, résiliations, sanctions, annonces — exigent toujours votre confirmation explicite, même en mode automatique
+  - Il ne parle que de Moddy, et ne peut agir que sur le serveur depuis lequel vous l'avez ouvert
+</Update>
+
+<Update label="26 août 2026" description="/config pour tous · /bug-report">
+  ## `/config` s'ouvre à tous les serveurs
+
+  Configurer Moddy ne nécessite plus de faire partie du programme bêta : n'importe qui disposant de **Gérer le serveur** peut désormais ouvrir `/config`. Le panneau a été repensé au passage — un seul menu déroulant regroupant tous les modules et les paramètres de votre serveur, avec des liens directs vers le tableau de bord, le support et cette documentation.
+
+  ## `/bug-report`, et une équipe qui configure pour vous
+
+  Une nouvelle commande `/bug-report` — utilisable sur un serveur ou en DM — envoie un signalement directement à l'équipe Moddy, qui peut vous répondre en privé ; vous pouvez lui répondre directement depuis le DM.
+
+  Les nouveaux serveurs reçoivent aussi un message de bienvenue expliquant comment démarrer, et un bouton **Configurez-le pour moi** qui confie la configuration à l'équipe Moddy.
+</Update>
+
+<Update label="24 août 2026" description="Notifications · Langue du serveur">
+  ## Chaque message de Moddy dit qui est derrière
+
+  Chaque DM envoyé par Moddy porte désormais une ligne indiquant au nom de qui il a été envoyé — votre serveur, l'équipe Moddy, ou Moddy lui-même — avec une vérification quand l'expéditeur est authentiquement nous. Si un serveur en abuse, le message peut être signalé à l'équipe Moddy en deux clics.
+
+  Cela ferme le moyen le plus évident d'usurper Moddy : un message officiel est désormais visiblement officiel, et tout le reste visiblement ne l'est pas.
+
+  ## Une seule langue pour tout votre serveur
+
+  Chaque module avait auparavant son propre sélecteur de langue. Il existe désormais un **réglage de langue unique** pour le serveur, dans `/config` → *Paramètres du serveur*, et tout ce que Moddy dit collectivement — messages de bienvenue, panneaux, journaux, tickets, avis de sanction — le suit. Ce que Moddy dit à une personne en privé continue de suivre la langue Discord personnelle de cette personne.
+</Update>
+
+<Update label="23 août 2026" description="Journaux du serveur · Tickets">
+  ## Journaux du serveur : ne manquez plus rien de ce qui se passe chez vous
+
+  Un nouveau module qui enregistre 163 événements répartis en 18 catégories — messages, rôles, salons, modération, vocal, invitations et bien d'autres — directement dans les salons de votre choix.
+
+  - Reliez chaque catégorie à 3 salons maximum, et choisissez précisément quels événements de cette catégorie sont journalisés
+  - Chaque entrée nomme la personne responsable en recoupant le journal d'audit de Discord, sans autre permission que **Gérer les webhooks**
+  - Les événements liés (une exclusion temporaire, à la fois action de modération et timeout Discord) sont fusionnés en une seule entrée claire au lieu d'inonder votre salon
+  - Ignorez certains salons, rôles ou bots, et choisissez la langue dans laquelle vos journaux sont écrits
+
+  Voir le [guide du module](/modules/logs) pour le détail complet.
+
+  ## Tickets : du support organisé, directement dans Discord
+
+  Un nouveau module pour gérer votre support à travers des panneaux sur lesquels vos membres cliquent, plutôt qu'un salon ouvert ou un MP.
+
+  - Concevez un ou plusieurs panneaux — boutons ou menu déroulant — chacun avec ses catégories, ses destinations et ses permissions par rôle
+  - Neuf permissions détaillées par rôle et par catégorie : voir, fermer, prendre en charge, escalader, renommer, déplacer, gérer les participants, et plus
+  - Un système de prise en charge pour que votre équipe sache toujours qui s'occupe d'un ticket, et une escalade qui confie un dossier à vos responsables sans rien perdre du contexte
+  - Un fil privé réservé au staff sur chaque ticket, une fermeture et une réouverture annoncées au membre par MP, et tout cela également disponible en commandes `/ticket`
+
+  Voir le [guide du module](/modules/tickets) pour le détail complet.
+</Update>
+
 <Update label="19 août 2026" description="AltGuard — comptes liés dans les journaux">
   ## Les modérateurs peuvent voir pourquoi AltGuard a signalé un compte
 
