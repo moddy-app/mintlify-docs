@@ -78,7 +78,10 @@
                   "modules/voice-transcription",
                   "modules/bot-customization",
                   "modules/altguard",
-                  "modules/altguard-data"
+                  "modules/altguard-data",
+                  "modules/logs",
+                  "modules/tickets",
+                  "modules/bump-reminder"
                 ]
               },
               {
@@ -175,7 +178,10 @@
                   "fr/modules/voice-transcription",
                   "fr/modules/bot-customization",
                   "fr/modules/altguard",
-                  "fr/modules/altguard-data"
+                  "fr/modules/altguard-data",
+                  "fr/modules/logs",
+                  "fr/modules/tickets",
+                  "fr/modules/bump-reminder"
                 ]
               },
               {
@@ -272,7 +278,10 @@
                   "es/modules/voice-transcription",
                   "es/modules/bot-customization",
                   "es/modules/altguard",
-                  "es/modules/altguard-data"
+                  "es/modules/altguard-data",
+                  "es/modules/logs",
+                  "es/modules/tickets",
+                  "es/modules/bump-reminder"
                 ]
               },
               {
