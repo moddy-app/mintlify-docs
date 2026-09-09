@@ -274,6 +274,7 @@
                   "es/modules/starboard",
                   "es/modules/adaptive-slowmode",
                   "es/modules/logs",
+                  "es/modules/tickets",
                   "es/modules/social-notifications",
                   "es/modules/interserver",
                   "es/modules/voice-transcription",
