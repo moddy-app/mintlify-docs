@@ -1,0 +1,108 @@
+---
+title: "Bump Reminder: no vuelvas a perderte una ventana de bump"
+sidebarTitle: "Bump Reminder"
+description: "Moddy detecta cuándo un bump realmente se realiza en DISBOARD, DiscordL, French.gg y otros cuatro directorios, agradece al miembro que lo ejecutó y vuelve a avisar al canal en cuanto el comando esté disponible de nuevo."
+icon: "rocket"
+---
+
+Los directorios de servidores te permiten volver a lo alto de su listado con un comando `/bump`, reutilizable cada una a cuatro horas. La ventana es fácil de dejar pasar, y una ventana perdida es visibilidad perdida.
+
+Bump Reminder vigila el canal que le indiques, reconoce que un bump **realmente se realizó**, agradece a quien lo ejecutó y vuelve a avisar al canal en cuanto el comando vuelve a estar disponible.
+
+## Directorios compatibles
+
+| Directorio | Comando | Cooldown |
+| --- | --- | --- |
+| **DISBOARD** | `/bump` | 2 horas |
+| **DSMonitoring** | `/bump` | 4 horas |
+| **D-INVITES** | `/bump` | 2 horas |
+| **DiscordL** | `/bump` | 1 hora |
+| **Beemp** | `/bump` | 1 hora |
+| **DiscordTop** | `/boost` | 1 hora |
+| **French.gg** | `/bump` | 2 horas |
+
+<Note>
+  Moddy lee la propia respuesta del directorio. Cuando un directorio anuncia él mismo su próxima hora de bump, esa hora gana sobre el intervalo que hayas configurado — así el recordatorio llega exactamente cuando el comando se reabre, ni un minuto antes.
+</Note>
+
+## Por qué nunca se dispara antes de tiempo
+
+Un directorio responde a `/bump` desde el mismo bot con el mismo comando tanto si el bump se realizó como si el servidor sigue en cooldown. Por eso Moddy detecta **"el bump se ha realizado"**, nunca "se ejecutó el comando".
+
+Cuando no se pueden distinguir ambos casos, Moddy se queda callado. Es deliberado: un recordatorio perdido cuesta una ventana de bump, uno falso cuesta la confianza de tu canal en todos los recordatorios siguientes.
+
+## Configurarlo
+
+<Steps>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Bump Reminder**.
+  </Step>
+  <Step title="Añade un recordatorio">
+    Elige el directorio y luego el canal donde tus miembros ejecutan el comando de bump. Ese mismo canal es donde Moddy responde.
+  </Step>
+  <Step title="Elige a quién avisar (opcional)">
+    Añade hasta 5 roles para mencionar cuando la ventana se reabra — un rol `@Bumpers`, por ejemplo.
+  </Step>
+  <Step title="Elige un modo de mención">
+    Decide si se menciona a quien hizo el último bump en el recordatorio. Consulta la tabla de abajo.
+  </Step>
+</Steps>
+
+## Los dos mensajes
+
+<CardGroup cols={2}>
+  <Card title="El agradecimiento" icon="heart">
+    Se publica inmediatamente después de un bump exitoso. Nombra al miembro, el directorio y cuándo será posible el próximo bump. **No lo notifica** — acaba de ejecutar el comando hace un segundo y está mirando el canal.
+  </Card>
+
+  <Card title="El recordatorio" icon="bell">
+    Se publica cuando la ventana se reabre. Menciona a los roles que elegiste, muestra el comando de bump como una mención de comando de un solo clic y da crédito a quien hizo el último bump.
+  </Card>
+</CardGroup>
+
+## Modos de mención
+
+| Modo | Se menciona a quien hizo el último bump |
+| --- | --- |
+| **Preguntar** *(por defecto)* | Solo si lo pidió, usando el botón **Avísame** en el mensaje de agradecimiento. |
+| **Siempre** | En todos los recordatorios. |
+| **Nunca** | En ninguno — solo se mencionan los roles que elegiste. |
+
+El botón **Avísame** funciona como interruptor: quien lo active por reflejo y cambie de idea puede volver a pulsarlo. Sigue funcionando para siempre, incluso tras un reinicio o semanas después.
+
+<Tip>
+  A quien hizo el último bump siempre se le da crédito al pie del recordatorio, sea cual sea el modo de mención. El crédito se mantiene; solo la notificación depende del modo.
+</Tip>
+
+## Ajustes
+
+| Ajuste | Qué controla | Por defecto | Límite |
+| --- | --- | --- | --- |
+| **Directorio** | Qué listado cubre este recordatorio | — | Uno de los siete de arriba |
+| **Canal** | Dónde vigila Moddy el bump, y dónde responde | — | Un canal por recordatorio |
+| **Roles** | Roles mencionados cuando la ventana se reabre | Ninguno | Hasta 5 |
+| **Modo de mención** | Cómo se menciona a quien hizo el último bump | Preguntar | Preguntar / Siempre / Nunca |
+| **Intervalo** | Cooldown de reserva cuando el directorio no indica uno | El propio cooldown del directorio | 5 minutos – 24 horas |
+| **En pausa** | Un recordatorio en pausa no vigila nada | Activo | — |
+
+## Límites
+
+Los recordatorios están limitados **por directorio**, no como un total global, así que un servidor gratuito puede seguir cubriendo cada listado en el que hace bump.
+
+| | Por directorio | En total |
+| --- | --- | --- |
+| **Gratis** | 1 | 7 |
+| **Moddy Max** | 3 | 21 |
+
+Un recordatorio por directorio es todo lo que necesita un servidor normal: un bump pone al *servidor entero* en cooldown en ese directorio. Una segunda entrada solo tiene sentido para volver a avisar en un **segundo canal**, por lo que es una función de [Moddy Max](/premium/overview).
+
+<Note>
+  Dos recordatorios para el mismo directorio en el mismo canal se rechazan en cualquier nivel — ambos publicarían la misma tarjeta, cada vez.
+</Note>
+
+## Bueno saberlo
+
+- **Hacer bump en un canal activa todos los recordatorios de ese directorio.** El cooldown pertenece a tu servidor, no a un canal, así que un servidor Moddy Max que vigila un canal puede seguir avisando a tres.
+- **Volver a hacer bump antes de que se dispare el recordatorio reinicia la cuenta atrás**, y da crédito al nuevo bumper.
+- **Un directorio que cierra no rompe tu panel.** Su entrada simplemente se ignora.
+- Moddy solo lee bumps en el canal al que apunta el recordatorio — nunca responde en un canal que no elegiste.

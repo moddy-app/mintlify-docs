@@ -11,6 +11,72 @@ Everything new in Moddy, newest first. Moddy is under active development, so thi
   Want to know as things ship? Announcements go out on the [Moddy support server](https://moddy.app/support) as soon as a feature is live.
 </Note>
 
+<Update label="September 3, 2026" description="Bump Reminder">
+  ## Bump Reminder: never miss a bump window
+
+  A new module that watches for a **successful** bump on seven server directories — DISBOARD, DSMonitoring, D-INVITES, DiscordL, Beemp, DiscordTop and French.gg — thanks the member who ran it, and calls the channel back the moment the command becomes available again.
+
+  - Moddy detects that a bump actually went **through**, not just that the command was run, so a reminder never fires while the directory is still on cooldown
+  - When a directory announces its own next bump time, that time is used instead of a fixed interval
+  - Ping the roles you choose, and let the last bumper opt in to their own reminder with one button — or mention them every time, or never
+  - Free servers get one reminder per directory (seven in total), Moddy Max servers get three (twenty-one)
+
+  See the [module guide](/modules/bump-reminder) for the full walkthrough.
+</Update>
+
+<Update label="September 1, 2026" description="Moddy Team role">
+  ## A clean way to let the Moddy team help you
+
+  When you ask the Moddy team for hands-on help, they no longer need an administrator role. `/team role` creates a dedicated **Moddy Team** role with **no permissions at all**, and any permission it later needs is requested through a card an administrator accepts or refuses — added to the role, never to a person's account.
+
+  The role is a Discord _linked role_: it can only ever be held by a verified member of the Moddy team, and Discord removes it automatically the day they stop being one.
+</Update>
+
+<Update label="August 30, 2026" description="Tickets · Billing receipts">
+  ## Close requests now point both ways
+
+  `/ticket close-request` used to be the member's action only. Staff can now propose a closure to the person who opened the ticket instead of ending the conversation under their nose — the same card, the same two buttons (**Close the ticket** / **Keep it open**), answered by whichever side didn't ask.
+
+  ## A proper receipt for every invoice
+
+  Every subscription invoice now arrives as a clear receipt in your DMs as well as by email — including €0 invoices from a free trial, which state when the trial ends and when the first charge happens, and never claim a payment was taken.
+</Update>
+
+<Update label="August 29, 2026" description="Brocoli">
+  ## Brocoli: configure your server by talking to it
+
+  A new AI assistant lives in the dashboard. Describe what you want — "hold new members behind a verification gate and give them the Member role once they pass" — and Brocoli reads your server, proposes a configuration in plain language, and applies it once you approve.
+
+  - Three modes, like a terminal: **read-only** (it can look, never touch), **ask** (it checks with you before every change) and **automatic**
+  - It answers about channels and roles by name, never in identifiers or raw settings, and asks one question at a time with a recommendation
+  - Sensitive actions — refunds, cancellations, sanctions, announcements — always require your explicit confirmation, even in automatic mode
+  - It only talks about Moddy, and it can only ever act on the server you opened it from
+</Update>
+
+<Update label="August 26, 2026" description="/config for everyone · /bug-report">
+  ## `/config` is open to every server
+
+  Configuring Moddy no longer requires being in the beta programme: anyone with **Manage Server** can now open `/config`. The panel was redesigned along the way — one dropdown holding every module plus your server settings, and direct links to the dashboard, support, and this documentation.
+
+  ## `/bug-report`, and a team that configures it for you
+
+  A new `/bug-report` command — usable in a server or in DMs — sends a report straight to the Moddy team, who can reply to you privately; you can answer them right from the DM.
+
+  New servers also get a welcome message explaining how to get started, and a **Configure it for me** button that hands the setup to the Moddy team.
+</Update>
+
+<Update label="August 24, 2026" description="Notifications · Server language">
+  ## Every message from Moddy says who's behind it
+
+  Every DM Moddy sends now carries a line naming who it was sent on behalf of — your server, the Moddy team, or Moddy itself — with a verification check when the sender is genuinely us. If a server misuses it, the message can be reported to the Moddy team in two clicks.
+
+  This closes off the most obvious way to impersonate Moddy: an official message is now visibly official, and everything else visibly isn't.
+
+  ## One language for your whole server
+
+  Modules used to each carry their own language picker. There's now a **single language setting** for the server, in `/config` → _Server settings_, and everything Moddy says collectively — welcome messages, panels, logs, tickets, sanction notices — follows it. Anything Moddy says to one person privately still follows that person's own Discord language.
+</Update>
+
 <Update label="August 23, 2026" description="Server Logs · Tickets">
   ## Server Logs: never miss what happens in your server
 

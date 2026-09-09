@@ -73,12 +73,15 @@
                   "modules/auto-role",
                   "modules/starboard",
                   "modules/adaptive-slowmode",
+                  "modules/logs",
+                  "modules/tickets",
                   "modules/social-notifications",
                   "modules/interserver",
                   "modules/voice-transcription",
                   "modules/bot-customization",
                   "modules/altguard",
-                  "modules/altguard-data"
+                  "modules/altguard-data",
+                  "modules/bump-reminder"
                 ]
               },
               {
@@ -170,12 +173,15 @@
                   "fr/modules/auto-role",
                   "fr/modules/starboard",
                   "fr/modules/adaptive-slowmode",
+                  "fr/modules/logs",
+                  "fr/modules/tickets",
                   "fr/modules/social-notifications",
                   "fr/modules/interserver",
                   "fr/modules/voice-transcription",
                   "fr/modules/bot-customization",
                   "fr/modules/altguard",
-                  "fr/modules/altguard-data"
+                  "fr/modules/altguard-data",
+                  "fr/modules/bump-reminder"
                 ]
               },
               {
@@ -267,12 +273,14 @@
                   "es/modules/auto-role",
                   "es/modules/starboard",
                   "es/modules/adaptive-slowmode",
+                  "es/modules/logs",
                   "es/modules/social-notifications",
                   "es/modules/interserver",
                   "es/modules/voice-transcription",
                   "es/modules/bot-customization",
                   "es/modules/altguard",
-                  "es/modules/altguard-data"
+                  "es/modules/altguard-data",
+                  "es/modules/bump-reminder"
                 ]
               },
               {
