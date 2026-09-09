@@ -1,0 +1,108 @@
+---
+title: "Bump Reminder : ne manquez plus jamais une fenêtre de bump"
+sidebarTitle: "Bump Reminder"
+description: "Moddy détecte quand un bump aboutit réellement sur DISBOARD, DiscordL, French.gg et quatre autres annuaires, remercie le membre qui l'a lancé, et rappelle le salon dès que la commande redevient disponible."
+icon: "rocket"
+---
+
+Les annuaires de serveurs vous permettent de remonter en tête de leur liste avec une commande `/bump`, réutilisable toutes les une à quatre heures. La fenêtre est facile à manquer, et une fenêtre manquée, c'est de la visibilité perdue.
+
+Bump Reminder surveille le salon que vous lui indiquez, reconnaît qu'un bump a **réellement abouti**, remercie la personne qui l'a lancé, et rappelle le salon dès que la commande redevient disponible.
+
+## Annuaires pris en charge
+
+| Annuaire | Commande | Temps de recharge |
+| --- | --- | --- |
+| **DISBOARD** | `/bump` | 2 heures |
+| **DSMonitoring** | `/bump` | 4 heures |
+| **D-INVITES** | `/bump` | 2 heures |
+| **DiscordL** | `/bump` | 1 heure |
+| **Beemp** | `/bump` | 1 heure |
+| **DiscordTop** | `/boost` | 1 heure |
+| **French.gg** | `/bump` | 2 heures |
+
+<Note>
+  Moddy lit la réponse de l'annuaire lui-même. Quand un annuaire annonce lui-même son prochain horaire de bump, cet horaire l'emporte sur l'intervalle que vous avez configuré — le rappel arrive donc exactement au moment où la commande se rouvre, jamais une minute trop tôt.
+</Note>
+
+## Pourquoi il ne se déclenche jamais trop tôt
+
+Un annuaire répond à `/bump` avec le même bot et la même commande, que le bump ait abouti ou que le serveur soit encore en recharge. Moddy détecte donc **« le bump est passé »**, jamais « la commande a été exécutée ».
+
+Quand les deux ne peuvent pas être distingués, Moddy reste silencieux. C'est voulu : un rappel manqué coûte une fenêtre de bump, un faux rappel coûte la confiance de votre salon envers chaque rappel suivant.
+
+## Configuration
+
+<Steps>
+  <Step title="Ouvrez le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Bump Reminder**.
+  </Step>
+  <Step title="Ajoutez un rappel">
+    Choisissez l'annuaire, puis le salon où vos membres exécutent la commande de bump. C'est ce même salon que Moddy utilise pour répondre.
+  </Step>
+  <Step title="Choisissez qui est ping (facultatif)">
+    Ajoutez jusqu'à 5 rôles à mentionner quand la fenêtre se rouvre — un rôle `@Bumpers`, par exemple.
+  </Step>
+  <Step title="Choisissez un mode de ping">
+    Décidez si le dernier bumpeur est mentionné par le rappel. Voir le tableau ci-dessous.
+  </Step>
+</Steps>
+
+## Les deux messages
+
+<CardGroup cols={2}>
+  <Card title="Le remerciement" icon="heart">
+    Publié immédiatement après un bump réussi. Il nomme le membre, l'annuaire, et l'heure à laquelle le prochain bump sera possible. Il **ne notifie pas** — la personne vient d'exécuter la commande il y a une seconde et regarde déjà le salon.
+  </Card>
+
+  <Card title="Le rappel" icon="bell">
+    Publié quand la fenêtre se rouvre. Il ping les rôles que vous avez choisis, affiche la commande de bump en mention cliquable en un clic, et crédite le dernier bumpeur.
+  </Card>
+</CardGroup>
+
+## Modes de ping
+
+| Mode | Le dernier bumpeur est mentionné |
+| --- | --- |
+| **Sur demande** *(par défaut)* | Uniquement s'il l'a demandé, via le bouton **Me rappeler** sur le message de remerciement. |
+| **Toujours** | Par chaque rappel. |
+| **Jamais** | Pas du tout — seuls les rôles que vous avez choisis sont ping. |
+
+Le bouton **Me rappeler** fonctionne comme un interrupteur : quelqu'un qui l'a activé par réflexe et qui change d'avis peut recliquer dessus. Il continue de fonctionner indéfiniment, y compris après un redémarrage ou des semaines plus tard.
+
+<Tip>
+  Le dernier bumpeur est toujours crédité en bas du rappel, quel que soit le mode de ping. Le crédit reste ; seule la notification dépend du mode.
+</Tip>
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Défaut | Limite |
+| --- | --- | --- | --- |
+| **Annuaire** | Quel annuaire ce rappel couvre | — | L'un des sept ci-dessus |
+| **Salon** | Où Moddy surveille le bump, et où il répond | — | Un salon par rappel |
+| **Rôles** | Rôles mentionnés quand la fenêtre se rouvre | Aucun | Jusqu'à 5 |
+| **Mode de ping** | Comment le dernier bumpeur est mentionné | Sur demande | Sur demande / Toujours / Jamais |
+| **Intervalle** | Temps de recharge de secours quand l'annuaire n'en indique pas | Le temps de recharge propre de l'annuaire | 5 minutes – 24 heures |
+| **En pause** | Un rappel en pause ne surveille plus rien | Actif | — |
+
+## Limites
+
+Les rappels sont plafonnés **par annuaire**, pas comme un total global, afin qu'un serveur gratuit puisse quand même couvrir chaque annuaire sur lequel il bump.
+
+| | Par annuaire | Au total |
+| --- | --- | --- |
+| **Gratuit** | 1 | 7 |
+| **Moddy Max** | 3 | 21 |
+
+Un seul rappel par annuaire suffit à un serveur normal : un bump met le *serveur entier* en recharge sur cet annuaire. Une deuxième entrée n'a de sens que pour rappeler un **second salon**, ce qui en fait une fonctionnalité [Moddy Max](/premium/overview).
+
+<Note>
+  Deux rappels pour le même annuaire dans le même salon sont refusés, quel que soit votre forfait — les deux publieraient la même carte, à chaque fois.
+</Note>
+
+## Bon à savoir
+
+- **Bumper dans un salon arme tous les rappels de cet annuaire.** Le temps de recharge appartient à votre serveur, pas à un salon, donc un serveur Moddy Max surveillant un salon peut quand même en rappeler trois.
+- **Bumper à nouveau avant que le rappel ne se déclenche relance le décompte**, et crédite le nouveau bumpeur.
+- **Un annuaire qui ferme ses portes ne casse pas votre panneau.** Son entrée est simplement ignorée.
+- Moddy ne lit les bumps que dans le salon que le rappel cible — il ne répond jamais dans un salon que vous n'avez pas choisi.

@@ -1,0 +1,147 @@
+---
+icon: "newspaper"
+title: "Journaux de serveur : ne manquez plus jamais ce qui se passe sur votre serveur"
+sidebarTitle: "Journaux de serveur"
+description: "Les journaux de serveur surveillent tout ce qui se passe sur votre serveur — un message modifié, un rôle créé, un membre banni, les permissions d'un salon changées — et publient une entrée claire et lisible dans le salon de votre choix, quelques secondes après. Rien n'est filtré au hasard : chacun des **163 événements** que Moddy peut détecter appartient à l'une des 18 catégories, et vous décidez précisément où va chaque catégorie."
+---
+
+<Note>
+  Les journaux sont entièrement passifs. Moddy n'agit jamais sur ce qu'il journalise — il se contente de le rapporter. La modération elle-même (bannissements, avertissements, mutes) est gérée par vos modérateurs ou par Automod IA ; les journaux s'assurent simplement qu'il en existe toujours une trace.
+</Note>
+
+## Fonctionnement
+
+<Steps>
+  <Step title="Quelque chose se produit sur votre serveur">
+    Un membre rejoint, un salon est renommé, les permissions d'un rôle changent, un message est supprimé — tout ce que Discord afficherait lui-même dans son propre journal d'audit, et pas mal de choses qu'il n'affiche pas.
+  </Step>
+  <Step title="Moddy détermine qui en est responsable">
+    Pour tout ce qu'un modérateur ou un administrateur aurait pu causer, Moddy croise en arrière-plan le journal d'audit de Discord afin que l'entrée puisse nommer la personne responsable — pas seulement ce qui a changé.
+  </Step>
+  <Step title="L'entrée est publiée dans le salon configuré">
+    Un message propre par événement, coloré selon le type de changement, avec les détails pertinents sous forme de lignes clairement identifiées : qui, quoi, quand, et pourquoi si une raison a été donnée.
+  </Step>
+  <Step title="Les entrées similaires sont fusionnées quand cela a du sens">
+    Une seule action de modération peut déclencher plusieurs événements sous-jacents (voir [Éviter les doublons](#eviter-les-doublons)) — par défaut, Moddy les fusionne en une seule entrée au lieu d'inonder votre salon.
+  </Step>
+</Steps>
+
+### À quoi ressemble une entrée de journal
+
+![Image](/images/image-1.png "Image")
+
+La couleur sur le bord gauche indique en un coup d'œil le type de changement :
+
+| Couleur | Signification |
+| --- | --- |
+| 🟢 Vert | Quelque chose a été créé |
+| 🔴 Rouge | Quelque chose a été supprimé |
+| 🔵 Bleu | Quelque chose a été mis à jour |
+| 🟠 Orange | Un modérateur a pris une action |
+
+## Catégories
+
+Une **catégorie** est l'unité que vous routez vers un salon — chaque événement qu'elle contient va au même endroit. Cela garde la configuration gérable : vous décidez « où vont les journaux de messages », pas 163 décisions individuelles.
+
+| Catégorie | Couvre |
+| --- | --- |
+| Serveur | Paramètres et identité du serveur dans leur ensemble |
+| Messages | Modifications, suppressions, épinglages |
+| Utilisateurs | Arrivées, départs, changements de pseudo et de profil |
+| Modération | Bannissements, expulsions, avertissements, mutes, timeouts |
+| Salons | Création, suppression, changements de permissions et de paramètres |
+| Rôles | Création, suppression, changements de permissions |
+| Fils | Création, archivage, suppression |
+| Vocal | Arrivées, départs, déplacements, mutes |
+| Invitations | Création et suppression |
+| Discord AutoMod | Déclenchements des règles automod propres à Discord |
+| Emojis, stickers, soundboard | Ajouts, suppressions, modifications |
+| Événements | Cycle de vie des événements planifiés |
+| Stage | Changements d'instance stage |
+| Sondages | Création de sondages et résultats |
+| Webhooks | Création, suppression, modifications |
+| Applications | Changements d'intégrations et de bots |
+
+<Tip>
+  Une même action réelle peut apparaître dans deux catégories à la fois. Un bannissement, par exemple, apparaît à la fois sous **Modération** et **Serveur** — vous pouvez ainsi envoyer l'historique de modération vers un salon de modération privé tout en gardant un flux d'activité générale du serveur pour tous ceux qui y ont accès.
+</Tip>
+
+## Configuration
+
+Ouvrez `/config` sur votre serveur et sélectionnez **Journaux de serveur**. Le module comporte trois écrans, et — contrairement à la plupart des formulaires — **rien n'a besoin d'être enregistré** : chaque modification s'applique à l'instant même où vous la faites.
+
+### L'écran principal
+
+C'est là que vous arrivez, et là où vous revenez toujours. Il affiche une ligne par catégorie déjà configurée, plus :
+
+| Action | Ce qu'elle fait |
+| --- | --- |
+| Choisir une catégorie | Ouvre l'écran de cette catégorie (voir ci-dessous) |
+| Tout envoyer vers un seul salon | Un raccourci qui lie **toutes** les catégories d'un coup à un unique salon — le moyen le plus rapide de démarrer si vous voulez simplement un journal d'activité général |
+| Tout effacer | Retire les salons de toutes les catégories d'un coup, ce qui désactive le module dans les faits |
+
+<Steps>
+  <Step title="Ouvrez le panneau de configuration">
+    Tapez `/config` dans votre serveur et sélectionnez **Journaux de serveur**.
+  </Step>
+  <Step title="Choisissez une catégorie">
+    Choisissez la catégorie à configurer dans la liste, ou utilisez le raccourci « tout envoyer vers un seul salon » ci-dessus pour avoir un journal général opérationnel en quelques secondes.
+  </Step>
+  <Step title="Choisissez un ou plusieurs salons">
+    Chaque catégorie peut publier vers jusqu'à **3 salons**. Répartir une catégorie sur plusieurs salons est utile si, par exemple, différentes équipes doivent chacune voir les mêmes événements dans leur propre espace.
+  </Step>
+  <Step title="Affinez les événements inclus">
+    Chaque catégorie arrive avec tous ses événements activés. Décochez ce que vous ne voulez pas voir, ou utilisez le raccourci **tout activer / tout désactiver** en haut de la liste. La liste à cocher est paginée (25 événements par page) quand une catégorie en compte beaucoup.
+  </Step>
+</Steps>
+
+<Warning>
+  Moddy a besoin de la permission **Gérer les webhooks** pour publier les journaux efficacement. Sans elle, les journaux passent quand même, juste un peu plus lentement et moins résistants aux pics d'activité (un raid, un bannissement massif).
+</Warning>
+
+### L'écran Options
+
+Accessible depuis l'écran principal, c'est ici que vous affinez le module dans son ensemble plutôt qu'une catégorie précise :
+
+| Option | Ce qu'elle fait |
+| --- | --- |
+| Salons ignorés | Les événements se produisant dans ces salons (ou leurs fils) ne sont jamais journalisés. Jusqu'à 25 salons. |
+| Rôles ignorés | Les membres possédant l'un de ces rôles ne sont jamais journalisés en tant que sujet d'un événement. Jusqu'à 25 rôles. |
+| Ignorer les bots | Ignore les événements causés par des bots ou les ciblant |
+| Joindre les transcriptions | Joint le contenu complet d'un message en pièce jointe quand il est trop long pour tenir dans l'entrée elle-même. Désactivez ceci si vous préférez ne voir que l'embed, avec le contenu long simplement coupé. |
+| Fusionner les doublons | Voir [Éviter les doublons](#eviter-les-doublons) ci-dessous |
+| Langue des journaux | La langue dans laquelle vos entrées de journal sont rédigées |
+
+<Note>
+  Les entrées de journal utilisent toujours la langue configurée de votre serveur (définie une fois, dans **Paramètres du serveur**), pas la langue personnelle de chaque modérateur — un salon de journal doit se lire de la même façon pour tous ceux qui y ont accès. Le réglage **Langue des journaux** ici ne contrôle que laquelle des langues prises en charge est utilisée pour ce texte commun.
+</Note>
+
+<Tip>
+  Il n'y a pas d'interrupteur pour désactiver le module entièrement : retirer tous les salons de toutes les catégories (ou utiliser **Tout effacer** sur l'écran principal) est ce qui le désactive. Rajoutez un salon à n'importe quelle catégorie et la journalisation reprend immédiatement.
+</Tip>
+
+## Éviter les doublons
+
+Certaines actions sont légitimement décrites par plus d'un événement. Mettre quelqu'un en sourdine via Moddy, par exemple, est à la fois une action de modération _et_ un timeout au niveau de Discord — chacun vrai et utile en soi, mais publier les deux dans le même salon reviendrait à créer deux entrées quasi identiques pour un seul clic.
+
+Avec **Fusionner les doublons** activé (par défaut), Moddy attend un bref instant pour voir si des événements liés arrivent ensemble, puis délivre une seule entrée, plus riche, combinant tout ce qu'ils savaient — clairement indiqué avec ce qui a été fusionné, pour que rien ne soit caché. Cela ne fusionne que des événements arrivant dans le _même_ salon : si vous avez délibérément réparti les événements de modération et d'utilisateurs sur deux salons différents, chacun reçoit quand même sa propre entrée, puisqu'il n'y avait rien de dupliqué au départ.
+
+<Tip>
+  Désactivez la fusion si vous préférez voir chaque événement sous-jacent listé séparément — utile si vous reconstituez une chronologie technique exacte de ce que Discord a réellement rapporté.
+</Tip>
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Pourquoi un événement précis n'est-il pas apparu dans mon salon de journal ?">
+    Vérifiez que sa catégorie est liée à un salon, que l'événement lui-même n'est pas décoché dans la liste de cette catégorie, et que ni le salon ni le membre impliqué ne figurent sur vos listes d'ignorés dans Options.
+  </Accordion>
+
+  <Accordion title="Puis-je journaliser un événement vers plus d'un salon ?">
+    Oui — chaque catégorie peut être routée vers jusqu'à 3 salons à la fois.
+  </Accordion>
+
+  <Accordion title="Est-ce une fonctionnalité premium ?">
+    Non, chaque serveur a accès aux 18 catégories.
+  </Accordion>
+</AccordionGroup>
