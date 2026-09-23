@@ -1,0 +1,88 @@
+---
+title: "Candidatures : examinez « Postuler pour rejoindre » depuis un salon"
+sidebarTitle: "Candidatures"
+description: "Quand votre serveur utilise « Postuler pour rejoindre » de Discord, Moddy publie chaque candidature dans un salon d'examen avec des boutons Accepter et Refuser — et garde la carte à jour, quel que soit l'endroit où la décision est prise."
+icon: "clipboard-list"
+---
+
+Discord permet à un serveur d'exiger une candidature avant de le rejoindre : les nouveaux venus remplissent un court formulaire — accepter le règlement, répondre à quelques questions — puis attendent que votre équipe les laisse entrer. C'est la fonctionnalité **Postuler pour rejoindre** de Discord.
+
+Le formulaire et le filtre appartiennent à Discord. Le module Candidatures s'occupe de l'**examen** : chaque candidature envoyée arrive dans le salon de votre choix sous forme de carte claire, avec des boutons **Accepter** et **Refuser** que votre équipe utilise sans quitter la conversation.
+
+<Note>
+  Moddy ne crée pas et ne modifie pas votre formulaire. Vous activez **Postuler pour rejoindre** et rédigez les questions dans les paramètres de votre serveur Discord. Le panneau `/config` vous indique si les candidatures sont activées sur votre serveur — sinon, Moddy n'aura rien à examiner.
+</Note>
+
+## Mise en place
+
+<Steps>
+  <Step title="Activez Postuler pour rejoindre dans Discord">
+    Dans les paramètres de votre serveur, activez **Postuler pour rejoindre** et écrivez les questions auxquelles les candidats devront répondre.
+  </Step>
+  <Step title="Ouvrez le panneau de configuration">
+    Tapez `/config` sur votre serveur et sélectionnez **Candidatures**.
+  </Step>
+  <Step title="Choisissez un salon d'examen">
+    C'est là que chaque nouvelle candidature est publiée. Gardez-le réservé au staff : la carte affiche les réponses du candidat.
+  </Step>
+  <Step title="Choisissez qui est notifié et qui peut décider (facultatif)">
+    Ajoutez des rôles à mentionner à l'arrivée d'une candidature, des rôles examinateurs et des motifs de refus prédéfinis — voir [Paramètres](#paramètres).
+  </Step>
+</Steps>
+
+Le module est actif dès qu'un salon d'examen est défini. Il n'y a pas d'interrupteur marche/arrêt : pour ne plus l'utiliser, supprimez sa configuration depuis le panneau.
+
+## La carte de candidature
+
+Chaque candidature est publiée une seule fois, sous forme de carte rédigée dans la langue de votre serveur (réglée dans `/config` → *Paramètres du serveur*) :
+
+| Section | Ce qu'elle affiche |
+| --- | --- |
+| **Candidat** | Sa mention, son nom affiché, son nom d'utilisateur, son ID, la date de création de son compte (signalé comme *compte récent* s'il a moins d'une semaine), et le nombre de candidatures précédentes — dont combien ont été refusées |
+| **Réponses** | Chaque question de votre formulaire avec la réponse du candidat, y compris s'il a accepté le règlement |
+| **Statut** | *En attente d'examen*, puis qui a décidé, quand, et — en cas de refus — le motif |
+
+Les rôles choisis sont mentionnés au-dessus de la carte **uniquement lors de sa première publication** — jamais lors de ses mises à jour.
+
+## Accepter et refuser
+
+- **Accepter** fait entrer le candidat, en un clic.
+- **Refuser** ouvre un court formulaire : choisissez l'un de vos motifs prédéfinis, écrivez le vôtre (160 caractères maximum — il l'emporte sur le motif prédéfini), ou laissez les deux vides pour refuser sans motif.
+
+<Warning>
+  Discord montre le motif du refus **au candidat**. Rédigez-le comme vous voudriez qu'il le lise.
+</Warning>
+
+Une fois la décision prise, les boutons disparaissent et la carte affiche le résultat. Elle reste à jour dans tous les cas :
+
+- **Décision prise dans l'écran d'examen de Discord** — la carte se ferme et indique qui a décidé.
+- **Candidature retirée par le candidat** — la carte est marquée *Retirée par le candidat*.
+- **Deux modérateurs cliquent en même temps** — la première décision l'emporte ; le second est prévenu que la candidature a déjà été traitée.
+
+## Qui peut décider
+
+Toute personne ayant la permission **Expulser des membres** peut accepter ou refuser — c'est la permission que Discord exige pour traiter les candidatures.
+
+Les **rôles examinateurs** permettent de confier la décision à une équipe de recrutement **sans** lui donner Expulser des membres. Moddy agit avec sa propre permission en son nom, et uniquement pour les candidatures.
+
+## Paramètres
+
+| Paramètre | Ce qu'il contrôle | Limite |
+| --- | --- | --- |
+| **Salon d'examen** | Où les cartes sont publiées. Obligatoire. | Un salon textuel |
+| **Rôles à notifier** | Mentionnés à l'arrivée d'une nouvelle candidature | Jusqu'à 5 |
+| **Rôles examinateurs** | Peuvent accepter ou refuser, en plus des membres ayant Expulser des membres | Jusqu'à 10 |
+| **Motifs de refus prédéfinis** | Proposés en un clic au moment de refuser. Un motif par ligne. | Jusqu'à 10, 100 caractères chacun |
+
+## Permissions
+
+Moddy a besoin de la permission **Expulser des membres** : Discord l'exige pour lire et traiter les candidatures. Il doit aussi pouvoir **voir le salon d'examen et y envoyer des messages** — c'est vérifié à l'enregistrement.
+
+Si Moddy perd ensuite Expulser des membres, cliquer sur un bouton vous le signale au lieu d'échouer en silence.
+
+## Bon à savoir
+
+- **Une nouvelle candidature apparaît en général en quelques minutes.** Moddy vérifie régulièrement votre serveur, donc rien ne se perd même si un événement est manqué.
+- **Moddy ne peut pas mener d'entretien.** L'entretien de Discord est une discussion de groupe privée que les bots ne peuvent pas rejoindre. Passez par l'écran d'examen de Discord si besoin.
+- **Les candidatures sont conservées 180 jours**, comme chez Discord, puis supprimées.
+- **Chaque candidature a exactement une carte**, même si Moddy redémarre au moment où elle arrive.

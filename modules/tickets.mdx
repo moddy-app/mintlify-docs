@@ -80,7 +80,7 @@ Opened from a panel's category list, this screen is organized into a few groups:
 | Destination | The Discord category new ticket channels are created under. Required — a category with none configured never appears on the panel. |
 | Allowed roles | Who may open a ticket here. Empty means everyone. |
 | Denied roles | Explicitly barred from opening one, even over an allow or over being a server admin. |
-| Staff roles & permissions | Which roles can see and act on this category's tickets, and with which of the nine permissions — see [Permissions](#permissions). |
+| Staff roles & permissions | Which roles can see and act on this category's tickets, and with which of the ten permissions — see [Permissions](#permissions). |
 | Ping roles | Roles mentioned the moment a ticket opens |
 | Ping staff roles | When on, every role holding **View** on this category is also pinged, in addition to the roles above |
 
@@ -89,7 +89,7 @@ Opened from a panel's category list, this screen is organized into a few groups:
 | Field | What it controls |
 | --- | --- |
 | Opening message | The whole pinned message posted when the ticket is created — title, body, everything. Pre-filled with sensible default wording. |
-| Closing message | Added to the card shown when the ticket is closed. |
+| Closing message | Sent to the member in their closing DM — or shown on the closing card instead, if you [keep channels after closing](#closing). |
 
 Both accept the placeholders `{user}`, `{username}`, `{display_name}`, `{server}`, `{category}`, `{number}`, and `{ticket}`. A line containing only `---` renders as a visual divider.
 
@@ -118,7 +118,7 @@ See [Premium](/premium) for what unlocks the higher tier.
 
 ## Permissions
 
-Access to a category's tickets is granted **per role**, with nine independent permissions:
+Access to a category's tickets is granted **per role**, with ten independent permissions:
 
 | Permission | Lets a role... |
 | --- | --- |
@@ -130,6 +130,7 @@ Access to a category's tickets is granted **per role**, with nine independent pe
 | Rename | Rename the ticket channel |
 | Move | Move a ticket to a different category |
 | Participants | Add or remove members and roles from a ticket |
+| Stats | Read the reviews and ticket volume of this category with [`/ticket stats`](#reviews-and-ticket-stats) |
 | Admin | Everything above, and keeps access even if the ticket is escalated |
 
 <Tip>
@@ -183,10 +184,22 @@ Escalating automatically releases whoever had the ticket claimed — it's parked
 
 ```discord
 /ticket close
+```
+
+By default, closing a ticket **deletes its channel**. In order, Moddy:
+
+1. archives the conversation, if [transcripts](#transcripts) are on — a short _Archiving in progress_ card appears in the channel while it does;
+2. sends the member who opened the ticket a DM, with your closing message and the transcript link;
+3. posts the record in your [ticket log](#the-ticket-log) channel, if you set one;
+4. deletes the channel.
+
+**Prefer to keep closed tickets around?** Turn on **Keep the channel after closing** in the [module settings](#module-settings). The channel then stays, locked, behind a closing card with a **Reopen** button and a **Delete** button (the latter needs the **Admin** permission), and `/ticket reopen` becomes available:
+
+```discord
 /ticket reopen
 ```
 
-Closing doesn't delete anything: the channel is locked and a closing card appears with a **Reopen** button and a **Delete** button (the latter needs the **Admin** permission). The member who opened the ticket gets a DM either way, so they always know where things stand.
+Reopening gives everyone their access back exactly as it was, and tells the member by DM.
 
 If you'd rather ask a member's permission before closing, use:
 
@@ -217,6 +230,68 @@ For discussion your team needs to have _about_ a ticket without the member seein
 <Warning>
   Mentioning someone inside the staff thread adds them to it immediately — Discord's own behavior for private threads. Moddy automatically removes anyone who joins this way but isn't actually meant to have staff access to that category, so a stray ping can't accidentally expose the conversation.
 </Warning>
+
+### When a member leaves the server
+
+If the member who opened a ticket leaves the server while it's still open, Moddy posts a card in the ticket saying so, with a **Close the ticket** button. Nothing closes on its own — a report may still need acting on — and only someone with the **Close** permission can use the button.
+
+If they come back, Moddy puts them back into every open ticket they were part of, with the same access as before.
+
+## Module settings
+
+A few settings apply to **every** ticket on the server, whatever its category. Open `/config` → **Tickets** → **Settings**:
+
+| Setting | What it does | Default |
+| --- | --- | --- |
+| Transcripts | Archive the conversation when a ticket closes | On |
+| Closure detection | Offer to close when the conversation looks finished | **Off** |
+| Ratings | Ask the member to rate how they were looked after | On |
+| Keep the channel after closing | Keep closed tickets as locked channels, with Reopen and Delete, instead of deleting them | Off |
+| Retention | Days before transcripts are deleted — `0` keeps them forever (up to 3650 days) | 0 (forever) |
+| Ticket log channel | Where a card is posted every time a ticket closes | None |
+
+Each feature can be switched off on its own.
+
+### Transcripts
+
+When a ticket closes, Moddy saves its whole conversation — messages, authors, attachments (as links) and Moddy's own cards. The member gets the link in their closing DM, and your staff get the same link on the [ticket log](#the-ticket-log) card.
+
+- A very long ticket keeps its most recent 20,000 messages.
+- Transcripts are kept as long as your **Retention** setting says, then deleted automatically.
+- If archiving ever fails, the ticket still closes normally — the DM simply has no link.
+
+### Reviews and ticket stats
+
+When **Ratings** is on, the member who opened a ticket can say how they were looked after:
+
+- a rating chosen from five words — **Poor**, **Mediocre**, **Fine**, **Very good**, **Excellent** — rather than a number;
+- who helped them, pre-filled with whoever claimed (or else closed) the ticket, with a _Nobody in particular_ option;
+- an optional comment.
+
+They're offered the form right after closing their own ticket, after accepting a closure your staff offered them, and through a **Leave a review** button in their closing DM — which keeps working days later, even once the channel is gone. Each closure can be rated once, and the rating appears on the ticket log card as soon as it's left.
+
+To see how your team is doing:
+
+```discord
+/ticket stats [staff] [days]
+```
+
+Without `staff`, you get the whole team ranked by the number of tickets handled — not by average, so one 5-star review never outranks fifty tickets — with a warning next to anyone with too few reviews for the average to mean much. With `staff`, you get that person's volume, average, rating breakdown and latest comments. `days` sets the window (30 by default, up to 365).
+
+`/ticket stats` needs **Manage Server**, or the **Stats** permission on a category — in which case you only see the categories where you hold it.
+
+### Closure suggestions
+
+When **Closure detection** is on, Moddy notices when a conversation reads like it has wrapped up — _"thanks, all sorted!"_ — and posts a card offering to close the ticket, with **Mark as resolved** and **Not yet**.
+
+- **Mark as resolved** closes the ticket if the person clicking has the **Close** permission; if they don't (typically the member), it sends your staff a close request instead. The suggestion never gives anyone a permission they don't have.
+- **Not yet** keeps the ticket open, and Moddy won't suggest it again for a while.
+
+It's off by default because it uses Moddy's AI to read the conversation.
+
+### The ticket log
+
+Pick a **ticket log channel** in the settings and Moddy posts one card there every time a ticket closes: its number and category, who opened, claimed and closed it, the reason, how long it lasted, how many participants it had, the transcript link — and the member's review as soon as they leave one.
 
 ## Frequently asked questions
 

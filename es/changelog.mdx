@@ -11,6 +11,66 @@ Todo lo nuevo en Moddy, empezando por lo más reciente. Moddy está en desarroll
   ¿Quieres enterarte al momento? Los anuncios se publican en el [servidor de soporte de Moddy](https://moddy.app/support) en cuanto una función se pone en marcha.
 </Note>
 
+<Update label="23 de septiembre de 2026" description="Solicitudes de ingreso">
+  ## Solicitudes de ingreso: revisa «Solicitar unirse» desde un canal
+
+  Si tu servidor usa **Solicitar unirse** de Discord, un nuevo módulo lleva cada solicitud enviada al canal de revisión que elijas, para que tu equipo ya no tenga que buscar en la pantalla de revisión de Discord.
+
+  - Cada solicitud llega como una tarjeta: el solicitante (nombre visible, nombre de usuario, antigüedad de la cuenta, solicitudes anteriores) y todas sus respuestas al formulario
+  - **Aprobar** en un clic, o **Rechazar** con un motivo que Discord muestra al solicitante: uno de tus motivos predefinidos o uno propio
+  - Deja decidir a un equipo de reclutamiento mediante los **roles revisores**, sin darle el permiso Expulsar miembros
+  - La tarjeta se mantiene al día: una decisión tomada en la pantalla de Discord, o una solicitud retirada por el solicitante, también la cierra
+
+  Consulta la [guía del módulo](/modules/member-applications).
+</Update>
+
+<Update label="20 de septiembre de 2026" description="/config">
+  ## Configurar con IA, directamente desde `/config`
+
+  El panel `/config` tiene ahora un botón **Configurar con IA** que abre Brocoli, el asistente de IA del panel web, en tu servidor. Su enlace al panel web también te lleva directamente a tu servidor en lugar de a la página de inicio.
+</Update>
+
+<Update label="17 de septiembre de 2026" description="Permisos · Tickets · Inter-Server">
+  ## Moddy ya no necesita el permiso de Administrador
+
+  `/config` se negaba a abrirse si Moddy no tenía el permiso de **Administrador**. Ese requisito ha desaparecido: cada módulo declara ahora los permisos exactos que necesita — **Gestionar roles** para Auto Role, **Gestionar canales** para Slowmode adaptativo, **Expulsar miembros** para Solicitudes de ingreso, etc. Si abres un módulo que Moddy no puede hacer funcionar, el panel indica exactamente lo que falta, con un enlace de reinvitación que solo pide esos permisos. La lista completa está en la [descripción general de los módulos](/modules/overview#permisos-que-necesita-moddy).
+
+  ## Cerrar un ticket ahora elimina su canal, salvo que prefieras conservarlo
+
+  Cerrar un ticket lo archiva, envía su MD al miembro, publica el registro en tus registros de tickets y luego elimina el canal. Se acabaron los canales cerrados acumulándose en tus categorías.
+
+  ¿Prefieres el funcionamiento anterior? Activa **Mantener el canal tras cerrar** en `/config` → Tickets → Ajustes: el canal permanece, bloqueado, con los botones **Reabrir** y **Eliminar**.
+
+  ## Inter-Server está en pausa
+
+  El módulo Inter-Server no está disponible temporalmente y ya no aparece en `/config`. Tu configuración se conserva tal cual y volverá a funcionar en cuanto el módulo regrese.
+</Update>
+
+<Update label="11 de septiembre de 2026" description="Tickets">
+  ## Tickets: transcripciones, valoraciones y sugerencias de cierre
+
+  Tres novedades para el módulo Tickets, cada una activable por separado en `/config` → Tickets → Ajustes.
+
+  - **Transcripciones** — al cerrarse un ticket, su conversación se archiva. El miembro recibe el enlace en su MD de cierre y tu staff lo encuentra en los registros de tickets. Tú eliges cuánto tiempo se conservan.
+  - **Valoraciones** — el miembro puede valorar la atención recibida con una palabra en lugar de una nota (de _Mal_ a _Excelente_), indicar quién le ayudó y dejar un comentario. El nuevo comando `/ticket stats` muestra el volumen y las valoraciones de cada miembro del staff.
+  - **Sugerencias de cierre** — cuando una conversación parece terminada («¡gracias, todo bien!»), Moddy propone cerrar el ticket. Desactivado por defecto.
+
+  Un canal de **registros de tickets** recibe ahora una tarjeta por cada ticket cerrado. Y cuando un miembro abandona el servidor con un ticket aún abierto, tu staff recibe un aviso; si vuelve, Moddy lo reincorpora a su ticket.
+</Update>
+
+<Update label="9 de septiembre de 2026" description="Mejoras">
+  ## Pequeñas mejoras
+
+  - Las tarjetas de **Bump Reminder** muestran ahora el nombre de tu servidor, y el botón **Avísame** vuelve a funcionar.
+  - Los anuncios del [servidor de soporte de Moddy](https://moddy.app/support) llegan ahora con un botón por idioma, para que cada uno pueda leerlos en el suyo.
+</Update>
+
+<Update label="7 de septiembre de 2026" description="Permisos de comandos">
+  ## Permisos de comandos ajustables desde Discord
+
+  `/config` y `/altguard` declaran ahora su permiso directamente a Discord — **Gestionar servidor** y **Expulsar miembros** respectivamente — para que puedas elegir quién los ve, rol por rol, desde **Ajustes del servidor → Integraciones**.
+</Update>
+
 <Update label="3 de septiembre de 2026" description="Bump Reminder">
   ## Bump Reminder: no te pierdas ninguna ventana de bump
 

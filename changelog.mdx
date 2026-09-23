@@ -11,6 +11,66 @@ Everything new in Moddy, newest first. Moddy is under active development, so thi
   Want to know as things ship? Announcements go out on the [Moddy support server](https://moddy.app/support) as soon as a feature is live.
 </Note>
 
+<Update label="September 23, 2026" description="Member Applications">
+  ## Member Applications: review "Apply to Join" from a channel
+
+  If your server uses Discord's **Apply to Join**, a new module brings every submitted application into a review channel of your choice, so your team no longer has to dig through Discord's review screen.
+
+  - Each application arrives as a card listing the applicant (display name, username, account age, earlier applications) and every answer to your form
+  - **Approve** in one click, or **Reject** with a reason Discord shows the applicant — pick one of your preset reasons or write your own
+  - Let a recruitment team decide through **reviewer roles**, without giving them the Kick Members permission
+  - The card stays in sync: a decision taken in Discord's own screen, or an application withdrawn by the applicant, closes it too
+
+  See the [module guide](/modules/member-applications).
+</Update>
+
+<Update label="September 20, 2026" description="/config">
+  ## Configure with AI, straight from `/config`
+
+  The `/config` panel now has a **Configure with AI** button that opens Brocoli, the dashboard's AI assistant, on your server, and its dashboard link takes you directly to your server instead of the dashboard's home page.
+</Update>
+
+<Update label="September 17, 2026" description="Permissions · Tickets · Inter-Server">
+  ## Moddy no longer needs Administrator
+
+  `/config` used to refuse to open unless Moddy had the **Administrator** permission. That requirement is gone: each module now declares the exact permissions it needs — **Manage Roles** for Auto Role, **Manage Channels** for Adaptive Slowmode, **Kick Members** for Member Applications, and so on. When you open a module Moddy can't run, the panel says exactly what's missing and gives you a re-invite link that asks for those permissions only. The full list is on the [modules overview](/modules/overview#permissions-moddy-needs).
+
+  ## Closing a ticket now deletes its channel — unless you'd rather keep it
+
+  Closing a ticket now archives it, sends the member their DM, posts the record in your ticket log, and deletes the channel. No more closed channels piling up in your categories.
+
+  Prefer the old way? Turn on **Keep the channel after closing** in `/config` → Tickets → Settings: the channel stays, locked, with **Reopen** and **Delete** buttons.
+
+  ## Inter-Server is paused
+
+  The Inter-Server module is temporarily unavailable and no longer appears in `/config`. Your configuration is kept as it is and will work again as soon as the module is back.
+</Update>
+
+<Update label="September 11, 2026" description="Tickets">
+  ## Tickets: transcripts, reviews and closure suggestions
+
+  Three new features for the Tickets module, each one switchable from `/config` → Tickets → Settings.
+
+  - **Transcripts** — when a ticket closes, its conversation is archived. The member gets the link in their closing DM, and your staff get it in the ticket log. You choose how long transcripts are kept.
+  - **Reviews** — the member can rate how they were looked after, with a word rather than a number (from _Poor_ to _Excellent_), say who helped them, and leave a comment. The new `/ticket stats` command shows each staff member's volume and reviews.
+  - **Closure suggestions** — when a conversation looks finished ("thanks, all good!"), Moddy offers to close the ticket. Off by default.
+
+  A **ticket log** channel now receives one card per closed ticket. And when a member leaves the server with a ticket still open, your staff are told so; if they come back, Moddy puts them back into their ticket.
+</Update>
+
+<Update label="September 9, 2026" description="Improvements">
+  ## Smaller improvements
+
+  - **Bump Reminder** cards now show your server's name, and the **Remind me** button works again.
+  - Announcements on the [Moddy support server](https://moddy.app/support) now come with one button per language, so everyone can read them in their own.
+</Update>
+
+<Update label="September 7, 2026" description="Command permissions">
+  ## Command permissions you can adjust from Discord
+
+  `/config` and `/altguard` now declare their permission directly to Discord — **Manage Server** and **Kick Members** respectively — so you can change who sees them per role from **Server Settings → Integrations**.
+</Update>
+
 <Update label="September 3, 2026" description="Bump Reminder">
   ## Bump Reminder: never miss a bump window
 

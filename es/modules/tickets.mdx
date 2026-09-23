@@ -80,7 +80,7 @@ Abierta desde la lista de categorías de un panel, esta pantalla se organiza en 
 | Destino | La categoría de Discord bajo la que se crean los nuevos canales de ticket. Obligatorio — una categoría sin ninguno configurado nunca aparece en el panel. |
 | Roles permitidos | Quién puede abrir un ticket aquí. Vacío significa todos. |
 | Roles denegados | Explícitamente excluidos de abrir uno, incluso por encima de un permiso o de ser administrador del servidor. |
-| Roles y permisos del personal | Qué roles pueden ver y actuar sobre los tickets de esta categoría, y con cuál de los nueve permisos — ver [Permisos](#permisos). |
+| Roles y permisos del personal | Qué roles pueden ver y actuar sobre los tickets de esta categoría, y con cuál de los diez permisos — ver [Permisos](#permisos). |
 | Roles a mencionar | Roles mencionados en el momento en que se abre un ticket |
 | Mencionar roles del personal | Cuando está activado, también se menciona a todo rol que tenga el permiso **Ver** en esta categoría, además de los roles de arriba |
 
@@ -89,7 +89,7 @@ Abierta desde la lista de categorías de un panel, esta pantalla se organiza en 
 | Campo | Qué controla |
 | --- | --- |
 | Mensaje de apertura | Todo el mensaje anclado publicado al crear el ticket — título, cuerpo, todo. Viene prerrellenado con un texto razonable por defecto. |
-| Mensaje de cierre | Se añade a la tarjeta que se muestra al cerrar el ticket. |
+| Mensaje de cierre | Se envía al miembro en su MD de cierre, o se muestra en la tarjeta de cierre en su lugar si [conservas los canales tras cerrar](#cerrar). |
 
 Ambos aceptan los marcadores de posición `{user}`, `{username}`, `{display_name}`, `{server}`, `{category}`, `{number}` y `{ticket}`. Una línea que contenga solo `---` se muestra como un separador visual.
 
@@ -118,7 +118,7 @@ Consulta [Premium](/premium) para ver qué desbloquea el nivel superior.
 
 ## Permisos
 
-El acceso a los tickets de una categoría se concede **por rol**, con nueve permisos independientes:
+El acceso a los tickets de una categoría se concede **por rol**, con diez permisos independientes:
 
 | Permiso | Permite a un rol... |
 | --- | --- |
@@ -130,6 +130,7 @@ El acceso a los tickets de una categoría se concede **por rol**, con nueve perm
 | Renombrar | Renombrar el canal del ticket |
 | Mover | Mover un ticket a otra categoría |
 | Participantes | Añadir o quitar miembros y roles de un ticket |
+| Estadísticas | Consultar las valoraciones y el volumen de tickets de esta categoría con [`/ticket stats`](#valoraciones-y-estadísticas) |
 | Admin | Todo lo anterior, y conserva el acceso incluso si el ticket se escala |
 
 <Tip>
@@ -183,10 +184,22 @@ Escalar libera automáticamente a quien tuviera el ticket reclamado — se le de
 
 ```discord
 /ticket close
+```
+
+Por defecto, cerrar un ticket **elimina su canal**. En orden, Moddy:
+
+1. archiva la conversación, si las [transcripciones](#transcripciones) están activadas; mientras tanto aparece una breve tarjeta _Archivando_ en el canal;
+2. envía un MD al miembro que abrió el ticket, con tu mensaje de cierre y el enlace de la transcripción;
+3. publica el registro en tu canal de [registros de tickets](#los-registros-de-tickets), si has definido uno;
+4. elimina el canal.
+
+**¿Prefieres conservar los tickets cerrados?** Activa **Mantener el canal tras cerrar** en los [ajustes del módulo](#ajustes-del-módulo). El canal permanece entonces, bloqueado, tras una tarjeta de cierre con un botón **Reabrir** y un botón **Eliminar** (este último necesita el permiso **Admin**), y `/ticket reopen` pasa a estar disponible:
+
+```discord
 /ticket reopen
 ```
 
-Cerrar no elimina nada: el canal se bloquea y aparece una tarjeta de cierre con un botón **Reabrir** y un botón **Eliminar** (este último necesita el permiso **Admin**). El miembro que abrió el ticket recibe un MD en cualquier caso, así que siempre sabe cómo van las cosas.
+Reabrir devuelve a cada uno su acceso exactamente como estaba, y avisa al miembro por MD.
 
 Si prefieres pedir permiso a un miembro antes de cerrar, usa:
 
@@ -217,6 +230,68 @@ Para las conversaciones que tu equipo necesita tener _sobre_ un ticket sin que e
 <Warning>
   Mencionar a alguien dentro del hilo de personal lo añade a él de inmediato — es el propio comportamiento de Discord para hilos privados. Moddy elimina automáticamente a cualquiera que se una así pero que en realidad no deba tener acceso de personal a esa categoría, de modo que una mención accidental no puede exponer la conversación.
 </Warning>
+
+### Cuando un miembro abandona el servidor
+
+Si el miembro que abrió un ticket abandona el servidor mientras sigue abierto, Moddy publica una tarjeta en el ticket para avisar, con un botón **Cerrar el ticket**. Nada se cierra solo — una denuncia puede seguir necesitando una acción — y solo alguien con el permiso **Cerrar** puede usar el botón.
+
+Si vuelve, Moddy lo reincorpora a todos los tickets abiertos de los que formaba parte, con el mismo acceso que antes.
+
+## Ajustes del módulo
+
+Algunos ajustes se aplican a **todos** los tickets del servidor, sea cual sea su categoría. Abre `/config` → **Tickets** → **Ajustes**:
+
+| Ajuste | Qué hace | Por defecto |
+| --- | --- | --- |
+| Transcripciones | Archivar la conversación al cerrar el ticket | Activado |
+| Detección de fin | Proponer el cierre cuando la conversación parece terminada | **Desactivado** |
+| Valoraciones | Pedir al miembro que valore la atención recibida | Activado |
+| Mantener el canal tras cerrar | Conservar los tickets cerrados como canales bloqueados, con Reabrir y Eliminar, en lugar de eliminarlos | Desactivado |
+| Conservación | Días antes de borrar las transcripciones — `0` las conserva para siempre (hasta 3650 días) | 0 (para siempre) |
+| Canal de registros de tickets | Dónde se publica una tarjeta cada vez que se cierra un ticket | Ninguno |
+
+Cada función se puede desactivar por separado.
+
+### Transcripciones
+
+Al cerrarse un ticket, Moddy guarda toda su conversación: mensajes, autores, archivos adjuntos (como enlaces) y las propias tarjetas de Moddy. El miembro recibe el enlace en su MD de cierre, y tu staff encuentra el mismo enlace en la tarjeta de los [registros de tickets](#los-registros-de-tickets).
+
+- Un ticket muy largo conserva sus 20 000 mensajes más recientes.
+- Las transcripciones se conservan el tiempo que indique tu ajuste de **Conservación** y después se borran automáticamente.
+- Si el archivado falla, el ticket se cierra igualmente con normalidad; el MD simplemente no lleva enlace.
+
+### Valoraciones y estadísticas
+
+Cuando las **Valoraciones** están activadas, el miembro que abrió un ticket puede contar qué tal fue la atención recibida:
+
+- una valoración elegida entre cinco palabras — **Mal**, **Regular**, **Correcto**, **Muy bien**, **Excelente** — en lugar de una nota;
+- quién le ayudó, rellenado de antemano con quien se hizo cargo del ticket (o, si no, quien lo cerró), con una opción _Nadie en particular_;
+- un comentario opcional.
+
+El formulario se le ofrece justo después de cerrar su propio ticket, después de aceptar un cierre que le propuso tu staff, y mediante un botón **Dejar una valoración** en su MD de cierre, que sigue funcionando días después, incluso cuando el canal ya no existe. Cada cierre solo se puede valorar una vez, y la valoración aparece en la tarjeta de los registros de tickets en cuanto se deja.
+
+Para ver cómo va tu equipo:
+
+```discord
+/ticket stats [staff] [days]
+```
+
+Sin `staff`, obtienes todo el equipo ordenado por número de tickets atendidos — no por media, para que una sola valoración perfecta nunca supere a cincuenta tickets — con un aviso junto a quienes tienen muy pocas valoraciones para que su media signifique algo. Con `staff`, obtienes el volumen de esa persona, su media, el reparto de sus valoraciones y sus últimos comentarios. `days` define el periodo (30 días por defecto, hasta 365).
+
+`/ticket stats` necesita **Gestionar servidor**, o el permiso **Estadísticas** en una categoría; en ese caso solo ves las categorías en las que lo tienes.
+
+### Sugerencias de cierre
+
+Cuando la **Detección de fin** está activada, Moddy detecta una conversación que parece terminada — _«¡gracias, todo resuelto!»_ — y publica una tarjeta que propone cerrar el ticket, con **Marcar como resuelto** y **Todavía no**.
+
+- **Marcar como resuelto** cierra el ticket si quien pulsa tiene el permiso **Cerrar**; si no (normalmente el miembro), envía una solicitud de cierre a tu staff. La sugerencia nunca da a nadie un permiso que no tenga.
+- **Todavía no** mantiene el ticket abierto, y Moddy no volverá a sugerirlo durante un tiempo.
+
+Está desactivada por defecto porque usa la IA de Moddy para leer la conversación.
+
+### Los registros de tickets
+
+Elige un **canal de registros de tickets** en los ajustes y Moddy publicará ahí una tarjeta cada vez que se cierre un ticket: su número y categoría, quién lo abrió, se hizo cargo y lo cerró, el motivo, cuánto duró, cuántos participantes tuvo, el enlace de la transcripción y la valoración del miembro en cuanto la deje.
 
 ## Preguntas frecuentes
 

@@ -106,3 +106,7 @@ Un seul rappel par annuaire suffit à un serveur normal : un bump met le *serveu
 - **Bumper à nouveau avant que le rappel ne se déclenche relance le décompte**, et crédite le nouveau bumpeur.
 - **Un annuaire qui ferme ses portes ne casse pas votre panneau.** Son entrée est simplement ignorée.
 - Moddy ne lit les bumps que dans le salon que le rappel cible — il ne répond jamais dans un salon que vous n'avez pas choisi.
+
+<Warning>
+  **Un rôle qui s'affiche en bleu mais ne notifie personne** vient d'une permission Discord, pas d'un bug. Discord ne transmet une mention de rôle que si le rôle autorise **tout le monde à le @mentionner**, ou si Moddy a la permission **Mentionner @everyone, @here et tous les rôles** dans ce salon. Sinon la mention s'affiche quand même, mais en silence. Activez l'une des deux et les notifications passeront.
+</Warning>

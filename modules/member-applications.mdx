@@ -1,0 +1,88 @@
+---
+title: "Member Applications: Review \"Apply to Join\" From a Channel"
+sidebarTitle: "Member Applications"
+description: "When your server uses Discord's Apply to Join, Moddy posts every submitted application in a review channel with Approve and Reject buttons — and keeps the card up to date whoever takes the decision."
+icon: "clipboard-list"
+---
+
+Discord lets a server ask for an application before anyone can join: new members fill in a short form — accept the rules, answer a few questions — and wait for your team to let them in. This is Discord's **Apply to Join** feature (also called *Server Member Applications*).
+
+The form and the gate belong to Discord. Member Applications takes care of the **review**: every submitted application lands in a channel of your choice as a clear card, with **Approve** and **Reject** buttons your team can use without leaving the conversation.
+
+<Note>
+  Moddy doesn't create or edit your form. You turn on **Apply to Join** and write the questions in your Discord server settings. The `/config` panel tells you whether applications are enabled on your server — if they aren't, Moddy has nothing to review.
+</Note>
+
+## Setting It Up
+
+<Steps>
+  <Step title="Turn on Apply to Join in Discord">
+    In your server settings, enable **Apply to Join** and write the questions you want applicants to answer.
+  </Step>
+  <Step title="Open the configuration panel">
+    Type `/config` in your server and select **Member Applications**.
+  </Step>
+  <Step title="Choose a review channel">
+    This is where every new application is posted. Keep it private to your staff: the card shows the applicant's answers.
+  </Step>
+  <Step title="Pick who gets notified and who may decide (optional)">
+    Add roles to mention when an application arrives, reviewer roles, and preset rejection reasons — see [Settings](#settings).
+  </Step>
+</Steps>
+
+The module is active as soon as a review channel is set. There's no separate on/off switch: to stop using it, delete its configuration from the panel.
+
+## The Application Card
+
+Each application is posted once, as a card written in your server's language (set in `/config` → _Server settings_):
+
+| Section | What it shows |
+| --- | --- |
+| **Applicant** | Their mention, display name, username, ID, when their account was created (flagged as *recent account* when it's less than a week old), and how many times they applied before — and how many of those were rejected |
+| **Answers** | Every question of your form with the applicant's answer, including whether they accepted the server rules |
+| **Status** | *Awaiting review*, then who decided, when, and — for a rejection — the reason |
+
+The roles you chose are mentioned above the card **only when it's first posted** — never again when it updates.
+
+## Approving and Rejecting
+
+- **Approve** lets the applicant in, in one click.
+- **Reject** opens a short form: pick one of your preset reasons, write your own (up to 160 characters — it wins over the preset), or leave both empty to reject without a reason.
+
+<Warning>
+  Discord shows the rejection reason **to the applicant**. Write it as you would want them to read it.
+</Warning>
+
+Once a decision is taken, the buttons disappear and the card shows the outcome. The card stays up to date in every case:
+
+- **Decided in Discord's own review screen** — the card closes and shows who decided there.
+- **Withdrawn by the applicant** — the card is marked *Withdrawn by the applicant*.
+- **Two moderators click at the same time** — the first decision wins; the second one is told the application was already handled.
+
+## Who Can Decide
+
+Anyone with the **Kick Members** permission can approve or reject — that's the permission Discord itself requires to handle applications.
+
+**Reviewer roles** let you hand the decision to a recruitment team **without** giving it Kick Members. Moddy acts with its own permission on their behalf, and only for applications.
+
+## Settings
+
+| Setting | What it controls | Limit |
+| --- | --- | --- |
+| **Review channel** | Where application cards are posted. Required. | One text channel |
+| **Roles to notify** | Mentioned when a new application arrives | Up to 5 |
+| **Reviewer roles** | Can approve or reject, in addition to members with Kick Members | Up to 10 |
+| **Preset rejection reasons** | Offered in one click when rejecting. One reason per line. | Up to 10, 100 characters each |
+
+## Permissions
+
+Moddy needs the **Kick Members** permission: Discord requires it to read and handle applications. It also needs to **view and send messages** in the review channel — this is checked when you save.
+
+If Moddy loses Kick Members later, clicking a button tells you so instead of failing silently.
+
+## Good to Know
+
+- **A new application usually appears within a couple of minutes.** Moddy checks your server regularly, so nothing gets lost even if an event is missed.
+- **Moddy can't interview applicants.** Discord's interview is a private group chat that bots cannot join. Talk to them from Discord's review screen if you need to.
+- **Applications are kept for 180 days**, like Discord keeps them, then deleted.
+- **Each application gets exactly one card**, even if Moddy restarts while it arrives.

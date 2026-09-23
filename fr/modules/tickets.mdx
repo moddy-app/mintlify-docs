@@ -80,7 +80,7 @@ Ouvert depuis la liste des catégories d'un panneau, cet écran est organisé en
 | Destination | La catégorie Discord sous laquelle les nouveaux salons de ticket sont créés. Obligatoire — une catégorie sans destination configurée n'apparaît jamais sur le panneau. |
 | Rôles autorisés | Qui peut ouvrir un ticket ici. Vide signifie tout le monde. |
 | Rôles refusés | Explicitement empêchés d'en ouvrir un, même en cas d'autorisation ou de statut d'administrateur du serveur. |
-| Rôles et permissions du staff | Quels rôles peuvent voir et agir sur les tickets de cette catégorie, et avec lesquelles des neuf permissions — voir [Permissions](#permissions). |
+| Rôles et permissions du staff | Quels rôles peuvent voir et agir sur les tickets de cette catégorie, et avec lesquelles des dix permissions — voir [Permissions](#permissions). |
 | Rôles pingés | Rôles mentionnés au moment où un ticket s'ouvre |
 | Ping les rôles du staff | Quand activé, chaque rôle disposant de la permission **Voir** sur cette catégorie est aussi pingé, en plus des rôles ci-dessus |
 
@@ -89,7 +89,7 @@ Ouvert depuis la liste des catégories d'un panneau, cet écran est organisé en
 | Champ | Ce qu'il contrôle |
 | --- | --- |
 | Message d'ouverture | Le message épinglé complet publié à la création du ticket — titre, corps, tout. Pré-rempli avec un texte par défaut adapté. |
-| Message de clôture | Ajouté à la carte affichée quand le ticket est fermé. |
+| Message de clôture | Envoyé au membre dans son DM de fermeture — ou affiché sur la carte de fermeture à la place, si vous [gardez les salons après fermeture](#fermeture). |
 
 Les deux acceptent les variables `{user}`, `{username}`, `{display_name}`, `{server}`, `{category}`, `{number}` et `{ticket}`. Une ligne contenant uniquement `---` s'affiche comme un séparateur visuel.
 
@@ -118,7 +118,7 @@ Voir [Premium](/premium) pour ce que débloque le palier supérieur.
 
 ## Permissions
 
-L'accès aux tickets d'une catégorie est accordé **par rôle**, avec neuf permissions indépendantes :
+L'accès aux tickets d'une catégorie est accordé **par rôle**, avec dix permissions indépendantes :
 
 | Permission | Permet à un rôle de... |
 | --- | --- |
@@ -130,6 +130,7 @@ L'accès aux tickets d'une catégorie est accordé **par rôle**, avec neuf perm
 | Renommer | Renommer le salon du ticket |
 | Déplacer | Déplacer un ticket vers une autre catégorie |
 | Participants | Ajouter ou retirer des membres et des rôles d'un ticket |
+| Statistiques | Consulter les avis et le volume de tickets de cette catégorie avec [`/ticket stats`](#avis-et-statistiques) |
 | Admin | Tout ce qui précède, et conserve l'accès même si le ticket est escaladé |
 
 <Tip>
@@ -183,10 +184,22 @@ Escalader libère automatiquement la prise en charge en cours — elle est mise 
 
 ```discord
 /ticket close
+```
+
+Par défaut, fermer un ticket **supprime son salon**. Dans l'ordre, Moddy :
+
+1. archive la conversation, si les [transcriptions](#transcriptions) sont activées — une courte carte _Archivage en cours_ s'affiche dans le salon pendant ce temps ;
+2. envoie un DM au membre qui a ouvert le ticket, avec votre message de clôture et le lien de la transcription ;
+3. publie la trace dans votre salon de [logs de tickets](#les-logs-de-tickets), si vous en avez défini un ;
+4. supprime le salon.
+
+**Vous préférez garder les tickets fermés ?** Activez **Garder le salon après fermeture** dans les [paramètres du module](#paramètres-du-module). Le salon reste alors, verrouillé, derrière une carte de fermeture avec un bouton **Rouvrir** et un bouton **Supprimer** (ce dernier nécessite la permission **Admin**), et `/ticket reopen` devient disponible :
+
+```discord
 /ticket reopen
 ```
 
-Fermer ne supprime rien : le salon est verrouillé et une carte de fermeture apparaît avec un bouton **Rouvrir** et un bouton **Supprimer** (ce dernier nécessite la permission **Admin**). Le membre qui a ouvert le ticket reçoit un DM dans tous les cas, pour toujours savoir où en sont les choses.
+Rouvrir rend à chacun son accès exactement comme avant, et prévient le membre par DM.
 
 Si vous préférez demander l'accord d'un membre avant de fermer, utilisez :
 
@@ -217,6 +230,68 @@ Pour une discussion que votre équipe doit avoir _à propos_ d'un ticket sans qu
 <Warning>
   Mentionner quelqu'un dans le fil staff l'y ajoute immédiatement — c'est le comportement propre de Discord pour les fils privés. Moddy retire automatiquement toute personne qui rejoint ainsi mais qui n'est pas censée avoir accès staff à cette catégorie, pour qu'un ping malencontreux ne puisse pas exposer la conversation par accident.
 </Warning>
+
+### Quand un membre quitte le serveur
+
+Si le membre qui a ouvert un ticket quitte le serveur alors que celui-ci est encore ouvert, Moddy publie une carte dans le ticket pour le signaler, avec un bouton **Fermer le ticket**. Rien ne se ferme tout seul — un signalement peut encore demander une action — et seule une personne ayant la permission **Fermer** peut utiliser le bouton.
+
+S'il revient, Moddy le remet dans tous les tickets ouverts dont il faisait partie, avec le même accès qu'avant.
+
+## Paramètres du module
+
+Quelques paramètres s'appliquent à **tous** les tickets du serveur, quelle que soit leur catégorie. Ouvrez `/config` → **Tickets** → **Paramètres** :
+
+| Paramètre | Ce qu'il fait | Par défaut |
+| --- | --- | --- |
+| Transcriptions | Archiver la conversation à la fermeture | Activé |
+| Détection de fin | Proposer la fermeture quand l'échange semble fini | **Désactivé** |
+| Notation | Demander au membre d'évaluer sa prise en charge | Activé |
+| Garder le salon après fermeture | Garder les tickets fermés comme salons verrouillés, avec Rouvrir et Supprimer, au lieu de les supprimer | Désactivé |
+| Conservation | Jours avant suppression des transcriptions — `0` les garde pour toujours (jusqu'à 3650 jours) | 0 (pour toujours) |
+| Salon des logs de tickets | Où une carte est publiée à chaque fermeture de ticket | Aucun |
+
+Chaque fonctionnalité peut être désactivée séparément.
+
+### Transcriptions
+
+À la fermeture d'un ticket, Moddy enregistre toute sa conversation — messages, auteurs, pièces jointes (sous forme de liens) et les cartes de Moddy lui-même. Le membre reçoit le lien dans son DM de fermeture, et votre staff retrouve le même lien sur la carte des [logs de tickets](#les-logs-de-tickets).
+
+- Un ticket très long conserve ses 20 000 messages les plus récents.
+- Les transcriptions sont conservées aussi longtemps que l'indique votre paramètre **Conservation**, puis supprimées automatiquement.
+- Si l'archivage échoue, le ticket se ferme quand même normalement — le DM n'a simplement pas de lien.
+
+### Avis et statistiques
+
+Quand la **Notation** est activée, le membre qui a ouvert un ticket peut dire comment s'est passée sa prise en charge :
+
+- une appréciation choisie parmi cinq mots — **Pas top**, **Moyen**, **Correct**, **Très bien**, **Excellent** — plutôt qu'une note ;
+- qui l'a aidé, pré-rempli avec la personne qui a pris en charge (ou à défaut fermé) le ticket, avec une option _Personne en particulier_ ;
+- un commentaire facultatif.
+
+Le formulaire lui est proposé juste après avoir fermé son propre ticket, après avoir accepté une fermeture proposée par votre staff, et via un bouton **Laisser un avis** dans son DM de fermeture — qui fonctionne encore des jours plus tard, même une fois le salon supprimé. Chaque fermeture ne peut être notée qu'une fois, et l'avis apparaît sur la carte des logs de tickets dès qu'il est laissé.
+
+Pour voir comment s'en sort votre équipe :
+
+```discord
+/ticket stats [staff] [days]
+```
+
+Sans `staff`, vous obtenez toute l'équipe classée par nombre de tickets traités — pas par moyenne, pour qu'un seul avis parfait ne passe jamais devant cinquante tickets — avec un avertissement à côté de ceux qui ont trop peu d'avis pour que leur moyenne soit représentative. Avec `staff`, vous obtenez le volume de cette personne, sa moyenne, la répartition de ses avis et ses derniers commentaires. `days` définit la période (30 jours par défaut, jusqu'à 365).
+
+`/ticket stats` nécessite **Gérer le serveur**, ou la permission **Statistiques** sur une catégorie — auquel cas vous ne voyez que les catégories où vous la détenez.
+
+### Suggestions de fermeture
+
+Quand la **Détection de fin** est activée, Moddy repère une conversation qui semble terminée — _« merci, c'est bon ! »_ — et publie une carte proposant de fermer le ticket, avec **Marquer comme résolu** et **Pas encore**.
+
+- **Marquer comme résolu** ferme le ticket si la personne qui clique a la permission **Fermer** ; sinon (typiquement le membre), cela envoie une demande de fermeture à votre staff. La suggestion ne donne jamais à personne une permission qu'il n'a pas.
+- **Pas encore** garde le ticket ouvert, et Moddy ne le proposera plus avant un moment.
+
+Elle est désactivée par défaut car elle utilise l'IA de Moddy pour lire la conversation.
+
+### Les logs de tickets
+
+Choisissez un **salon des logs de tickets** dans les paramètres et Moddy y publie une carte à chaque fermeture de ticket : son numéro et sa catégorie, qui l'a ouvert, pris en charge et fermé, le motif, sa durée, son nombre de participants, le lien de la transcription — et l'avis du membre dès qu'il en laisse un.
 
 ## Questions fréquentes
 

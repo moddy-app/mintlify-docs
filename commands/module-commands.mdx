@@ -11,7 +11,7 @@ Some commands only make sense alongside a particular module, and only appear whe
 
 ### AltGuard
 
-Manually override the [AltGuard](/modules/altguard) verification gate for a member. Both are guild-only and require the **Manage Roles** permission.
+Manually override the [AltGuard](/modules/altguard) verification gate for a member. Both are guild-only and require the **Kick Members** permission by default — adjustable per role from **Server Settings → Integrations**.
 
 ```discord
 /altguard verify <member>
@@ -23,7 +23,7 @@ Manually override the [AltGuard](/modules/altguard) verification gate for a memb
 
 ### Inter-Server
 
-Look up or report a message relayed through an [Inter-Server](/modules/interserver) bridge. Both are guild-only.
+Look up or report a message relayed through an [Inter-Server](/modules/interserver) bridge. Both are guild-only, and keep working for messages relayed before the module was paused.
 
 ```discord
 /interserver report <message_id>
@@ -40,6 +40,33 @@ Look up or report a message relayed through an [Inter-Server](/modules/interserv
 <Warning>
   **`/interserver info`'s `incognito` option means something different** from everywhere else in Moddy. Here it controls whether the lookup is **logged with your identity**, not whether the reply is private — and it defaults to `false`, not to your saved preference.
 </Warning>
+
+### Tickets
+
+Manage a ticket from inside its channel. `/ticket` only appears on servers where the [Tickets](/modules/tickets) module is set up, and each subcommand checks the matching per-category ticket permission.
+
+```discord
+/ticket close
+/ticket close-request
+/ticket reopen
+/ticket claim
+/ticket unclaim
+/ticket escalate
+/ticket deescalate
+/ticket move
+/ticket rename [name]
+/ticket add <member or role>
+/ticket remove <member or role>
+/ticket participants
+/ticket staff-thread
+/ticket info
+/ticket stats [staff] [days]
+```
+
+- **`/ticket reopen`** — only available when the server keeps channels after closing.
+- **`/ticket stats`** — the team's ticket volume and reviews, or one staff member's; needs **Manage Server** or the **Stats** ticket permission.
+
+See the [Tickets guide](/modules/tickets#managing-a-ticket) for what each one does.
 
 ### Auto-Restore Roles
 

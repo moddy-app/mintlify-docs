@@ -106,3 +106,7 @@ One reminder per directory is all a normal server needs: a bump puts the *whole 
 - **Bumping again before the reminder fires restarts the countdown**, and credits the new bumper.
 - **A directory that shuts down doesn't break your panel.** Its entry is simply ignored.
 - Moddy only reads bumps in the channel the reminder points at — it never answers in a channel you didn't pick.
+
+<Warning>
+  **A role that shows up in blue but notifies nobody** is a Discord permission issue, not a bug. Discord only delivers a role ping if the role is set to **Allow anyone to @mention this role**, or if Moddy has the **Mention @everyone, @here, and All Roles** permission in that channel. Otherwise the mention still renders, silently. Turn on one of the two and the pings go through.
+</Warning>
