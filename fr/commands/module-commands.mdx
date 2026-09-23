@@ -11,7 +11,7 @@ Certaines commandes n'ont de sens qu'aux côtés d'un module particulier, et n'a
 
 ### AltGuard
 
-Contournez manuellement la barrière de vérification [AltGuard](/modules/altguard) pour un membre. Les deux sont réservées aux serveurs et nécessitent la permission **Gérer les rôles**.
+Contournez manuellement la barrière de vérification [AltGuard](/modules/altguard) pour un membre. Les deux sont réservées aux serveurs et nécessitent par défaut la permission **Expulser des membres** — réglable rôle par rôle depuis **Paramètres du serveur → Intégrations**.
 
 ```discord
 /altguard verify <member>
@@ -40,6 +40,33 @@ Consultez ou signalez un message relayé via un pont [Inter-Server](/modules/int
 <Warning>
   **L'option `incognito` de `/interserver info` a une signification différente** du reste de Moddy. Ici, elle contrôle si la consultation est **enregistrée avec votre identité**, pas si la réponse est privée — et sa valeur par défaut est `false`, pas votre préférence enregistrée.
 </Warning>
+
+### Tickets
+
+Gérez un ticket depuis son salon. `/ticket` n'apparaît que sur les serveurs où le module [Tickets](/modules/tickets) est configuré, et chaque sous-commande vérifie la permission de ticket correspondante dans la catégorie.
+
+```discord
+/ticket close
+/ticket close-request
+/ticket reopen
+/ticket claim
+/ticket unclaim
+/ticket escalate
+/ticket deescalate
+/ticket move
+/ticket rename [name]
+/ticket add <membre ou rôle>
+/ticket remove <membre ou rôle>
+/ticket participants
+/ticket staff-thread
+/ticket info
+/ticket stats [staff] [days]
+```
+
+- **`/ticket reopen`** — disponible uniquement si le serveur garde les salons après fermeture.
+- **`/ticket stats`** — le volume de tickets et les avis de l'équipe, ou d'un membre du staff ; nécessite **Gérer le serveur** ou la permission de ticket **Statistiques**.
+
+Consultez le [guide Tickets](/modules/tickets#gérer-un-ticket) pour le détail de chacune.
 
 ### Auto-Restore Roles
 

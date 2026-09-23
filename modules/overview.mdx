@@ -25,6 +25,10 @@ Modules are optional features you can activate on a per-server basis to extend w
   <Card title="Auto-Restore Roles" icon="clock-rotate-left" href="/modules/auto-restore-roles">
     Remember a member's roles when they leave and give them back if they return.
   </Card>
+
+  <Card title="Member Applications" icon="clipboard-list" href="/modules/member-applications">
+    Review Discord "Apply to Join" applications from a channel, with Approve and Reject buttons.
+  </Card>
 </CardGroup>
 
 ### Moderation and safety
@@ -63,7 +67,7 @@ Modules are optional features you can activate on a per-server basis to extend w
   </Card>
 
   <Card title="Inter-Server" icon="arrows-left-right" href="/modules/interserver">
-    Bridge a channel to channels in other Discord servers for real-time cross-community chat.
+    Bridge a channel to channels in other Discord servers for real-time cross-community chat. Temporarily paused.
   </Card>
 
   <Card title="Voice Transcription" icon="microphone" href="/modules/voice-transcription">
@@ -97,6 +101,25 @@ You can enable and configure any module in seconds without leaving Discord.
     Click **Save** to apply your configuration. The module will activate immediately.
   </Step>
 </Steps>
+
+## Permissions Moddy Needs
+
+Moddy never needs the **Administrator** permission. Each module asks only for what it actually uses, and `/config` checks it when you open that module: if something is missing, the panel names it and gives you a re-invite link that requests exactly those permissions.
+
+| Module | Permissions Moddy needs |
+| --- | --- |
+| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder | Nothing beyond seeing and sending messages in the channels you pick |
+| Auto Role, Auto-Restore Roles, AltGuard | Manage Roles |
+| Member Applications | Kick Members |
+| Adaptive Slowmode | Manage Channels |
+| Tickets | Manage Channels, Manage Roles |
+| Server Logs, Inter-Server | Manage Webhooks |
+| Bot Customization | Change Nickname |
+| AutoMod AI | Manage Messages, Ban Members, Timeout Members |
+
+<Note>
+  For modules that hand out roles, Moddy's own role must also sit **above** the roles it manages in your server's role list — Discord's rule, not Moddy's.
+</Note>
 
 ## Managing Modules from the Dashboard
 

@@ -11,6 +11,66 @@ Tout ce qui est nouveau dans Moddy, les plus récents en premier. Moddy est en d
   Vous voulez être informé au fur et à mesure ? Les annonces sont diffusées sur le [serveur de support Moddy](https://moddy.app/support) dès qu'une fonctionnalité est en ligne.
 </Note>
 
+<Update label="23 septembre 2026" description="Candidatures">
+  ## Candidatures : examinez « Postuler pour rejoindre » depuis un salon
+
+  Si votre serveur utilise **Postuler pour rejoindre** de Discord, un nouveau module envoie chaque candidature dans le salon d'examen de votre choix : votre équipe n'a plus besoin de fouiller l'écran d'examen de Discord.
+
+  - Chaque candidature arrive sous forme de carte : le candidat (nom affiché, nom d'utilisateur, âge du compte, candidatures précédentes) et toutes ses réponses au formulaire
+  - **Accepter** en un clic, ou **Refuser** avec un motif que Discord montre au candidat — l'un de vos motifs prédéfinis ou le vôtre
+  - Confiez les décisions à une équipe de recrutement grâce aux **rôles examinateurs**, sans lui donner la permission Expulser des membres
+  - La carte reste à jour : une décision prise dans l'écran de Discord, ou une candidature retirée par le candidat, la ferme aussi
+
+  Consultez le [guide du module](/modules/member-applications).
+</Update>
+
+<Update label="20 septembre 2026" description="/config">
+  ## Configurer avec l'IA, directement depuis `/config`
+
+  Le panneau `/config` a désormais un bouton **Configurer avec l'IA** qui ouvre Brocoli, l'assistant IA du tableau de bord, sur votre serveur. Son lien vers le tableau de bord mène aussi directement à votre serveur plutôt qu'à la page d'accueil.
+</Update>
+
+<Update label="17 septembre 2026" description="Permissions · Tickets · Inter-Server">
+  ## Moddy n'a plus besoin de la permission Administrateur
+
+  `/config` refusait de s'ouvrir si Moddy n'avait pas la permission **Administrateur**. Cette exigence a disparu : chaque module déclare maintenant les permissions exactes dont il a besoin — **Gérer les rôles** pour Auto Role, **Gérer les salons** pour Adaptive Slowmode, **Expulser des membres** pour Candidatures, etc. Si vous ouvrez un module que Moddy ne peut pas faire fonctionner, le panneau indique précisément ce qui manque, avec un lien de réinvitation qui ne demande que ces permissions. La liste complète est sur la [présentation des modules](/modules/overview#permissions-requises-par-moddy).
+
+  ## Fermer un ticket supprime désormais son salon — sauf si vous préférez le garder
+
+  Fermer un ticket l'archive, envoie son MP au membre, publie la trace dans vos logs de tickets, puis supprime le salon. Fini les salons fermés qui s'accumulent dans vos catégories.
+
+  Vous préférez l'ancien fonctionnement ? Activez **Garder le salon après fermeture** dans `/config` → Tickets → Paramètres : le salon reste, verrouillé, avec les boutons **Rouvrir** et **Supprimer**.
+
+  ## Inter-Server est en pause
+
+  Le module Inter-Server est temporairement indisponible et n'apparaît plus dans `/config`. Votre configuration est conservée telle quelle et refonctionnera dès le retour du module.
+</Update>
+
+<Update label="11 septembre 2026" description="Tickets">
+  ## Tickets : transcriptions, avis et suggestions de fermeture
+
+  Trois nouveautés pour le module Tickets, chacune activable ou non dans `/config` → Tickets → Paramètres.
+
+  - **Transcriptions** — à la fermeture d'un ticket, sa conversation est archivée. Le membre reçoit le lien dans son MP de fermeture, votre staff le retrouve dans les logs de tickets. Vous choisissez combien de temps les transcriptions sont conservées.
+  - **Avis** — le membre peut évaluer sa prise en charge avec un mot plutôt qu'une note (de _Pas top_ à _Excellent_), indiquer qui l'a aidé et laisser un commentaire. La nouvelle commande `/ticket stats` affiche le volume et les avis de chaque membre du staff.
+  - **Suggestions de fermeture** — quand une conversation semble terminée (« merci, c'est bon ! »), Moddy propose de fermer le ticket. Désactivé par défaut.
+
+  Un salon de **logs de tickets** reçoit maintenant une carte par ticket fermé. Et quand un membre quitte le serveur avec un ticket encore ouvert, votre staff est prévenu ; s'il revient, Moddy le remet dans son ticket.
+</Update>
+
+<Update label="9 septembre 2026" description="Améliorations">
+  ## Petites améliorations
+
+  - Les cartes de **Bump Reminder** affichent maintenant le nom de votre serveur, et le bouton **Me rappeler** fonctionne à nouveau.
+  - Les annonces du [serveur de support Moddy](https://moddy.app/support) sont désormais accompagnées d'un bouton par langue, pour que chacun puisse les lire dans la sienne.
+</Update>
+
+<Update label="7 septembre 2026" description="Permissions des commandes">
+  ## Des permissions de commandes réglables depuis Discord
+
+  `/config` et `/altguard` déclarent désormais leur permission directement à Discord — respectivement **Gérer le serveur** et **Expulser des membres** — pour que vous puissiez choisir qui les voit, rôle par rôle, depuis **Paramètres du serveur → Intégrations**.
+</Update>
+
 <Update label="3 septembre 2026" description="Bump Reminder">
   ## Bump Reminder : ne manquez plus jamais une fenêtre de bump
 

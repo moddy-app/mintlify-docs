@@ -43,13 +43,11 @@ From the configuration panel, you can enable, disable, and fully customize each 
   </Card>
 </CardGroup>
 
-<Note>
-  You need the **Manage Server** permission to use `/config`, and Moddy must have **Administrator** on the server — it refuses to open the panel otherwise, with a re-invite link.
-</Note>
+The panel also has a **Configure with AI** button, which opens Brocoli — the dashboard's AI assistant — on your server, and a link to your server's page on the dashboard.
 
-<Warning>
-  **Server modules are currently in closed beta.** Beyond the permissions above, `/config` is restricted to accounts with beta access. If you run it and get a card inviting you to join the support server, that's why — [request access there](https://moddy.app/support) and the team can enable it for you.
-</Warning>
+<Note>
+  You need the **Manage Server** permission to use `/config` — adjustable per role from **Server Settings → Integrations**. Moddy itself never needs **Administrator**: when you open a module, the panel checks only the permissions that module uses, and if one is missing it tells you which, with a re-invite link that asks for exactly that. See [Permissions Moddy needs](/modules/overview#permissions-moddy-needs).
+</Note>
 
 ---
 

@@ -1,0 +1,88 @@
+---
+title: "Solicitudes de ingreso: revisa «Solicitar unirse» desde un canal"
+sidebarTitle: "Solicitudes de ingreso"
+description: "Cuando tu servidor usa «Solicitar unirse» de Discord, Moddy publica cada solicitud en un canal de revisión con botones Aprobar y Rechazar, y mantiene la tarjeta al día sin importar dónde se tome la decisión."
+icon: "clipboard-list"
+---
+
+Discord permite a un servidor exigir una solicitud antes de unirse: los recién llegados rellenan un breve formulario — aceptar las normas, responder a algunas preguntas — y esperan a que tu equipo los deje entrar. Es la función **Solicitar unirse** de Discord.
+
+El formulario y el filtro pertenecen a Discord. El módulo Solicitudes de ingreso se encarga de la **revisión**: cada solicitud enviada llega al canal que elijas como una tarjeta clara, con botones **Aprobar** y **Rechazar** que tu equipo usa sin salir de la conversación.
+
+<Note>
+  Moddy no crea ni modifica tu formulario. Activas **Solicitar unirse** y escribes las preguntas en los ajustes de tu servidor de Discord. El panel `/config` te indica si las solicitudes están activadas en tu servidor; si no lo están, Moddy no tendrá nada que revisar.
+</Note>
+
+## Configuración
+
+<Steps>
+  <Step title="Activa Solicitar unirse en Discord">
+    En los ajustes de tu servidor, activa **Solicitar unirse** y escribe las preguntas que deberán responder los solicitantes.
+  </Step>
+  <Step title="Abre el panel de configuración">
+    Escribe `/config` en tu servidor y selecciona **Solicitudes de ingreso**.
+  </Step>
+  <Step title="Elige un canal de revisión">
+    Ahí se publica cada nueva solicitud. Mantenlo reservado al staff: la tarjeta muestra las respuestas del solicitante.
+  </Step>
+  <Step title="Elige a quién avisar y quién puede decidir (opcional)">
+    Añade roles a mencionar cuando llegue una solicitud, roles revisores y motivos de rechazo predefinidos — consulta [Ajustes](#ajustes).
+  </Step>
+</Steps>
+
+El módulo se activa en cuanto se define un canal de revisión. No hay interruptor de encendido/apagado: para dejar de usarlo, elimina su configuración desde el panel.
+
+## La tarjeta de solicitud
+
+Cada solicitud se publica una sola vez, como una tarjeta escrita en el idioma de tu servidor (definido en `/config` → *Ajustes del servidor*):
+
+| Sección | Qué muestra |
+| --- | --- |
+| **Solicitante** | Su mención, nombre visible, nombre de usuario, ID, cuándo se creó su cuenta (marcada como *cuenta reciente* si tiene menos de una semana) y cuántas veces solicitó antes — y cuántas de ellas fueron rechazadas |
+| **Respuestas** | Cada pregunta de tu formulario con la respuesta del solicitante, incluido si aceptó las normas del servidor |
+| **Estado** | *Pendiente de revisión*, y después quién decidió, cuándo y — en caso de rechazo — el motivo |
+
+Los roles elegidos se mencionan encima de la tarjeta **solo cuando se publica por primera vez**, nunca cuando se actualiza.
+
+## Aprobar y rechazar
+
+- **Aprobar** deja entrar al solicitante en un clic.
+- **Rechazar** abre un breve formulario: elige uno de tus motivos predefinidos, escribe el tuyo (hasta 160 caracteres; prevalece sobre el predefinido) o deja ambos vacíos para rechazar sin motivo.
+
+<Warning>
+  Discord muestra el motivo del rechazo **al solicitante**. Escríbelo como te gustaría que lo leyera.
+</Warning>
+
+Una vez tomada la decisión, los botones desaparecen y la tarjeta muestra el resultado. Se mantiene al día en todos los casos:
+
+- **Decidido en la pantalla de revisión de Discord** — la tarjeta se cierra e indica quién decidió allí.
+- **Retirada por el solicitante** — la tarjeta se marca como *Retirada por el solicitante*.
+- **Dos moderadores pulsan a la vez** — gana la primera decisión; al segundo se le avisa de que la solicitud ya fue tratada.
+
+## Quién puede decidir
+
+Cualquiera con el permiso **Expulsar miembros** puede aprobar o rechazar: es el permiso que Discord exige para gestionar solicitudes.
+
+Los **roles revisores** te permiten confiar la decisión a un equipo de reclutamiento **sin** darle Expulsar miembros. Moddy actúa con su propio permiso en su nombre, y solo para las solicitudes.
+
+## Ajustes
+
+| Ajuste | Qué controla | Límite |
+| --- | --- | --- |
+| **Canal de revisión** | Dónde se publican las tarjetas. Obligatorio. | Un canal de texto |
+| **Roles a notificar** | Mencionados cuando llega una nueva solicitud | Hasta 5 |
+| **Roles revisores** | Pueden aprobar o rechazar, además de los miembros con Expulsar miembros | Hasta 10 |
+| **Motivos de rechazo predefinidos** | Se ofrecen en un clic al rechazar. Un motivo por línea. | Hasta 10, de 100 caracteres cada uno |
+
+## Permisos
+
+Moddy necesita el permiso **Expulsar miembros**: Discord lo exige para leer y gestionar las solicitudes. También necesita **ver el canal de revisión y enviar mensajes en él**; se comprueba al guardar.
+
+Si Moddy pierde después Expulsar miembros, al pulsar un botón se te avisa en lugar de fallar en silencio.
+
+## Bueno saber
+
+- **Una nueva solicitud suele aparecer en unos minutos.** Moddy revisa tu servidor con regularidad, así que no se pierde nada aunque se escape un evento.
+- **Moddy no puede entrevistar a los solicitantes.** La entrevista de Discord es un chat de grupo privado al que los bots no pueden unirse. Usa la pantalla de revisión de Discord si lo necesitas.
+- **Las solicitudes se conservan 180 días**, como en Discord, y después se eliminan.
+- **Cada solicitud tiene exactamente una tarjeta**, aunque Moddy se reinicie justo cuando llega.

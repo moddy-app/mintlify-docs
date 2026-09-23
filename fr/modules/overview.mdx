@@ -7,10 +7,6 @@ icon: "puzzle-piece"
 
 Les modules sont des fonctionnalités optionnelles que vous pouvez activer serveur par serveur pour étendre ce que Moddy fait pour votre communauté. Chaque module est indépendant — vous choisissez ceux à activer, vous les configurez selon les besoins de votre serveur, et vous les désactivez à tout moment. Tous les paramètres des modules sont gérés via la commande `/config` directement dans Discord, ou depuis le tableau de bord web à [dashboard.moddy.app](https://dashboard.moddy.app).
 
-<Warning>
-  **Les modules serveur sont actuellement en bêta fermée.** `/config` est restreint aux comptes disposant d'un accès bêta — si vous obtenez une carte vous invitant à rejoindre le serveur de support au lieu du panneau, [demandez-y l'accès](https://moddy.app/support).
-</Warning>
-
 ### Accueil et rôles
 
 <CardGroup cols={2}>
@@ -28,6 +24,10 @@ Les modules sont des fonctionnalités optionnelles que vous pouvez activer serve
 
   <Card title="Auto-Restore Roles" icon="clock-rotate-left" href="/modules/auto-restore-roles">
     Mémorisez les rôles d'un membre lorsqu'il part et rendez-les-lui s'il revient.
+  </Card>
+
+  <Card title="Candidatures" icon="clipboard-list" href="/modules/member-applications">
+    Examinez les candidatures « Postuler pour rejoindre » de Discord depuis un salon, avec des boutons Accepter et Refuser.
   </Card>
 </CardGroup>
 
@@ -67,7 +67,7 @@ Les modules sont des fonctionnalités optionnelles que vous pouvez activer serve
   </Card>
 
   <Card title="Inter-Server" icon="arrows-left-right" href="/modules/interserver">
-    Reliez un salon à des salons d'autres serveurs Discord pour un chat inter-communautés en temps réel.
+    Reliez un salon à des salons d'autres serveurs Discord pour un chat inter-communautés en temps réel. Temporairement en pause.
   </Card>
 
   <Card title="Voice Transcription" icon="microphone" href="/modules/voice-transcription">
@@ -101,6 +101,25 @@ Vous pouvez activer et configurer n'importe quel module en quelques secondes san
     Cliquez sur **Enregistrer** pour appliquer votre configuration. Le module s'activera immédiatement.
   </Step>
 </Steps>
+
+## Permissions requises par Moddy
+
+Moddy n'a jamais besoin de la permission **Administrateur**. Chaque module ne demande que ce qu'il utilise réellement, et `/config` le vérifie quand vous ouvrez ce module : s'il manque quelque chose, le panneau le nomme et vous donne un lien de réinvitation qui demande exactement ces permissions.
+
+| Module | Permissions nécessaires à Moddy |
+| --- | --- |
+| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder | Rien de plus que voir et envoyer des messages dans les salons choisis |
+| Auto Role, Auto-Restore Roles, AltGuard | Gérer les rôles |
+| Candidatures | Expulser des membres |
+| Adaptive Slowmode | Gérer les salons |
+| Tickets | Gérer les salons, Gérer les rôles |
+| Journaux du serveur, Inter-Server | Gérer les webhooks |
+| Bot Customization | Changer le pseudo |
+| AutoMod IA | Gérer les messages, Bannir des membres, Exclure temporairement des membres |
+
+<Note>
+  Pour les modules qui attribuent des rôles, le rôle de Moddy doit aussi se trouver **au-dessus** des rôles qu'il gère dans la liste des rôles du serveur — c'est une règle de Discord, pas de Moddy.
+</Note>
 
 ## Gérer les modules depuis le tableau de bord
 

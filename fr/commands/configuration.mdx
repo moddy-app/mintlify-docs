@@ -43,13 +43,11 @@ Depuis le panneau de configuration, vous pouvez activer, désactiver et personna
   </Card>
 </CardGroup>
 
-<Note>
-  Vous avez besoin de la permission **Gérer le serveur** pour utiliser `/config`, et Moddy doit avoir **Administrateur** sur le serveur — sinon il refuse d'ouvrir le panneau, avec un lien de réinvitation.
-</Note>
+Le panneau propose aussi un bouton **Configurer avec l'IA**, qui ouvre Brocoli — l'assistant IA du tableau de bord — sur votre serveur, ainsi qu'un lien vers la page de votre serveur sur le tableau de bord.
 
-<Warning>
-  **Les modules serveur sont actuellement en bêta fermée.** Au-delà des permissions ci-dessus, `/config` est restreint aux comptes ayant accès à la bêta. Si vous l'exécutez et obtenez une carte vous invitant à rejoindre le serveur d'assistance, c'est pour cela — [demandez-y l'accès](https://moddy.app/support) et l'équipe pourra l'activer pour vous.
-</Warning>
+<Note>
+  Vous avez besoin de la permission **Gérer le serveur** pour utiliser `/config` — réglable rôle par rôle depuis **Paramètres du serveur → Intégrations**. Moddy lui-même n'a jamais besoin de la permission **Administrateur** : quand vous ouvrez un module, le panneau vérifie uniquement les permissions que ce module utilise, et s'il en manque une, il vous dit laquelle, avec un lien de réinvitation qui demande exactement celle-ci. Voir [Permissions requises par Moddy](/modules/overview#permissions-requises-par-moddy).
+</Note>
 
 ---
 

@@ -81,7 +81,8 @@
                   "modules/altguard-data",
                   "modules/logs",
                   "modules/tickets",
-                  "modules/bump-reminder"
+                  "modules/bump-reminder",
+                  "modules/member-applications"
                 ]
               },
               {
@@ -181,7 +182,8 @@
                   "fr/modules/altguard-data",
                   "fr/modules/logs",
                   "fr/modules/tickets",
-                  "fr/modules/bump-reminder"
+                  "fr/modules/bump-reminder",
+                  "fr/modules/member-applications"
                 ]
               },
               {
@@ -281,7 +283,8 @@
                   "es/modules/altguard-data",
                   "es/modules/logs",
                   "es/modules/tickets",
-                  "es/modules/bump-reminder"
+                  "es/modules/bump-reminder",
+                  "es/modules/member-applications"
                 ]
               },
               {
