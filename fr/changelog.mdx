@@ -11,6 +11,25 @@ Tout ce qui est nouveau dans Moddy, les plus récents en premier. Moddy est en d
   Vous voulez être informé au fur et à mesure ? Les annonces sont diffusées sur le [serveur de support Moddy](https://moddy.app/support) dès qu'une fonctionnalité est en ligne.
 </Note>
 
+<Update label="26 septembre 2026" description="Modération IA · OCR">
+  ## La modération automatique par IA regarde aussi les images
+
+  Deux nouvelles fonctionnalités attrapent ce que la détection sur texte seul ne pouvait pas voir :
+
+  - **Captures d'écran d'arnaques crypto / faux cadeaux** — un schéma de raid courant (fausse annonce de cadeau par une célébrité, fausse capture « retrait réussi ») est désormais détecté même depuis un compte compromis qui poste dans plusieurs salons à la fois. Moddy lit le texte de l'image et le fait passer par le même pipeline de détection qu'un message normal.
+  - **Images à caractère explicite** — signalées automatiquement via SafeSearch de Google, indépendamment de tout texte accompagnant. Les salons réservés aux adultes sont ignorés.
+
+  Les deux fonctionnalités ne s'exécutent que sur les serveurs qui les activent et respectent vos exemptions AutoMod existantes. Activez-les depuis `/config` → AutoMod IA.
+
+  ## `/ocr` et Transcrire lisent désormais aussi les images
+
+  La nouvelle commande `/ocr` extrait le texte de n'importe quelle image, partout — serveurs, MP, ou en tant que commande installée par l'utilisateur. Le menu contextuel **Transcrire** fonctionne désormais aussi sur un message contenant une image et pas d'audio, en publiant le texte extrait sous forme de carte publique, comme une transcription vocale.
+
+  ## Une supervision humaine reste toujours possible
+
+  Les messages et images sanctionnés ou incertains peuvent être examinés par l'équipe Moddy, qui les étiquette pour améliorer la précision de la détection au fil du temps — et lève une sanction automatique qu'elle juge incorrecte, exactement comme un appel accepté.
+</Update>
+
 <Update label="23 septembre 2026" description="Candidatures">
   ## Candidatures : examinez « Postuler pour rejoindre » depuis un salon
 

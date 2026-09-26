@@ -11,6 +11,25 @@ Todo lo nuevo en Moddy, empezando por lo más reciente. Moddy está en desarroll
   ¿Quieres enterarte al momento? Los anuncios se publican en el [servidor de soporte de Moddy](https://moddy.app/support) en cuanto una función se pone en marcha.
 </Note>
 
+<Update label="26 de septiembre de 2026" description="AutoMod IA · OCR">
+  ## AutoMod IA ahora también revisa las imágenes
+
+  Dos nuevas funciones detectan lo que el análisis de solo texto nunca podría:
+
+  - **Capturas de estafas cripto / falsos sorteos** — un patrón de raid habitual (un falso anuncio de sorteo de una celebridad, una falsa captura de "retiro exitoso") ahora se detecta incluso cuando proviene de una cuenta comprometida que publica en varios canales a la vez. Moddy lee el texto de la imagen y lo pasa por el mismo proceso de detección que un mensaje normal.
+  - **Imágenes explícitas** — marcadas automáticamente mediante SafeSearch de Google, con independencia de cualquier texto que las acompañe. Los canales restringidos por edad se omiten.
+
+  Ambas funciones solo se ejecutan en los servidores que las activan y respetan tus exenciones de AutoMod existentes. Actívalas desde `/config` → AutoMod IA.
+
+  ## `/ocr` y Transcribir ahora también leen imágenes
+
+  El nuevo comando `/ocr` extrae el texto de cualquier imagen, en cualquier lugar — servidores, MD o como comando instalado por el usuario. El menú contextual **Transcribir** ahora también funciona con un mensaje que tiene una imagen y sin audio, publicando el texto extraído como una tarjeta pública, igual que una transcripción de voz.
+
+  ## Siempre queda la última palabra humana
+
+  Los mensajes e imágenes sancionados o dudosos pueden ser revisados por el equipo de Moddy, que los etiqueta para mejorar la precisión de la detección con el tiempo — y levanta una sanción automática que considere incorrecta, igual que una apelación aceptada.
+</Update>
+
 <Update label="23 de septiembre de 2026" description="Solicitudes de ingreso">
   ## Solicitudes de ingreso: revisa «Solicitar unirse» desde un canal
 
