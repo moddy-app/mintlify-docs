@@ -8,7 +8,7 @@ icon: "lock"
 This Privacy Policy describes Moddy's practices regarding the collection, use, storage, and protection of personal data, in compliance with the General Data Protection Regulation (GDPR) and applicable data protection laws.
 
 <Info>
-  **Last updated: December 29, 2025.**
+  **Last updated: September 26, 2026.**
 </Info>
 
 ## Data Controller
@@ -55,11 +55,16 @@ Some features store data only when you actively use them:
 When AI automatic moderation is enabled on a server:
 
 - **Message content is analysed.** Text that the detection funnel escalates is sent to OpenAI for embedding and classification.
-- **Sanctioned messages are stored as evidence** on the resulting moderation case, along with a snapshot of the surrounding channel context (up to 15 messages, which may include messages from other members), the author's name, and a jump link.
-- **A quality-evaluation corpus** may retain the message content, its context, and the verdict, so detection accuracy can be measured and improved.
+- **Images are analysed**, where a server turns this on, in channels that are not exempted and are not marked as age-restricted. A perceptual hash (fingerprint) of the image is computed first; depending on the case, the text in the image is then extracted (OCR) to check for scam content, or the image is analysed for explicit content. This is separate from the `/ocr` command and the **Transcribe** context menu, which extract text from an image only when you use them yourself.
+- **Sanctioned messages and images are stored as evidence** on the resulting moderation case, along with a snapshot of the surrounding channel context (up to 15 messages, which may include messages from other members), the author's name, and a jump link.
+- **A quality-evaluation corpus** may retain the message or image content, its context, and the verdict, so detection accuracy can be measured and improved.
 - **Server precedents** retain a normalised copy of moderated message text and its embedding, per server, so future decisions stay consistent with how your moderators actually rule. This store is capped at 500 entries per server, with the oldest evicted.
 
 Separately, **Discord token leak detection** scans messages for leaked Discord tokens. When one is found, the token is stored encrypted (AES-256-GCM) alongside a masked copy of the message and the author, server, and channel names, so the owner can be alerted and the token invalidated.
+
+### Human review by the Moddy team
+
+Sanctioned or uncertain messages and images can be reviewed by the Moddy team. This review has two purposes: improving the accuracy of automatic moderation, and correcting mistakes — when the team finds that an automatic sanction was wrong, it is lifted, with the same effect as an accepted appeal. Only the Moddy team has access to the content reviewed this way, and only for this purpose. The images involved are not stored separately from this review: they exist only as an attachment on the internal Discord card used for it.
 
 ### Configuration and preferences data
 
@@ -107,7 +112,8 @@ We work with third-party service providers to deliver and improve our services. 
 | **Discord** | The platform the bot operates on (automatic collection of identifiers and metadata) |
 | **Sentry** | Error monitoring and performance (receives error logs with technical context) |
 | **Stripe** | Payment processing, subscription management |
-| **OpenAI** | AI automatic moderation, and the `/fix`, `/rephrase`, `/summarize` text tools |
+| **OpenAI** | AI automatic moderation (text, and images for scam detection), and the `/fix`, `/rephrase`, `/summarize` text tools |
+| **Google Cloud Vision** | Explicit-content detection (SafeSearch) on images, and text extraction for `/ocr` and the **Transcribe** menu on images |
 | **DeepL** | The `/translate` command |
 | **Groq** | Voice message transcription (receives the raw audio of the message being transcribed) |
 | **AltGuard verification service** | Anti multi-account verification — see the [dedicated notice](/modules/altguard-data) |
@@ -120,12 +126,16 @@ We work with third-party service providers to deliver and improve our services. 
 <Warning>
   **Data transmitted to content-processing services is not anonymized.** This applies to OpenAI, DeepL, Groq, and any comparable service.
 
-  Discord identifiers may be anonymized or replaced with opaque references during transmission, but **the content you submit — message text, translations, queries, and voice recordings — is transmitted as is**.
+  Discord identifiers may be anonymized or replaced with opaque references during transmission, but **the content you submit — message text, translations, queries, voice recordings, and images — is transmitted as is**.
 
   **Some data sent to the OpenAI API may be used by OpenAI to train and improve its models**, in accordance with their terms of use.
 
   Never include personal, confidential, or sensitive information in your queries to translation, AI, transcription, or content-processing services. This includes, but is not limited to: passwords, banking information, medical information, and confidential professional or personal documents.
 </Warning>
+
+## Shared Improvement of Detection
+
+Content labeled by the Moddy team — image fingerprints, reference texts, the blocklist, and the evaluation set — feeds detection data **shared across every server using automatic moderation**, so accuracy improves for the whole Moddy community rather than one server at a time. This processing is based on our **legitimate interest** in improving the security and reliability of the service (Article 6.1.f GDPR).
 
 ## Data Retention Period
 
@@ -136,6 +146,10 @@ The following are exceptions with a **shorter, automatic** retention:
 - **Leaked token records** — the encrypted token is purged after 24 hours, or immediately once invalidated
 - **Server precedents** used by automatic moderation — capped at 500 entries per server, oldest evicted first
 - **AltGuard verification data** — held by the external verification service on its own schedule, detailed in the [AltGuard data notice](/modules/altguard-data) (90 days to 18 months depending on the signal, 3 years for the proof of consent)
+- **Image fingerprints (hashes)** validated by the Moddy team — retained indefinitely, for as long as they remain in the shared learned-detection database
+- **OCR text cache** (Redis) — 30 days
+- **Review cards and training data** (the team's review queue, learned reference texts, the evaluation set) — no automatic purge is in place today; retained until manually deleted
+- **Images themselves are not stored separately** — they exist only as an attachment on the Discord review card sent to the Moddy team, and follow that card's own lifetime
 
 ## Security and Data Confidentiality
 
@@ -179,6 +193,14 @@ Moddy **never** collects:
 <Warning>
   **One exception on IP addresses.** Moddy the bot does not collect or store IP addresses. However, if a server you join uses **AltGuard**, the external verification service processes your IP address as part of the check — never in clear text, only as a non-reversible fingerprint, and only after you explicitly consent on the verification screen. The bot never receives it. See the [AltGuard data notice](/modules/altguard-data) for the full detail.
 </Warning>
+
+## Automated Decision-Making
+
+Some sanctions (warning, mute, ban) are decided and applied without human involvement, including on the basis of an image (scam or explicit-content detection). In accordance with **Article 22 of the GDPR**, you have the right not to be subject to a decision based solely on automated processing that produces effects concerning you. The following remedies exist for any automated sanction:
+
+- **Appeal to the server's own moderators**, via the appeal button included in the sanction notice.
+- **Appeal to the Moddy team**, through the same mechanism.
+- **Independent human review**, described above, which can lift the sanction on its own initiative.
 
 ## Your Rights (GDPR)
 
@@ -240,4 +262,4 @@ For any question or request regarding your personal data or this Privacy Policy 
   By using Moddy services (Discord bot, website, and associated services), you acknowledge that you have read, understood, and accepted the terms of this Privacy Policy.
 </Note>
 
-**Effective date: December 29, 2025**
+**Effective date: December 29, 2025. Last revised: September 26, 2026.**

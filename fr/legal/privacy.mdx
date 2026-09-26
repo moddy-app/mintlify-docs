@@ -8,7 +8,7 @@ icon: "lock"
 La présente Politique de confidentialité décrit les pratiques de Moddy concernant la collecte, l'utilisation, le stockage et la protection des données personnelles, conformément au Règlement général sur la protection des données (RGPD) et aux lois applicables en matière de protection des données.
 
 <Info>
-  **Dernière mise à jour : 29 décembre 2025.**
+  **Dernière mise à jour : 26 septembre 2026.**
 </Info>
 
 ## Responsable du traitement
@@ -107,7 +107,8 @@ Nous travaillons avec des prestataires tiers pour fournir et améliorer nos serv
 | **Discord** | La plateforme sur laquelle le bot fonctionne (collecte automatique d'identifiants et métadonnées) |
 | **Sentry** | Surveillance des erreurs et des performances (reçoit les journaux d'erreur avec le contexte technique) |
 | **Stripe** | Traitement des paiements, gestion des abonnements |
-| **OpenAI** | Modération automatique par IA, et les outils de texte `/fix`, `/rephrase`, `/summarize` |
+| **OpenAI** | Modération automatique par IA (texte, et images pour la détection d'arnaques), et les outils de texte `/fix`, `/rephrase`, `/summarize` |
+| **Google Cloud Vision** | Détection de contenu explicite (SafeSearch) sur les images, et extraction de texte pour `/ocr` et le menu **Transcrire** sur une image |
 | **DeepL** | La commande `/translate` |
 | **Groq** | Transcription de messages vocaux (reçoit l'audio brut du message transcrit) |
 | **Service de vérification AltGuard** | Vérification anti multi-comptes — voir la [notice dédiée](/modules/altguard-data) |
@@ -120,12 +121,16 @@ Nous travaillons avec des prestataires tiers pour fournir et améliorer nos serv
 <Warning>
   **Les données transmises aux services de traitement de contenu ne sont pas anonymisées.** Cela s'applique à OpenAI, DeepL, Groq et à tout service comparable.
 
-  Les identifiants Discord peuvent être anonymisés ou remplacés par des références opaques lors de la transmission, mais **le contenu que vous soumettez — texte de message, traductions, requêtes et enregistrements vocaux — est transmis tel quel**.
+  Les identifiants Discord peuvent être anonymisés ou remplacés par des références opaques lors de la transmission, mais **le contenu que vous soumettez — texte de message, traductions, requêtes, enregistrements vocaux et images — est transmis tel quel**.
 
   **Certaines données envoyées à l'API OpenAI peuvent être utilisées par OpenAI pour entraîner et améliorer ses modèles**, conformément à leurs conditions d'utilisation.
 
   N'incluez jamais d'informations personnelles, confidentielles ou sensibles dans vos requêtes aux services de traduction, IA, transcription ou traitement de contenu. Cela inclut, sans s'y limiter : mots de passe, informations bancaires, informations médicales, et documents professionnels ou personnels confidentiels.
 </Warning>
+
+## Amélioration partagée de la détection
+
+Le contenu étiqueté par l'équipe Moddy — empreintes d'images, textes de référence, liste de blocage, jeu d'évaluation — alimente des données de détection **partagées entre tous les serveurs utilisant la modération automatique**, afin d'améliorer la précision pour l'ensemble de la communauté Moddy plutôt que serveur par serveur. Ce traitement repose sur notre **intérêt légitime** à améliorer la sécurité et la fiabilité du service (Article 6.1.f RGPD).
 
 ## Durée de conservation des données
 
@@ -136,6 +141,10 @@ Voici les exceptions avec une conservation **plus courte et automatique** :
 - **Enregistrements de tokens divulgués** — le token chiffré est purgé après 24 heures, ou immédiatement une fois invalidé
 - **Précédents de serveur** utilisés par la modération automatique — plafonnés à 500 entrées par serveur, les plus anciennes évincées en premier
 - **Données de vérification AltGuard** — conservées par le service de vérification externe selon son propre calendrier, détaillé dans la [notice de données AltGuard](/modules/altguard-data) (90 jours à 18 mois selon le signal, 3 ans pour la preuve de consentement)
+- **Empreintes d'images (hash)** validées par l'équipe Moddy — conservées indéfiniment, tant qu'elles restent dans la base de détection apprise partagée
+- **Cache du texte extrait par OCR** (Redis) — 30 jours
+- **Cartes de revue et données d'entraînement** (file de revue de l'équipe, textes de référence appris, jeu d'évaluation) — aucune purge automatique n'est fixée à ce jour ; conservées jusqu'à suppression manuelle
+- **Les images elles-mêmes ne sont pas stockées séparément** — elles n'existent que comme pièce jointe de la carte Discord de revue envoyée à l'équipe Moddy, et suivent la durée de vie de cette carte
 
 ## Sécurité et confidentialité des données
 
@@ -179,6 +188,14 @@ Moddy ne collecte **jamais** :
 <Warning>
   **Une exception concernant les adresses IP.** Le bot Moddy ne collecte ni ne stocke d'adresses IP. Cependant, si un serveur que vous rejoignez utilise **AltGuard**, le service de vérification externe traite votre adresse IP dans le cadre du contrôle — jamais en clair, uniquement sous forme d'empreinte non réversible, et uniquement après que vous ayez explicitement consenti sur l'écran de vérification. Le bot ne la reçoit jamais. Voir la [notice de données AltGuard](/modules/altguard-data) pour tous les détails.
 </Warning>
+
+## Décisions entièrement automatisées
+
+Certaines sanctions (avertissement, mute, bannissement) sont décidées et appliquées sans intervention humaine, y compris sur la base d'une image (détection d'arnaque ou de contenu explicite). Conformément à l'**article 22 du RGPD**, vous disposez du droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé produisant des effets à votre égard. Les voies de recours suivantes existent pour toute sanction automatisée :
+
+- **Appel auprès des modérateurs du serveur** concerné, via le bouton d'appel inclus dans la notification de sanction.
+- **Appel auprès de l'équipe Moddy**, via le même mécanisme.
+- **Revue humaine indépendante**, décrite ci-dessus, qui peut lever la sanction de sa propre initiative.
 
 ## Vos droits (RGPD)
 
@@ -240,4 +257,4 @@ Pour toute question ou demande concernant vos données personnelles ou la prése
   En utilisant les services Moddy (bot Discord, site web et services associés), vous reconnaissez avoir lu, compris et accepté les termes de la présente Politique de confidentialité.
 </Note>
 
-**Date d'entrée en vigueur : 29 décembre 2025**
+**Date d'entrée en vigueur : 29 décembre 2025. Dernière révision : 26 septembre 2026.**

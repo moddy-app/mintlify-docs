@@ -11,6 +11,25 @@ Everything new in Moddy, newest first. Moddy is under active development, so thi
   Want to know as things ship? Announcements go out on the [Moddy support server](https://moddy.app/support) as soon as a feature is live.
 </Note>
 
+<Update label="September 26, 2026" description="AutoMod AI · OCR">
+  ## AutoMod AI now looks at images too
+
+  Two new AutoMod features catch what text-only detection never could:
+
+  - **Crypto & fake-giveaway screenshots** — a common raid pattern (a fake celebrity giveaway announcement, a fake "withdrawal successful" screenshot) is now caught even when it comes from a compromised account posting in several channels at once. Moddy reads the text in the image and runs it through the same detection pipeline as an ordinary message.
+  - **Explicit images** — flagged automatically using Google's SafeSearch, independently of any accompanying text. Age-restricted channels are skipped.
+
+  Both features run only in servers that turn them on and respect your existing AutoMod exemptions. Turn them on from `/config` → AutoMod AI.
+
+  ## `/ocr` and Transcribe now read images too
+
+  The new `/ocr` command extracts the text from any image, anywhere — servers, DMs, or as a user-installed command. The **Transcribe** context menu now also works on a message with an image and no audio, posting the extracted text as a public card, just like a voice transcription.
+
+  ## A human always keeps the final say
+
+  Sanctioned or uncertain messages and images can be reviewed by the Moddy team, who label them to improve detection accuracy over time — and lift an automatic sanction they find was wrong, exactly like an accepted appeal.
+</Update>
+
 <Update label="September 23, 2026" description="Member Applications">
   ## Member Applications: review "Apply to Join" from a channel
 
