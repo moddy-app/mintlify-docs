@@ -34,8 +34,12 @@ Les modules sont des fonctionnalités optionnelles que vous pouvez activer serve
 ### Modération et sécurité
 
 <CardGroup cols={2}>
-  <Card title="AutoMod IA" icon="robot" href="/moderation/automod">
-    Détectez et agissez automatiquement sur les messages nuisibles, avec appels et preuves.
+  <Card title="AutoMod" icon="robot" href="/moderation/automod">
+    Détectez et agissez sur les messages, images et profils de membres nuisibles, avec vos propres sanctions, appels et preuves.
+  </Card>
+
+  <Card title="Détecteur IA" icon="shield" href="/modules/ai-detector">
+    Indiquez quand une image publiée a été générée ou modifiée par IA, grâce à ses Content Credentials signés. Activé par défaut.
   </Card>
 
   <Card title="AltGuard" icon="shield-halved" href="/modules/altguard">
@@ -102,20 +106,33 @@ Vous pouvez activer et configurer n'importe quel module en quelques secondes san
   </Step>
 </Steps>
 
+## Gérer un module
+
+Une fois un module configuré, un petit bouton **Gérer** apparaît en bas de son écran d'accueil dans `/config`. Il ouvre un panneau unique, identique pour tous les modules, où vous pouvez :
+
+- **Changer son état.** **Actif** — le module fonctionne normalement. **Pause** — il n'agit plus et ses commandes sont masquées. **Simulation** — réservée à [AutoMod](/moderation/automod) : il observe et annonce ce qu'il ferait, sans rien appliquer.
+- **Supprimer sa configuration.** Après confirmation, tous les réglages du module sont effacés sur votre serveur et le module s'arrête. Possible pour Adaptive Slowmode, AltGuard, Auto Role, Auto-Restore Roles, AutoMod, Inter-Server, Journaux de serveur, Candidatures, Starboard et Transcription vocale.
+
+La mise en pause conserve vos réglages : reprendre se fait en un clic.
+
+<Note>
+  La plupart des modules sont désactivés tant que vous ne les configurez pas. Quelques-uns, comme le [Détecteur IA](/modules/ai-detector), sont **activés par défaut** : ils fonctionnent sur chaque serveur avec des réglages raisonnables jusqu'à ce que vous les mettiez en pause ou les ajustiez.
+</Note>
+
 ## Permissions requises par Moddy
 
-Moddy n'a jamais besoin de la permission **Administrateur**. Chaque module ne demande que ce qu'il utilise réellement, et `/config` le vérifie quand vous ouvrez ce module : s'il manque quelque chose, le panneau le nomme et vous donne un lien de réinvitation qui demande exactement ces permissions.
+Moddy n'a jamais besoin de la permission **Administrateur**. Chaque module ne demande que ce qu'il utilise réellement, et `/config` le vérifie quand vous ouvrez ce module : s'il manque quelque chose, le panneau liste **tout** ce qui manque d'un coup — permissions du serveur et permissions sur les salons choisis — et vous donne un lien de réinvitation qui demande exactement ces permissions.
 
 | Module | Permissions nécessaires à Moddy |
 | --- | --- |
-| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder | Rien de plus que voir et envoyer des messages dans les salons choisis |
+| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder, Détecteur IA | Rien de plus que voir et envoyer des messages dans les salons choisis |
 | Auto Role, Auto-Restore Roles, AltGuard | Gérer les rôles |
 | Candidatures | Expulser des membres |
 | Adaptive Slowmode | Gérer les salons |
 | Tickets | Gérer les salons, Gérer les rôles |
 | Journaux du serveur, Inter-Server | Gérer les webhooks |
 | Bot Customization | Changer le pseudo |
-| AutoMod IA | Gérer les messages, Bannir des membres, Exclure temporairement des membres |
+| AutoMod | Gérer les messages, Bannir des membres, Exclure temporairement des membres, Gérer les pseudos, Joindre des fichiers |
 
 <Note>
   Pour les modules qui attribuent des rôles, le rôle de Moddy doit aussi se trouver **au-dessus** des rôles qu'il gère dans la liste des rôles du serveur — c'est une règle de Discord, pas de Moddy.

@@ -116,9 +116,45 @@ Tire un nombre entier aléatoire.
 
 ---
 
+## `/ocr`
+
+Extrait le texte d'une image — une capture d'écran, la photo d'un document, un mème. Le résultat est publié sous forme de carte, avec le texte complet en fichier joint lorsqu'il est trop long.
+
+<ParamField path="image" type="attachment" required>
+  L'image à lire.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si la réponse n'est visible que par vous. Par défaut, votre réglage de `/preferences`.
+</ParamField>
+
+```text
+/ocr image:<fichier>
+```
+
+Chaque personne dispose d'un petit quota quotidien, et Moddy a une capacité mensuelle de lecture d'images. Si l'un des deux est épuisé, la carte l'indique ainsi que le moment où il revient. Le menu contextuel **Transcribe** fait la même chose sur un message qui contient une image et pas d'audio.
+
+---
+
+## `/ai-check`
+
+Vérifie si une image a été générée ou modifiée par IA, à partir de ses Content Credentials signés. Elle répond toujours, même quand la réponse est « rien de vérifiable ». Consultez le [Détecteur IA](/modules/ai-detector#ai-check) pour les options et le sens des résultats.
+
+```text
+/ai-check image:<fichier>
+/ai-check message:<lien>
+```
+
+---
+
 ## `/preferences`
 
-Ouvre votre panneau de paramètres personnels. C'est ici que vous définissez votre **confidentialité par défaut** (si les réponses aux commandes sont privées sauf indication contraire) et votre **fuseau horaire**, que les rappels utilisent.
+Ouvre votre panneau de paramètres personnels :
+
+- **Confidentialité par défaut** — si les réponses aux commandes sont privées sauf indication contraire
+- **Fuseau horaire** — utilisé par les rappels
+- **Thème Discord** — les icônes de Moddy sont blanches, donc peu visibles sur le thème clair de Discord. Choisissez **Clair** et les messages que Moddy vous envoie utilisent des icônes sombres. Discord ne dit pas aux bots quel thème vous utilisez : c'est un choix manuel.
+- **Langue** — **Automatique** suit votre langue Discord. Choisissez français, anglais, espagnol, portugais ou allemand pour la forcer sur toutes les commandes et tous les panneaux que vous ouvrez. Les messages destinés à tout un serveur, comme les messages de bienvenue ou les journaux, gardent la langue du serveur.
 
 ---
 
