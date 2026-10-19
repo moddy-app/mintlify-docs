@@ -26,8 +26,8 @@ Depuis le panneau de configuration, vous pouvez activer, désactiver et personna
     Définissez jusqu'à 5 messages de bienvenue personnalisés avec des variables comme `{user}`, `{server}` et `{member_count}`.
   </Card>
 
-  <Card title="AutoMod IA" icon="robot">
-    Définissez le salon d'alerte obligatoire, choisissez un niveau de sévérité (1–5) qui ajuste la sensibilité de détection, et excluez les rôles ou salons de confiance. Les sanctions elles-mêmes sont décidées automatiquement — il n'y a pas de liste de règles manuelle à maintenir.
+  <Card title="AutoMod" icon="robot">
+    Définissez le salon d'alertes obligatoire, choisissez un niveau de protection, ce qui est surveillé, la sanction de chaque infraction, ajoutez vos propres infractions et excluez les rôles ou salons de confiance. Démarrez en simulation pour voir d'abord ce qu'il ferait.
   </Card>
 
   <Card title="Notifications sociales" icon="bell">
@@ -42,6 +42,8 @@ Depuis le panneau de configuration, vous pouvez activer, désactiver et personna
     Définissez un salon de vérification et des rôles de barrière pour que les nouveaux arrivants passent par le contrôle de compte alternatif basé sur le consentement de Moddy avant d'obtenir un accès complet.
   </Card>
 </CardGroup>
+
+L'écran de chaque module affiche un fil d'Ariane et un petit bouton **Gérer** qui permet de [le mettre en pause, le reprendre ou supprimer sa configuration](/modules/overview#gérer-un-module).
 
 Le panneau propose aussi un bouton **Configurer avec l'IA**, qui ouvre Brocoli — l'assistant IA du tableau de bord — sur votre serveur, ainsi qu'un lien vers la page de votre serveur sur le tableau de bord.
 
@@ -73,7 +75,7 @@ Cette commande est disponible **globalement** (en MP et dans n'importe quel serv
 
 ## Utiliser le tableau de bord
 
-Bien que `/config` couvre tout en ligne, le [tableau de bord Moddy](https://dashboard.moddy.app) fournit une interface plus riche pour les configurations complexes — particulièrement utile lors de la configuration de plusieurs modules, de la gestion des flux de notifications sociales, ou du réglage fin des règles AutoMod IA.
+Bien que `/config` couvre tout en ligne, le [tableau de bord Moddy](https://dashboard.moddy.app) fournit une interface plus riche pour les configurations complexes — particulièrement utile lors de la configuration de plusieurs modules, de la gestion des flux de notifications sociales, ou du réglage fin des AutoMod.
 
 <Card title="Ouvrir le tableau de bord" icon="arrow-up-right-from-square" href="https://dashboard.moddy.app">
   Connectez-vous avec votre compte Discord sur dashboard.moddy.app pour gérer les paramètres de tous vos serveurs depuis un seul endroit.

@@ -82,7 +82,8 @@
                   "modules/logs",
                   "modules/tickets",
                   "modules/bump-reminder",
-                  "modules/member-applications"
+                  "modules/member-applications",
+                  "modules/ai-detector"
                 ]
               },
               {
@@ -183,7 +184,8 @@
                   "fr/modules/logs",
                   "fr/modules/tickets",
                   "fr/modules/bump-reminder",
-                  "fr/modules/member-applications"
+                  "fr/modules/member-applications",
+                  "fr/modules/ai-detector"
                 ]
               },
               {
@@ -284,7 +286,8 @@
                   "es/modules/logs",
                   "es/modules/tickets",
                   "es/modules/bump-reminder",
-                  "es/modules/member-applications"
+                  "es/modules/member-applications",
+                  "es/modules/ai-detector"
                 ]
               },
               {

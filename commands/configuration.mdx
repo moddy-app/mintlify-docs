@@ -26,8 +26,8 @@ From the configuration panel, you can enable, disable, and fully customize each 
     Set up to 5 custom welcome messages with variables like `{user}`, `{server}`, and `{member_count}`.
   </Card>
 
-  <Card title="AutoMod AI" icon="robot">
-    Set the mandatory alert channel, pick a severity level (1–5) that tunes detection sensitivity, and exempt trusted roles or channels. Sanctions themselves are decided automatically — there's no manual rule list to maintain.
+  <Card title="AutoMod" icon="robot">
+    Set the mandatory alert channel, pick a protection level, choose what is watched, decide the sanction for each infraction, add your own infractions, and exempt trusted roles or channels. Start in simulation to see what it would do first.
   </Card>
 
   <Card title="Social Notifications" icon="bell">
@@ -42,6 +42,8 @@ From the configuration panel, you can enable, disable, and fully customize each 
     Set a verification channel and gate roles so new joiners go through Moddy's consent-based alt-account check before getting full access.
   </Card>
 </CardGroup>
+
+Each module's screen shows a breadcrumb and a small **Manage** button where you can [pause it, resume it, or delete its configuration](/modules/overview#managing-a-module).
 
 The panel also has a **Configure with AI** button, which opens Brocoli — the dashboard's AI assistant — on your server, and a link to your server's page on the dashboard.
 
@@ -73,7 +75,7 @@ This command is available **globally** (in DMs and in any server with Moddy).
 
 ## Using the Dashboard
 
-While `/config` covers everything inline, the [Moddy dashboard](https://dashboard.moddy.app) provides a richer interface for complex setups — especially useful when configuring multiple modules, managing social notification feeds, or fine-tuning AutoMod AI rules.
+While `/config` covers everything inline, the [Moddy dashboard](https://dashboard.moddy.app) provides a richer interface for complex setups — especially useful when configuring multiple modules, managing social notification feeds, or fine-tuning AutoMod.
 
 <Card title="Open the Dashboard" icon="arrow-up-right-from-square" href="https://dashboard.moddy.app">
   Log in with your Discord account at dashboard.moddy.app to manage all your servers' settings from a single place.

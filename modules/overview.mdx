@@ -34,8 +34,12 @@ Modules are optional features you can activate on a per-server basis to extend w
 ### Moderation and safety
 
 <CardGroup cols={2}>
-  <Card title="AutoMod AI" icon="robot" href="/moderation/automod">
-    Detect and act on harmful messages automatically, with appeals and evidence.
+  <Card title="AutoMod" icon="robot" href="/moderation/automod">
+    Detect and act on harmful messages, images and member profiles, with your own sanctions, appeals and evidence.
+  </Card>
+
+  <Card title="AI Detector" icon="shield" href="/modules/ai-detector">
+    Tell when a posted image was generated or edited by AI, using its signed Content Credentials. On by default.
   </Card>
 
   <Card title="AltGuard" icon="shield-halved" href="/modules/altguard">
@@ -102,20 +106,33 @@ You can enable and configure any module in seconds without leaving Discord.
   </Step>
 </Steps>
 
+## Managing a Module
+
+Once a module is configured, a small **Manage** button appears at the bottom of its home screen in `/config`. It opens one panel, the same for every module, where you can:
+
+- **Change its state.** **Active** — the module works normally. **Paused** — it stops acting and its commands are hidden. **Simulation** — available for [AutoMod](/moderation/automod) only: it watches and announces what it would do, without applying anything.
+- **Delete its configuration.** After a confirmation, every setting of the module is erased on your server and the module stops. This is available for Adaptive Slowmode, AltGuard, Auto Role, Auto-Restore Roles, AutoMod, Inter-Server, Server Logs, Member Applications, Starboard and Voice Transcription.
+
+Pausing keeps your settings, so resuming is one click away.
+
+<Note>
+  Most modules are off until you configure them. A few, such as [AI Detector](/modules/ai-detector), are **on by default**: they work in every server with sensible defaults until you pause or adjust them.
+</Note>
+
 ## Permissions Moddy Needs
 
-Moddy never needs the **Administrator** permission. Each module asks only for what it actually uses, and `/config` checks it when you open that module: if something is missing, the panel names it and gives you a re-invite link that requests exactly those permissions.
+Moddy never needs the **Administrator** permission. Each module asks only for what it actually uses, and `/config` checks it when you open that module: if something is missing, the panel lists **everything** that is missing at once — server permissions and permissions on the channels you picked — and gives you a re-invite link that requests exactly those permissions.
 
 | Module | Permissions Moddy needs |
 | --- | --- |
-| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder | Nothing beyond seeing and sending messages in the channels you pick |
+| Welcome, Welcome DM, Starboard, Social Notifications, Voice Transcription, Bump Reminder, AI Detector | Nothing beyond seeing and sending messages in the channels you pick |
 | Auto Role, Auto-Restore Roles, AltGuard | Manage Roles |
 | Member Applications | Kick Members |
 | Adaptive Slowmode | Manage Channels |
 | Tickets | Manage Channels, Manage Roles |
 | Server Logs, Inter-Server | Manage Webhooks |
 | Bot Customization | Change Nickname |
-| AutoMod AI | Manage Messages, Ban Members, Timeout Members |
+| AutoMod | Manage Messages, Ban Members, Timeout Members, Manage Nicknames, Attach Files |
 
 <Note>
   For modules that hand out roles, Moddy's own role must also sit **above** the roles it manages in your server's role list — Discord's rule, not Moddy's.

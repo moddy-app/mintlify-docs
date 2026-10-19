@@ -116,9 +116,45 @@ Selecciona un número entero aleatorio.
 
 ---
 
+## `/ocr`
+
+Extrae el texto de una imagen — una captura de pantalla, la foto de un documento, un meme. El resultado se publica como una tarjeta, con el texto completo como archivo adjunto cuando es demasiado largo.
+
+<ParamField path="image" type="attachment" required>
+  La imagen a leer.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si la respuesta es visible solo para ti. Por defecto, tu ajuste de `/preferences`.
+</ParamField>
+
+```text
+/ocr image:<archivo>
+```
+
+Cada persona tiene una pequeña cuota diaria, y Moddy tiene una capacidad mensual de lectura de imágenes. Si se agota alguna de las dos, la tarjeta lo indica y cuándo vuelve. El menú contextual **Transcribe** hace lo mismo con un mensaje que tiene una imagen y no audio.
+
+---
+
+## `/ai-check`
+
+Comprueba si una imagen fue generada o editada por IA, a partir de sus Content Credentials firmadas. Siempre responde, incluso cuando la respuesta es «nada verificable». Consulta el [Detector de IA](/modules/ai-detector#ai-check) para ver las opciones y el significado de los resultados.
+
+```text
+/ai-check image:<archivo>
+/ai-check message:<enlace>
+```
+
+---
+
 ## `/preferences`
 
-Abre tu panel personal de configuración. Aquí es donde estableces tu **privacidad por defecto** (si las respuestas de comandos son privadas salvo que indiques lo contrario) y tu **zona horaria**, que utilizan los recordatorios.
+Abre tu panel personal de configuración:
+
+- **Privacidad por defecto** — si las respuestas de comandos son privadas salvo que indiques lo contrario
+- **Zona horaria** — la utilizan los recordatorios
+- **Tema de Discord** — los iconos de Moddy son blancos, así que se ven poco en el tema claro de Discord. Elige **Claro** y los mensajes que Moddy te envía usan iconos oscuros. Discord no dice a los bots qué tema usas, así que es una elección manual.
+- **Idioma** — **Automático** sigue tu idioma de Discord. Elige francés, inglés, español, portugués o alemán para forzarlo en todos los comandos y paneles que abras. Los mensajes dirigidos a todo un servidor, como los de bienvenida o los registros, mantienen el idioma del servidor.
 
 ---
 

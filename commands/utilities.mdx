@@ -116,9 +116,45 @@ Picks a random whole number.
 
 ---
 
+## `/ocr`
+
+Extracts the text of an image — a screenshot, a photo of a document, a meme. The result is posted as a card, with the full text attached as a file when it is too long.
+
+<ParamField path="image" type="attachment" required>
+  The image to read.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Whether the reply is visible only to you. Defaults to your `/preferences` setting.
+</ParamField>
+
+```text
+/ocr image:<file>
+```
+
+Each person has a small daily allowance, and Moddy has a monthly capacity for reading images. If either is used up, the card says so and when it comes back. The **Transcribe** right-click menu does the same on a message that holds an image and no audio.
+
+---
+
+## `/ai-check`
+
+Checks whether an image was generated or edited by AI, from its signed Content Credentials. It always answers, even when the answer is "nothing verifiable". See [AI Detector](/modules/ai-detector#ai-check) for the options and what the results mean.
+
+```text
+/ai-check image:<file>
+/ai-check message:<link>
+```
+
+---
+
 ## `/preferences`
 
-Opens your personal settings panel. This is where you set your **default privacy** (whether command replies are private unless you say otherwise) and your **timezone**, which reminders use.
+Opens your personal settings panel:
+
+- **Default privacy** — whether command replies are private unless you say otherwise
+- **Timezone** — used by reminders
+- **Discord theme** — Moddy's icons are white, which are hard to see on Discord's light theme. Choose **Light** and the messages Moddy sends you use dark icons instead. Discord doesn't tell bots which theme you use, so this is a manual choice.
+- **Language** — **Automatic** follows your Discord language. Pick French, English, Spanish, Portuguese or German to force it for every command and panel you open. Messages meant for a whole server, such as welcome messages or logs, keep using the server's own language.
 
 ---
 
