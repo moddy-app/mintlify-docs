@@ -1,152 +1,160 @@
 ---
 title: "Détecteur IA : savoir d'où vient une image"
 sidebarTitle: "Détecteur IA"
-description: "Moddy lit les Content Credentials (C2PA) signés des images publiées sur votre serveur et indique quand l'une a été générée ou modifiée par IA — uniquement quand il peut le prouver. Voici exactement comment ça marche, et où ça s'arrête."
+description: "Moddy lit l'« étiquette d'origine » signée et cachée dans les images publiées sur votre serveur (Content Credentials, ou C2PA) et indique quand l'une a été créée ou modifiée par IA — uniquement quand il peut le prouver. Voici comment ça marche, et où ça s'arrête."
 icon: "shield"
 ---
 
-Le Détecteur IA répond à une seule question : **cette image porte-t-elle une signature vérifiable qui dit d'où elle vient ?** Si oui, Moddy répond sous l'image par une courte carte. Si non, Moddy ne dit rien.
+Le Détecteur IA répond à une question simple : **cette image porte-t-elle une étiquette vérifiable qui dit d'où elle vient ?** Si oui, Moddy répond sous l'image par une courte carte. Si non, Moddy ne dit rien.
 
 Le module est **activé par défaut sur tous les serveurs**. Vous n'avez rien à configurer, et vous pouvez le restreindre ou le mettre en pause quand vous voulez.
 
 <Warning>
-  **Le Détecteur IA n'est pas un « détecteur d'images IA » au sens habituel.** Il n'analyse pas les pixels et ne devine pas. Il lit une signature cryptographique que certains outils ajoutent à leurs images. La plupart des images d'IA n'en portent aucune, et n'importe qui peut la retirer en quelques secondes. **L'absence de réponse ne veut jamais dire « cette image n'est pas de l'IA ».** Lisez [les limites](#les-limites) avant de vous y fier.
+  **Ce n'est pas un « détecteur d'images IA » au sens habituel.** Moddy ne regarde pas l'image et ne devine pas. Il lit seulement une étiquette signée que _certains_ outils ajoutent aux images qu'ils produisent. La plupart des images d'IA n'en ont pas, et n'importe qui peut la retirer en quelques secondes. **Quand Moddy ne dit rien, cela ne veut pas dire « cette image n'est pas de l'IA ».** Lisez [les limites](#les-limites) avant de vous y fier.
 </Warning>
 
 ## Comment ça marche
 
-### Le principe : les Content Credentials (C2PA)
+### Le principe : une étiquette d'origine scellée
 
-**C2PA** (Coalition for Content Provenance and Authenticity) est un standard ouvert pour attacher à un fichier multimédia un enregistrement de son origine, qui rend toute altération détectable. Son nom public est **Content Credentials**. Des entreprises qui fabriquent des appareils photo, des logiciels de retouche et des services d'IA — dont Adobe, Microsoft, Google et OpenAI — font partie de la coalition.
+Pensez à une enveloppe scellée. Si le sceau est intact, personne ne l'a ouverte. S'il est cassé, il s'est passé quelque chose. Mais on peut aussi jeter l'enveloppe et garder la lettre.
 
-Un outil compatible avec le standard, comme un générateur d'images IA ou un appareil photo récent, écrit dans le fichier image un petit bloc de données appelé **manifeste**. Il contient :
+Les **Content Credentials** (le standard qui les définit s'appelle **C2PA**) fonctionnent ainsi. Certains outils — certains générateurs d'images IA, certains appareils photo et téléphones récents, certains logiciels de retouche — collent une petite **étiquette** à l'intérieur du fichier image. Elle indique par exemple :
 
-- **Des assertions** — des déclarations sur l'image : l'action qui l'a créée (par exemple « créée par un modèle d'IA générative » ou « capturée par un appareil photo »), le logiciel ou l'appareil, l'heure, et les modifications ultérieures.
-- **Une empreinte des données de l'image.** Un hachage cryptographique du contenu du fichier est enregistré dans le manifeste. C'est ce qu'on appelle une _liaison forte_ (« hard binding ») : elle lie le manifeste à **cette image précise**.
-- **Une signature numérique**, faite avec la clé privée du signataire et adossée à un certificat qui identifie l'organisation qui a signé (par exemple le fabricant de l'outil d'IA ou de l'appareil photo).
+- **comment l'image a été faite** : « créée par un modèle d'IA » ou « prise par un appareil photo »
+- **avec quoi et quand** : l'outil ou l'appareil, et l'heure
+- **ce qui s'est passé depuis** : les modifications, dans l'ordre
+- **qui se porte garant** : l'organisation qui a signé l'étiquette
 
-Si quelqu'un modifie les pixels après la signature, l'empreinte ne correspond plus et le manifeste cesse d'être valide. Si quelqu'un altère les déclarations, la signature ne correspond plus. C'est ce que veut dire **tamper-evident** : une altération peut être détectée. Cela ne veut pas dire qu'une altération est _impossible_ — voir les limites plus bas.
+L'étiquette est **scellée à l'image exacte**. Si quelqu'un modifie l'image ensuite, le sceau ne correspond plus et l'étiquette cesse d'être valide. Si quelqu'un change ce que dit l'étiquette, la signature casse aussi. C'est le côté « inviolable apparent » : une altération se remarque.
 
-Quand un éditeur compatible C2PA modifie une image signée, il ajoute un nouveau manifeste par-dessus l'ancien. On obtient un **historique signé** : le point de départ de l'image, puis chaque modification, de la plus ancienne à la plus récente.
+Ce que le sceau ne peut pas empêcher, c'est qu'on **retire l'étiquette entière**. Nous y revenons dans [les limites](#les-limites).
+
+<Accordion title="Détails techniques">
+  Un _manifeste_ C2PA est stocké dans le fichier. Il contient des _assertions_ (déclarations sur l'image), une _claim_ qui les référence, et une _signature de claim_ faite avec la clé privée du signataire et un certificat X.509. Le manifeste contient une _liaison forte_ (« hard binding ») : des hachages cryptographiques des données de l'image, si bien que toute modification des pixels est détectée. Quand un éditeur compatible C2PA modifie une image signée, il ajoute un nouveau manifeste au-dessus du précédent, ce qui construit un historique signé.
+
+  Le standard définit trois niveaux : _well-formed_, _valid_ (non modifié depuis la signature, signature correcte) et _trusted_ (valide **et** certificat de signature rattaché à une liste de confiance acceptée par le validateur). Moddy n'agit que sur les manifestes **trusted**. Voir la [spécification](https://spec.c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html), sections 14.3 et 15.
+</Accordion>
 
 ### Ce que Moddy fait d'une image
 
 <Steps>
   <Step title="Il choisit les images à vérifier">
-    Uniquement les fichiers **PNG, JPEG et WebP** joints à un message d'un **membre** (pas d'un bot), 4 au maximum par message et 25 Mo chacun. Les salons que vous ignorez, et leurs fils, sont passés.
+    Uniquement les fichiers **PNG, JPEG et WebP** joints à un message d'un **membre** (pas d'un bot) : 4 au maximum par message, 25 Mo chacun. Les salons que vous ignorez, et leurs fils, sont passés.
   </Step>
-  <Step title="Il télécharge le fichier d'origine">
-    Moddy lit la pièce jointe telle que le membre l'a envoyée, jamais l'aperçu redimensionné de Discord, qui aurait perdu le manifeste.
+  <Step title="Il lit le fichier d'origine">
+    Moddy utilise la pièce jointe exactement comme le membre l'a envoyée — jamais l'aperçu redimensionné de Discord, qui aurait perdu l'étiquette.
   </Step>
-  <Step title="Il cherche un manifeste">
-    Un balayage rapide à la recherche du marqueur C2PA. Pas de marqueur, pas de signature : la vérification s'arrête là et Moddy reste silencieux.
+  <Step title="Il cherche une étiquette">
+    Pas d'étiquette, rien à vérifier. Moddy s'arrête là et reste silencieux.
   </Step>
-  <Step title="Il vérifie la signature">
-    Moddy contrôle que les données de l'image correspondent toujours à l'empreinte du manifeste, que la signature est valide, et que le certificat de signature **remonte jusqu'à la [liste de confiance officielle de la C2PA](https://github.com/c2pa-org/conformance-public/tree/main/trust-list)**. Moddy tient cette liste à jour automatiquement (elle est rafraîchie au moins une fois par jour).
+  <Step title="Il vérifie que l'étiquette est authentique">
+    Moddy contrôle que l'image correspond toujours à son sceau, que la signature est correcte, et que le signataire figure sur la **liste officielle des signataires reconnus** publiée par la C2PA. Moddy tient cette liste à jour tout seul, au moins une fois par jour.
   </Step>
-  <Step title="Il ne garde que les résultats `Trusted`">
-    Une signature valide mais faite par une organisation absente de la liste de confiance, un fichier altéré ou un manifeste cassé n'entraînent **aucune réponse**.
-  </Step>
-  <Step title="Il lit ce que le signataire a déclaré">
-    Moddy parcourt l'historique signé et classe l'image d'après le « type de source » déclaré par le signataire : créée par un modèle d'IA générative, partiellement générée, capturée par un appareil photo, retouchée, etc.
-  </Step>
-  <Step title="Il répond — ou pas">
-    Si le résultat fait partie de ceux que vous avez choisi d'annoncer, Moddy répond sous le message, sans mentionner personne, dans la langue de votre serveur.
+  <Step title="Il lit ce que le signataire a déclaré, puis répond">
+    Si tout est bon, Moddy lit l'historique de l'étiquette, choisit la carte correspondante et répond sous le message, sans mentionner personne, dans la langue de votre serveur — à condition que vous ayez choisi d'annoncer ce type de résultat.
   </Step>
 </Steps>
 
-Le fichier venant d'un inconnu, sa lecture est faite avec prudence : Moddy ne le laisse jamais lui faire contacter une adresse, et les données personnelles du manifeste ne sont jamais recopiées (voir [Confidentialité](#confidentialité)).
+Le fichier venant d'un inconnu, Moddy le lit avec prudence : il ne peut jamais lui faire contacter une adresse, et les données personnelles de l'étiquette ne sont jamais recopiées (voir [Confidentialité](#confidentialité)).
 
-### Un second signal, plus faible : les paramètres de génération dans les PNG
+<Accordion title="Détails techniques">
+  Moddy télécharge `attachment.url` et exécute le lecteur C2PA natif (c2pa-python) hors du thread principal. Un balayage rapide du marqueur C2PA évite d'analyser les fichiers qui n'en ont pas. Le certificat de signature doit remonter à la [liste de confiance C2PA](https://github.com/c2pa-org/conformance-public/blob/main/trust-list/C2PA-TRUST-LIST.pem) officielle, avec l'un des quatre usages de signature acceptés (`c2pa-kp-claimSigning`, `id-kp-documentSigning`, `id-kp-emailProtection`, `id-kp-timeStamping`). L'accès réseau est coupé pendant la lecture : pas de manifeste distant, pas d'OCSP.
+</Accordion>
 
-Certains outils locaux, notamment **Stable Diffusion** et **ComfyUI**, écrivent les réglages de génération en clair dans le PNG. Ils ne sont **pas signés**. Quand Moddy les trouve, il publie une carte plus prudente — « probablement générée » — qui nomme l'outil et précise qu'il s'agit d'un indice, pas d'une preuve. Le prompt lui-même n'est jamais affiché.
+### Un second indice, plus faible : les réglages de génération dans les PNG
+
+Certains programmes qui tournent sur votre propre ordinateur — notamment **Stable Diffusion** et **ComfyUI** — écrivent leurs réglages de génération en clair dans le PNG. Ce texte **n'est pas signé**. Quand Moddy le trouve, il publie une carte plus prudente — « probablement générée » — qui nomme le programme et précise qu'il s'agit d'un indice, pas d'une preuve. Le prompt lui-même n'est jamais affiché.
 
 ## Ce que signifient les résultats
 
-| Résultat | Ce que ça veut dire | Ce que ça ne veut **pas** dire |
+| Résultat | Ce que ça vous apprend | Ce que ça ne vous apprend **pas** |
 | --- | --- | --- |
-| **Contenu généré par intelligence artificielle** | Une signature de confiance indique que l'image a été entièrement créée par un outil d'IA. | Elle ne dit pas _qui_ l'a demandée, ni que l'image montre quelque chose de faux. |
-| **Contenu partiellement généré par intelligence artificielle** | L'historique signé montre qu'un outil d'IA générative a modifié l'image. | Elle ne dit pas _quelle partie_ a changé. |
-| **Photographie authentifiée** | Un appareil photo ou un téléphone signataire de confiance indique avoir capturé l'image, et l'historique ne montre aucune IA générative. | Elle ne certifie pas que la **scène** est réelle : un appareil peut photographier un écran ou une mise en scène. |
-| **Photographie authentifiée et retouchée** | Idem, avec des retouches ordinaires (recadrage, couleurs, redimensionnement…) listées sur la carte. | Elle ne dit pas que les retouches sont anodines. |
-| **Contenu probablement généré par intelligence artificielle** | Un PNG _non signé_ contient des paramètres Stable Diffusion ou ComfyUI. | Ce n'est pas une preuve : n'importe qui peut ajouter ces paramètres à une vraie image, ou les retirer. |
+| **Contenu généré par intelligence artificielle** | Le signataire dit que cette image a été entièrement faite par un outil d'IA. | Qui l'a demandée, ni si elle montre quelque chose de faux. |
+| **Contenu partiellement généré par intelligence artificielle** | L'historique de l'étiquette montre qu'un outil d'IA générative a modifié l'image. | Quelle partie a été changée. |
+| **Photographie authentifiée** | Un appareil photo ou un téléphone reconnu dit avoir pris l'image, et rien n'indique l'usage d'une IA. | Que la **scène** est réelle : un appareil peut photographier un écran ou une mise en scène. |
+| **Photographie authentifiée et retouchée** | Idem, avec des retouches ordinaires (recadrage, couleurs, taille…) listées sur la carte. | Que les retouches sont anodines. |
+| **Contenu probablement généré par intelligence artificielle** | Un PNG _non signé_ contient des réglages Stable Diffusion ou ComfyUI. | Une preuve : n'importe qui peut ajouter ces réglages à une vraie image, ou les retirer. |
 
 Quand un message contient plusieurs images, Moddy annonce le résultat le plus significatif.
 
-Chaque carte a un bouton **Plus d'informations**. Tout le monde peut l'utiliser pour obtenir un panneau privé, dans sa propre langue, avec les détails de la signature (qui a signé, algorithme, heure, outil, appareil), l'historique signé, le fonctionnement de la vérification, le degré de confiance à accorder au résultat, et pourquoi l'absence de résultat ne prouve rien. Il continue de fonctionner après un redémarrage de Moddy ; si l'image a été supprimée entre-temps, le panneau l'indique.
+Chaque carte a un bouton **Plus d'informations**. Tout le monde peut l'utiliser pour obtenir un panneau privé, dans sa propre langue, avec qui a signé, quand, avec quel outil ou appareil, l'historique des modifications, le fonctionnement de la vérification, le degré de confiance à lui accorder, et pourquoi l'absence de résultat ne prouve rien. Il continue de fonctionner après un redémarrage de Moddy ; si l'image a été supprimée entre-temps, le panneau l'indique.
 
 ## Les limites
 
 C'est la partie la plus importante de cette page. Lisez-la avant d'agir sur ce que Moddy dit — ou ne dit pas.
 
-### 1. L'absence de résultat ne prouve rien
+Le standard lui-même est franc là-dessus. Ses propres recommandations préviennent que ces étiquettes « peuvent être régulièrement supprimées ou corrompues par des plateformes anciennes ou non compatibles C2PA », et que certaines déclarations ne reposent sur « aucune preuve séparée, seulement la parole du signataire » (citations traduites de l'anglais).
 
-C'est la limite qui compte le plus. Moddy ne peut parler que des images qui **portent une signature de confiance**, et la plupart n'en ont pas :
+### 1. L'absence de réponse ne prouve rien
 
-- **Beaucoup d'outils d'IA ne signent pas du tout leurs images**, surtout les modèles open source utilisés sur l'ordinateur de quelqu'un. D'autres ne signent que certains de leurs produits.
-- Même quand un outil signe, la signature **ne survit pas** à la plupart de ce qui arrive ensuite à une image (point suivant).
+C'est la limite qui compte le plus. Moddy ne peut parler que des images qui portent une **étiquette reconnue et valide**, et la plupart n'en ont pas :
 
-« Moddy n'a rien dit » signifie donc _« aucune information vérifiable »_ — jamais _« pas de l'IA »_. Cela vaut aussi pour les vraies photos : la plupart ne sont pas signées non plus.
+- **Beaucoup d'outils d'IA n'étiquettent pas du tout leurs images**, surtout les programmes qui tournent sur l'ordinateur de quelqu'un. D'autres n'étiquettent que certains de leurs produits.
+- Même quand un outil étiquette ses images, l'étiquette **ne survit pas** à la plupart de ce qui arrive ensuite à une image (point suivant).
 
-### 2. Une signature se retire facilement
+« Moddy n'a rien dit » signifie donc _« aucune information vérifiable »_ — jamais _« pas de l'IA »_. C'est pareil pour les vraies photos : la plupart ne sont pas étiquetées non plus.
 
-Un manifeste C2PA est un bloc de données stocké dans le fichier, à côté des pixels. Tout ce qui réécrit le fichier sans comprendre C2PA le supprime :
+### 2. L'étiquette se retire facilement
+
+L'étiquette est un bloc de données stocké dans le fichier, à côté de l'image. Tout ce qui réécrit le fichier sans la comprendre la jette :
 
 - faire une **capture d'écran**, ou réenregistrer, convertir, exporter l'image
-- la modifier dans un logiciel qui ne gère pas les Content Credentials
-- les messageries et de nombreux réseaux sociaux, qui **réencodent** les images à l'envoi
+- la modifier dans un programme qui ne gère pas les Content Credentials
+- les messageries et de nombreux réseaux sociaux, qui **recompressent** les images à l'envoi
 
-Et rien n'empêche quelqu'un de le faire **exprès**. Une personne qui veut faire passer une image d'IA pour autre chose n'a qu'à en faire une capture d'écran : Moddy verra une image non signée et restera silencieux. C2PA est conçu pour prouver qu'une image est authentique _quand son propriétaire veut le montrer_, pas pour attraper ceux qui le cachent.
+Et rien n'empêche quelqu'un de le faire **exprès**. Qui veut faire passer une image d'IA pour autre chose n'a qu'à en faire une capture d'écran : Moddy verra une image sans étiquette et ne dira rien. Les Content Credentials sont conçus pour permettre à des créateurs honnêtes de _prouver_ l'origine de leur travail, pas pour attraper ceux qui la cachent.
 
-Rien n'a été vérifié pour savoir si les Content Credentials survivent à chaque manière d'envoyer un fichier sur Discord (ordinateur, mobile, renvois). Moddy lit la pièce jointe d'origine, ce qui est le mieux que Discord propose.
+Nous n'avons pas pu confirmer que chaque manière d'envoyer un fichier sur Discord (ordinateur, téléphone, renvois) conserve l'étiquette. Moddy lit la pièce jointe d'origine, ce qui est le mieux que Discord propose.
 
-### 3. Une signature prouve ce que le signataire a _déclaré_, pas la vérité
+### 3. Une étiquette montre ce que le fabricant a _déclaré_, pas ce qui est vrai
 
-Une signature valide ne peut pas être falsifiée sans la clé secrète du signataire. Mais elle dit seulement **ce que l'outil signataire affirme de lui-même** :
+Une signature valide ne peut pas être falsifiée sans la clé secrète du signataire. Mais elle dit seulement **ce que l'outil affirme de lui-même** :
 
-- Une photo signée dit « cet appareil a capturé ces pixels ». Elle ne dit pas ce que les pixels _montrent_. Un appareil peut valablement signer la photo d'un écran qui affiche une fausse image.
-- Un outil peut signer sans être précis. Si le signataire ne dit pas si l'image est générée ou capturée, Moddy ne peut pas la classer et reste silencieux.
-- Une signature identifie une **organisation**, pas la personne qui a fabriqué l'image.
+- Une photo signée dit « cet appareil a capturé ces pixels ». Elle ne dit rien sur ce que les pixels _montrent_. Un appareil peut valablement signer la photo d'un écran qui affiche une fausse image.
+- Un outil peut signer sans être précis. S'il ne dit pas si l'image est générée ou capturée, Moddy ne peut pas la classer et reste silencieux.
+- Une signature désigne une **organisation**, pas la personne qui a fabriqué l'image.
 
-### 4. Seuls les signataires de la liste officielle comptent
+### 4. Seuls les signataires reconnus comptent
 
-Moddy ne fait confiance qu'aux certificats qui remontent à la liste de confiance officielle de la C2PA. C'est voulu : n'importe qui peut créer une signature valide avec son propre certificat, et cela ne doit pas compter. La contrepartie :
+N'importe qui peut créer une signature avec un certificat qu'il a fabriqué lui-même : une signature seule ne prouve donc rien. Moddy ne fait confiance qu'aux signataires de la **liste officielle de la C2PA**. Le standard laisse chaque application libre de choisir sa liste ; c'est le choix de Moddy. Conséquences :
 
-- un **nouveau produit légitime** dont le certificat n'est pas encore sur la liste n'obtient aucune réponse tant qu'il n'y est pas ajouté
-- Moddy rafraîchit la liste chaque jour : un ajout ou un retrait très récent peut mettre jusqu'à un jour à s'appliquer
-- Moddy ne contacte volontairement **aucun service de révocation de certificats** en lisant le fichier d'un inconnu. Il s'appuie sur la liste de confiance seule : un certificat révoqué après son inscription sur la liste peut donc rester accepté jusqu'à la mise à jour de la liste.
+- Un **nouveau produit légitime** qui n'est pas encore sur la liste n'obtient aucune réponse tant qu'il n'y est pas ajouté.
+- La C2PA a aussi tenu une ancienne liste « intérimaire » pour les premiers adoptants. Elle est **gelée depuis le 1er janvier 2026** et Moddy ne l'utilise pas : des images signées uniquement via cette ancienne liste n'obtiendront pas de réponse.
+- Moddy rafraîchit la liste officielle chaque jour : un ajout ou un retrait très récent peut mettre jusqu'à un jour à s'appliquer.
+- Moddy ne fait pas de vérification en ligne pour savoir si le certificat d'un signataire a été annulé, car cela reviendrait à contacter des adresses citées dans le fichier d'un inconnu. Le standard lui-même parle d'un processus « au mieux » pour la révocation et rend ces vérifications en direct facultatives. En pratique, un certificat annulé très récemment pourrait rester accepté jusqu'à la mise à jour de la liste.
 
-### 5. Les modifications qui cassent la chaîne
+### 5. Les modifications qui cassent le sceau
 
-Si une image signée est modifiée ensuite par un outil qui ne gère pas C2PA, les nouveaux pixels ne correspondent plus au manifeste : la signature est invalide et Moddy reste silencieux. Moddy n'affiche jamais d'avertissement « altérée » dans un salon — seule `/ai-check` explique que la signature était invalide.
+Si une image étiquetée est modifiée ensuite par un programme qui ne gère pas le standard, la nouvelle image ne correspond plus à son sceau : l'étiquette devient invalide et Moddy ne dit rien. Moddy n'affiche jamais d'avertissement « altérée » dans un salon — seule [`/ai-check`](#ai-check) indique que l'étiquette était invalide.
 
 ### 6. « Probablement IA » est un indice, pas une signature
 
-La carte basée sur les paramètres PNG repose sur du **texte non signé**. Elle ne couvre que les PNG Stable Diffusion et ComfyUI, pas les JPEG ni les WebP. Quelqu'un peut coller ces paramètres dans une vraie image pour la faire passer pour de l'IA, et n'importe qui peut les effacer pour cacher une image générée.
+Cette carte repose sur du **texte non signé**, et uniquement pour les fichiers **PNG** Stable Diffusion et ComfyUI — pas les JPEG ni les WebP. Quelqu'un peut coller ces réglages dans une vraie image pour la faire passer pour de l'IA, et n'importe qui peut les effacer pour cacher une image générée.
 
 ### 7. Ce que Moddy ne fait volontairement pas
 
-- Il **n'analyse pas les pixels** et n'utilise pas de classifieur « IA ou pas ». Ces outils sont peu fiables, et une accusation peu fiable est pire que le silence.
-- Il **ne lit pas les filigranes invisibles ni les empreintes** que certains fournisseurs intègrent à leurs images — seulement le manifeste stocké dans le fichier.
-- Il **ne vérifie pas** les vidéos, GIF, audios, documents, liens, ni les images affichées via un aperçu intégré. Seulement les images en pièce jointe.
+- Il **n'analyse pas l'image** et n'utilise pas d'outil qui « devine » si c'est de l'IA. Ces outils sont peu fiables, et une accusation à tort est pire que le silence.
+- Il **ne lit pas les filigranes invisibles** ni les empreintes que certains fournisseurs intègrent à leurs images — seulement l'étiquette stockée dans le fichier.
+- Il **ne vérifie pas** les vidéos, GIF, audios, documents, liens, ni les images affichées via un aperçu de lien. Seulement les images en pièce jointe.
 - Il **ne sanctionne personne** et n'est pas relié à [AutoMod](/moderation/automod). Une carte est une information, pas un verdict sur le membre qui a publié.
 
 ### En résumé
 
 | Si Moddy dit… | Vous pouvez conclure | Vous ne pouvez pas conclure |
 | --- | --- | --- |
-| « Généré par IA » (signé) | Le signataire déclare que l'image a été faite par une IA. Très fiable. | Rien sur l'intention. |
-| « Photographie authentifiée » | Le signataire déclare qu'un appareil l'a capturée, sans modification par IA. | Que la scène est réelle. |
-| « Probablement IA » | Le fichier contient des réglages de générateur. | Que c'est vraiment de l'IA. |
+| « Généré par IA » | Le signataire déclare que l'image a été faite par une IA. Très fiable. | Rien sur l'intention. |
+| « Photographie authentifiée » | Le signataire déclare qu'un appareil l'a prise, sans IA. | Que la scène est réelle. |
+| « Probablement IA » | Le fichier contient les réglages d'un programme d'IA. | Que c'est vraiment de l'IA. |
 | Rien | Rien. | Que l'image est réelle, ou qu'elle n'est pas de l'IA. |
 
 <Tip>
-  Considérez une carte comme un indice utile, pas un verdict. Si l'enjeu est important — un concours, un litige autour d'une œuvre — demandez le fichier d'origine avec son historique de modifications.
+  Considérez une carte comme un indice utile, pas un verdict. Si l'enjeu est important — un concours, un litige autour d'une œuvre — demandez à l'auteur le fichier d'origine et son historique de modifications.
 </Tip>
 
 ## Confidentialité
 
-Seule une courte liste de champs est affichée : l'organisation signataire, l'algorithme et l'heure de signature, le générateur, la marque et le modèle de l'appareil, ainsi que les noms, dates et types des actions de modification. **La position GPS, le nom de l'auteur, les informations d'identité, les numéros de série et le nom du certificat ne sortent jamais du fichier.** Pour les métadonnées PNG, le prompt n'est jamais affiché — seulement le générateur et ses réglages techniques.
+Seule une courte liste d'informations est affichée : qui a signé, l'heure, l'outil, la marque et le modèle de l'appareil, et le type et la date de chaque modification. **La position GPS, le nom de l'auteur, les informations d'identité, les numéros de série et le nom du certificat ne sortent jamais du fichier.** Pour les réglages PNG, le prompt n'est jamais affiché — seulement le programme et ses réglages techniques.
 
 ## Configurer le Détecteur IA
 
@@ -154,13 +162,13 @@ Ouvrez `/config` et sélectionnez **Détecteur IA**.
 
 | Réglage | Ce qu'il contrôle | Par défaut |
 | --- | --- | --- |
-| **Résultats annoncés** | Les types de résultats que Moddy publie : images générées par IA, images retouchées par IA, photos authentifiées, métadonnées de génération. Décochez un type et Moddy reste silencieux pour celui-ci. | Les quatre |
+| **Résultats annoncés** | Les types de résultats que Moddy publie : images générées par IA, images retouchées par IA, photos authentifiées, réglages de génération. Décochez un type et Moddy reste silencieux pour celui-ci. | Les quatre |
 | **Salons ignorés** | Salons (et leurs fils) dans lesquels Moddy ne répond jamais. 25 au maximum. | Aucun |
 
 Cliquez sur **Enregistrer** pour appliquer vos modifications. Pour désactiver complètement le module, appuyez sur **Gérer** et passez-le en **Pause**.
 
 <Tip>
-  Si vous préférez que Moddy ne s'exprime que sur l'IA, décochez **Photos authentifiées** — pratique sur un serveur de photographie où presque toutes les images sont signées.
+  Si vous préférez que Moddy ne s'exprime que sur l'IA, décochez **Photos authentifiées** — pratique sur un serveur de photographie où presque toutes les images sont étiquetées.
 </Tip>
 
 ## `/ai-check`
@@ -184,10 +192,10 @@ Un doute sur une image que Moddy n'a pas commentée ? Vérifiez-la vous-même.
   Si la réponse n'est visible que par vous. Par défaut, votre réglage de `/preferences`.
 </ParamField>
 
-Contrairement aux réponses automatiques, `/ai-check` **répond toujours** : soit le résultat et ses détails, soit « Aucune information vérifiable » avec la raison — pas de signature, signature non fiable ou invalide, fichier non pris en charge. Elle fonctionne dans les serveurs, en MP et comme commande installée par l'utilisateur.
+Contrairement aux réponses automatiques, `/ai-check` **répond toujours** : soit le résultat et ses détails, soit « Aucune information vérifiable » avec la raison — pas d'étiquette, étiquette non reconnue ou invalide, fichier non pris en charge. Elle fonctionne dans les serveurs, en MP et comme commande installée par l'utilisateur.
 
 <Note>
-  Si vous envoyez l'image directement à `/ai-check`, prenez bien le fichier d'origine. Une capture d'écran ou une copie passée par une messagerie a presque sûrement perdu sa signature.
+  Si vous envoyez une image directement à `/ai-check`, prenez le fichier d'origine. Une capture d'écran, ou une copie passée par une messagerie, a presque sûrement perdu son étiquette.
 </Note>
 
 ## Permissions nécessaires à Moddy
@@ -196,6 +204,6 @@ Rien de plus que voir le salon et y envoyer des messages.
 
 ## En savoir plus
 
-- [Spécification technique C2PA](https://spec.c2pa.org) — le standard lui-même
-- [Content Credentials](https://contentcredentials.org) — le nom public du standard, avec un outil pour inspecter n'importe quel fichier
-- [Liste de confiance C2PA](https://github.com/c2pa-org/conformance-public/tree/main/trust-list) — la liste des signataires auxquels Moddy fait confiance
+- [Spécification technique C2PA](https://spec.c2pa.org) et ses [recommandations d'implémentation](https://spec.c2pa.org/specifications/specifications/2.2/guidance/Guidance.html) — le standard lui-même (en anglais)
+- [Listes de confiance C2PA](https://opensource.contentauthenticity.org/docs/conformance/trust-lists) — les listes officielle et intérimaire des signataires reconnus (en anglais)
+- [Content Credentials Verify](https://verify.contentauthenticity.org) — un visualiseur en ligne de la Content Authenticity Initiative
