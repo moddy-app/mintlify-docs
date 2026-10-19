@@ -1,152 +1,160 @@
 ---
 title: "AI Detector: Tell Where an Image Comes From"
 sidebarTitle: "AI Detector"
-description: "Moddy reads the signed Content Credentials (C2PA) of images posted in your server and tells you when one was generated or edited by AI — only when it can prove it. Here is exactly how it works, and where it stops."
+description: "Moddy reads the hidden, signed \"origin label\" (Content Credentials, or C2PA) of images posted in your server and tells you when one was made or edited by AI — only when it can prove it. Here is how it works, and where it stops."
 icon: "shield"
 ---
 
-AI Detector answers one question: **does this image carry a verifiable signature saying where it came from?** When it does, Moddy replies under the image with a short card. When it doesn't, Moddy says nothing.
+AI Detector answers one simple question: **does this image carry a verifiable label saying where it came from?** If it does, Moddy replies under the image with a short card. If it doesn't, Moddy says nothing.
 
 The module is **on by default in every server**. You don't need to set anything up, and you can narrow it down or pause it whenever you like.
 
 <Warning>
-  **AI Detector is not an "AI image detector" in the usual sense.** It does not look at the pixels and it does not guess. It reads a cryptographic signature that some tools attach to their images. Most AI images carry none, and anyone can remove one in seconds. **No reply never means "this image is not AI."** Read [the limits](#the-limits) before relying on it.
+  **This is not an "AI image detector" in the usual sense.** Moddy doesn't look at the picture and doesn't guess. It only reads a signed label that _some_ tools add to the images they make. Most AI images don't have one, and anyone can remove it in seconds. **When Moddy says nothing, it does not mean "this image is not AI."** Please read [the limits](#the-limits) before relying on it.
 </Warning>
 
 ## How It Works
 
-### The idea: Content Credentials (C2PA)
+### The idea: a sealed origin label
 
-**C2PA** (Coalition for Content Provenance and Authenticity) is an open standard for attaching a tamper-evident record of origin to a media file. Its public name is **Content Credentials**. Companies that make cameras, editing software and AI services — including Adobe, Microsoft, Google and OpenAI — are part of the coalition.
+Think of a sealed envelope. If the seal is intact, you know nobody opened it. If it's broken, you know something happened. But you can also just throw the envelope away and keep the letter.
 
-A tool that supports the standard, such as an AI image generator or a recent camera, writes a small block of data called a **manifest** inside the image file. The manifest contains:
+**Content Credentials** (the standard behind them is called **C2PA**) work the same way. Some tools — certain AI image generators, some recent cameras and phones, some editing software — attach a small **label** inside the image file. The label says things like:
 
-- **Assertions** — statements about the image: the action that created it (for example "created by a generative AI model" or "captured by a camera"), the software or device, the time, and any later edits.
-- **A fingerprint of the image data.** A cryptographic hash of the file's content is stored in the manifest. This is called a _hard binding_: it ties the manifest to **this exact image**.
-- **A digital signature**, made with the signer's private key and backed by a certificate that identifies the organisation that signed (for example the maker of the AI tool or the camera).
+- **how the image was made**: "created by an AI model", or "captured by a camera"
+- **with what and when**: the tool or device, and the time
+- **what happened to it since**: edits, in order
+- **who vouches for it**: the organisation that signed the label
 
-If someone changes the pixels after signing, the fingerprint no longer matches and the manifest stops being valid. If someone alters the statements, the signature no longer matches. That's what **tamper-evident** means: tampering can be detected. It doesn't mean tampering is _impossible_ — see the limits below.
+The label is **sealed to the exact picture**. If someone changes the image afterwards, the seal no longer matches and the label stops being valid. If someone alters what the label says, the signature breaks too. That's the "tamper-evident" part: tampering can be spotted.
 
-When a C2PA-aware editor modifies a signed image, it adds a new manifest on top of the old one. The result is a **signed history**: where the image started, then each edit, oldest first.
+What the seal can't do is stop someone from **removing the whole label**. More on that in [the limits](#the-limits).
+
+<Accordion title="Technical details">
+  A C2PA _manifest_ is stored inside the file. It holds _assertions_ (statements about the image), a _claim_ that references them, and a _claim signature_ made with the signer's private key and an X.509 certificate. The manifest contains a _hard binding_: cryptographic hashes of the image data, so any change to the pixels is detected. When a C2PA-aware editor modifies a signed image, it adds a new manifest on top of the previous one, building a signed history.
+
+  The standard defines three levels: _well-formed_, _valid_ (unmodified since signing, signature correct) and _trusted_ (valid **and** the signing certificate traces back to a trust list the validator accepts). Moddy only acts on **trusted** manifests. See the [specification](https://spec.c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html), sections 14.3 and 15.
+</Accordion>
 
 ### What Moddy does with a picture
 
 <Steps>
-  <Step title="It picks the images to check">
-    Only **PNG, JPEG and WebP** files attached to a message from a **member** (not a bot), up to 4 per message and 25 MB each. Channels you ignore, and their threads, are skipped.
+  <Step title="It picks images to check">
+    Only **PNG, JPEG and WebP** files attached to a message from a **member** (not a bot): up to 4 per message and 25 MB each. Channels you ignore, and their threads, are skipped.
   </Step>
-  <Step title="It downloads the original file">
-    Moddy reads the attachment as the member uploaded it, never Discord's resized preview, which would have lost the manifest.
+  <Step title="It reads the original file">
+    Moddy uses the attachment exactly as the member uploaded it — never Discord's resized preview, which would have lost the label.
   </Step>
-  <Step title="It looks for a manifest">
-    A quick scan for the C2PA marker. No marker means no signature: the check ends there and Moddy stays silent.
+  <Step title="It looks for a label">
+    No label means nothing to verify. Moddy stops there and stays silent.
   </Step>
-  <Step title="It verifies the signature">
-    Moddy checks that the image data still matches the fingerprint in the manifest, that the signature is valid, and that the signing certificate **chains back to the official [C2PA trust list](https://github.com/c2pa-org/conformance-public/tree/main/trust-list)**. Moddy keeps that list up to date automatically (it is refreshed at least once a day).
+  <Step title="It checks the label is genuine">
+    Moddy checks that the picture still matches its seal, that the signature is correct, and that the signer is on the **official list of recognised signers** published by the C2PA. Moddy keeps that list up to date on its own, at least once a day.
   </Step>
-  <Step title="It only keeps `Trusted` results">
-    A signature that is valid but made by an organisation that isn't on the trust list, a tampered file, or a broken manifest all produce **no reply**.
-  </Step>
-  <Step title="It reads what the signer declared">
-    Moddy walks the signed history and classifies the image from the "source type" the signer declared: created by a generative AI model, partly generated, captured by a camera, retouched, and so on.
-  </Step>
-  <Step title="It replies — or doesn't">
-    If a result is something you chose to announce, Moddy replies under the message, without pinging anyone, in your server's language.
+  <Step title="It reads what the signer declared and answers">
+    If everything checks out, Moddy reads the label's history, picks the matching card, and replies under the message, without pinging anyone, in your server's language — as long as you've chosen to announce that kind of result.
   </Step>
 </Steps>
 
-Reading a file sent by a stranger is done defensively: Moddy never lets the file make it contact any address, and personal data inside the manifest is never copied out (see [Privacy](#privacy)).
+Since the file comes from a stranger, Moddy reads it defensively: the file can never make Moddy contact any address, and personal data inside the label is never copied out (see [Privacy](#privacy)).
 
-### A second, weaker signal: generation parameters in PNG files
+<Accordion title="Technical details">
+  Moddy downloads `attachment.url` and runs the native C2PA reader (c2pa-python) off the main thread. A fast scan for a C2PA marker avoids parsing files that have none. The signing certificate must chain to the official [C2PA trust list](https://github.com/c2pa-org/conformance-public/blob/main/trust-list/C2PA-TRUST-LIST.pem), with one of four accepted signing purposes (`c2pa-kp-claimSigning`, `id-kp-documentSigning`, `id-kp-emailProtection`, `id-kp-timeStamping`). Network access is switched off while reading: no remote manifests, no OCSP.
+</Accordion>
 
-Some local tools, notably **Stable Diffusion** and **ComfyUI**, write the generation settings as plain text inside the PNG. These are **not signed**. When Moddy finds them, it posts a softer card — "probably generated" — that names the tool and says this is a hint, not proof. The prompt itself is never shown.
+### A second, weaker clue: generation settings inside PNG files
+
+Some programs that run on your own computer — notably **Stable Diffusion** and **ComfyUI** — write their generation settings as plain text inside the PNG. This text is **not signed**. When Moddy finds it, it posts a more cautious card — "probably generated" — that names the program and says it's a hint, not proof. The prompt itself is never shown.
 
 ## What the Results Mean
 
-| Result | What it means | What it does **not** mean |
+| Result | What it tells you | What it does **not** tell you |
 | --- | --- | --- |
-| **Content generated by artificial intelligence** | A trusted signature says the image was created entirely by an AI tool. | It doesn't say _who_ asked for it, or that the picture shows something false. |
-| **Content partially generated by artificial intelligence** | The signed history shows a generative AI tool modified the image. | It doesn't say _which part_ changed. |
-| **Authenticated photograph** | A trusted, signed camera or phone says it captured the image, and the history shows no generative AI. | It doesn't certify that the **scene** is real: a camera can photograph a screen or a staged setup. |
-| **Authenticated and retouched photograph** | Same, with ordinary retouching (crop, colour, resize…) listed on the card. | It doesn't say the retouching is harmless. |
-| **Content probably generated by artificial intelligence** | An _unsigned_ PNG carries Stable Diffusion or ComfyUI parameters. | It isn't proof: anyone can add these parameters to a real image, or remove them. |
+| **Content generated by artificial intelligence** | The signer says this image was made entirely by an AI tool. | Who asked for it, or whether it shows something false. |
+| **Content partially generated by artificial intelligence** | The label's history shows a generative AI tool modified the image. | Which part was changed. |
+| **Authenticated photograph** | A recognised camera or phone says it captured the image, and nothing shows AI was involved. | That the **scene** is real: a camera can photograph a screen or a staged setup. |
+| **Authenticated and retouched photograph** | Same, with ordinary retouching (crop, colours, resize…) listed on the card. | That the retouching is harmless. |
+| **Content probably generated by artificial intelligence** | An _unsigned_ PNG contains Stable Diffusion or ComfyUI settings. | Proof: anyone can add these settings to a real image, or remove them. |
 
-When a message holds several images, Moddy announces the most significant result.
+When a message contains several images, Moddy announces the most significant result.
 
-Every card has a **More information** button. Anyone can press it to get a private panel, in their own language, with the signature details (who signed, algorithm, time, tool, camera), the signed history, how the check works, how far to trust the result, and why a missing result proves nothing. It keeps working after Moddy restarts; if the image has been deleted since, the panel says so.
+Every card has a **More information** button. Anyone can press it to get a private panel, in their own language, with who signed, when, with which tool or camera, the history of edits, how the check works, how far to trust it, and why a missing result proves nothing. It keeps working after Moddy restarts; if the image has been deleted since, the panel says so.
 
 ## The Limits
 
-This is the most important part of this page. Please read it before you act on what Moddy says — or doesn't say.
+This is the most important part of this page. Please read it before acting on what Moddy says — or doesn't say.
 
-### 1. No result proves nothing
+The standard itself is upfront about this. Its own guidance warns that these labels "may be routinely removed or corrupted by legacy or non-C2PA capable platforms," and that some statements carry "no separate proof, only the Signer's good word."
 
-This is the limit that matters most. Moddy can only speak about images that **carry a trusted signature**, and most don't:
+### 1. No reply proves nothing
 
-- **Many AI image tools don't sign their output at all**, especially open-source models run on someone's own computer. Others only sign some of their products.
-- Even when a tool signs, the signature **doesn't survive** most of what happens to a picture afterwards (next point).
+This is the limit that matters most. Moddy can only speak about images that carry a **recognised, valid label**, and most images don't:
 
-So "Moddy said nothing" means _"no verifiable information"_ — never _"not AI"_. This applies equally to authentic photos: most real photos aren't signed either.
+- **Many AI image tools don't label their output at all**, especially programs run on someone's own computer. Others only label some of their products.
+- Even when a tool does label its images, the label **doesn't survive** most of what happens to a picture afterwards (next point).
 
-### 2. A signature is easy to remove
+So "Moddy said nothing" means _"no verifiable information"_ — never _"not AI"_. The same goes for real photos: most aren't labelled either.
 
-A C2PA manifest is a block of data stored in the file, next to the pixels. Anything that rewrites the file without understanding C2PA drops it:
+### 2. The label is easy to remove
 
-- taking a **screenshot**, or re-saving, converting, or exporting the image
-- editing it in software that doesn't support Content Credentials
-- messaging apps and many social networks, which **re-encode** pictures on upload
+The label is a block of data stored in the file, next to the picture. Anything that rewrites the file without understanding it throws the label away:
 
-And nothing stops someone from doing this **on purpose**. A person who wants to pass off an AI image only has to take a screenshot of it, and Moddy will see an unsigned image and stay silent. C2PA is built to prove that an image is genuine _when its owner wants to show it_, not to catch people who hide it.
+- taking a **screenshot**, or re-saving, converting or exporting the image
+- editing it in a program that doesn't support Content Credentials
+- messaging apps and many social networks, which **re-compress** pictures when you upload them
 
-Whether Content Credentials survive every way of uploading a file to Discord (desktop, mobile, re-uploads) hasn't been verified for every case. Moddy reads the original attachment, which is the best Discord offers.
+And nothing stops someone from doing it **on purpose**. Anyone who wants to pass off an AI image only has to screenshot it: Moddy will see an unlabelled image and say nothing. Content Credentials are designed to let honest creators _prove_ where their work comes from, not to catch people who hide it.
 
-### 3. A signature proves what the signer _declared_, not the truth
+We haven't been able to confirm that every way of sending a file on Discord (computer, phone, re-uploads) keeps the label intact. Moddy reads the original attachment, which is the best Discord offers.
 
-A valid signature can't be forged without the signer's secret key. But it only tells you **what the signing tool said about itself**:
+### 3. A label shows what the maker _declared_, not what is true
 
-- A signed photo says "this camera captured these pixels." It doesn't say what the pixels _show_. A camera can validly sign a photograph of a screen displaying a fake image.
-- A tool can sign without being specific. If the signer doesn't say whether the image is generated or captured, Moddy can't classify it and stays silent.
-- A signature identifies an **organisation**, not the person who made the image.
+A valid signature can't be forged without the signer's secret key. But it only tells you **what the tool says about itself**:
 
-### 4. Only signers on the official list count
+- A signed photo says "this camera captured these pixels." It says nothing about what the pixels _show_. A camera can validly sign a photo of a screen displaying a fake image.
+- A tool can sign without being specific. If it doesn't say whether the image was generated or captured, Moddy can't classify it and stays silent.
+- A signature names an **organisation**, not the person who made the image.
 
-Moddy trusts only certificates that chain to the official C2PA trust list. This is deliberate: anyone can create a valid signature with their own certificate, and that shouldn't count. The flip side is that:
+### 4. Only recognised signers count
 
-- a **legitimate new product** whose certificate isn't on the list yet gets no reply until it is added
-- Moddy refreshes the list daily, so a very recent addition or removal can take up to a day to apply
-- Moddy deliberately does **not** contact any certificate revocation service while reading a file from a stranger. It relies on the trust list alone, so a certificate revoked after it was listed may still be accepted until the list is updated.
+Anyone can create a signature with a certificate they made themselves, so a signature alone proves nothing. Moddy therefore trusts only signers from the **official C2PA list**. The standard leaves each app free to choose its own list; this is Moddy's choice. The consequences:
 
-### 5. Edits that break the chain
+- A **legitimate new product** that isn't on the list yet gets no reply until it is added.
+- The C2PA also kept an older, "interim" list for early adopters. It has been **frozen since January 1, 2026**, and Moddy does not use it, so images signed only through that older list won't get a reply.
+- Moddy refreshes the official list daily, so a very recent addition or removal can take up to a day to apply.
+- Moddy does not make live online checks to see whether a signer's certificate has been cancelled, because that would mean contacting addresses named inside a stranger's file. The standard itself calls revocation a "best-effort" process and makes live checks optional. In practice, a certificate cancelled very recently could still be accepted until the list is updated.
 
-If a signed image is modified afterwards by a tool that doesn't support C2PA, the new pixels no longer match the manifest: the signature is invalid and Moddy stays silent. Moddy never shows a "tampered" warning in a channel — only `/ai-check` explains that the signature was invalid.
+### 5. Edits that break the seal
+
+If a labelled image is later modified by a program that doesn't support the standard, the new picture no longer matches its seal: the label becomes invalid and Moddy says nothing. Moddy never shows a "tampered" warning in a channel — only [`/ai-check`](#ai-check) tells you the label was invalid.
 
 ### 6. "Probably AI" is a hint, not a signature
 
-The PNG-parameters card is based on **unsigned text**. It only covers Stable Diffusion and ComfyUI PNG files, not JPEG or WebP. Someone can paste those parameters into a real image to fake it, and anyone can strip them to hide a generated one.
+This card relies on **unsigned text**, and only for Stable Diffusion and ComfyUI **PNG** files — not JPEG or WebP. Someone can paste those settings into a real image to make it look like AI, and anyone can delete them to hide a generated one.
 
 ### 7. What Moddy deliberately does not do
 
-- It does **not analyse the pixels** or use an "AI-or-not" classifier. Those are unreliable, and an unreliable accusation is worse than silence.
-- It does **not read invisible watermarks or fingerprints** that some providers embed in their images — only the manifest stored in the file.
-- It does **not check** videos, GIFs, audio, documents, links, or images shown through an embed. Only image attachments.
-- It does **not sanction anyone** and it isn't connected to [AutoMod](/moderation/automod). A card is information, not a verdict on the member who posted it.
+- It **doesn't analyse the pixels** or use an "AI or not?" guessing tool. Those are unreliable, and a wrong accusation is worse than silence.
+- It **doesn't read invisible watermarks** or fingerprints that some providers build into their images — only the label stored in the file.
+- It **doesn't check** videos, GIFs, audio, documents, links, or images shown through a link preview. Only image attachments.
+- It **doesn't sanction anyone** and isn't connected to [AutoMod](/moderation/automod). A card is information, not a verdict on the member who posted.
 
 ### In short
 
 | If Moddy says… | You can conclude | You can't conclude |
 | --- | --- | --- |
-| "Generated by AI" (signed) | The signer declares this image was made by AI. Very reliable. | Anything about intent. |
-| "Authenticated photograph" | The signer declares a camera captured it, unmodified by AI. | That the scene is real. |
-| "Probably AI" | The file contains generator settings. | That it really is AI. |
+| "Generated by AI" | The signer declares this image was made by an AI. Very reliable. | Anything about intent. |
+| "Authenticated photograph" | The signer declares a camera captured it, with no AI involved. | That the scene is real. |
+| "Probably AI" | The file contains an AI program's settings. | That it really is AI. |
 | Nothing | Nothing. | That the image is real, or that it isn't AI. |
 
 <Tip>
-  Treat a card as one useful clue, not a verdict. If it matters — a contest entry, a dispute over an artwork — ask for the original file with its editing history.
+  Treat a card as one useful clue, not a verdict. If it really matters — a contest entry, a dispute over an artwork — ask the author for the original file and their editing history.
 </Tip>
 
 ## Privacy
 
-Only a short list of fields is ever shown: the signing organisation, the signature algorithm and time, the generator, the camera make and model, and the names, dates and types of editing actions. **GPS position, the author's name, identity information, serial numbers and the certificate name never leave the file.** For PNG metadata, the prompt is never shown — only the generator and its technical settings.
+Only a short list of details is ever shown: who signed, the time, the tool, the camera make and model, and the type and date of each edit. **GPS position, the author's name, identity information, serial numbers and the certificate name never leave the file.** For PNG settings, the prompt is never shown — only the program and its technical settings.
 
 ## Configuring AI Detector
 
@@ -154,13 +162,13 @@ Open `/config` and select **AI Detector**.
 
 | Setting | What it controls | Default |
 | --- | --- | --- |
-| **Announced results** | Which kinds of results Moddy posts: AI-generated images, AI-edited images, authenticated photos, generation metadata. Untick a kind and Moddy stays silent for it. | All four |
+| **Announced results** | Which kinds of results Moddy posts: AI-generated images, AI-edited images, authenticated photos, generation settings. Untick a kind and Moddy stays silent for it. | All four |
 | **Ignored channels** | Channels (and their threads) where Moddy never answers. Up to 25. | None |
 
 Click **Save** to apply your changes. To switch the module off entirely, press **Manage** and set it to **Paused**.
 
 <Tip>
-  If you'd rather Moddy only speak up about AI, untick **Authenticated photos** — handy in a photography server where nearly every image is signed.
+  If you'd rather Moddy only speak up about AI, untick **Authenticated photos** — handy in a photography server where nearly every image is labelled.
 </Tip>
 
 ## `/ai-check`
@@ -184,10 +192,10 @@ Not sure about an image that Moddy didn't comment on? Check it yourself.
   Whether the reply is visible only to you. Defaults to your `/preferences` setting.
 </ParamField>
 
-Unlike the automatic replies, `/ai-check` **always answers**: either the result and its details, or "No verifiable information" with the reason — no signature, an untrusted or invalid one, an unsupported file. It works in servers, in DMs, and as a user-installed command.
+Unlike the automatic replies, `/ai-check` **always answers**: either the result and its details, or "No verifiable information" with the reason — no label, an unrecognised or invalid one, an unsupported file. It works in servers, in DMs, and as a user-installed command.
 
 <Note>
-  If you upload the picture straight to `/ai-check`, make sure you pick the original file. A screenshot or a copy that went through a messaging app has almost certainly lost its signature.
+  If you upload a picture straight to `/ai-check`, pick the original file. A screenshot, or a copy that went through a messaging app, has almost certainly lost its label.
 </Note>
 
 ## Permissions Moddy Needs
@@ -196,6 +204,6 @@ Nothing beyond seeing the channel and sending messages in it.
 
 ## Learn More
 
-- [C2PA technical specification](https://spec.c2pa.org) — the standard itself
-- [Content Credentials](https://contentcredentials.org) — the public name of the standard, with a tool to inspect any file
-- [C2PA trust list](https://github.com/c2pa-org/conformance-public/tree/main/trust-list) — the list of signers Moddy trusts
+- [C2PA technical specification](https://spec.c2pa.org) and its [implementation guidance](https://spec.c2pa.org/specifications/specifications/2.2/guidance/Guidance.html) — the standard itself
+- [C2PA trust lists](https://opensource.contentauthenticity.org/docs/conformance/trust-lists) — the official and interim lists of recognised signers
+- [Content Credentials Verify](https://verify.contentauthenticity.org) — an online viewer from the Content Authenticity Initiative
