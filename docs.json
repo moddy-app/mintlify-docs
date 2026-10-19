@@ -82,7 +82,8 @@
                   "modules/logs",
                   "modules/tickets",
                   "modules/bump-reminder",
-                  "modules/member-applications"
+                  "modules/member-applications",
+                  "modules/ai-detector"
                 ]
               },
               {
