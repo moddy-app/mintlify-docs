@@ -26,8 +26,8 @@ Desde el panel de configuración, puedes habilitar, deshabilitar y personalizar 
     Configura hasta 5 mensajes de bienvenida personalizados con variables como `{user}`, `{server}` y `{member_count}`.
   </Card>
 
-  <Card title="AutoMod AI" icon="robot">
-    Establece el canal de alertas obligatorio, elige un nivel de severidad (1–5) que ajuste la sensibilidad de detección, y exime roles o canales de confianza. Las sanciones se deciden automáticamente — no hay una lista de reglas manual que mantener.
+  <Card title="AutoMod" icon="robot">
+    Establece el canal de alertas obligatorio, elige un nivel de protección, lo que se vigila, la sanción de cada infracción, añade tus propias infracciones y exime roles o canales de confianza. Empieza en simulación para ver primero lo que haría.
   </Card>
 
   <Card title="Social Notifications" icon="bell">
@@ -42,6 +42,8 @@ Desde el panel de configuración, puedes habilitar, deshabilitar y personalizar 
     Establece un canal de verificación y roles de puerta para que los nuevos miembros pasen por la comprobación de cuentas alternativas basada en consentimiento de Moddy antes de obtener acceso completo.
   </Card>
 </CardGroup>
+
+La pantalla de cada módulo muestra una ruta de navegación y un pequeño botón **Gestionar** que permite [ponerlo en pausa, reanudarlo o eliminar su configuración](/modules/overview#gestionar-un-módulo).
 
 El panel también incluye un botón **Configurar con IA**, que abre Brocoli — el asistente de IA del panel web — en tu servidor, y un enlace a la página de tu servidor en el panel web.
 
@@ -73,7 +75,7 @@ Este comando está disponible **globalmente** (en MD y en cualquier servidor con
 
 ## Uso del panel de control
 
-Si bien `/config` cubre todo en línea, el [panel de control de Moddy](https://dashboard.moddy.app) ofrece una interfaz más rica para configuraciones complejas — especialmente útil al configurar varios módulos, gestionar feeds de notificaciones sociales o afinar las reglas de AutoMod AI.
+Si bien `/config` cubre todo en línea, el [panel de control de Moddy](https://dashboard.moddy.app) ofrece una interfaz más rica para configuraciones complejas — especialmente útil al configurar varios módulos, gestionar feeds de notificaciones sociales o afinar las AutoMod.
 
 <Card title="Abrir el panel de control" icon="arrow-up-right-from-square" href="https://dashboard.moddy.app">
   Inicia sesión con tu cuenta de Discord en dashboard.moddy.app para gestionar la configuración de todos tus servidores desde un único lugar.
