@@ -1,11 +1,27 @@
 ---
-title: "AutoMod AI: Automatic Message Moderation for Discord"
-sidebarTitle: "AutoMod AI"
-description: "Moddy's AI AutoMod detects and acts on harmful messages in real time — automatically warning, muting, or banning members before damage is done."
+title: "AutoMod: Automatic Moderation for Messages, Images and Profiles"
+sidebarTitle: "AutoMod"
+description: "Moddy's AutoMod detects harmful messages, images and member profiles in real time and applies the sanctions you chose — optionally after a moderator's approval."
 icon: "robot"
 ---
 
-Moddy's AutoMod uses artificial intelligence to monitor messages in your server and take action automatically when harmful content is detected. Instead of relying solely on keyword lists, it understands context — catching subtle violations that simple filters miss, and avoiding false positives on legitimate messages.
+Moddy's AutoMod uses artificial intelligence to watch your server and act automatically when something harmful appears. Instead of relying only on keyword lists, it understands context — catching subtle violations that simple filters miss, and avoiding false positives on legitimate messages.
+
+AutoMod watches three things:
+
+<CardGroup cols={3}>
+  <Card title="Messages" icon="message">
+    Insults, threats, harassment, hate, scams and anything you define as an infraction of your own.
+  </Card>
+
+  <Card title="Images" icon="image">
+    Crypto and fake-giveaway screenshots, explicit images, and gore or graphic violence.
+  </Card>
+
+  <Card title="Member profiles" icon="user">
+    Avatars, banners, nicknames, display names and usernames.
+  </Card>
+</CardGroup>
 
 ## How It Works
 
@@ -19,56 +35,152 @@ Every message sent in a channel where AutoMod is active is evaluated through a s
     Common, well-known safe phrases are matched against an allowlist and passed through immediately, keeping detection fast for normal conversation.
   </Step>
   <Step title="Harmful pattern matching">
-    The message is compared against known harmful patterns. Anything that clearly matches a blocked pattern is flagged for action.
+    The message is compared against known harmful patterns and against your own infractions. Anything that clearly matches is flagged.
   </Step>
   <Step title="AI evaluation">
     Messages that make it through the earlier checks are evaluated by an AI model. **The AI model makes the final decision** — it takes action only when it is confident the message is harmful, which minimises false positives.
   </Step>
   <Step title="Action applied">
-    If the AI flags the message, it is deleted immediately. A sanction (warn, mute, or ban) is applied to the member based on the severity of the violation and your server's configured AutoMod settings.
+    If the AI flags the message, the sanction you chose for that kind of infraction is applied — immediately, or after a moderator approves it.
   </Step>
 </Steps>
 
-## Enabling AutoMod
+<Note>
+  AutoMod never acts on the server owner, or on a member whose top role is not below Moddy's own role: Discord would refuse the sanction anyway, and Moddy never announces something it could not do.
+</Note>
 
-You can enable AutoMod from the web dashboard or directly inside Discord using `/config`.
+## Setting Up AutoMod
+
+Run `/config` in your server (or open the [Moddy dashboard](https://dashboard.moddy.app)) and select **AutoMod**. The only required setting is the **alerts channel** — the channel where AutoMod posts a card for each incident. Everything else has a ready-made answer.
+
+The first time, a three-step wizard walks you through it:
 
 <Steps>
-  <Step title="Open server configuration">
-    Run `/config` in your server, or visit the [Moddy dashboard](https://dashboard.moddy.app) and select your server.
+  <Step title="Pick the alerts channel">
+    A text channel where Moddy can post. AutoMod won't run without one.
   </Step>
-  <Step title="Navigate to AutoMod AI">
-    Find the **AutoMod AI** section in the configuration panel.
+  <Step title="Pick a protection level">
+    **Light**, **Balanced** (recommended) or **Strict**. Each is a full set of choices — what is watched, how sensitive detection is, how hard it sanctions — that you can fine-tune afterwards.
   </Step>
-  <Step title="Set the alert channel">
-    Pick a text channel to receive AutoMod's alert cards. This channel is **required** — AutoMod won't run without one set.
-  </Step>
-  <Step title="Toggle AutoMod on">
-    Enable the toggle to activate AutoMod for your server.
-  </Step>
-  <Step title="Adjust severity">
-    Pick a severity level from 1 to 5. This controls how sensitive detection is and how harshly the automatic sanction scale escalates — it's the only manual dial; Moddy decides the specific action (warn, mute, or ban) and duration for each violation on its own.
-  </Step>
-  <Step title="Exempt roles or channels (optional)">
-    Add trusted roles or channels to the exemption lists if you want AutoMod to skip them entirely.
+  <Step title="Start in simulation or go live">
+    **Simulation** is recommended: AutoMod announces what it _would_ do without touching anyone, so you can judge it on real traffic first.
   </Step>
 </Steps>
 
 <Tip>
-  Review the AutoMod logs regularly in the [dashboard](https://dashboard.moddy.app) to see what messages are being caught and flagged. This helps you tune the sensitivity so AutoMod works well for your community's tone and style.
+  In a hurry? Choose **Skip** at any step: Moddy applies the **Balanced** level in **simulation**. Nothing is sanctioned until you switch to real mode from **Manage**.
 </Tip>
 
-## Actions AutoMod Can Take
+Every change you make on the home screen is saved instantly. The sub-screens (what is monitored, sanctions, exemptions, advanced) work with **Save** and **Cancel**: your edits stay pending until you save them.
 
-When AutoMod determines a message is harmful, it deletes the message and applies one of the following sanctions, chosen automatically from the violation's category, severity, and the member's history — there's no manual mapping to configure:
+### Active, simulation or paused
+
+The small **Manage** button on the AutoMod home screen sets the state:
+
+| State | What happens |
+| --- | --- |
+| **Active** | AutoMod works normally. |
+| **Simulation** | AutoMod watches and posts what it would have done, without applying anything. |
+| **Paused** | AutoMod stops acting. |
+
+**Manage** is also where you can delete the AutoMod configuration, after a confirmation.
+
+### What is monitored
+
+Two multi-selects let you choose the **messages** and **images** AutoMod watches, and the **profile** elements it checks (avatar, banner, names). Turn off what you don't need.
+
+### Exemptions
+
+Add trusted roles or channels that AutoMod should skip entirely, and choose whether it should ignore moderators. The exemption list is shared by every AutoMod feature.
+
+### Advanced
+
+Switch simulation on or off, cap the **maximum sanction** AutoMod may ever apply, set the **sensitivity** from _very tolerant_ to _very strict_, and browse the precedents Moddy has learned from your moderators.
+
+## Sanctions
+
+AutoMod has a **catalogue** of everything it can sanction, grouped as **Messages**, **Images**, **Profiles** and **Specific to this server**. By default, Moddy chooses the sanction itself from the infraction's category, its severity and the member's history. For any entry in the catalogue, you can instead decide.
+
+For each infraction you can:
+
+- **Turn it off** — the offending message is still deleted, but the member isn't sanctioned
+- **Choose its actions**, combined however you like (see below)
+- **Set an exact timeout** between 1 minute and 28 days
+- **Require a moderator's approval** (see below)
+- **Escalate on repeat offences**, or not
+- **Reset** it to Moddy's default
+
+### Available actions
 
 | Action | Description |
 | --- | --- |
-| **Warn** | A formal warning is recorded in the member's case. Suitable for minor or first-time violations. |
-| **Mute** | The member is temporarily timed out. You can configure the mute duration in your AutoMod settings. |
-| **Ban** | The member is banned from the server. Reserved for the most severe violations. |
+| **Delete** | The message is removed. It combines with every other action. |
+| **Warn** | A formal warning is recorded in the member's case. |
+| **Timeout** | The member is temporarily timed out, for the exact duration you set. |
+| **Kick** | The member is removed from the server and can rejoin. Kicks are applied and shown on the alert card, but don't open a case. |
+| **Ban** | The member is banned from the server. |
 
-All AutoMod actions are recorded as moderation cases with a full timeline, just like manually-applied sanctions.
+Actions that can't coexist are resolved for you and the panel explains how: a ban overrides a kick, a kick overrides a timeout or a warn.
+
+All sanctions except kicks are recorded as moderation cases with a full timeline, just like manually applied ones. Because the case is recorded only after Discord confirmed the action, the alert card and the case always show what **really** happened — including any action that failed and why.
+
+### Moderator approval
+
+Turn on **Require approval** for an infraction, and AutoMod no longer sanctions on its own:
+
+1. The offending message is **deleted immediately** — harmful content shouldn't stay up while someone decides.
+2. A card with the evidence and **Approve** / **Reject** buttons is posted in your alerts channel.
+3. **Approve** applies the planned actions, after checking again that Moddy is still allowed to. **Reject** applies nothing.
+
+Only members with the matching permission can decide: **Ban Members** for a ban, **Kick Members** for a kick, **Timeout Members** otherwise. Administrators always can. A request left unanswered expires after 48 hours.
+
+### Your own infractions
+
+Missing a rule that is specific to your community? Add up to **10 custom infractions** from **Sanctions** → **Add an infraction**. Start from a ready-made template — server advertising, spoilers, politics or religion, DM requests, language, links — or write your own:
+
+- a **name** (40 characters) and a **description** (300 characters) of what you don't want
+- up to 5 **example sentences**
+- up to 20 **keywords** that always flag a message
+
+Each custom infraction has its own sanction, like any other. Moddy checks the text you wrote for safety before saving it, so an infraction can't be used to hijack the AI.
+
+## Images
+
+<AccordionGroup>
+  <Accordion title="Crypto and fake-giveaway screenshots">
+    A common raid posts a fake celebrity giveaway and a fake "withdrawal successful" screenshot, often from a compromised account in several channels at once. Moddy reads the text of the image and runs it through the same detection as a message. A scam image already validated by the Moddy team is banned on sight, and every copy posted in other channels is deleted too.
+  </Accordion>
+
+  <Accordion title="Explicit images">
+    Flagged automatically with Google's SafeSearch, independently of any accompanying text. Age-restricted channels are skipped.
+  </Accordion>
+
+  <Accordion title="Gore and graphic violence">
+    Detected separately from explicit images, with their own switch, so you can turn on one without the other.
+  </Accordion>
+</AccordionGroup>
+
+An image Moddy couldn't read is **never** sanctioned.
+
+## Member Profiles
+
+AutoMod can also moderate what a member _is_, not what they say. When someone joins or changes their profile, Moddy checks:
+
+- their **avatar** and **banner**, for explicit or shocking content
+- their **nickname**, **display name** and **username**, for slurs and sexual or hateful wording
+
+For each kind, you choose what happens:
+
+| Action | What it does |
+| --- | --- |
+| **Hold** _(avatar and banner)_ | The member is placed under a timeout, renewed automatically for as long as the offending image stays, and lifted as soon as they change it. |
+| **Rename and warn** _(names)_ | Moddy resets the nickname and warns the member. |
+| **Alert only** | An alert card in your channel, nothing applied. |
+| **Usual scale** | The normal sanction scale is applied. |
+
+<Note>
+  Banners can only be checked when a member joins or changes something else in their profile, because Discord doesn't announce a banner-only change.
+</Note>
 
 ## Getting Smarter Over Time
 
@@ -93,7 +205,11 @@ Beyond the appeal flow, the Moddy team can also independently review sanctioned 
 
 ## Available to Every Server
 
-AutoMod AI is not a premium feature — it runs at full capability on every server, free or [Moddy Max](/premium/overview), with the same detection pipeline, sensitivity controls, and case creation. See [what Moddy Max actually unlocks](/premium/features) if you're wondering whether upgrading affects moderation — today it doesn't.
+AutoMod is not a premium feature — it runs at full capability on every server, free or [Moddy Max](/premium/overview), with the same detection pipeline, sanction controls, and case creation. See [what Moddy Max actually unlocks](/premium/features) if you're wondering whether upgrading affects moderation — today it doesn't.
+
+## Permissions Moddy Needs
+
+AutoMod asks for **Manage Messages**, **Ban Members**, **Timeout Members**, **Manage Nicknames** (to rename members whose name breaks your rules) and **Attach Files**. `/config` checks them when you open the module and lists any that are missing.
 
 <Note>
   Moddy's AutoMod works **alongside Discord's native AutoMod** — you can have both active at the same time. They operate independently, so enabling one does not disable or interfere with the other.
