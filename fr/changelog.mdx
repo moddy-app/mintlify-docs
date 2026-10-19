@@ -11,6 +11,87 @@ Tout ce qui est nouveau dans Moddy, les plus récents en premier. Moddy est en d
   Vous voulez être informé au fur et à mesure ? Les annonces sont diffusées sur le [serveur de support Moddy](https://moddy.app/support) dès qu'une fonctionnalité est en ligne.
 </Note>
 
+<Update label="19 octobre 2026" description="Détecteur IA · /ai-check">
+  ## Détecteur IA : Moddy vous dit d'où vient une image
+
+  Un nouveau module, **activé par défaut sur tous les serveurs**, vérifie les Content Credentials (C2PA) cachés dans les images publiées par vos membres. Quand une image porte une signature valide, Moddy répond sous l'image par une courte carte :
+
+  - **Générée par IA** — l'image a été entièrement créée par un outil d'IA, avec l'outil et la date lorsque la signature les indique
+  - **Partiellement IA** — un outil d'IA générative a modifié l'image
+  - **Photo authentifiée** — prise avec un appareil qui signe ses images, retouchée ou non, sans IA générative
+  - **Probablement IA** — un PNG non signé qui contient pourtant des paramètres de génération Stable Diffusion ou ComfyUI. C'est un indice, pas une preuve, et la carte le précise.
+
+  Moddy ne répond que lorsqu'il peut le **prouver** : une image sans signature ne reçoit aucune réponse, et l'absence de réponse ne veut jamais dire « pas d'IA ». Un bouton **Plus d'informations** sous chaque carte affiche les détails de la signature, l'historique signé et le degré de confiance à accorder au résultat. Les données personnelles du fichier (position GPS, auteur, numéros de série) ne sont jamais affichées.
+
+  Depuis `/config` → **Détecteur IA**, vous choisissez les types de résultats annoncés et les salons ignorés. Mettez-le en pause depuis **Gérer**.
+
+  Un doute sur une image ? La nouvelle commande `/ai-check` vérifie un fichier joint, ou un lien de message de votre serveur, et répond toujours — même si la réponse est « rien de vérifiable ». Voir le [guide du module](/modules/ai-detector).
+</Update>
+
+<Update label="16 octobre 2026" description="AutoMod · Panneau Gérer · Erreurs">
+  ## AutoMod fait exactement ce que vous décidez
+
+  Chaque type d'infraction peut désormais déclencher **plusieurs actions à la fois** — supprimer le message, avertir, exclure temporairement, expulser ou bannir — au lieu d'une seule sanction :
+
+  - Réglez vous-même la **durée exacte** de l'exclusion, de 1 minute à 28 jours
+  - Exigez l'**approbation d'un modérateur** avant d'appliquer la sanction : le message est supprimé immédiatement, puis une carte avec les preuves et les boutons **Approuver** / **Refuser** attend dans votre salon d'alertes une personne disposant de la permission correspondante
+  - Le propriétaire du serveur et les membres dont le rôle le plus haut n'est pas inférieur à celui de Moddy sont ignorés : Discord refuserait d'agir sur eux, donc Moddy n'annonce jamais une sanction qu'il n'a pas pu appliquer. La carte d'alerte indique désormais ce qui a réellement été fait et ce qui a échoué.
+
+  L'écran de texte libre « consignes à l'IA » a disparu ; les infractions personnalisées (ci-dessous) le remplacent. Le module s'appelle désormais simplement **AutoMod** dans toutes les langues.
+
+  ## Un panneau Gérer commun à tous les modules
+
+  L'écran d'accueil de chaque module a maintenant un petit bouton **Gérer**. Il ouvre un seul endroit pour :
+
+  - mettre le module en **Actif**, en **Pause** (il n'agit plus et ses commandes sont masquées) ou, pour AutoMod, en **Simulation**
+  - **supprimer la configuration** du module, après confirmation (Adaptive Slowmode, AltGuard, Auto Role, Auto-Restore Roles, AutoMod, Inter-Server, Journaux de serveur, Candidatures, Starboard, Transcription vocale)
+
+  Les écrans de `/config` affichent aussi un fil d'Ariane et une couleur d'accent : jaune pour la simulation, gris pour un module en pause.
+
+  ## Des messages d'erreur plus clairs
+
+  Les erreurs que vous pouvez corriger vous-même — permission manquante, délai d'attente, élément introuvable — s'affichent désormais sous la forme d'une carte unique qui explique ce qui s'est passé et quoi faire, au lieu de ressembler à un bug.
+</Update>
+
+<Update label="11 octobre 2026" description="/preferences · Permissions · Fiabilité">
+  ## `/preferences` : icônes pour thème clair et langue au choix
+
+  - **Thème Discord** — les icônes de Moddy sont blanches, donc invisibles sur le thème clair de Discord. Choisissez **Clair** et chaque icône qui possède une version sombre l'utilise dans les messages que Moddy _vous_ envoie.
+  - **Langue** — Moddy suit votre langue Discord par défaut. Choisissez français, anglais, espagnol, portugais ou allemand pour la forcer pour toutes les commandes et tous les panneaux. Les messages destinés à tout un serveur gardent la langue choisie dans `/config` → **Paramètres du serveur**.
+
+  ## `/config` vous dit tout ce qui manque, d'un coup
+
+  Quand Moddy n'a pas les permissions nécessaires pour un module, le panneau liste désormais **tous** les manques dans un seul message — permissions du serveur et permissions sur les salons choisis — au lieu d'un seul à la fois, y compris les bases comme envoyer des messages ou utiliser des émojis externes.
+
+  ## Moins de « Échec de l'interaction »
+
+  Moddy accuse désormais réception de tout bouton, menu ou commande resté sans réponse après environ deux secondes : un moment de lenteur ne se termine plus par le message d'échec générique de Discord. Dans ce cas, une réponse normalement publique peut vous revenir visible uniquement par vous.
+</Update>
+
+<Update label="10 octobre 2026" description="AutoMod · Infractions personnalisées · Profils">
+  ## Choisissez la sanction de chaque infraction
+
+  AutoMod dispose désormais d'un **catalogue** de ce qu'il peut sanctionner — insultes, menaces, arnaques, images explicites ou choquantes, avatars et pseudos inappropriés… Pour chacune, vous pouvez la désactiver ou lui donner votre propre sanction à la place de l'échelle par défaut de Moddy, avec une option d'escalade en cas de récidive.
+
+  ## Vos propres infractions
+
+  Créez jusqu'à **10 infractions propres à votre serveur** — publicité, spoilers, politique ou religion, demandes en MP, langues hors sujet, liens… Partez de l'un des six modèles prêts à l'emploi ou rédigez votre propre définition, avec des exemples de phrases et des mots-clés. Moddy vérifie la sécurité du texte avant de l'enregistrer.
+
+  ## AutoMod regarde aussi qui sont les membres
+
+  Une nouvelle fonctionnalité de **profils de membres** vérifie les avatars et bannières (images explicites ou choquantes) ainsi que les pseudos, noms d'affichage et noms d'utilisateur (insultes, propos sexuels ou haineux), quand un membre arrive ou les modifie. Pour chacun, choisissez ce qui se passe : retenir le membre sous une exclusion temporaire jusqu'à ce qu'il le change, le renommer et l'avertir, envoyer seulement une alerte, ou appliquer l'échelle de sanctions habituelle.
+
+  ## Un nouveau panneau `/config`
+
+  Le panneau AutoMod a été reconstruit autour d'un seul réglage obligatoire — le salon des alertes. Un court **assistant de configuration** choisit un niveau de protection (**Léger**, **Équilibré** ou **Strict**) et démarre en **simulation** : AutoMod annonce ce qu'il ferait sans sanctionner personne. Vous pouvez passer chaque étape : Moddy applique alors Équilibré en simulation. Chaque modification est enregistrée instantanément.
+</Update>
+
+<Update label="27 septembre 2026" description="AutoMod · Images">
+  ## Les images choquantes ont leur propre fonctionnalité
+
+  Le gore et la violence graphique sont désormais détectés séparément des images explicites, avec leur propre interrupteur dans `/config` : vous pouvez activer l'un sans l'autre. Les captures d'arnaque dont l'image a déjà été validée comme arnaque par l'équipe Moddy sont bannies à vue, et chaque copie publiée dans d'autres salons est supprimée aussi.
+</Update>
+
 <Update label="26 septembre 2026" description="Modération IA · OCR">
   ## La modération automatique par IA regarde aussi les images
 
