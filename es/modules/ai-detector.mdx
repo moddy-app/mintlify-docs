@@ -1,52 +1,152 @@
 ---
 title: "Detector de IA: saber de dónde viene una imagen"
 sidebarTitle: "Detector de IA"
-description: "Moddy comprueba las Content Credentials (C2PA) de las imágenes publicadas en tu servidor e indica cuándo una fue generada o editada por IA — solo cuando puede demostrarlo."
+description: "Moddy lee las Content Credentials (C2PA) firmadas de las imágenes publicadas en tu servidor e indica cuándo una fue generada o editada por IA — solo cuando puede demostrarlo. Aquí tienes cómo funciona exactamente y dónde termina."
 icon: "shield"
 ---
 
-Con imágenes de IA por todas partes, «¿es real?» es una pregunta legítima. El Detector de IA solo responde **cuando puede demostrar la respuesta**: lee las Content Credentials (C2PA) ocultas en una imagen publicada, comprueba que la firma procede de un certificado de la [lista de confianza oficial de C2PA](https://c2pa.org) y responde debajo de la imagen con una tarjeta breve.
+El Detector de IA responde a una sola pregunta: **¿lleva esta imagen una firma verificable que diga de dónde viene?** Si la lleva, Moddy responde debajo de la imagen con una tarjeta breve. Si no, Moddy no dice nada.
 
-El módulo está **activado por defecto en todos los servidores**. No tienes que configurar nada; puedes acotarlo o ponerlo en pausa cuando quieras.
+El módulo está **activado por defecto en todos los servidores**. No tienes que configurar nada, y puedes acotarlo o ponerlo en pausa cuando quieras.
 
 <Warning>
-  **Que no haya respuesta nunca significa «no es IA».** La mayoría de las imágenes de IA no llevan ninguna firma, y las capturas de pantalla, los reguardados y la mayoría de las redes sociales y aplicaciones de mensajería la eliminan. El Detector de IA te dice lo que una firma *demuestra*, nunca lo que la ausencia de firma *sugiere*.
+  **El Detector de IA no es un «detector de imágenes de IA» en el sentido habitual.** No analiza los píxeles ni adivina. Lee una firma criptográfica que algunas herramientas añaden a sus imágenes. La mayoría de las imágenes de IA no llevan ninguna, y cualquiera puede quitarla en segundos. **Que no haya respuesta nunca significa «esta imagen no es de IA».** Lee [los límites](#los-límites) antes de fiarte.
 </Warning>
 
-## Qué puede decirte Moddy
+## Cómo funciona
 
-Debajo de cada PNG, JPEG o WebP publicado por un miembro, Moddy responde — sin mencionar a nadie, en el **idioma del servidor** — solo cuando la imagen lleva una firma de confianza o metadatos de generación:
+### La idea: Content Credentials (C2PA)
 
-| Resultado | Qué significa |
-| --- | --- |
-| **Contenido generado por inteligencia artificial** | La firma muestra que la imagen fue creada por completo con una herramienta de IA. La tarjeta nombra la herramienta y la fecha cuando la firma las indica. |
-| **Contenido generado parcialmente por inteligencia artificial** | El historial firmado muestra que una herramienta de IA generativa modificó la imagen. |
-| **Fotografía autenticada** | Una cámara o un teléfono que firma sus imágenes la capturó, y el historial no muestra IA generativa. |
-| **Fotografía autenticada y retocada** | Igual, con retoques corrientes (recorte, color, cambio de tamaño…) listados en la tarjeta. |
-| **Contenido probablemente generado por inteligencia artificial** | Un PNG *sin firmar* contiene aun así parámetros de generación de Stable Diffusion o ComfyUI. Es un indicio fuerte, no una prueba — cualquiera puede añadir o quitar esos parámetros — y la tarjeta lo dice. |
+**C2PA** (Coalition for Content Provenance and Authenticity) es un estándar abierto para adjuntar a un archivo multimedia un registro de su origen que hace detectable cualquier alteración. Su nombre público es **Content Credentials**. Empresas que fabrican cámaras, software de edición y servicios de IA — entre ellas Adobe, Microsoft, Google y OpenAI — forman parte de la coalición.
+
+Una herramienta compatible con el estándar, como un generador de imágenes de IA o una cámara reciente, escribe dentro del archivo de imagen un pequeño bloque de datos llamado **manifiesto**. Contiene:
+
+- **Aserciones** — declaraciones sobre la imagen: la acción que la creó (por ejemplo «creada por un modelo de IA generativa» o «capturada por una cámara»), el software o dispositivo, la hora y las ediciones posteriores.
+- **Una huella de los datos de la imagen.** Un hash criptográfico del contenido del archivo se guarda en el manifiesto. Se llama _vinculación fuerte_ («hard binding»): une el manifiesto a **esta imagen exacta**.
+- **Una firma digital**, hecha con la clave privada del firmante y respaldada por un certificado que identifica a la organización que firmó (por ejemplo, el fabricante de la herramienta de IA o de la cámara).
+
+Si alguien cambia los píxeles después de firmar, la huella ya no coincide y el manifiesto deja de ser válido. Si alguien altera las declaraciones, la firma ya no coincide. Eso significa **tamper-evident**: la manipulación puede detectarse. No significa que manipular sea _imposible_ — mira los límites más abajo.
+
+Cuando un editor compatible con C2PA modifica una imagen firmada, añade un nuevo manifiesto encima del anterior. El resultado es un **historial firmado**: el punto de partida de la imagen y luego cada edición, de la más antigua a la más reciente.
+
+### Qué hace Moddy con una imagen
+
+<Steps>
+  <Step title="Elige las imágenes a comprobar">
+    Solo archivos **PNG, JPEG y WebP** adjuntos a un mensaje de un **miembro** (no de un bot), como máximo 4 por mensaje y 25 MB cada uno. Los canales que ignoras, y sus hilos, se omiten.
+  </Step>
+  <Step title="Descarga el archivo original">
+    Moddy lee el adjunto tal como lo subió el miembro, nunca la vista previa redimensionada de Discord, que habría perdido el manifiesto.
+  </Step>
+  <Step title="Busca un manifiesto">
+    Una exploración rápida en busca de la marca C2PA. Sin marca no hay firma: la comprobación termina ahí y Moddy guarda silencio.
+  </Step>
+  <Step title="Verifica la firma">
+    Moddy comprueba que los datos de la imagen siguen coincidiendo con la huella del manifiesto, que la firma es válida y que el certificado de firma **enlaza con la [lista de confianza oficial de C2PA](https://github.com/c2pa-org/conformance-public/tree/main/trust-list)**. Moddy mantiene esa lista al día automáticamente (se actualiza al menos una vez al día).
+  </Step>
+  <Step title="Solo conserva los resultados `Trusted`">
+    Una firma válida pero hecha por una organización que no está en la lista de confianza, un archivo alterado o un manifiesto roto producen **ninguna respuesta**.
+  </Step>
+  <Step title="Lee lo que el firmante declaró">
+    Moddy recorre el historial firmado y clasifica la imagen según el «tipo de fuente» declarado por el firmante: creada por un modelo de IA generativa, parcialmente generada, capturada por una cámara, retocada, etc.
+  </Step>
+  <Step title="Responde — o no">
+    Si el resultado es de los que elegiste anunciar, Moddy responde debajo del mensaje, sin mencionar a nadie, en el idioma de tu servidor.
+  </Step>
+</Steps>
+
+Como el archivo procede de un desconocido, su lectura se hace con cautela: Moddy nunca deja que el archivo le haga contactar con ninguna dirección, y los datos personales del manifiesto nunca se copian (consulta [Privacidad](#privacidad)).
+
+### Una segunda señal, más débil: parámetros de generación en archivos PNG
+
+Algunas herramientas locales, en particular **Stable Diffusion** y **ComfyUI**, escriben los ajustes de generación en texto plano dentro del PNG. **No están firmados**. Cuando Moddy los encuentra, publica una tarjeta más prudente — «probablemente generada» — que nombra la herramienta e indica que es un indicio, no una prueba. El prompt en sí nunca se muestra.
+
+## Qué significan los resultados
+
+| Resultado | Qué significa | Qué **no** significa |
+| --- | --- | --- |
+| **Contenido generado por inteligencia artificial** | Una firma de confianza indica que la imagen fue creada por completo con una herramienta de IA. | No dice _quién_ la pidió, ni que la imagen muestre algo falso. |
+| **Contenido generado parcialmente por inteligencia artificial** | El historial firmado muestra que una herramienta de IA generativa modificó la imagen. | No dice _qué parte_ cambió. |
+| **Fotografía autenticada** | Una cámara o teléfono firmante de confianza indica haber capturado la imagen, y el historial no muestra IA generativa. | No certifica que la **escena** sea real: una cámara puede fotografiar una pantalla o un montaje. |
+| **Fotografía autenticada y retocada** | Igual, con retoques corrientes (recorte, color, cambio de tamaño…) listados en la tarjeta. | No dice que los retoques sean inocuos. |
+| **Contenido probablemente generado por inteligencia artificial** | Un PNG _sin firmar_ contiene parámetros de Stable Diffusion o ComfyUI. | No es una prueba: cualquiera puede añadir esos parámetros a una imagen real, o quitarlos. |
 
 Cuando un mensaje contiene varias imágenes, Moddy anuncia el resultado más significativo.
 
-<Note>
-  Una foto autenticada certifica de dónde viene la **imagen**, no la veracidad de la **escena** que muestra.
-</Note>
+Cada tarjeta tiene un botón **Más información**. Cualquiera puede pulsarlo para obtener un panel privado, en su propio idioma, con los detalles de la firma (quién firmó, algoritmo, hora, herramienta, cámara), el historial firmado, cómo funciona la comprobación, cuánta confianza dar al resultado y por qué la ausencia de resultado no prueba nada. Sigue funcionando tras un reinicio de Moddy; si la imagen se ha eliminado entretanto, el panel lo indica.
 
-## El botón Más información
+## Los límites
 
-Cada tarjeta tiene un botón **Más información**. Cualquiera que lea la tarjeta puede pulsarlo para obtener un panel privado, en su propio idioma, con:
+Esta es la parte más importante de la página. Léela antes de actuar según lo que Moddy dice — o no dice.
 
-- el resultado y su origen (firma verificada o metadatos sin firmar)
-- los detalles de la firma: quién la firmó, el algoritmo, la hora de firma, la herramienta y la cámara
-- el historial firmado del archivo, del más antiguo al más reciente
-- cómo funciona, cuánta confianza dar al resultado y por qué la ausencia de resultado no prueba nada
+### 1. Que no haya resultado no prueba nada
 
-El botón sigue funcionando indefinidamente, también tras un reinicio de Moddy. Si la imagen se ha eliminado entretanto, el panel indica que ya no está disponible.
+Es el límite que más importa. Moddy solo puede hablar de imágenes que **llevan una firma de confianza**, y la mayoría no la llevan:
+
+- **Muchas herramientas de IA no firman en absoluto sus imágenes**, sobre todo los modelos de código abierto ejecutados en el ordenador de alguien. Otras solo firman algunos de sus productos.
+- Aunque una herramienta firme, la firma **no sobrevive** a la mayor parte de lo que le ocurre después a una imagen (siguiente punto).
+
+Por tanto, «Moddy no dijo nada» significa _«sin información verificable»_ — nunca _«no es IA»_. Vale igual para las fotos auténticas: la mayoría tampoco están firmadas.
+
+### 2. Una firma se quita con facilidad
+
+Un manifiesto C2PA es un bloque de datos guardado en el archivo, junto a los píxeles. Todo lo que reescribe el archivo sin entender C2PA lo elimina:
+
+- hacer una **captura de pantalla**, o volver a guardar, convertir o exportar la imagen
+- editarla con software que no admite Content Credentials
+- las aplicaciones de mensajería y muchas redes sociales, que **recodifican** las imágenes al subirlas
+
+Y nada impide que alguien lo haga **a propósito**. Quien quiera hacer pasar una imagen de IA por otra cosa solo tiene que hacerle una captura de pantalla: Moddy verá una imagen sin firmar y guardará silencio. C2PA está pensado para demostrar que una imagen es auténtica _cuando su dueño quiere mostrarlo_, no para atrapar a quien lo oculta.
+
+No se ha verificado si las Content Credentials sobreviven a cada forma de subir un archivo a Discord (escritorio, móvil, resubidas). Moddy lee el adjunto original, que es lo mejor que ofrece Discord.
+
+### 3. Una firma demuestra lo que el firmante _declaró_, no la verdad
+
+Una firma válida no puede falsificarse sin la clave secreta del firmante. Pero solo te dice **lo que la herramienta firmante afirma de sí misma**:
+
+- Una foto firmada dice «esta cámara capturó estos píxeles». No dice qué _muestran_ los píxeles. Una cámara puede firmar válidamente la fotografía de una pantalla que muestra una imagen falsa.
+- Una herramienta puede firmar sin ser específica. Si el firmante no dice si la imagen es generada o capturada, Moddy no puede clasificarla y guarda silencio.
+- Una firma identifica a una **organización**, no a la persona que hizo la imagen.
+
+### 4. Solo cuentan los firmantes de la lista oficial
+
+Moddy solo confía en certificados que enlazan con la lista de confianza oficial de C2PA. Es deliberado: cualquiera puede crear una firma válida con su propio certificado, y eso no debe contar. La contrapartida:
+
+- un **producto legítimo nuevo** cuyo certificado aún no está en la lista no obtiene respuesta hasta que se añada
+- Moddy actualiza la lista a diario: un alta o baja muy reciente puede tardar hasta un día en aplicarse
+- Moddy deliberadamente **no contacta con ningún servicio de revocación de certificados** al leer el archivo de un desconocido. Se apoya solo en la lista de confianza, así que un certificado revocado después de entrar en la lista puede seguir aceptándose hasta que se actualice.
+
+### 5. Ediciones que rompen la cadena
+
+Si una imagen firmada se modifica después con una herramienta que no admite C2PA, los píxeles nuevos ya no coinciden con el manifiesto: la firma es inválida y Moddy guarda silencio. Moddy nunca muestra un aviso de «alterada» en un canal — solo `/ai-check` explica que la firma era inválida.
+
+### 6. «Probablemente IA» es un indicio, no una firma
+
+La tarjeta basada en parámetros PNG se apoya en **texto sin firmar**. Solo cubre PNG de Stable Diffusion y ComfyUI, no JPEG ni WebP. Alguien puede pegar esos parámetros en una imagen real para hacerla pasar por IA, y cualquiera puede borrarlos para ocultar una imagen generada.
+
+### 7. Lo que Moddy deliberadamente no hace
+
+- **No analiza los píxeles** ni usa un clasificador «IA o no». Son poco fiables, y una acusación poco fiable es peor que el silencio.
+- **No lee marcas de agua invisibles ni huellas** que algunos proveedores incorporan a sus imágenes — solo el manifiesto guardado en el archivo.
+- **No comprueba** vídeos, GIF, audio, documentos, enlaces ni imágenes mostradas mediante una vista previa. Solo imágenes adjuntas.
+- **No sanciona a nadie** y no está conectado con [AutoMod](/moderation/automod). Una tarjeta es información, no un veredicto sobre el miembro que publicó.
+
+### En resumen
+
+| Si Moddy dice… | Puedes concluir | No puedes concluir |
+| --- | --- | --- |
+| «Generado por IA» (firmado) | El firmante declara que la imagen la hizo una IA. Muy fiable. | Nada sobre la intención. |
+| «Fotografía autenticada» | El firmante declara que una cámara la capturó, sin modificación por IA. | Que la escena sea real. |
+| «Probablemente IA» | El archivo contiene ajustes de un generador. | Que realmente sea IA. |
+| Nada | Nada. | Que la imagen sea real, ni que no sea IA. |
+
+<Tip>
+  Considera una tarjeta como una pista útil, no un veredicto. Si es importante — un concurso, una disputa por una obra — pide el archivo original con su historial de ediciones.
+</Tip>
 
 ## Privacidad
 
 Solo se muestra una lista corta de campos: la organización firmante, el algoritmo y la hora de la firma, el generador, la marca y el modelo de la cámara, y los nombres, fechas y tipos de las acciones de edición. **La posición GPS, el nombre del autor, la información de identidad, los números de serie y el nombre del certificado nunca salen del archivo.** En los metadatos PNG, el prompt nunca se muestra — solo el generador y sus ajustes técnicos.
-
-Moddy lee el archivo tal como lo envió el miembro y nunca deja que le haga obtener nada de Internet.
 
 ## Configurar el Detector de IA
 
@@ -86,12 +186,16 @@ Haz clic en **Guardar** para aplicar los cambios. Para desactivar el módulo por
 
 A diferencia de las respuestas automáticas, `/ai-check` **siempre responde**: o bien el resultado y sus detalles, o bien «Sin información verificable» con el motivo — sin firma, firma no fiable o inválida, archivo no compatible. Funciona en servidores, en MD y como comando instalado por el usuario.
 
-## Conviene saber
-
-- Moddy comprueba archivos PNG, JPEG y WebP de hasta 25 MB, y como máximo 4 imágenes por mensaje.
-- Un resultado refleja lo que el firmante *declaró*. Una firma no puede falsificarse sin la clave del firmante, pero una herramienta puede firmar diciendo poco, y entonces Moddy guarda silencio.
-- No está garantizado que todas las formas de subir un archivo a Discord conserven la firma. Moddy lee el archivo original, que es lo mejor que ofrece Discord.
+<Note>
+  Si subes la imagen directamente a `/ai-check`, asegúrate de elegir el archivo original. Una captura de pantalla o una copia que pasó por una aplicación de mensajería casi seguro ha perdido su firma.
+</Note>
 
 ## Permisos que necesita Moddy
 
 Nada más que ver el canal y enviar mensajes en él.
+
+## Más información
+
+- [Especificación técnica de C2PA](https://spec.c2pa.org) — el estándar en sí
+- [Content Credentials](https://contentcredentials.org) — el nombre público del estándar, con una herramienta para inspeccionar cualquier archivo
+- [Lista de confianza de C2PA](https://github.com/c2pa-org/conformance-public/tree/main/trust-list) — la lista de firmantes en los que Moddy confía
