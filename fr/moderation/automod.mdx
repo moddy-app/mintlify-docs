@@ -1,100 +1,220 @@
 ---
-title: "AutoMod IA : modération automatique des messages pour Discord"
-sidebarTitle: "AutoMod IA"
-description: "L'AutoMod IA de Moddy détecte et agit sur les messages nuisibles en temps réel — avertissant, mutant ou bannissant automatiquement les membres avant que le mal ne soit fait."
+title: "AutoMod : modération automatique des messages, images et profils"
+sidebarTitle: "AutoMod"
+description: "L'AutoMod de Moddy détecte les messages, images et profils de membres nuisibles en temps réel et applique les sanctions que vous avez choisies — éventuellement après l'approbation d'un modérateur."
 icon: "robot"
 ---
 
-L'AutoMod de Moddy utilise l'intelligence artificielle pour surveiller les messages sur votre serveur et prendre des mesures automatiquement lorsqu'un contenu nuisible est détecté. Au lieu de s'appuyer uniquement sur des listes de mots-clés, il comprend le contexte — attrapant les violations subtiles que les simples filtres ratent, et évitant les faux positifs sur les messages légitimes.
+L'AutoMod de Moddy utilise l'intelligence artificielle pour surveiller votre serveur et agir automatiquement dès que quelque chose de nuisible apparaît. Au lieu de s'appuyer uniquement sur des listes de mots-clés, il comprend le contexte — attrapant les violations subtiles que les simples filtres ratent, et évitant les faux positifs sur les messages légitimes.
 
-## Comment ça fonctionne
+AutoMod surveille trois choses :
+
+<CardGroup cols={3}>
+  <Card title="Messages" icon="message">
+    Insultes, menaces, harcèlement, haine, arnaques et tout ce que vous définissez comme une infraction propre à votre serveur.
+  </Card>
+
+  <Card title="Images" icon="image">
+    Captures d'arnaques crypto et faux cadeaux, images explicites, gore et violence graphique.
+  </Card>
+
+  <Card title="Profils de membres" icon="user">
+    Avatars, bannières, pseudos, noms d'affichage et noms d'utilisateur.
+  </Card>
+</CardGroup>
+
+## Comment ça marche
 
 Chaque message envoyé dans un salon où AutoMod est actif est évalué à travers une série de vérifications, du plus rapide au plus approfondi :
 
 <Steps>
   <Step title="Pré-filtre rapide">
-    Les messages très courts et autres contenus manifestement sûrs sont validés instantanément sans autre traitement.
+    Les messages très courts et les contenus trivialement sûrs sont validés instantanément, sans autre traitement.
   </Step>
   <Step title="Vérification des phrases sûres">
-    Les phrases sûres courantes et bien connues sont comparées à une liste d'autorisation et laissées passer immédiatement, ce qui maintient une détection rapide pour les conversations normales.
+    Les phrases courantes et bien connues sont comparées à une liste d'autorisation et passent immédiatement, ce qui garde la détection rapide pour les conversations normales.
   </Step>
-  <Step title="Correspondance de motifs nuisibles">
-    Le message est comparé à des motifs nuisibles connus. Tout ce qui correspond clairement à un motif bloqué est signalé pour action.
+  <Step title="Recherche de motifs nuisibles">
+    Le message est comparé à des motifs nuisibles connus et à vos propres infractions. Tout ce qui correspond clairement est signalé.
   </Step>
-  <Step title="Évaluation par IA">
-    Les messages qui franchissent les vérifications précédentes sont évalués par un modèle d'IA. **Le modèle d'IA prend la décision finale** — il n'agit que lorsqu'il est certain que le message est nuisible, ce qui minimise les faux positifs.
+  <Step title="Évaluation par l'IA">
+    Les messages qui passent les vérifications précédentes sont évalués par un modèle d'IA. **Le modèle d'IA prend la décision finale** — il n'agit que lorsqu'il est sûr que le message est nuisible, ce qui limite les faux positifs.
   </Step>
   <Step title="Action appliquée">
-    Si l'IA signale le message, il est supprimé immédiatement. Une sanction (avertissement, mute ou bannissement) est appliquée au membre en fonction de la gravité de la violation et des paramètres AutoMod configurés sur votre serveur.
+    Si l'IA signale le message, la sanction que vous avez choisie pour ce type d'infraction est appliquée — immédiatement, ou après l'approbation d'un modérateur.
   </Step>
 </Steps>
 
-## Activer AutoMod
+<Note>
+  AutoMod n'agit jamais sur le propriétaire du serveur, ni sur un membre dont le rôle le plus haut n'est pas inférieur à celui de Moddy : Discord refuserait la sanction, et Moddy n'annonce jamais ce qu'il n'a pas pu faire.
+</Note>
 
-Vous pouvez activer AutoMod depuis le tableau de bord web ou directement dans Discord via `/config`.
+## Configurer AutoMod
+
+Lancez `/config` sur votre serveur (ou ouvrez le [tableau de bord Moddy](https://dashboard.moddy.app)) et sélectionnez **AutoMod**. Le seul réglage obligatoire est le **salon d'alertes** — le salon où AutoMod publie une carte pour chaque incident. Tout le reste a une réponse toute prête.
+
+La première fois, un assistant en trois étapes vous guide :
 
 <Steps>
-  <Step title="Ouvrir la configuration du serveur">
-    Exécutez `/config` dans votre serveur, ou rendez-vous sur le [tableau de bord Moddy](https://dashboard.moddy.app) et sélectionnez votre serveur.
+  <Step title="Choisir le salon d'alertes">
+    Un salon textuel où Moddy peut écrire. AutoMod ne fonctionne pas sans lui.
   </Step>
-  <Step title="Accéder à AutoMod IA">
-    Trouvez la section **AutoMod IA** dans le panneau de configuration.
+  <Step title="Choisir un niveau de protection">
+    - **Léger** — seulement les cas sérieux : insultes graves, menaces, haine, arnaques et images explicites. Les piques du quotidien sont ignorées.
+    - **Équilibré** (recommandé) — toute la détection des messages et des images, avec les sanctions par défaut de Moddy.
+    - **Strict** — tout l'équilibré, plus les profils des membres (avatar, bannière, pseudo), avec moins de tolérance.
+
+    Vous pourrez tout affiner ensuite.
   </Step>
-  <Step title="Définir le salon d'alerte">
-    Choisissez un salon textuel pour recevoir les cartes d'alerte d'AutoMod. Ce salon est **obligatoire** — AutoMod ne fonctionnera pas sans qu'un salon soit défini.
-  </Step>
-  <Step title="Activer AutoMod">
-    Basculez l'interrupteur pour activer AutoMod sur votre serveur.
-  </Step>
-  <Step title="Ajuster la sévérité">
-    Choisissez un niveau de sévérité de 1 à 5. Cela contrôle la sensibilité de la détection et la sévérité de l'escalade automatique des sanctions — c'est le seul curseur manuel ; Moddy décide de l'action spécifique (avertissement, mute ou bannissement) et de la durée pour chaque violation par lui-même.
-  </Step>
-  <Step title="Exempter des rôles ou des salons (optionnel)">
-    Ajoutez des rôles ou des salons de confiance aux listes d'exemption si vous voulez qu'AutoMod les ignore entièrement.
+  <Step title="Démarrer en simulation ou passer en réel">
+    La **simulation** est recommandée : AutoMod annonce ce qu'il _ferait_ sans toucher à personne, pour que vous puissiez le juger sur du trafic réel d'abord.
   </Step>
 </Steps>
 
 <Tip>
-  Consultez régulièrement les journaux AutoMod dans le [tableau de bord](https://dashboard.moddy.app) pour voir quels messages sont attrapés et signalés. Cela vous aide à ajuster la sensibilité afin qu'AutoMod fonctionne bien pour le ton et le style de votre communauté.
+  Pressé ? Choisissez **Passer** à n'importe quelle étape : Moddy applique le niveau **Équilibré** en **simulation**. Rien n'est sanctionné tant que vous ne passez pas en mode réel depuis **Gérer**.
 </Tip>
 
-## Actions qu'AutoMod peut prendre
+Chaque modification faite sur l'écran d'accueil est enregistrée instantanément. Les sous-écrans (ce qui est surveillé, sanctions, exemptions, avancé) fonctionnent avec **Enregistrer** et **Annuler** : vos modifications restent en attente jusqu'à ce que vous les enregistriez.
 
-Lorsqu'AutoMod détermine qu'un message est nuisible, il supprime le message et applique l'une des sanctions suivantes, choisie automatiquement en fonction de la catégorie de la violation, de la sévérité et de l'historique du membre — aucune correspondance manuelle à configurer :
+### Actif, simulation ou pause
+
+Le petit bouton **Gérer** de l'écran d'accueil d'AutoMod définit l'état :
+
+| État | Ce qui se passe |
+| --- | --- |
+| **Actif** | AutoMod fonctionne normalement. |
+| **Simulation** | AutoMod observe et publie ce qu'il aurait fait, sans rien appliquer. |
+| **Pause** | AutoMod n'agit plus. |
+
+**Gérer** permet aussi de supprimer la configuration d'AutoMod, après confirmation.
+
+### Ce qui est surveillé
+
+Deux sélecteurs multiples vous permettent de choisir les **messages** et **images** qu'AutoMod surveille, ainsi que les éléments de **profil** qu'il vérifie (avatar, bannière, noms). Désactivez ce dont vous n'avez pas besoin.
+
+### Exemptions
+
+Ajoutez les rôles ou salons de confiance qu'AutoMod doit ignorer complètement, et choisissez s'il doit ignorer les modérateurs. La liste d'exemptions est partagée par toutes les fonctionnalités d'AutoMod.
+
+### Avancé
+
+Plafonnez la **sanction maximale** qu'AutoMod peut appliquer seul (avertissement uniquement, jusqu'à une exclusion temporaire, ou bannissement autorisé), réglez la **sensibilité** de _très tolérant_ à _très strict_, et consultez les précédents que Moddy a appris de vos modérateurs.
+
+## Sanctions
+
+AutoMod dispose d'un **catalogue** de tout ce qu'il peut sanctionner, regroupé en **Messages**, **Images**, **Profils** et **Propres à ce serveur**. Par défaut, Moddy choisit lui-même la sanction à partir de la catégorie de l'infraction, de sa gravité et de l'historique du membre. Pour chaque entrée du catalogue, vous pouvez décider à sa place.
+
+Pour chaque infraction, vous pouvez :
+
+- **La désactiver** — le message fautif est quand même supprimé, mais le membre n'est pas sanctionné
+- **Choisir ses actions**, combinées comme vous le souhaitez (voir ci-dessous)
+- **Fixer une exclusion temporaire exacte** entre 1 minute et 28 jours
+- **Exiger l'approbation d'un modérateur** (voir ci-dessous)
+- **Durcir en cas de récidive**, ou non
+- **La réinitialiser** aux valeurs par défaut de Moddy
+
+### Actions disponibles
 
 | Action | Description |
 | --- | --- |
-| **Avertissement** | Un avertissement formel est enregistré dans le dossier du membre. Convient aux violations mineures ou de première fois. |
-| **Mute** | Le membre est temporairement mis en timeout. Vous pouvez configurer la durée du mute dans vos paramètres AutoMod. |
-| **Bannissement** | Le membre est banni du serveur. Réservé aux violations les plus graves. |
+| **Supprimer** | Le message est retiré. Se combine avec toutes les autres actions. |
+| **Avertir** | Un avertissement formel est enregistré dans le dossier du membre. |
+| **Exclure temporairement** | Le membre est temporairement exclu, pour la durée exacte que vous avez fixée. |
+| **Expulser** | Le membre est retiré du serveur et peut revenir. Les expulsions sont appliquées et affichées sur la carte d'alerte, mais n'ouvrent pas de dossier. |
+| **Bannir** | Le membre est banni du serveur. |
 
-Toutes les actions d'AutoMod sont enregistrées comme des dossiers de modération avec une chronologie complète, tout comme les sanctions appliquées manuellement.
+Les actions incompatibles sont résolues pour vous et le panneau explique comment : un bannissement l'emporte sur une expulsion, une expulsion sur une exclusion temporaire ou un avertissement.
 
-## Devenir plus intelligent au fil du temps
+Toutes les sanctions, sauf les expulsions, sont enregistrées comme des dossiers de modération avec une chronologie complète, comme celles appliquées manuellement. Comme le dossier n'est créé qu'une fois l'action confirmée par Discord, la carte d'alerte et le dossier montrent toujours ce qui s'est **réellement** passé — y compris une action qui a échoué, et pourquoi.
 
-AutoMod ne réagit pas seulement à un seul message de manière isolée — deux boucles de rétroaction façonnent les décisions futures pour votre serveur, sans aucun réglage manuel requis :
+### Approbation d'un modérateur
 
-- **Résultats des appels.** Un appel accepté n'annule pas seulement la sanction — c'est un signal que la décision initiale était un faux positif, et il cesse donc de compter contre ce membre pour les futures décisions d'escalade. Un appel refusé, en revanche, confirme que la sanction était juste et pèse légèrement plus qu'un appel non examiné.
-- **Précédents du serveur.** Au fur et à mesure que vos modérateurs acceptent ou refusent les appels, Moddy construit une mémoire de ce que votre communauté spécifique considère comme sanctionnable — de sorte que ses jugements deviennent plus cohérents avec la façon dont votre équipe modère réellement, au lieu de s'appuyer uniquement sur des règles génériques.
+Activez **Exiger une approbation** pour une infraction, et AutoMod ne sanctionne plus seul :
+
+1. Le message fautif est **supprimé immédiatement** — un contenu nuisible ne doit pas rester en ligne pendant qu'on décide.
+2. Une carte avec les preuves et des boutons **Approuver** / **Refuser** est publiée dans votre salon d'alertes.
+3. **Approuver** applique les actions prévues, après avoir revérifié que Moddy y est toujours autorisé. **Refuser** n'applique rien.
+
+Seuls les membres disposant de la permission correspondante peuvent décider : **Bannir des membres** pour un bannissement, **Expulser des membres** pour une expulsion, **Exclure temporairement des membres** sinon. Les administrateurs le peuvent toujours. Une demande restée sans réponse expire après 48 heures.
+
+### Vos propres infractions
+
+Il manque une règle propre à votre communauté ? Ajoutez jusqu'à **10 infractions personnalisées** depuis **Sanctions** → **Ajouter une infraction**. Partez d'un modèle prêt à l'emploi — publicité de serveur, spoilers, politique ou religion, demandes en MP, langue, liens — ou rédigez le vôtre :
+
+- un **nom** (40 caractères) et une **description** (300 caractères) de ce que vous ne voulez pas
+- jusqu'à 5 **exemples de phrases**
+- jusqu'à 20 **mots-clés** qui signalent toujours un message
+
+Chaque infraction personnalisée a sa propre sanction, comme les autres. Moddy vérifie la sécurité du texte que vous avez écrit avant de l'enregistrer, afin qu'une infraction ne puisse pas servir à détourner l'IA.
+
+## Images
+
+<AccordionGroup>
+  <Accordion title="Captures d'arnaques crypto et faux cadeaux">
+    Un raid courant publie un faux cadeau de célébrité et une fausse capture « retrait réussi », souvent depuis un compte compromis dans plusieurs salons à la fois. Moddy lit le texte de l'image et le fait passer par la même détection qu'un message. Une image d'arnaque déjà validée par l'équipe Moddy est bannie à vue, et chaque copie publiée dans d'autres salons est supprimée aussi.
+  </Accordion>
+
+  <Accordion title="Images explicites">
+    Signalées automatiquement via SafeSearch de Google, indépendamment de tout texte accompagnant. Les salons réservés aux adultes sont ignorés.
+  </Accordion>
+
+  <Accordion title="Gore et violence graphique">
+    Détectés séparément des images explicites, avec leur propre interrupteur : vous pouvez activer l'un sans l'autre.
+  </Accordion>
+</AccordionGroup>
+
+Une image que Moddy n'a pas pu lire n'est **jamais** sanctionnée.
+
+## Profils de membres
+
+AutoMod peut aussi modérer ce qu'un membre _est_, et pas seulement ce qu'il dit. Quand quelqu'un arrive ou modifie son profil, Moddy vérifie :
+
+- son **avatar** et sa **bannière**, pour du contenu explicite ou choquant
+- son **pseudo**, son **nom d'affichage** et son **nom d'utilisateur**, pour des insultes ou des propos sexuels ou haineux
+
+Pour chaque type, vous choisissez ce qui se passe :
+
+| Action | Ce qu'elle fait |
+| --- | --- |
+| **Retenir** _(avatar et bannière)_ | Le membre est placé sous exclusion temporaire, renouvelée automatiquement tant que l'image fautive reste, et levée dès qu'il la change. |
+| **Renommer et avertir** _(noms)_ | Moddy réinitialise le pseudo et avertit le membre. |
+| **Alerte seulement** | Une carte d'alerte dans votre salon, rien n'est appliqué. |
+| **Échelle habituelle** | L'échelle de sanctions normale est appliquée. |
+
+<Note>
+  Les bannières ne peuvent être vérifiées que lorsqu'un membre arrive ou modifie autre chose dans son profil, car Discord n'annonce pas un changement de bannière seul.
+</Note>
+
+## De plus en plus pertinent avec le temps
+
+AutoMod ne réagit pas seulement à un message isolé — deux boucles de rétroaction façonnent les décisions futures pour votre serveur, sans réglage manuel :
+
+- **Résultats des appels.** Un appel accepté ne se contente pas d'annuler la sanction — c'est un signal que la décision initiale était un faux positif, qui ne compte donc plus contre ce membre dans les décisions d'escalade futures. Un appel refusé, à l'inverse, confirme que la sanction était juste et pèse légèrement plus qu'une sanction non examinée.
+- **Précédents du serveur.** À mesure que vos modérateurs acceptent ou refusent des appels, Moddy construit une mémoire de ce que votre communauté considère comme sanctionnable — ses décisions deviennent ainsi plus cohérentes avec la façon dont votre équipe modère réellement, plutôt que de s'appuyer uniquement sur des règles génériques.
 
 ## Faire appel des décisions d'AutoMod
 
-Lorsqu'AutoMod sanctionne un membre, Moddy lui envoie immédiatement un **message direct** — expliquant ce qui s'est passé et incluant un bouton **Appel**. Le membre peut soumettre un appel sans quitter Discord.
+Quand AutoMod sanctionne un membre, Moddy lui envoie immédiatement un **message privé** — qui explique ce qui s'est passé et comporte un bouton **Faire appel**. Le membre peut soumettre un appel sans quitter Discord.
 
-Les appels soumis sont acheminés vers les modérateurs de votre serveur pour examen. Les modérateurs peuvent :
+Les appels soumis sont transmis aux modérateurs de votre serveur pour examen. Les modérateurs peuvent :
 
-- **Accepter** l'appel — la sanction est révoquée.
+- **Accepter** l'appel — la sanction est levée.
 - **Refuser** l'appel — la sanction est maintenue.
 - **Transformer** l'appel — remplacer la sanction par une autre.
 
-Chaque résultat d'appel est consigné dans la chronologie du dossier.
+Chaque issue d'appel est consignée dans la chronologie du dossier.
 
-Au-delà du processus d'appel, l'équipe Moddy peut aussi examiner de manière indépendante les messages et images sanctionnés ou incertains afin d'améliorer la précision de la détection — et lever une sanction qu'elle juge incorrecte, avec le même effet qu'un appel accepté.
+Au-delà du processus d'appel, l'équipe Moddy peut aussi examiner de façon indépendante des messages et images sanctionnés ou incertains pour améliorer la précision de la détection — et lever une sanction qu'elle juge injustifiée, avec le même effet qu'un appel accepté.
 
-## Disponible pour chaque serveur
+## Disponible sur tous les serveurs
 
-AutoMod IA n'est pas une fonctionnalité premium — elle fonctionne à pleine capacité sur chaque serveur, gratuit ou [Moddy Max](/premium/overview), avec le même pipeline de détection, les mêmes contrôles de sensibilité et la même création de dossiers. Voir [ce que débloque réellement Moddy Max](/premium/features) si vous vous demandez si passer à la version premium affecte la modération — aujourd'hui, non.
+AutoMod n'est pas une fonctionnalité premium — il fonctionne à pleine capacité sur chaque serveur, gratuit ou [Moddy Max](/premium/overview), avec le même pipeline de détection, les mêmes contrôles de sanctions et la même création de dossiers. Consultez [ce que Moddy Max débloque réellement](/premium/features) si vous vous demandez si passer à Max change la modération — aujourd'hui, ce n'est pas le cas.
+
+## Permissions nécessaires à Moddy
+
+AutoMod demande **Gérer les messages**, **Bannir des membres**, **Exclure temporairement des membres**, **Gérer les pseudos** (pour renommer les membres dont le nom enfreint vos règles) et **Joindre des fichiers**. `/config` les vérifie à l'ouverture du module et liste celles qui manquent.
 
 <Note>
-  L'AutoMod de Moddy fonctionne **aux côtés de l'AutoMod natif de Discord** — vous pouvez avoir les deux actifs en même temps. Ils fonctionnent indépendamment, donc en activer un ne désactive pas et n'interfère pas avec l'autre.
+  L'AutoMod de Moddy fonctionne **en parallèle de l'AutoMod natif de Discord** — vous pouvez avoir les deux actifs en même temps. Ils fonctionnent indépendamment : activer l'un ne désactive pas l'autre et ne l'affecte pas.
 </Note>
