@@ -1,0 +1,97 @@
+---
+title: "Detector de IA: saber de dónde viene una imagen"
+sidebarTitle: "Detector de IA"
+description: "Moddy comprueba las Content Credentials (C2PA) de las imágenes publicadas en tu servidor e indica cuándo una fue generada o editada por IA — solo cuando puede demostrarlo."
+icon: "shield"
+---
+
+Con imágenes de IA por todas partes, «¿es real?» es una pregunta legítima. El Detector de IA solo responde **cuando puede demostrar la respuesta**: lee las Content Credentials (C2PA) ocultas en una imagen publicada, comprueba que la firma procede de un certificado de la [lista de confianza oficial de C2PA](https://c2pa.org) y responde debajo de la imagen con una tarjeta breve.
+
+El módulo está **activado por defecto en todos los servidores**. No tienes que configurar nada; puedes acotarlo o ponerlo en pausa cuando quieras.
+
+<Warning>
+  **Que no haya respuesta nunca significa «no es IA».** La mayoría de las imágenes de IA no llevan ninguna firma, y las capturas de pantalla, los reguardados y la mayoría de las redes sociales y aplicaciones de mensajería la eliminan. El Detector de IA te dice lo que una firma *demuestra*, nunca lo que la ausencia de firma *sugiere*.
+</Warning>
+
+## Qué puede decirte Moddy
+
+Debajo de cada PNG, JPEG o WebP publicado por un miembro, Moddy responde — sin mencionar a nadie, en el **idioma del servidor** — solo cuando la imagen lleva una firma de confianza o metadatos de generación:
+
+| Resultado | Qué significa |
+| --- | --- |
+| **Contenido generado por inteligencia artificial** | La firma muestra que la imagen fue creada por completo con una herramienta de IA. La tarjeta nombra la herramienta y la fecha cuando la firma las indica. |
+| **Contenido generado parcialmente por inteligencia artificial** | El historial firmado muestra que una herramienta de IA generativa modificó la imagen. |
+| **Fotografía autenticada** | Una cámara o un teléfono que firma sus imágenes la capturó, y el historial no muestra IA generativa. |
+| **Fotografía autenticada y retocada** | Igual, con retoques corrientes (recorte, color, cambio de tamaño…) listados en la tarjeta. |
+| **Contenido probablemente generado por inteligencia artificial** | Un PNG *sin firmar* contiene aun así parámetros de generación de Stable Diffusion o ComfyUI. Es un indicio fuerte, no una prueba — cualquiera puede añadir o quitar esos parámetros — y la tarjeta lo dice. |
+
+Cuando un mensaje contiene varias imágenes, Moddy anuncia el resultado más significativo.
+
+<Note>
+  Una foto autenticada certifica de dónde viene la **imagen**, no la veracidad de la **escena** que muestra.
+</Note>
+
+## El botón Más información
+
+Cada tarjeta tiene un botón **Más información**. Cualquiera que lea la tarjeta puede pulsarlo para obtener un panel privado, en su propio idioma, con:
+
+- el resultado y su origen (firma verificada o metadatos sin firmar)
+- los detalles de la firma: quién la firmó, el algoritmo, la hora de firma, la herramienta y la cámara
+- el historial firmado del archivo, del más antiguo al más reciente
+- cómo funciona, cuánta confianza dar al resultado y por qué la ausencia de resultado no prueba nada
+
+El botón sigue funcionando indefinidamente, también tras un reinicio de Moddy. Si la imagen se ha eliminado entretanto, el panel indica que ya no está disponible.
+
+## Privacidad
+
+Solo se muestra una lista corta de campos: la organización firmante, el algoritmo y la hora de la firma, el generador, la marca y el modelo de la cámara, y los nombres, fechas y tipos de las acciones de edición. **La posición GPS, el nombre del autor, la información de identidad, los números de serie y el nombre del certificado nunca salen del archivo.** En los metadatos PNG, el prompt nunca se muestra — solo el generador y sus ajustes técnicos.
+
+Moddy lee el archivo tal como lo envió el miembro y nunca deja que le haga obtener nada de Internet.
+
+## Configurar el Detector de IA
+
+Abre `/config` y selecciona **Detector de IA**.
+
+| Ajuste | Qué controla | Por defecto |
+| --- | --- | --- |
+| **Resultados anunciados** | Los tipos de resultados que Moddy publica: imágenes generadas por IA, imágenes retocadas con IA, fotos autenticadas, metadatos de generación. Desmarca un tipo y Moddy guarda silencio para él. | Los cuatro |
+| **Canales ignorados** | Canales (y sus hilos) en los que Moddy nunca responde. Máximo 25. | Ninguno |
+
+Haz clic en **Guardar** para aplicar los cambios. Para desactivar el módulo por completo, pulsa **Gestionar** y ponlo en **Pausa**.
+
+<Tip>
+  Si prefieres que Moddy solo hable de la IA, desmarca **Fotos autenticadas** — útil en un servidor de fotografía donde casi todas las imágenes están firmadas.
+</Tip>
+
+## `/ai-check`
+
+¿Dudas de una imagen que Moddy no ha comentado? Compruébala tú mismo.
+
+```discord
+/ai-check image:<archivo>
+/ai-check message:<enlace>
+```
+
+<ParamField path="image" type="attachment">
+  La imagen a comprobar, en PNG, JPEG o WebP.
+</ParamField>
+
+<ParamField path="message" type="string">
+  Un enlace a un mensaje **de este servidor** que contenga la imagen. Moddy solo lo lee si tú mismo puedes ver ese canal y su historial.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si la respuesta es visible solo para ti. Por defecto, tu ajuste de `/preferences`.
+</ParamField>
+
+A diferencia de las respuestas automáticas, `/ai-check` **siempre responde**: o bien el resultado y sus detalles, o bien «Sin información verificable» con el motivo — sin firma, firma no fiable o inválida, archivo no compatible. Funciona en servidores, en MD y como comando instalado por el usuario.
+
+## Conviene saber
+
+- Moddy comprueba archivos PNG, JPEG y WebP de hasta 25 MB, y como máximo 4 imágenes por mensaje.
+- Un resultado refleja lo que el firmante *declaró*. Una firma no puede falsificarse sin la clave del firmante, pero una herramienta puede firmar diciendo poco, y entonces Moddy guarda silencio.
+- No está garantizado que todas las formas de subir un archivo a Discord conserven la firma. Moddy lee el archivo original, que es lo mejor que ofrece Discord.
+
+## Permisos que necesita Moddy
+
+Nada más que ver el canal y enviar mensajes en él.

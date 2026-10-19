@@ -1,11 +1,27 @@
 ---
-title: "AutoMod AI: moderación automática de mensajes para Discord"
-sidebarTitle: "AutoMod AI"
-description: "El AutoMod con IA de Moddy detecta y actúa sobre mensajes dañinos en tiempo real — advirtiendo, silenciando o baneando a miembros automáticamente antes de que se produzca el daño."
+title: "AutoMod: moderación automática de mensajes, imágenes y perfiles"
+sidebarTitle: "AutoMod"
+description: "El AutoMod de Moddy detecta mensajes, imágenes y perfiles de miembros dañinos en tiempo real y aplica las sanciones que tú elijas — opcionalmente tras la aprobación de un moderador."
 icon: "robot"
 ---
 
-El AutoMod de Moddy usa inteligencia artificial para vigilar los mensajes en tu servidor y actuar automáticamente cuando detecta contenido dañino. En lugar de basarse únicamente en listas de palabras clave, comprende el contexto — detectando infracciones sutiles que los filtros simples pasan por alto y evitando falsos positivos en mensajes legítimos.
+El AutoMod de Moddy usa inteligencia artificial para vigilar tu servidor y actuar automáticamente cuando aparece algo dañino. En lugar de basarse únicamente en listas de palabras clave, entiende el contexto — detectando infracciones sutiles que los filtros simples pasan por alto y evitando falsos positivos en mensajes legítimos.
+
+AutoMod vigila tres cosas:
+
+<CardGroup cols={3}>
+  <Card title="Mensajes" icon="message">
+    Insultos, amenazas, acoso, odio, estafas y todo lo que definas como una infracción propia de tu servidor.
+  </Card>
+
+  <Card title="Imágenes" icon="image">
+    Capturas de estafas cripto y falsos sorteos, imágenes explícitas, gore y violencia gráfica.
+  </Card>
+
+  <Card title="Perfiles de miembros" icon="user">
+    Avatares, banners, apodos, nombres para mostrar y nombres de usuario.
+  </Card>
+</CardGroup>
 
 ## Cómo funciona
 
@@ -13,69 +29,169 @@ Cada mensaje enviado en un canal donde AutoMod está activo pasa por una serie d
 
 <Steps>
   <Step title="Prefiltro rápido">
-    Los mensajes muy cortos y otros contenidos que son trivialmente seguros se aprueban al instante sin más procesamiento.
+    Los mensajes muy cortos y otros contenidos trivialmente seguros se aprueban al instante, sin más procesamiento.
   </Step>
   <Step title="Comprobación de frases seguras">
-    Las frases comunes y bien conocidas como seguras se comparan con una lista de permitidas y pasan de inmediato, manteniendo la detección rápida en la conversación normal.
+    Las frases seguras comunes y conocidas se comparan con una lista de permitidos y pasan de inmediato, manteniendo rápida la detección en las conversaciones normales.
   </Step>
-  <Step title="Coincidencia de patrones dañinos">
-    El mensaje se compara con patrones dañinos conocidos. Cualquier coincidencia clara con un patrón bloqueado se marca para actuar.
+  <Step title="Búsqueda de patrones dañinos">
+    El mensaje se compara con patrones dañinos conocidos y con tus propias infracciones. Todo lo que coincide claramente se marca.
   </Step>
   <Step title="Evaluación por IA">
-    Los mensajes que superan las comprobaciones anteriores son evaluados por un modelo de IA. **El modelo de IA toma la decisión final** — solo actúa cuando tiene confianza en que el mensaje es dañino, lo que minimiza los falsos positivos.
+    Los mensajes que superan las comprobaciones anteriores los evalúa un modelo de IA. **El modelo de IA toma la decisión final** — solo actúa cuando está seguro de que el mensaje es dañino, lo que reduce los falsos positivos.
   </Step>
   <Step title="Acción aplicada">
-    Si la IA marca el mensaje, este se elimina inmediatamente. Se aplica una sanción (advertencia, silencio o baneo) al miembro en función de la gravedad de la infracción y de los ajustes de AutoMod configurados en tu servidor.
+    Si la IA marca el mensaje, se aplica la sanción que elegiste para ese tipo de infracción — de inmediato, o tras la aprobación de un moderador.
   </Step>
 </Steps>
 
-## Activar AutoMod
+<Note>
+  AutoMod nunca actúa sobre el propietario del servidor ni sobre un miembro cuyo rol más alto no sea inferior al de Moddy: Discord rechazaría la sanción, y Moddy nunca anuncia algo que no pudo hacer.
+</Note>
 
-Puedes activar AutoMod desde el panel web o directamente desde Discord con `/config`.
+## Configurar AutoMod
+
+Ejecuta `/config` en tu servidor (o abre el [panel de Moddy](https://dashboard.moddy.app)) y selecciona **AutoMod**. El único ajuste obligatorio es el **canal de alertas** — el canal donde AutoMod publica una tarjeta por cada incidente. Todo lo demás tiene una respuesta lista.
+
+La primera vez, un asistente de tres pasos te guía:
 
 <Steps>
-  <Step title="Abre la configuración del servidor">
-    Ejecuta `/config` en tu servidor, o visita el [panel de Moddy](https://dashboard.moddy.app) y selecciona tu servidor.
+  <Step title="Elegir el canal de alertas">
+    Un canal de texto donde Moddy pueda escribir. AutoMod no funciona sin él.
   </Step>
-  <Step title="Ve a AutoMod AI">
-    Localiza la sección **AutoMod AI** en el panel de configuración.
+  <Step title="Elegir un nivel de protección">
+    - **Ligero** — solo casos serios: insultos graves, amenazas, odio, estafas e imágenes explícitas. Se ignoran las pullas cotidianas.
+    - **Equilibrado** (recomendado) — toda la detección de mensajes e imágenes, con las sanciones predeterminadas de Moddy.
+    - **Estricto** — todo lo de Equilibrado, más los perfiles de los miembros (avatar, banner, nombre), con menos tolerancia.
+
+    Podrás afinar todo después.
   </Step>
-  <Step title="Define el canal de alertas">
-    Elige un canal de texto para recibir las tarjetas de alerta de AutoMod. Este canal es **obligatorio** — AutoMod no se ejecutará sin uno definido.
-  </Step>
-  <Step title="Activa AutoMod">
-    Activa el interruptor para poner AutoMod en marcha en tu servidor.
-  </Step>
-  <Step title="Ajusta la severidad">
-    Elige un nivel de severidad del 1 al 5. Controla cuán sensible es la detección y con qué dureza escala la escala automática de sanciones — es el único dial manual; Moddy decide por sí mismo la acción concreta (advertencia, silencio o baneo) y la duración de cada infracción.
-  </Step>
-  <Step title="Exime roles o canales (opcional)">
-    Añade roles o canales de confianza a las listas de exención si quieres que AutoMod los ignore por completo.
+  <Step title="Empezar en simulación o pasar a real">
+    La **simulación** es lo recomendado: AutoMod anuncia lo que _haría_ sin tocar a nadie, para que puedas valorarlo primero con tráfico real.
   </Step>
 </Steps>
 
 <Tip>
-  Revisa periódicamente los registros de AutoMod en el [panel](https://dashboard.moddy.app) para ver qué mensajes se están detectando y marcando. Esto te ayuda a afinar la sensibilidad para que AutoMod funcione bien con el tono y estilo de tu comunidad.
+  ¿Con prisa? Elige **Omitir** en cualquier paso: Moddy aplica el nivel **Equilibrado** en **simulación**. No se sanciona a nadie hasta que pases al modo real desde **Gestionar**.
 </Tip>
 
-## Acciones que puede tomar AutoMod
+Cada cambio que haces en la pantalla de inicio se guarda al instante. Las subpantallas (qué se vigila, sanciones, exenciones, avanzado) funcionan con **Guardar** y **Cancelar**: tus cambios quedan pendientes hasta que los guardes.
 
-Cuando AutoMod determina que un mensaje es dañino, elimina el mensaje y aplica una de las siguientes sanciones, elegida automáticamente a partir de la categoría de la infracción, su severidad y el historial del miembro — no hay que configurar ninguna correspondencia manual:
+### Activo, simulación o pausa
+
+El pequeño botón **Gestionar** de la pantalla de inicio de AutoMod define el estado:
+
+| Estado | Qué ocurre |
+| --- | --- |
+| **Activo** | AutoMod funciona con normalidad. |
+| **Simulación** | AutoMod observa y publica lo que habría hecho, sin aplicar nada. |
+| **Pausa** | AutoMod deja de actuar. |
+
+**Gestionar** también permite eliminar la configuración de AutoMod, tras una confirmación.
+
+### Qué se vigila
+
+Dos selectores múltiples te permiten elegir los **mensajes** e **imágenes** que AutoMod vigila, y los elementos de **perfil** que revisa (avatar, banner, nombres). Desactiva lo que no necesites.
+
+### Exenciones
+
+Añade los roles o canales de confianza que AutoMod debe ignorar por completo, y elige si debe ignorar a los moderadores. La lista de exenciones la comparten todas las funciones de AutoMod.
+
+### Avanzado
+
+Limita la **sanción máxima** que AutoMod puede aplicar por sí solo (solo advertencia, hasta un aislamiento temporal, o expulsión permanente permitida), ajusta la **sensibilidad** de _muy tolerante_ a _muy estricto_ y consulta los precedentes que Moddy ha aprendido de tus moderadores.
+
+## Sanciones
+
+AutoMod dispone de un **catálogo** de todo lo que puede sancionar, agrupado en **Mensajes**, **Imágenes**, **Perfiles** y **Propias de este servidor**. Por defecto, Moddy elige la sanción por sí mismo a partir de la categoría de la infracción, su gravedad y el historial del miembro. Para cualquier entrada del catálogo, puedes decidir tú.
+
+Para cada infracción puedes:
+
+- **Desactivarla** — el mensaje infractor se elimina igualmente, pero el miembro no es sancionado
+- **Elegir sus acciones**, combinadas como quieras (ver abajo)
+- **Fijar un aislamiento temporal exacto** entre 1 minuto y 28 días
+- **Exigir la aprobación de un moderador** (ver abajo)
+- **Endurecerla en caso de reincidencia**, o no
+- **Restablecerla** a los valores por defecto de Moddy
+
+### Acciones disponibles
 
 | Acción | Descripción |
 | --- | --- |
-| **Advertencia** | Se registra una advertencia formal en el caso del miembro. Adecuada para infracciones leves o primerizas. |
-| **Silencio** | El miembro recibe un tiempo fuera temporal. Puedes configurar la duración del silencio en los ajustes de AutoMod. |
-| **Baneo** | El miembro es baneado del servidor. Reservado para las infracciones más graves. |
+| **Eliminar** | Se borra el mensaje. Se combina con todas las demás acciones. |
+| **Advertir** | Se registra una advertencia formal en el caso del miembro. |
+| **Aislar temporalmente** | El miembro queda aislado temporalmente, durante la duración exacta que fijes. |
+| **Expulsar** | El miembro es expulsado del servidor y puede volver. Las expulsiones se aplican y se muestran en la tarjeta de alerta, pero no abren un caso. |
+| **Banear** | El miembro es baneado del servidor. |
 
-Todas las acciones de AutoMod se registran como casos de moderación con una línea de tiempo completa, igual que las sanciones aplicadas manualmente.
+Las acciones incompatibles se resuelven por ti y el panel explica cómo: un baneo prevalece sobre una expulsión, y una expulsión sobre un aislamiento o una advertencia.
 
-## Se vuelve más inteligente con el tiempo
+Todas las sanciones, salvo las expulsiones, se registran como casos de moderación con una línea de tiempo completa, igual que las aplicadas manualmente. Como el caso solo se crea una vez que Discord ha confirmado la acción, la tarjeta de alerta y el caso muestran siempre lo que **realmente** ocurrió — incluida cualquier acción que falló, y por qué.
+
+### Aprobación de un moderador
+
+Activa **Exigir aprobación** en una infracción y AutoMod deja de sancionar por su cuenta:
+
+1. El mensaje infractor se **elimina de inmediato** — el contenido dañino no debe quedarse mientras alguien decide.
+2. Se publica en tu canal de alertas una tarjeta con las pruebas y botones **Aprobar** / **Rechazar**.
+3. **Aprobar** aplica las acciones previstas, tras comprobar de nuevo que Moddy sigue autorizado a hacerlo. **Rechazar** no aplica nada.
+
+Solo pueden decidir los miembros con el permiso correspondiente: **Banear miembros** para un baneo, **Expulsar miembros** para una expulsión y **Aislar temporalmente a miembros** en los demás casos. Los administradores siempre pueden. Una solicitud sin respuesta caduca a las 48 horas.
+
+### Tus propias infracciones
+
+¿Falta una regla propia de tu comunidad? Añade hasta **10 infracciones personalizadas** desde **Sanciones** → **Añadir una infracción**. Parte de una plantilla lista para usar — publicidad de servidores, spoilers, política o religión, peticiones por MD, idioma, enlaces — o escribe la tuya:
+
+- un **nombre** (40 caracteres) y una **descripción** (300 caracteres) de lo que no quieres
+- hasta 5 **frases de ejemplo**
+- hasta 20 **palabras clave** que siempre marcan un mensaje
+
+Cada infracción personalizada tiene su propia sanción, como cualquier otra. Moddy comprueba la seguridad del texto que escribiste antes de guardarlo, para que una infracción no pueda usarse para manipular a la IA.
+
+## Imágenes
+
+<AccordionGroup>
+  <Accordion title="Capturas de estafas cripto y falsos sorteos">
+    Un raid habitual publica un falso sorteo de una celebridad y una falsa captura de «retiro exitoso», a menudo desde una cuenta comprometida en varios canales a la vez. Moddy lee el texto de la imagen y lo pasa por la misma detección que un mensaje. Una imagen de estafa ya validada por el equipo de Moddy se banea al instante, y cada copia publicada en otros canales se elimina también.
+  </Accordion>
+
+  <Accordion title="Imágenes explícitas">
+    Se marcan automáticamente mediante SafeSearch de Google, con independencia de cualquier texto que las acompañe. Los canales restringidos por edad se omiten.
+  </Accordion>
+
+  <Accordion title="Gore y violencia gráfica">
+    Se detectan por separado de las imágenes explícitas, con su propio interruptor: puedes activar una sin la otra.
+  </Accordion>
+</AccordionGroup>
+
+Una imagen que Moddy no pudo leer **nunca** se sanciona.
+
+## Perfiles de miembros
+
+AutoMod también puede moderar lo que un miembro _es_, y no solo lo que dice. Cuando alguien se une o cambia su perfil, Moddy comprueba:
+
+- su **avatar** y su **banner**, en busca de contenido explícito o impactante
+- su **apodo**, su **nombre para mostrar** y su **nombre de usuario**, en busca de insultos o lenguaje sexual u odioso
+
+Para cada tipo, eliges qué ocurre:
+
+| Acción | Qué hace |
+| --- | --- |
+| **Retener** _(avatar y banner)_ | El miembro queda bajo un aislamiento temporal, renovado automáticamente mientras la imagen infractora siga, y levantado en cuanto la cambie. |
+| **Renombrar y advertir** _(nombres)_ | Moddy restablece el apodo y advierte al miembro. |
+| **Solo alerta** | Una tarjeta de alerta en tu canal, sin aplicar nada. |
+| **Escala habitual** | Se aplica la escala de sanciones normal. |
+
+<Note>
+  Los banners solo pueden comprobarse cuando un miembro se une o cambia otra cosa de su perfil, porque Discord no avisa de un cambio de banner por sí solo.
+</Note>
+
+## Cada vez más acertado con el tiempo
 
 AutoMod no se limita a reaccionar a un único mensaje de forma aislada — dos bucles de retroalimentación dan forma a las decisiones futuras para tu servidor, sin necesidad de ajustes manuales:
 
-- **Resultados de apelaciones.** Una apelación aceptada no solo deshace la sanción — es una señal de que la decisión original fue un falso positivo, por lo que deja de contar contra ese miembro en futuras decisiones de escalado. Una apelación rechazada, en cambio, confirma que la sanción era correcta y pesa un poco más que una no revisada.
-- **Precedentes del servidor.** A medida que tus moderadores aceptan o rechazan apelaciones, Moddy construye una memoria de lo que tu comunidad considera sancionable — así sus juicios se vuelven más coherentes con la forma en que tu equipo modera realmente, en lugar de depender solo de reglas genéricas.
+- **Resultados de las apelaciones.** Una apelación aceptada no solo deshace la sanción: es una señal de que la decisión original fue un falso positivo, así que deja de contar contra ese miembro en futuras decisiones de escalada. Una apelación rechazada, en cambio, confirma que la sanción fue correcta y pesa ligeramente más que una sanción sin revisar.
+- **Precedentes del servidor.** A medida que tus moderadores aceptan o rechazan apelaciones, Moddy construye una memoria de lo que tu comunidad concreta considera sancionable — de modo que sus decisiones son más coherentes con cómo modera realmente tu equipo, en lugar de basarse solo en reglas genéricas.
 
 ## Apelar decisiones de AutoMod
 
@@ -89,11 +205,15 @@ Las apelaciones enviadas se dirigen a los moderadores de tu servidor para su rev
 
 Cada resultado de apelación queda registrado en la línea de tiempo del caso.
 
-Más allá del proceso de apelación, el equipo de Moddy también puede revisar de forma independiente mensajes e imágenes sancionados o dudosos para mejorar la precisión de la detección — y levantar una sanción que considere incorrecta, con el mismo efecto que una apelación aceptada.
+Más allá del flujo de apelaciones, el equipo de Moddy también puede revisar de forma independiente mensajes e imágenes sancionados o dudosos para mejorar la precisión de la detección — y levantar una sanción que considere incorrecta, con el mismo efecto que una apelación aceptada.
 
-## Disponible en cada servidor
+## Disponible en todos los servidores
 
-AutoMod AI no es una función premium — se ejecuta a plena capacidad en todos los servidores, gratuitos o [Moddy Max](/premium/overview), con la misma cadena de detección, controles de sensibilidad y creación de casos. Consulta [qué desbloquea realmente Moddy Max](/premium/features) si te preguntas si actualizar afecta a la moderación — hoy por hoy, no.
+AutoMod no es una función premium — se ejecuta a plena capacidad en todos los servidores, gratuitos o [Moddy Max](/premium/overview), con la misma cadena de detección, los mismos controles de sanciones y la misma creación de casos. Consulta [qué desbloquea realmente Moddy Max](/premium/features) si te preguntas si mejorar el plan afecta a la moderación — hoy no lo hace.
+
+## Permisos que necesita Moddy
+
+AutoMod pide **Gestionar mensajes**, **Banear miembros**, **Aislar temporalmente a miembros**, **Gestionar apodos** (para renombrar a los miembros cuyo nombre incumple tus reglas) y **Adjuntar archivos**. `/config` los comprueba al abrir el módulo y lista los que falten.
 
 <Note>
   El AutoMod de Moddy funciona **junto al AutoMod nativo de Discord** — puedes tener ambos activos a la vez. Operan de forma independiente, así que activar uno no desactiva ni interfiere con el otro.

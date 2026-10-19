@@ -286,7 +286,8 @@
                   "es/modules/logs",
                   "es/modules/tickets",
                   "es/modules/bump-reminder",
-                  "es/modules/member-applications"
+                  "es/modules/member-applications",
+                  "es/modules/ai-detector"
                 ]
               },
               {
