@@ -184,7 +184,8 @@
                   "fr/modules/logs",
                   "fr/modules/tickets",
                   "fr/modules/bump-reminder",
-                  "fr/modules/member-applications"
+                  "fr/modules/member-applications",
+                  "fr/modules/ai-detector"
                 ]
               },
               {

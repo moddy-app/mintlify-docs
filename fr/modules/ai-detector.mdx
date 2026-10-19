@@ -1,0 +1,97 @@
+---
+title: "Détecteur IA : savoir d'où vient une image"
+sidebarTitle: "Détecteur IA"
+description: "Moddy vérifie les Content Credentials (C2PA) des images publiées sur votre serveur et indique quand l'une a été générée ou modifiée par IA — uniquement quand il peut le prouver."
+icon: "shield"
+---
+
+Avec des images d'IA partout, « c'est réel ? » est une question légitime. Le Détecteur IA n'y répond que **lorsqu'il peut prouver la réponse** : il lit les Content Credentials (C2PA) cachés dans une image publiée, vérifie que la signature provient d'un certificat de la [liste de confiance officielle de la C2PA](https://c2pa.org), puis répond sous l'image par une courte carte.
+
+Le module est **activé par défaut sur tous les serveurs**. Vous n'avez rien à configurer ; vous pouvez le restreindre ou le mettre en pause quand vous voulez.
+
+<Warning>
+  **Pas de réponse ne veut jamais dire « pas d'IA ».** La plupart des images d'IA ne portent aucune signature, et les captures d'écran, les réenregistrements et la plupart des réseaux sociaux et messageries la suppriment. Le Détecteur IA vous dit ce qu'une signature *prouve*, jamais ce que l'absence de signature *suggère*.
+</Warning>
+
+## Ce que Moddy peut vous dire
+
+Sous chaque PNG, JPEG ou WebP publié par un membre, Moddy répond — sans mentionner personne, dans la **langue du serveur** — uniquement lorsque l'image porte une signature de confiance ou des métadonnées de génération :
+
+| Résultat | Signification |
+| --- | --- |
+| **Contenu généré par intelligence artificielle** | La signature montre que l'image a été entièrement créée par un outil d'IA. La carte nomme l'outil et la date quand la signature les indique. |
+| **Contenu partiellement généré par intelligence artificielle** | L'historique signé montre qu'un outil d'IA générative a modifié l'image. |
+| **Photographie authentifiée** | Un appareil photo ou un téléphone qui signe ses images l'a capturée, et l'historique ne montre aucune IA générative. |
+| **Photographie authentifiée et retouchée** | Idem, avec des retouches ordinaires (recadrage, couleurs, redimensionnement…) listées sur la carte. |
+| **Contenu probablement généré par intelligence artificielle** | Un PNG *non signé* contient pourtant des paramètres de génération Stable Diffusion ou ComfyUI. C'est un fort indice, pas une preuve — n'importe qui peut ajouter ou retirer ces paramètres — et la carte le précise. |
+
+Quand un message contient plusieurs images, Moddy annonce le résultat le plus significatif.
+
+<Note>
+  Une photo authentifiée certifie d'où vient l'**image**, pas la véracité de la **scène** qu'elle montre.
+</Note>
+
+## Le bouton Plus d'informations
+
+Chaque carte a un bouton **Plus d'informations**. Toute personne qui lit la carte peut l'appuyer pour obtenir un panneau privé, dans sa propre langue, avec :
+
+- le résultat et sa provenance (signature vérifiée ou métadonnées non signées)
+- les détails de la signature : qui l'a signée, l'algorithme, l'heure de signature, l'outil et l'appareil
+- l'historique signé du fichier, du plus ancien au plus récent
+- comment cela fonctionne, quelle confiance accorder au résultat, et pourquoi l'absence de résultat ne prouve rien
+
+Le bouton continue de fonctionner indéfiniment, y compris après un redémarrage de Moddy. Si l'image a été supprimée entre-temps, le panneau indique qu'elle n'est plus disponible.
+
+## Confidentialité
+
+Seule une courte liste de champs est affichée : l'organisation signataire, l'algorithme et l'heure de signature, le générateur, la marque et le modèle de l'appareil, ainsi que les noms, dates et types des actions de modification. **La position GPS, le nom de l'auteur, les informations d'identité, les numéros de série et le nom du certificat ne sortent jamais du fichier.** Pour les métadonnées PNG, le prompt n'est jamais affiché — seulement le générateur et ses réglages techniques.
+
+Moddy lit le fichier tel que le membre l'a envoyé et ne le laisse jamais lui faire récupérer quoi que ce soit sur Internet.
+
+## Configurer le Détecteur IA
+
+Ouvrez `/config` et sélectionnez **Détecteur IA**.
+
+| Réglage | Ce qu'il contrôle | Par défaut |
+| --- | --- | --- |
+| **Résultats annoncés** | Les types de résultats que Moddy publie : images générées par IA, images retouchées par IA, photos authentifiées, métadonnées de génération. Décochez un type et Moddy reste silencieux pour celui-ci. | Les quatre |
+| **Salons ignorés** | Salons (et leurs fils) dans lesquels Moddy ne répond jamais. 25 au maximum. | Aucun |
+
+Cliquez sur **Enregistrer** pour appliquer vos modifications. Pour désactiver complètement le module, appuyez sur **Gérer** et passez-le en **Pause**.
+
+<Tip>
+  Si vous préférez que Moddy ne s'exprime que sur l'IA, décochez **Photos authentifiées** — pratique sur un serveur de photographie où presque toutes les images sont signées.
+</Tip>
+
+## `/ai-check`
+
+Un doute sur une image que Moddy n'a pas commentée ? Vérifiez-la vous-même.
+
+```discord
+/ai-check image:<fichier>
+/ai-check message:<lien>
+```
+
+<ParamField path="image" type="attachment">
+  L'image à vérifier, au format PNG, JPEG ou WebP.
+</ParamField>
+
+<ParamField path="message" type="string">
+  Un lien vers un message **de ce serveur** contenant l'image. Moddy ne le lit que si vous pouvez voir ce salon et son historique vous-même.
+</ParamField>
+
+<ParamField path="incognito" type="boolean">
+  Si la réponse n'est visible que par vous. Par défaut, votre réglage de `/preferences`.
+</ParamField>
+
+Contrairement aux réponses automatiques, `/ai-check` **répond toujours** : soit le résultat et ses détails, soit « Aucune information vérifiable » avec la raison — pas de signature, signature non fiable ou invalide, fichier non pris en charge. Elle fonctionne dans les serveurs, en MP et comme commande installée par l'utilisateur.
+
+## À savoir
+
+- Moddy vérifie les fichiers PNG, JPEG et WebP jusqu'à 25 Mo, et 4 images au maximum par message.
+- Un résultat reflète ce que le signataire a *déclaré*. Une signature ne peut pas être falsifiée sans la clé du signataire, mais un outil peut signer sans dire grand-chose, et Moddy reste alors silencieux.
+- Rien ne garantit que chaque manière d'envoyer un fichier sur Discord conserve la signature. Moddy lit le fichier d'origine, ce qui est le mieux que Discord propose.
+
+## Permissions nécessaires à Moddy
+
+Rien de plus que voir le salon et y envoyer des messages.
