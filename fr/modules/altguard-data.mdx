@@ -5,63 +5,39 @@ description: "Un aperçu en langage clair de ce que la vérification d'AltGuard 
 icon: "database"
 ---
 
-Lorsque quelqu'un rejoint un serveur où AltGuard est activé, on lui demande de passer par une courte étape de vérification avant qu'il n'obtienne un accès complet. Cet article détaille ce que cette étape examine réellement, pourquoi, et ce qu'il advient des données ensuite — utile si un membre vous pose la question, ou simplement si vous voulez savoir ce que vous activez pour votre serveur.
+AltGuard vérifie, à l'entrée d'un serveur Discord, qu'un même utilisateur n'y amène pas plusieurs comptes. Cette page décrit ce qui est collecté à cette occasion, pourquoi, combien de temps c'est conservé, et comment exercer vos droits. Elle est utile si un membre vous pose la question, ou si vous voulez simplement savoir ce que vous activez pour votre serveur.
 
 <Info>
-  Version 2026-08-18b de l'avis d'information sous-jacent, celui-là même qui est lié depuis l'écran de consentement que les membres voient avant de se vérifier.
+  Version 2026-10-27 de l'avis d'information sous-jacent, celui-là même qui est lié depuis l'écran de consentement que les membres voient avant de se vérifier. La notice officielle est publiée sur [verify.moddy.app/privacy](https://verify.moddy.app/privacy).
 </Info>
 
-## Ce qui est examiné
+## Ce qui est collecté
 
-Quatre signaux alimentent la vérification, chacun conservé pendant une durée différente :
+| Donnée | À quoi elle sert | Conservation |
+| --- | --- | --- |
+| Caractéristiques techniques du navigateur et de l'appareil (dont le modèle de téléphone) et cookie technique | Reconnaître un appareil ou un navigateur déjà vu, pour détecter un second compte amené sur le même serveur. | 18 mois d'inactivité |
+| Adresse email (via Discord) | Reconnaître un compte réutilisant la même boîte mail. Conservée chiffrée, jamais lisible sauf sur demande légitime et tracée. | 18 mois d'inactivité |
+| Adresse IP, y compris l'adresse publique révélée par WebRTC lorsque la connexion passe par un VPN | Signal faible de corrélation entre comptes. Jamais conservée en clair, seulement sous forme d'empreinte non réversible. | 90 jours |
+| Liste de vos serveurs Discord (via Discord) | Mesurer le recouvrement de serveurs entre deux comptes. Conservée uniquement sous forme d'empreintes non réversibles, jamais d'identifiants de serveur lisibles. | 180 jours |
+| Comptes tiers liés à votre compte Discord (Steam, Xbox, GitHub…, via Discord) | Reconnaître deux comptes Discord liés au même compte tiers. Seuls les comptes vérifiés sont lus, conservés sous forme d'empreintes non réversibles, jamais d'identifiants lisibles. | 180 jours |
+| Le compte qui vous a invité sur le serveur (via le bot) | Corroborer un lien entre deux comptes, jamais à lui seul. Identifiant Discord public, conservé avec votre appartenance au serveur. | 30 jours après le départ du serveur |
+| Preuve du consentement (date et version de la politique) | Prouver que la collecte a bien été autorisée. Conservée séparément des données elles-mêmes. | 3 ans |
 
-<CardGroup cols={2}>
-  <Card title="Caractéristiques du navigateur et cookie technique" icon="fingerprint">
-    Reconnaît un appareil ou un navigateur déjà vu — le signal principal pour repérer un second compte introduit dans le même serveur.
+## Finalité
 
-    **Conservé pendant :** 18 mois d'inactivité
-  </Card>
+La seule finalité est la détection de comptes multiples amenés sur un même serveur. Aucune donnée n'est revendue ni utilisée à des fins publicitaires. Les caractéristiques collectées sont immédiatement transformées en empreintes non réversibles : le serveur Discord et son bot ne reçoivent jamais qu'un verdict (vérifié, en attente, refusé) et un score, jamais vos données.
 
-  <Card title="Adresse e-mail (via Discord)" icon="envelope">
-    Détecte un compte réutilisant la même boîte mail. Stockée chiffrée — personne ne la lit sauf sur demande légitime et journalisée.
+Voir le [guide du module AltGuard](/modules/altguard) pour comprendre le fonctionnement du reste de la porte.
 
-    **Conservé pendant :** 18 mois d'inactivité
-  </Card>
+## Vos droits
 
-  <Card title="Adresse IP" icon="network-wired">
-    Signal de corrélation plus faible pris isolément. Jamais conservée en clair — uniquement sous forme d'empreinte à sens unique impossible à retransformer en IP.
+- **Accès :** obtenir la liste de ce qui est conservé à votre sujet.
+- **Effacement :** demander la suppression de vos données de vérification.
+- **Retrait du consentement :** à tout moment, sans avoir à vous justifier.
+- **Rectification :** l'essentiel des données étant des empreintes non réversibles, la rectification passe le plus souvent par un effacement suivi d'une nouvelle vérification.
 
-    **Conservé pendant :** 90 jours
-  </Card>
+## Retirer votre consentement
 
-  <Card title="Les serveurs Discord dont vous faites partie (via Discord)" icon="server">
-    Utilisé pour mesurer à quel point les listes de serveurs de deux comptes se chevauchent. Également conservé uniquement sous forme d'empreintes à sens unique — jamais comme une liste lisible de noms ou d'ids de serveurs.
+Vous pouvez retirer votre consentement et demander l'effacement de vos données de vérification à tout moment. Le retrait n'affecte pas la validité de la collecte déjà effectuée, mais entraîne la suppression de vos empreintes et de vos appartenances vérifiées. La seule trace conservée est la preuve du consentement lui-même, gardée à titre probatoire pour la durée indiquée ci-dessus.
 
-    **Conservé pendant :** 180 jours
-  </Card>
-</CardGroup>
-
-<Card title="Preuve du consentement" icon="file-signature">
-  Uniquement la date et la version de l'avis auquel la personne a consenti, conservées séparément de tout ce qui précède comme preuve que la collecte a été autorisée.
-
-  **Conservé pendant :** 3 ans
-</Card>
-
-## Pourquoi c'est collecté — et ce que le bot ne voit jamais
-
-Le seul objectif est de repérer plusieurs comptes atterrissant sur le même serveur, rien d'autre — rien de tout cela n'est vendu ni utilisé à des fins publicitaires. Les signaux ci-dessus sont immédiatement convertis en empreintes à sens unique, de sorte que ce qui revient effectivement à Discord n'est jamais la donnée brute elle-même : votre serveur et Moddy ne reçoivent qu'un verdict — **réussi**, **signalé** ou **bloqué** — plus un score.
-
-C'est un choix de conception délibéré qui traverse tout le système : Moddy lui-même ne touche jamais à une empreinte, à un e-mail, à une IP ou à une liste de serveurs à aucun moment. Voir le [guide du module AltGuard](/modules/altguard) pour comprendre le fonctionnement du reste de la porte.
-
-## Si un membre veut faire supprimer ses données
-
-Toute personne ayant traversé la vérification peut :
-
-- **Demander ce qui est stocké** à son sujet.
-- **Demander son effacement.**
-- **Retirer son consentement**, à tout moment, sans avoir à s'expliquer.
-- **Demander une correction** — cependant, comme la majeure partie de ce qui est stocké consiste en des empreintes à sens unique plutôt qu'en données brutes, corriger quelque chose revient en pratique à l'effacer et à se vérifier à nouveau.
-
-Retirer son consentement n'annule pas une vérification déjà effectuée, mais efface bien les empreintes et les enregistrements d'appartenance vérifiée. La seule chose qui reste est l'enregistrement de preuve de consentement lui-même, conservé comme preuve pendant les 3 ans mentionnés plus haut.
-
-Ce type de demandes passe d'abord par le staff de votre serveur, qui les transmet à l'équipe gérant le service de vérification.
+Pour exercer l'un de ces droits, contactez le staff du serveur concerné, qui transmet la demande à l'exploitant du service.

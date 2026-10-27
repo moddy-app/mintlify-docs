@@ -11,6 +11,17 @@ Everything new in Moddy, newest first. Moddy is under active development, so thi
   Want to know as things ship? Announcements go out on the [Moddy support server](https://moddy.app/support) as soon as a feature is live.
 </Note>
 
+<Update label="October 27, 2026" description="AltGuard">
+  ## AltGuard: linked accounts, VPN blocking and clearer logs
+
+  - **New data notice (2026-10-27):** the check now also looks at the phone model, the public IP revealed by WebRTC behind a VPN, third-party accounts linked to the member's Discord (Steam, Xbox, GitHub…) and the account that invited them. The consent text and the [data notice](/modules/altguard-data) are updated.
+  - **VPNs, proxies and private relays are refused**, iCloud Private Relay and Cloudflare WARP included. The member can turn it off and click **Try again**; they stay unverified in the meantime and nothing is posted in your log channel.
+  - **Clearer log cards:** signals now have readable labels, and only the signals and linked accounts that actually weighed in the decision are listed.
+  - **Optional permission:** give Moddy **Manage Server** so it can tell who invited a member. It's never required.
+
+  See the [module guide](/modules/altguard).
+</Update>
+
 <Update label="October 19, 2026" description="AI Detector · /ai-check">
   ## AI Detector: Moddy tells you where an image comes from
 
