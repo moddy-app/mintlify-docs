@@ -5,7 +5,7 @@ description: "Automatically detect and act on suspected alternate accounts when 
 icon: "fingerprint"
 ---
 
-AltGuard holds every new human member behind a verification gate until `verify.moddy.app` — a dedicated external service, not the bot itself — decides whether their account looks like a second account of someone already on your server. The bot never sees or stores any personal data from that process: no fingerprint, no email, no IP address. Everything crossing back to the bot is Discord ids, a pass/fail-style verdict, and category labels. See [What AltGuard Checks, and What Happens to That Data](/modules/altguard-data) for exactly what's collected, why, and for how long.
+AltGuard holds every new human member behind a verification gate until `verify.moddy.app` — a dedicated external service, not the bot itself — decides whether their account looks like a second account of someone already on your server. The bot never sees or stores any personal data from that process: no fingerprint, no email, no IP address. Everything crossing back to the bot is Discord ids, a verdict, and category labels. The only thing the bot sends the other way is the public id of the account that invited the member, when it can tell (see [Who invited the member](#who-invited-the-member)). See [What AltGuard Checks, and What Happens to That Data](/modules/altguard-data) for exactly what's collected, why, and for how long.
 
 <Warning>
   AltGuard is not a heuristic the bot runs on its own — it relies on an explicit, consent-based check performed by Moddy's verification service in the member's browser. A member must actively go through the verification screen; there is no passive "AI guesses your account age" detection running in the background.
@@ -18,18 +18,18 @@ AltGuard holds every new human member behind a verification gate until `verify.m
     They immediately receive the **unverified role** and can only see your configured verification channel. Bots skip this entirely — they can't click a button, so they're never gated.
   </Step>
   <Step title="They open the verification panel">
-    A single permanent message with one button sits in the verification channel. Clicking it opens a consent screen explaining exactly what will be checked (browser characteristics, a technical cookie, Discord email, server list, IP address — all encrypted), with links to the data notice, terms, and privacy policy. Two checkboxes must be ticked to continue; closing the screen sends nothing anywhere.
+    A single permanent message with one button sits in the verification channel. Clicking it opens a consent screen explaining exactly what will be checked (browser and device characteristics, a technical cookie, Discord email, server list, linked accounts such as Steam, Xbox or GitHub, IP address, and the account that invited them — all encrypted or turned into non-reversible fingerprints), with links to the data notice, terms, and privacy policy. Two checkboxes must be ticked to continue; closing the screen sends nothing anywhere.
   </Step>
   <Step title="They authorize on Discord's own screen">
-    After consenting, the member gets a personal, single-use link (valid 20 minutes) where the verification service runs its checks. Moddy has no part in this step.
+    After consenting, the member gets a personal, single-use link (valid 20 minutes) where the verification service runs its checks. Discord's own authorization screen asks for the member's identity, email address, server list and **linked accounts**. Moddy has no part in this step.
   </Step>
   <Step title="The verdict comes back">
-    The service returns one of three outcomes: **passed** (the member gets the verified role and moves on to Auto Role, if configured), **flagged** (kept behind the gate, pending a moderator's manual review), or **blocked** (kept behind the gate). The member is DMed the outcome in plain language — never the underlying score or signals.
+    The service returns one of three outcomes: **verified** (the member gets the verified role and moves on to Auto Role, if configured), **pending** (kept behind the gate, awaiting a moderator's manual review), or **denied** (kept behind the gate). The member is DMed the outcome in plain language — never the underlying score or signals.
   </Step>
 </Steps>
 
 <Note>
-  AltGuard may occasionally flag a legitimate new member who happens to share signals with a previously banned account. Review flags in your log channel before assuming the worst — that's exactly what the manual `/altguard verify` override below is for.
+  AltGuard may occasionally put a legitimate new member on hold who happens to share signals with a previously banned account. Review pending verdicts in your log channel before assuming the worst — that's exactly what the manual `/altguard verify` override below is for.
 </Note>
 
 ## Enabling AltGuard
@@ -56,9 +56,32 @@ AltGuard holds every new human member behind a verification gate until `verify.m
   Moddy needs the **Manage Roles** and **Manage Channels** permissions, with its own role positioned above both the verified and unverified roles, to lock down channels and hand out roles correctly.
 </Warning>
 
+<Tip>
+  **Manage Server** is recommended, but optional. It lets Moddy read your invite list to work out which invite a member used (see below). Without it, AltGuard works normally — it just has less information.
+</Tip>
+
+## Who invited the member
+
+When Moddy can determine which account invited a member, it passes that account to AltGuard. A second account is often invited through the main account's link, so AltGuard uses it **only to reinforce another link** (a shared device, network or linked third-party account). On its own it counts for nothing: inviting friends is the normal way to join a server.
+
+Moddy can't determine the inviter when the member arrives through your server's vanity URL, through a single-use or since-deleted invite, or when several members join at the same instant.
+
+## VPNs, proxies and private relays
+
+Verification is refused when it's done from a VPN, a proxy or a hosting provider — **including iCloud Private Relay and Cloudflare WARP**. Here's what the member sees:
+
+1. The verification page says a VPN was detected and asks them to turn it off and try again.
+2. A **Try again** button works with the same link until it expires (20 minutes).
+3. If the link has expired, they start again from the button in the verification channel, as usual (5 attempts maximum per 10 minutes).
+4. Until they retry without a VPN they **stay unverified**. This is not a denial — no decision has been made.
+
+<Note>
+  An attempt blocked by a VPN produces **no message** in your log channel, because it isn't a verdict. A member who stays stuck with nothing in the logs is most likely behind a VPN. This protection is on by default on every server and can't be turned off from Moddy.
+</Note>
+
 ## Reviewing and Overriding Verdicts
 
-Flagged and blocked members stay behind the gate until a moderator steps in. From your log channel, moderators with the **Kick Members** permission (the default — adjustable per role from **Server Settings → Integrations**) can override any verdict directly in Discord:
+Pending and denied members stay behind the gate until a moderator steps in. From your log channel, moderators with the **Kick Members** permission (the default — adjustable per role from **Server Settings → Integrations**) can override any verdict directly in Discord:
 
 ```discord
 /altguard verify <member>
@@ -68,8 +91,49 @@ Flagged and blocked members stay behind the gate until a moderator steps in. Fro
 `/altguard verify` lets a member through manually — granting the verified role and handing them off to Auto Role, if enabled — while `/altguard unverify` sends a previously verified member back behind the gate.
 
 <Tip>
-  If you have questions about a specific decision — why a member was flagged, what score or signals were involved — that detail isn't exposed in `/altguard`. Reach out through the [support server](https://moddy.app/support) with the case's details and the Moddy team can look it up on request.
+  If you have questions about a specific decision — why a member was held, what score or signals were involved — that detail isn't exposed in `/altguard`. Reach out through the [support server](https://moddy.app/support) with the case's details and the Moddy team can look it up on request.
 </Tip>
+
+## Reading the log channel
+
+Each verdict card in the log channel (and the staff command `/mod altguard refusal`) lists the signals that actually weighed on the decision, each with a readable label followed by its code — for example `Same graphics card (gpu_match)`. The list of linked accounts only shows accounts that weighed in the decision; weak matches don't appear. A signal Moddy doesn't recognise yet is shown with its raw code — that isn't an error, AltGuard can add new ones.
+
+<Warning>
+  `invited_by` never justifies a sanction on its own — it only reinforces another link. And never show the score, the signals or the linked accounts to the member being verified.
+</Warning>
+
+| Code | Meaning |
+| --- | --- |
+| `cookie_match` | Same browser (AltGuard cookie) |
+| `email_match` | Same email address |
+| `connection_match` **new** | Same linked third-party account (Steam, Xbox, GitHub…) |
+| `visitor_match` | Same browser fingerprint |
+| `render_match` | Same graphics and audio rendering |
+| `gpu_match` | Same graphics card |
+| `hardware_match` | Same hardware setup (screen, CPU, timezone, model) |
+| `fonts_match` | Same installed fonts |
+| `ip_match` | Same IP address |
+| `ip_prefix_match` | Same subnet |
+| `asn_match` | Same network operator |
+| `guild_overlap` | Discord servers in common |
+| `guild_overlap_high` | Many Discord servers in common |
+| `join_burst` | Joined the server less than 15 min apart |
+| `invited_by` **new** | Invited by this account (reinforces another link) |
+| `account_new_24h` | Account created less than 24 h ago |
+| `account_new_7d` | Account created less than 7 days ago |
+| `account_new_30d` | Account created less than 30 days ago |
+| `email_unverified` | Email not verified on Discord |
+| `email_disposable` | Disposable email |
+| `default_avatar` | Default avatar |
+| `no_badge` | No badge |
+| `datacenter_ip` | Connection from a host, cloud or VPN |
+| `vpn_detected` **new** | VPN unmasked: the real IP behind it was found |
+
+## Troubleshooting
+
+<Accordion title="A member's verification doesn't go through">
+  The most common cause is a VPN, proxy or private relay (iCloud Private Relay and Cloudflare WARP included). Ask them to turn it off, then click **Try again** on the verification page, or start the verification again from the panel button. See [VPNs, proxies and private relays](#vpns-proxies-and-private-relays).
+</Accordion>
 
 ## Auto Role Integration
 

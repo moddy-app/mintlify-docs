@@ -44,7 +44,7 @@ Certaines fonctionnalités stockent des données uniquement lorsque vous les uti
 | **Cas de modération** | Sanctions, preuves, motifs, notes, historique complet | — |
 | **Appels de sanctions** | Le motif d'appel que vous rédigez, son parcours et son statut | — |
 | **Abonnements aux notifications sociales** | Comptes suivis, modèles de messages personnalisés, ID de celui qui les a ajoutés | — |
-| **Enregistrements de vérification AltGuard** | Le verdict, le score et les motifs renvoyés par le service de vérification, plus votre statut de barrière sur ce serveur | — |
+| **Enregistrements de vérification AltGuard** | Le verdict, le score et les motifs renvoyés par le service de vérification, plus votre statut de barrière sur ce serveur. Le compte qui vous a invité est transmis par le bot au service de vérification, qui le conserve 30 jours après votre départ du serveur | — |
 
 ### Données collectées par la modération automatisée
 
@@ -145,7 +145,7 @@ Voici les exceptions avec une conservation **plus courte et automatique** :
 
 - **Enregistrements de tokens divulgués** — le token chiffré est purgé après 24 heures, ou immédiatement une fois invalidé
 - **Précédents de serveur** utilisés par la modération automatique — plafonnés à 500 entrées par serveur, les plus anciennes évincées en premier
-- **Données de vérification AltGuard** — conservées par le service de vérification externe selon son propre calendrier, détaillé dans la [notice de données AltGuard](/modules/altguard-data) (90 jours à 18 mois selon le signal, 3 ans pour la preuve de consentement)
+- **Données de vérification AltGuard** — conservées par le service de vérification externe selon son propre calendrier, détaillé dans la [notice de données AltGuard](/modules/altguard-data) (90 jours à 18 mois selon le signal, 30 jours après le départ du serveur pour le compte invitant, 3 ans pour la preuve de consentement)
 - **Empreintes d'images (hash)** validées par l'équipe Moddy — conservées indéfiniment, tant qu'elles restent dans la base de détection apprise partagée
 - **Cache du texte extrait par OCR** (Redis) — 30 jours
 - **Cartes de revue et données d'entraînement** (file de revue de l'équipe, textes de référence appris, jeu d'évaluation) — aucune purge automatique n'est fixée à ce jour ; conservées jusqu'à suppression manuelle
@@ -191,7 +191,7 @@ Moddy ne collecte **jamais** :
 - Le contenu de vos messages privés, sauf lorsque vous enregistrez explicitement un message vous-même
 
 <Warning>
-  **Une exception concernant les adresses IP.** Le bot Moddy ne collecte ni ne stocke d'adresses IP. Cependant, si un serveur que vous rejoignez utilise **AltGuard**, le service de vérification externe traite votre adresse IP dans le cadre du contrôle — jamais en clair, uniquement sous forme d'empreinte non réversible, et uniquement après que vous ayez explicitement consenti sur l'écran de vérification. Le bot ne la reçoit jamais. Voir la [notice de données AltGuard](/modules/altguard-data) pour tous les détails.
+  **Une exception concernant les adresses IP.** Le bot Moddy ne collecte ni ne stocke d'adresses IP. Cependant, si un serveur que vous rejoignez utilise **AltGuard**, le service de vérification externe traite votre adresse IP dans le cadre du contrôle (y compris l'adresse publique révélée par WebRTC lorsque vous passez par un VPN) — jamais en clair, uniquement sous forme d'empreinte non réversible, et uniquement après que vous ayez explicitement consenti sur l'écran de vérification. Le bot ne la reçoit jamais. Voir la [notice de données AltGuard](/modules/altguard-data) pour tous les détails.
 </Warning>
 
 ## Décisions entièrement automatisées

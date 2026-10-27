@@ -5,63 +5,39 @@ description: "Una explicación en lenguaje claro de lo que la verificación de A
 icon: "database"
 ---
 
-Cuando alguien se une a un servidor con AltGuard habilitado, se le pide que pase por un breve paso de verificación antes de obtener acceso completo. Este artículo repasa qué examina realmente ese paso, por qué y qué sucede con los datos después — útil si un miembro te pregunta al respecto, o si simplemente sientes curiosidad por lo que estás activando en tu servidor.
+AltGuard comprueba, cuando alguien se une a un servidor de Discord, que una misma persona no lleve varias cuentas a él. Esta página describe qué se recopila con ese fin, por qué, durante cuánto tiempo se conserva y cómo ejercer tus derechos. Es útil si un miembro te pregunta al respecto, o si simplemente sientes curiosidad por lo que estás activando en tu servidor.
 
 <Info>
-  Versión 2026-08-18b del aviso de datos subyacente, el mismo que se enlaza desde la pantalla de consentimiento que ven los miembros antes de verificarse.
+  Versión 2026-10-27 del aviso de datos subyacente, el mismo que se enlaza desde la pantalla de consentimiento que ven los miembros antes de verificarse. El aviso oficial se publica en [verify.moddy.app/privacy](https://verify.moddy.app/privacy).
 </Info>
 
-## Qué se examina
+## Qué se recopila
 
-Cuatro señales alimentan la verificación, cada una conservada durante un tiempo distinto:
+| Dato | Para qué sirve | Conservación |
+| --- | --- | --- |
+| Características técnicas del navegador y del dispositivo (incluido el modelo de teléfono) y una cookie técnica | Reconocer un dispositivo o navegador ya visto, para detectar una segunda cuenta llevada al mismo servidor. | 18 meses de inactividad |
+| Dirección de correo electrónico (vía Discord) | Reconocer una cuenta que reutiliza el mismo buzón. Se almacena cifrada y nunca es legible salvo bajo una solicitud legítima y registrada. | 18 meses de inactividad |
+| Dirección IP, incluida la dirección pública revelada por WebRTC cuando la conexión pasa por una VPN | Señal débil de correlación entre cuentas. Nunca se almacena en claro, solo como una huella no reversible. | 90 días |
+| Lista de tus servidores de Discord (vía Discord) | Medir el solapamiento de servidores entre dos cuentas. Se almacena solo como huellas no reversibles, nunca como IDs de servidor legibles. | 180 días |
+| Cuentas de terceros vinculadas a tu cuenta de Discord (Steam, Xbox, GitHub…, vía Discord) | Reconocer dos cuentas de Discord vinculadas a la misma cuenta de terceros. Solo se leen las cuentas verificadas, que se almacenan como huellas no reversibles, nunca como identificadores legibles. | 180 días |
+| La cuenta que te invitó al servidor (vía el bot) | Corroborar un vínculo entre dos cuentas, nunca por sí sola. Un identificador público de Discord, conservado junto con tu pertenencia al servidor. | 30 días tras salir del servidor |
+| Prueba del consentimiento (fecha y versión de la política) | Demostrar que la recopilación fue autorizada. Se conserva por separado de los datos en sí. | 3 años |
 
-<CardGroup cols={2}>
-  <Card title="Características del navegador y una cookie técnica" icon="fingerprint">
-    Reconoce un dispositivo o navegador que ya se ha visto antes — la señal principal para detectar una segunda cuenta introducida en el mismo servidor.
+## Finalidad
 
-    **Se conserva:** 18 meses de inactividad
-  </Card>
+La única finalidad es detectar varias cuentas llevadas al mismo servidor. Ningún dato se vende ni se usa con fines publicitarios. Las características recopiladas se convierten de inmediato en huellas no reversibles: el servidor de Discord y su bot solo reciben un veredicto (verificado, pendiente, denegado) y una puntuación, nunca tus datos.
 
-  <Card title="Dirección de correo electrónico (vía Discord)" icon="envelope">
-    Detecta una cuenta que reutiliza el mismo buzón. Se almacena cifrada — nadie la lee salvo bajo una solicitud legítima y registrada.
+Consulta la [guía del módulo AltGuard](/modules/altguard) para ver cómo funciona el resto de la puerta.
 
-    **Se conserva:** 18 meses de inactividad
-  </Card>
+## Tus derechos
 
-  <Card title="Dirección IP" icon="network-wired">
-    Una señal de correlación más débil por sí sola. Nunca se conserva en texto claro — solo como un fingerprint unidireccional que no puede revertirse a una IP.
+- **Acceso:** obtener la lista de lo que se conserva sobre ti.
+- **Supresión:** solicitar la eliminación de tus datos de verificación.
+- **Retirada del consentimiento:** en cualquier momento, sin tener que justificarte.
+- **Rectificación:** al ser la mayoría de los datos huellas no reversibles, rectificar suele implicar una supresión seguida de una nueva verificación.
 
-    **Se conserva:** 90 días
-  </Card>
+## Retirar tu consentimiento
 
-  <Card title="En qué servidores de Discord estás (vía Discord)" icon="server">
-    Se usa para medir cuánto se solapan las listas de servidores de dos cuentas. También se conserva solo como fingerprints unidireccionales — nunca como una lista legible de nombres o IDs de servidores.
+Puedes retirar tu consentimiento y solicitar la supresión de tus datos de verificación en cualquier momento. La retirada no afecta a la validez de la recopilación ya realizada, pero elimina tus huellas y tus pertenencias verificadas. El único rastro que se conserva es la prueba del consentimiento en sí, guardada como evidencia durante el plazo indicado arriba.
 
-    **Se conserva:** 180 días
-  </Card>
-</CardGroup>
-
-<Card title="Prueba de que se dio el consentimiento" icon="file-signature">
-  Solo la fecha y la versión del aviso que alguien aceptó, conservada por separado de todo lo anterior como evidencia de que la recopilación fue autorizada.
-
-  **Se conserva:** 3 años
-</Card>
-
-## Por qué se recopila — y qué es lo que el bot nunca ve
-
-El objetivo es detectar varias cuentas que llegan al mismo servidor, nada más — nada de esto se vende ni se usa para publicidad. Las señales anteriores se convierten en fingerprints unidireccionales de inmediato, así que lo que realmente vuelve a Discord nunca son los datos en bruto: tu servidor y Moddy solo reciben un veredicto — **passed**, **flagged** o **blocked** — más una puntuación.
-
-Esa es una decisión de diseño deliberada que atraviesa todo el sistema: el propio Moddy nunca toca un fingerprint, un correo, una IP ni una lista de servidores en ningún momento. Consulta la [guía del módulo AltGuard](/modules/altguard) para saber cómo funciona el resto de la puerta de verificación.
-
-## Si un miembro quiere que se borren sus datos
-
-Cualquiera que haya pasado por la verificación puede:
-
-- **Preguntar qué se almacena** sobre él.
-- **Pedir que se borre.**
-- **Retirar el consentimiento** en cualquier momento, sin necesidad de explicación.
-- **Pedir una corrección** — aunque, dado que la mayor parte de lo almacenado son fingerprints unidireccionales en lugar de datos en bruto, corregir algo en la práctica significa borrarlo y volver a verificarse.
-
-Retirar el consentimiento no deshace una verificación que ya ocurrió, pero sí elimina los fingerprints y los registros de pertenencia verificada. Lo único que permanece es el propio registro de prueba de consentimiento, conservado como evidencia durante los 3 años mencionados anteriormente.
-
-Solicitudes como estas pasan primero por el personal de tu servidor, que las remite al equipo que gestiona el servicio de verificación.
+Para ejercer cualquiera de estos derechos, contacta con el personal del servidor correspondiente, que transmite la solicitud al operador del servicio.

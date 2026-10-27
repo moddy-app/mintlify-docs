@@ -5,7 +5,7 @@ description: "Detecta y actúa automáticamente sobre presuntas cuentas alternat
 icon: "fingerprint"
 ---
 
-AltGuard mantiene a cada nuevo miembro humano detrás de una puerta de verificación hasta que `verify.moddy.app` — un servicio externo dedicado, no el bot en sí — decide si su cuenta parece una segunda cuenta de alguien que ya está en tu servidor. El bot nunca ve ni almacena ningún dato personal de ese proceso: sin fingerprint, sin correo electrónico, sin dirección IP. Todo lo que vuelve al bot son IDs de Discord, un veredicto tipo aprobado/rechazado y etiquetas de categoría. Consulta [Qué comprueba AltGuard y qué pasa con esos datos](/modules/altguard-data) para saber exactamente qué se recopila, por qué y durante cuánto tiempo.
+AltGuard mantiene a cada nuevo miembro humano detrás de una puerta de verificación hasta que `verify.moddy.app` — un servicio externo dedicado, no el bot en sí — decide si su cuenta parece una segunda cuenta de alguien que ya está en tu servidor. El bot nunca ve ni almacena ningún dato personal de ese proceso: sin fingerprint, sin correo electrónico, sin dirección IP. Todo lo que vuelve al bot son IDs de Discord, un veredicto y etiquetas de categoría. Lo único que el bot envía en sentido contrario es el ID público de la cuenta que invitó al miembro, cuando puede determinarlo (consulta [Quién invitó al miembro](#quién-invitó-al-miembro)). Consulta [Qué comprueba AltGuard y qué pasa con esos datos](/modules/altguard-data) para saber exactamente qué se recopila, por qué y durante cuánto tiempo.
 
 <Warning>
   AltGuard no es una heurística que el bot ejecuta por sí solo — depende de una comprobación explícita, basada en consentimiento, realizada por el servicio de verificación de Moddy en el navegador del miembro. Un miembro debe pasar activamente por la pantalla de verificación; no hay ninguna detección pasiva del tipo "una IA adivina la antigüedad de tu cuenta" ejecutándose en segundo plano.
@@ -18,18 +18,18 @@ AltGuard mantiene a cada nuevo miembro humano detrás de una puerta de verificac
     Recibe inmediatamente el **rol de no verificado** y solo puede ver tu canal de verificación configurado. Los bots se saltan esto por completo — no pueden hacer clic en un botón, así que nunca se los retiene.
   </Step>
   <Step title="Abre el panel de verificación">
-    Un único mensaje permanente con un botón está en el canal de verificación. Al hacer clic se abre una pantalla de consentimiento que explica exactamente qué se comprobará (características del navegador, una cookie técnica, correo electrónico de Discord, lista de servidores, dirección IP — todo cifrado), con enlaces al aviso de datos, los términos y la política de privacidad. Se deben marcar dos casillas para continuar; cerrar la pantalla no envía nada a ningún sitio.
+    Un único mensaje permanente con un botón está en el canal de verificación. Al hacer clic se abre una pantalla de consentimiento que explica exactamente qué se comprobará (características del navegador y del dispositivo, una cookie técnica, correo electrónico de Discord, lista de servidores, cuentas vinculadas como Steam, Xbox o GitHub, dirección IP y la cuenta que lo invitó — todo cifrado o convertido en huellas no reversibles), con enlaces al aviso de datos, los términos y la política de privacidad. Se deben marcar dos casillas para continuar; cerrar la pantalla no envía nada a ningún sitio.
   </Step>
   <Step title="Autoriza en la propia pantalla de Discord">
-    Tras dar su consentimiento, el miembro recibe un enlace personal y de un solo uso (válido durante 20 minutos) donde el servicio de verificación realiza sus comprobaciones. Moddy no participa en este paso.
+    Tras dar su consentimiento, el miembro recibe un enlace personal y de un solo uso (válido durante 20 minutos) donde el servicio de verificación realiza sus comprobaciones. La pantalla de autorización de Discord solicita acceso a la identidad del miembro, su correo electrónico, su lista de servidores y sus **cuentas vinculadas**. Moddy no participa en este paso.
   </Step>
   <Step title="Llega el veredicto">
-    El servicio devuelve uno de tres resultados: **passed** (el miembro recibe el rol de verificado y pasa a Auto Role, si está configurado), **flagged** (se mantiene detrás de la puerta, a la espera de una revisión manual de un moderador) o **blocked** (se mantiene detrás de la puerta). Al miembro se le envía un DM con el resultado en lenguaje sencillo — nunca la puntuación subyacente ni las señales.
+    El servicio devuelve uno de tres resultados: **verificado** (el miembro recibe el rol de verificado y pasa a Auto Role, si está configurado), **pendiente** (se mantiene detrás de la puerta, a la espera de una revisión manual de un moderador) o **denegado** (se mantiene detrás de la puerta). Al miembro se le envía un DM con el resultado en lenguaje sencillo — nunca la puntuación subyacente ni las señales.
   </Step>
 </Steps>
 
 <Note>
-  AltGuard puede, ocasionalmente, marcar a un nuevo miembro legítimo que casualmente comparte señales con una cuenta previamente baneada. Revisa las marcas en tu canal de registro antes de suponer lo peor — para eso está exactamente la anulación manual `/altguard verify` que se muestra a continuación.
+  AltGuard puede, ocasionalmente, dejar en espera a un nuevo miembro legítimo que casualmente comparte señales con una cuenta previamente baneada. Revisa los veredictos pendientes en tu canal de registro antes de suponer lo peor — para eso está exactamente la anulación manual `/altguard verify` que se muestra a continuación.
 </Note>
 
 ## Habilitar AltGuard
@@ -56,9 +56,32 @@ AltGuard mantiene a cada nuevo miembro humano detrás de una puerta de verificac
   Moddy necesita los permisos **Manage Roles** y **Manage Channels**, con su propio rol posicionado por encima tanto del rol de verificado como del de no verificado, para bloquear canales y entregar los roles correctamente.
 </Warning>
 
+<Tip>
+  El permiso **Gestionar servidor** es recomendable, pero opcional. Permite a Moddy leer la lista de invitaciones para saber cuál usó un miembro (consulta más abajo). Sin él, AltGuard funciona con normalidad, solo que con menos información.
+</Tip>
+
+## Quién invitó al miembro
+
+Cuando Moddy puede determinar qué cuenta invitó a un miembro, se la pasa a AltGuard. A menudo una segunda cuenta se invita mediante el enlace de la cuenta principal, así que AltGuard lo usa **solo como refuerzo de otro vínculo** (un dispositivo, una red o una cuenta de terceros vinculada en común). Por sí solo no cuenta: invitar a amigos es la forma normal de unirse a un servidor.
+
+Moddy no puede determinar quién invitó al miembro cuando llega mediante la URL personalizada del servidor, mediante una invitación de un solo uso o eliminada entretanto, o cuando varios miembros se unen en el mismo instante.
+
+## VPN, proxies y relés privados
+
+La verificación se rechaza si se hace desde una VPN, un proxy o un proveedor de alojamiento — **incluidos iCloud Private Relay y Cloudflare WARP**. Esto es lo que ve el miembro:
+
+1. La página de verificación indica que se detectó una VPN y le pide que la desactive y vuelva a intentarlo.
+2. Un botón **Reintentar** funciona con el mismo enlace mientras no caduque (20 minutos).
+3. Si el enlace caducó, vuelve a empezar desde el botón del canal de verificación, como de costumbre (máximo 5 intentos cada 10 minutos).
+4. Hasta que reintente sin VPN, **sigue sin verificar**. No es una denegación: no se ha tomado ninguna decisión.
+
+<Note>
+  Un intento bloqueado por una VPN **no genera ningún mensaje** en tu canal de registro, porque no es un veredicto. Un miembro que se queda atascado sin nada en los registros probablemente está detrás de una VPN. Esta protección está activa por defecto en todos los servidores y no puede desactivarse desde Moddy.
+</Note>
+
 ## Revisar y anular veredictos
 
-Los miembros marcados y bloqueados permanecen detrás de la puerta hasta que un moderador interviene. Desde tu canal de registro, los moderadores con el permiso **Expulsar miembros** (por defecto; ajustable rol por rol desde **Ajustes del servidor → Integraciones**) pueden anular cualquier veredicto directamente en Discord:
+Los miembros pendientes y denegados permanecen detrás de la puerta hasta que un moderador interviene. Desde tu canal de registro, los moderadores con el permiso **Expulsar miembros** (por defecto; ajustable rol por rol desde **Ajustes del servidor → Integraciones**) pueden anular cualquier veredicto directamente en Discord:
 
 ```discord
 /altguard verify <member>
@@ -68,8 +91,49 @@ Los miembros marcados y bloqueados permanecen detrás de la puerta hasta que un 
 `/altguard verify` deja pasar a un miembro manualmente — concediéndole el rol de verificado y pasándolo a Auto Role, si está habilitado — mientras que `/altguard unverify` devuelve a un miembro previamente verificado detrás de la puerta.
 
 <Tip>
-  Si tienes preguntas sobre una decisión concreta — por qué se marcó a un miembro, qué puntuación o señales estuvieron implicadas — ese detalle no se expone en `/altguard`. Ponte en contacto a través del [servidor de soporte](https://moddy.app/support) con los datos del caso y el equipo de Moddy podrá consultarlo bajo petición.
+  Si tienes preguntas sobre una decisión concreta — por qué se dejó en espera a un miembro, qué puntuación o señales estuvieron implicadas — ese detalle no se expone en `/altguard`. Ponte en contacto a través del [servidor de soporte](https://moddy.app/support) con los datos del caso y el equipo de Moddy podrá consultarlo bajo petición.
 </Tip>
+
+## Leer el canal de registro
+
+Cada tarjeta de veredicto del canal de registro (y el comando de personal `/mod altguard refusal`) lista las señales que realmente pesaron en la decisión, cada una con una etiqueta legible seguida de su código — por ejemplo `Misma tarjeta gráfica (gpu_match)`. La lista de cuentas vinculadas solo muestra las cuentas que pesan en la decisión; las coincidencias débiles no aparecen. Una señal que Moddy aún no conoce se muestra con su código en bruto: no es un error, AltGuard puede añadir nuevas.
+
+<Warning>
+  `invited_by` por sí solo nunca justifica una sanción: solo refuerza otro vínculo. Y nunca muestres la puntuación, las señales ni las cuentas vinculadas al miembro que se verifica.
+</Warning>
+
+| Código | Significado |
+| --- | --- |
+| `cookie_match` | Mismo navegador (cookie de AltGuard) |
+| `email_match` | Misma dirección de correo electrónico |
+| `connection_match` **nuevo** | Misma cuenta de terceros vinculada (Steam, Xbox, GitHub…) |
+| `visitor_match` | Misma huella de navegador |
+| `render_match` | Mismo renderizado gráfico y de audio |
+| `gpu_match` | Misma tarjeta gráfica |
+| `hardware_match` | Misma configuración de hardware (pantalla, procesador, zona horaria, modelo) |
+| `fonts_match` | Mismas fuentes instaladas |
+| `ip_match` | Misma dirección IP |
+| `ip_prefix_match` | Misma subred |
+| `asn_match` | Mismo operador de red |
+| `guild_overlap` | Servidores de Discord en común |
+| `guild_overlap_high` | Muchos servidores de Discord en común |
+| `join_burst` | Se unió al servidor con menos de 15 min de diferencia |
+| `invited_by` **nuevo** | Invitado por esta cuenta (refuerza otro vínculo) |
+| `account_new_24h` | Cuenta creada hace menos de 24 h |
+| `account_new_7d` | Cuenta creada hace menos de 7 días |
+| `account_new_30d` | Cuenta creada hace menos de 30 días |
+| `email_unverified` | Correo electrónico no verificado en Discord |
+| `email_disposable` | Correo electrónico desechable |
+| `default_avatar` | Avatar predeterminado |
+| `no_badge` | Sin insignias |
+| `datacenter_ip` | Conexión desde un proveedor de alojamiento, la nube o una VPN |
+| `vpn_detected` **nuevo** | VPN desenmascarada: se encontró la IP real detrás |
+
+## Solución de problemas
+
+<Accordion title="La verificación de un miembro no se completa">
+  La causa más habitual es una VPN, un proxy o un relé privado (iCloud Private Relay y Cloudflare WARP incluidos). Pídele que lo desactive y que pulse **Reintentar** en la página de verificación, o que reinicie la verificación desde el botón del panel. Consulta [VPN, proxies y relés privados](#vpn-proxies-y-relés-privados).
+</Accordion>
 
 ## Integración con Auto Role
 

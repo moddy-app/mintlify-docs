@@ -44,7 +44,7 @@ Some features store data only when you actively use them:
 | **Moderation cases** | Sanctions, evidence, reasons, notes, complete history | — |
 | **Sanction appeals** | The appeal reason you write, its route and status | — |
 | **Social notification subscriptions** | Followed accounts, custom message templates, the ID of who added them | — |
-| **AltGuard verification records** | The verdict, score, and reasons returned by the verification service, plus your gate status in that server | — |
+| **AltGuard verification records** | The verdict, score, and reasons returned by the verification service, plus your gate status in that server. The account that invited you is passed by the bot to the verification service, which keeps it for 30 days after you leave the server | — |
 
 ### Data collected by automated moderation
 
@@ -150,7 +150,7 @@ The following are exceptions with a **shorter, automatic** retention:
 
 - **Leaked token records** — the encrypted token is purged after 24 hours, or immediately once invalidated
 - **Server precedents** used by automatic moderation — capped at 500 entries per server, oldest evicted first
-- **AltGuard verification data** — held by the external verification service on its own schedule, detailed in the [AltGuard data notice](/modules/altguard-data) (90 days to 18 months depending on the signal, 3 years for the proof of consent)
+- **AltGuard verification data** — held by the external verification service on its own schedule, detailed in the [AltGuard data notice](/modules/altguard-data) (90 days to 18 months depending on the signal, 30 days after leaving the server for the inviting account, 3 years for the proof of consent)
 - **Image fingerprints (hashes)** validated by the Moddy team — retained indefinitely, for as long as they remain in the shared learned-detection database
 - **OCR text cache** (Redis) — 30 days
 - **Review cards and training data** (the team's review queue, learned reference texts, the evaluation set) — no automatic purge is in place today; retained until manually deleted
@@ -196,7 +196,7 @@ Moddy **never** collects:
 - The content of your private messages, except where you explicitly save a message yourself
 
 <Warning>
-  **One exception on IP addresses.** Moddy the bot does not collect or store IP addresses. However, if a server you join uses **AltGuard**, the external verification service processes your IP address as part of the check — never in clear text, only as a non-reversible fingerprint, and only after you explicitly consent on the verification screen. The bot never receives it. See the [AltGuard data notice](/modules/altguard-data) for the full detail.
+  **One exception on IP addresses.** Moddy the bot does not collect or store IP addresses. However, if a server you join uses **AltGuard**, the external verification service processes your IP address as part of the check (including the public address revealed by WebRTC when you connect through a VPN) — never in clear text, only as a non-reversible fingerprint, and only after you explicitly consent on the verification screen. The bot never receives it. See the [AltGuard data notice](/modules/altguard-data) for the full detail.
 </Warning>
 
 ## Automated Decision-Making

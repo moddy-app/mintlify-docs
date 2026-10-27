@@ -5,7 +5,7 @@ description: "Détectez et sanctionnez automatiquement les comptes secondaires s
 icon: "fingerprint"
 ---
 
-AltGuard retient chaque nouveau membre humain derrière une porte de vérification jusqu'à ce que `verify.moddy.app` — un service externe dédié, distinct du bot lui-même — détermine si son compte ressemble à un second compte de quelqu'un déjà présent sur votre serveur. Le bot ne voit ni ne stocke aucune donnée personnelle issue de ce processus : pas d'empreinte, pas d'e-mail, pas d'adresse IP. Tout ce qui revient au bot, ce sont des identifiants Discord, un verdict de type réussite/échec et des étiquettes de catégorie. Voir [Ce que vérifie AltGuard, et ce que deviennent ces données](/modules/altguard-data) pour savoir précisément ce qui est collecté, pourquoi, et pendant combien de temps.
+AltGuard retient chaque nouveau membre humain derrière une porte de vérification jusqu'à ce que `verify.moddy.app` — un service externe dédié, distinct du bot lui-même — détermine si son compte ressemble à un second compte de quelqu'un déjà présent sur votre serveur. Le bot ne voit ni ne stocke aucune donnée personnelle issue de ce processus : pas d'empreinte, pas d'e-mail, pas d'adresse IP. Tout ce qui revient au bot, ce sont des identifiants Discord, un verdict et des étiquettes de catégorie. La seule information que le bot envoie dans l'autre sens est l'identifiant public du compte qui a invité le membre, quand il peut le déterminer (voir [Qui a invité le membre](#qui-a-invité-le-membre)). Voir [Ce que vérifie AltGuard, et ce que deviennent ces données](/modules/altguard-data) pour savoir précisément ce qui est collecté, pourquoi, et pendant combien de temps.
 
 <Warning>
   AltGuard n'est pas une heuristique que le bot exécute de son côté — il repose sur une vérification explicite, basée sur le consentement, effectuée par le service de vérification de Moddy dans le navigateur du membre. Un membre doit activement passer par l'écran de vérification ; il n'existe aucune détection passive du type "l'IA devine l'ancienneté de votre compte" qui tournerait en arrière-plan.
@@ -18,18 +18,18 @@ AltGuard retient chaque nouveau membre humain derrière une porte de vérificati
     Il reçoit immédiatement le **rôle non vérifié** et ne peut voir que le salon de vérification que vous avez configuré. Les bots sautent entièrement cette étape — ils ne peuvent pas cliquer sur un bouton, donc ils ne sont jamais mis en attente.
   </Step>
   <Step title="Il ouvre le panneau de vérification">
-    Un unique message permanent avec un seul bouton se trouve dans le salon de vérification. Cliquer dessus ouvre un écran de consentement expliquant précisément ce qui va être vérifié (caractéristiques du navigateur, un cookie technique, e-mail Discord, liste des serveurs, adresse IP — tout chiffré), avec des liens vers l'avis d'information sur les données, les conditions et la politique de confidentialité. Deux cases doivent être cochées pour continuer ; fermer l'écran n'envoie rien nulle part.
+    Un unique message permanent avec un seul bouton se trouve dans le salon de vérification. Cliquer dessus ouvre un écran de consentement expliquant précisément ce qui va être vérifié (caractéristiques du navigateur et de l'appareil, un cookie technique, e-mail Discord, liste des serveurs, comptes liés comme Steam, Xbox ou GitHub, adresse IP, et le compte qui l'a invité — le tout chiffré ou transformé en empreintes non réversibles), avec des liens vers l'avis d'information sur les données, les conditions et la politique de confidentialité. Deux cases doivent être cochées pour continuer ; fermer l'écran n'envoie rien nulle part.
   </Step>
   <Step title="Il autorise via l'écran de Discord">
-    Après avoir donné son consentement, le membre reçoit un lien personnel à usage unique (valable 20 minutes) où le service de vérification effectue ses contrôles. Moddy n'intervient pas dans cette étape.
+    Après avoir donné son consentement, le membre reçoit un lien personnel à usage unique (valable 20 minutes) où le service de vérification effectue ses contrôles. L'écran d'autorisation de Discord demande l'accès à l'identité du membre, à son adresse e-mail, à sa liste de serveurs et à ses **comptes liés**. Moddy n'intervient pas dans cette étape.
   </Step>
   <Step title="Le verdict revient">
-    Le service retourne l'un des trois résultats : **réussi** (le membre obtient le rôle vérifié et passe à Auto Role, si configuré), **signalé** (maintenu derrière la porte, en attente d'une revue manuelle d'un modérateur) ou **bloqué** (maintenu derrière la porte). Le résultat est envoyé au membre par DM en langage clair — jamais le score sous-jacent ni les signaux.
+    Le service retourne l'un des trois résultats : **vérifié** (le membre obtient le rôle vérifié et passe à Auto Role, si configuré), **en attente** (maintenu derrière la porte, en attente d'une revue manuelle d'un modérateur) ou **refusé** (maintenu derrière la porte). Le résultat est envoyé au membre par DM en langage clair — jamais le score sous-jacent ni les signaux.
   </Step>
 </Steps>
 
 <Note>
-  AltGuard peut occasionnellement signaler un nouveau membre légitime qui partage par hasard des signaux avec un compte précédemment banni. Examinez les signalements dans votre salon de journalisation avant de conclure au pire — c'est exactement à cela que sert le remplacement manuel `/altguard verify` ci-dessous.
+  AltGuard peut occasionnellement mettre en attente un nouveau membre légitime qui partage par hasard des signaux avec un compte précédemment banni. Examinez les verdicts en attente dans votre salon de journalisation avant de conclure au pire — c'est exactement à cela que sert le remplacement manuel `/altguard verify` ci-dessous.
 </Note>
 
 ## Activer AltGuard
@@ -56,9 +56,32 @@ AltGuard retient chaque nouveau membre humain derrière une porte de vérificati
   Moddy a besoin des permissions **Gérer les rôles** et **Gérer les salons**, avec son propre rôle positionné au-dessus des rôles vérifié et non vérifié, pour verrouiller correctement les salons et distribuer les rôles.
 </Warning>
 
+<Tip>
+  La permission **Gérer le serveur** est recommandée, mais facultative. Elle permet à Moddy de lire la liste des invitations pour savoir laquelle un membre a utilisée (voir ci-dessous). Sans elle, AltGuard fonctionne normalement, simplement avec moins d'informations.
+</Tip>
+
+## Qui a invité le membre
+
+Quand Moddy peut déterminer quel compte a invité un membre, il le transmet à AltGuard. Un second compte est souvent invité par le lien du compte principal : AltGuard s'en sert **uniquement en renfort d'un autre lien** (appareil, réseau ou compte tiers lié en commun). Seul, il ne compte pas : inviter ses amis est la façon normale de rejoindre un serveur.
+
+Moddy ne peut pas déterminer l'invitant quand le membre arrive par l'URL personnalisée du serveur, par une invitation à usage unique ou supprimée entre-temps, ou quand plusieurs membres arrivent au même instant.
+
+## VPN, proxys et relais privés
+
+La vérification est refusée si elle est faite depuis un VPN, un proxy ou un hébergeur — **y compris le relais privé iCloud et Cloudflare WARP**. Voici ce que vit le membre :
+
+1. La page de vérification affiche que le VPN a été détecté et lui demande de le désactiver puis de réessayer.
+2. Un bouton **Réessayer** fonctionne avec le même lien tant qu'il n'a pas expiré (20 minutes).
+3. Si le lien a expiré, il relance la vérification depuis le bouton du salon de vérification, comme d'habitude (5 tentatives maximum par 10 minutes).
+4. Tant qu'il n'a pas réessayé sans VPN, il **reste non vérifié**. Ce n'est pas un refus : aucune décision n'a été prise.
+
+<Note>
+  Une tentative bloquée par un VPN ne produit **aucun message** dans votre salon de journalisation, car ce n'est pas un verdict. Un membre qui reste bloqué sans aucun log est très probablement derrière un VPN. Ce blocage est actif par défaut sur tous les serveurs et ne se désactive pas depuis Moddy.
+</Note>
+
 ## Examiner et remplacer les verdicts
 
-Les membres signalés et bloqués restent derrière la porte jusqu'à ce qu'un modérateur intervienne. Depuis votre salon de journalisation, les modérateurs disposant de la permission **Expulser des membres** (par défaut — réglable rôle par rôle depuis **Paramètres du serveur → Intégrations**) peuvent remplacer n'importe quel verdict directement dans Discord :
+Les membres en attente et refusés restent derrière la porte jusqu'à ce qu'un modérateur intervienne. Depuis votre salon de journalisation, les modérateurs disposant de la permission **Expulser des membres** (par défaut — réglable rôle par rôle depuis **Paramètres du serveur → Intégrations**) peuvent remplacer n'importe quel verdict directement dans Discord :
 
 ```discord
 /altguard verify <member>
@@ -68,8 +91,49 @@ Les membres signalés et bloqués restent derrière la porte jusqu'à ce qu'un m
 `/altguard verify` laisse passer un membre manuellement — en lui accordant le rôle vérifié et en le transmettant à Auto Role, si activé — tandis que `/altguard unverify` renvoie un membre précédemment vérifié derrière la porte.
 
 <Tip>
-  Si vous avez des questions sur une décision précise — pourquoi un membre a été signalé, quel score ou quels signaux ont été impliqués — ce détail n'est pas exposé dans `/altguard`. Contactez-nous via le [serveur de support](https://moddy.app/support) avec les détails du cas, et l'équipe Moddy pourra le vérifier sur demande.
+  Si vous avez des questions sur une décision précise — pourquoi un membre a été mis en attente, quel score ou quels signaux ont été impliqués — ce détail n'est pas exposé dans `/altguard`. Contactez-nous via le [serveur de support](https://moddy.app/support) avec les détails du cas, et l'équipe Moddy pourra le vérifier sur demande.
 </Tip>
+
+## Lire le salon de journalisation
+
+Chaque carte de verdict du salon de journalisation (et la commande staff `/mod altguard refusal`) liste les signaux qui ont réellement pesé dans la décision, chacun avec un libellé lisible suivi de son code — par exemple `Même carte graphique (gpu_match)`. La liste des comptes liés ne montre que les comptes qui pèsent dans la décision ; les rapprochements faibles n'apparaissent pas. Un signal que Moddy ne connaît pas encore s'affiche avec son code brut : ce n'est pas une erreur, AltGuard peut en ajouter.
+
+<Warning>
+  `invited_by` seul ne justifie jamais une sanction : il ne fait que renforcer un autre lien. Et ne montrez jamais le score, les signaux ou les comptes liés au membre vérifié.
+</Warning>
+
+| Code | Signification |
+| --- | --- |
+| `cookie_match` | Même navigateur (cookie AltGuard) |
+| `email_match` | Même adresse e-mail |
+| `connection_match` **nouveau** | Même compte tiers lié (Steam, Xbox, GitHub…) |
+| `visitor_match` | Même empreinte de navigateur |
+| `render_match` | Même rendu graphique et audio |
+| `gpu_match` | Même carte graphique |
+| `hardware_match` | Même configuration matérielle (écran, processeur, fuseau horaire, modèle) |
+| `fonts_match` | Mêmes polices installées |
+| `ip_match` | Même adresse IP |
+| `ip_prefix_match` | Même sous-réseau |
+| `asn_match` | Même opérateur réseau |
+| `guild_overlap` | Serveurs Discord en commun |
+| `guild_overlap_high` | Beaucoup de serveurs Discord en commun |
+| `join_burst` | A rejoint le serveur à moins de 15 min d'écart |
+| `invited_by` **nouveau** | Invité par ce compte (renforce un autre lien) |
+| `account_new_24h` | Compte créé il y a moins de 24 h |
+| `account_new_7d` | Compte créé il y a moins de 7 jours |
+| `account_new_30d` | Compte créé il y a moins de 30 jours |
+| `email_unverified` | E-mail non vérifié sur Discord |
+| `email_disposable` | E-mail jetable |
+| `default_avatar` | Avatar par défaut |
+| `no_badge` | Aucun badge |
+| `datacenter_ip` | Connexion depuis un hébergeur, un cloud ou un VPN |
+| `vpn_detected` **nouveau** | VPN démasqué : l'IP réelle derrière a été retrouvée |
+
+## Dépannage
+
+<Accordion title="La vérification d'un membre n'aboutit pas">
+  La cause la plus fréquente est un VPN, un proxy ou un relais privé (relais privé iCloud et Cloudflare WARP compris). Demandez-lui de le désactiver, puis de cliquer sur **Réessayer** dans la page de vérification, ou de relancer la vérification depuis le bouton du panneau. Voir [VPN, proxys et relais privés](#vpn-proxys-et-relais-privés).
+</Accordion>
 
 ## Intégration avec Auto Role
 
